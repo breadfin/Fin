@@ -21,6 +21,7 @@
       --radius-md: 14px;
       --radius-lg: 24px;
       --shadow-sm: 0 2px 10px rgba(3, 105, 161, 0.04);
+      --shadow-md: 0 8px 24px rgba(3, 105, 161, 0.08);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Hanken Grotesk", sans-serif; }
     body { background-color: var(--color-bg); color: var(--color-text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
@@ -42,7 +43,7 @@
     .mobile-drawer { display: none; background: #fff; border-bottom: 2px solid var(--color-border); padding: 20px; }
     .mobile-drawer.active { display: block; }
     .mobile-drawer button { display: block; width: 100%; text-align: left; padding: 12px 0; border: none; background: none; border-bottom: 1px solid var(--color-border); font-weight: 700; color: var(--color-text-main); }
-    .hero-section { background: linear-gradient(135deg, #ffffff 0%, #F0F7F9 100%); padding: 48px 0; border-bottom: 1px solid var(--color-border); }
+    .hero-section { background: linear-gradient(135deg, #ffffff 0%, #F0F7F9 100%); padding: 56px 0; border-bottom: 1px solid var(--color-border); }
     .page-view { display: none; }
     .page-view.active { display: block; }
     .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 28px; margin-bottom: 24px; }
@@ -98,7 +99,7 @@
     <!-- HOME & KNOWLEDGE CENTER PAGE -->
     <div id="page-home" class="page-view active">
       <section class="hero-section">
-        <div class="container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:32px; align-items:center;">
+        <div class="container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:40px; align-items:center;">
           <div>
             <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem; background:rgba(3,105,161,0.1); padding:6px 14px; border-radius:9999px;">FINANCIAL LITERACY & GUIDES</span>
             <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin:16px 0; line-height:1.15;">Knowledge Center & Financial Insights</h1>
@@ -108,11 +109,9 @@
               <button onclick="switchPage('support')" class="btn btn-outline" style="padding:12px 24px;">Support Center</button>
             </div>
           </div>
-          <div class="card" style="background:linear-gradient(135deg, #0369a1 0%, #12294B 100%); color:#fff;">
-            <span style="color:var(--color-sky); font-weight:800; font-size:0.8rem;">VERIFIED RBI ADVISORY</span>
-            <h3 style="font-size:1.5rem; font-weight:900; margin:10px 0;">100+ Free Credit Guides</h3>
-            <p style="color:#e0f2fe; font-size:0.9rem; margin-bottom:20px;">Explore institutional products, collateral safety guidelines, and interest rate calculators.</p>
-            <button onclick="switchPage('register')" class="btn" style="background:var(--color-sky); color:#0f172a; font-weight:800; width:100%;">Start Paperless e-KYC</button>
+          <div>
+            <!-- Corporate Team Image Integration -->
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Corporate Team" style="width:100%; height:340px; object-fit:cover; border-radius:var(--radius-lg); box-shadow:var(--shadow-md); border:2px solid var(--color-border);">
           </div>
         </div>
       </section>
@@ -122,18 +121,21 @@
         <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-primary); margin-bottom:24px;">Featured Articles & Guides</h2>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px;">
           <div class="card">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:12px;" alt="Credit Guide">
             <span style="color:var(--color-primary); font-weight:800; font-size:0.75rem;">CREDIT GUIDE • 5 min read</span>
             <h3 style="font-size:1.1rem; font-weight:800; margin:8px 0;">Understanding CIBIL Score Impact on Loan Interest Rates</h3>
             <p style="font-size:0.88rem; color:var(--color-text-muted); margin-bottom:16px;">Learn how a 750+ CIBIL score unlocks lower interest rates and faster instant sanctions.</p>
             <button class="btn btn-outline" style="width:100%;">Read Article ➔</button>
           </div>
           <div class="card">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=500&q=80" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:12px;" alt="Business Finance">
             <span style="color:var(--color-primary); font-weight:800; font-size:0.75rem;">BUSINESS FINANCE • 8 min read</span>
             <h3 style="font-size:1.1rem; font-weight:800; margin:8px 0;">How Working Capital Facilities Boost Business Cash Flow</h3>
             <p style="font-size:0.88rem; color:var(--color-text-muted); margin-bottom:16px;">A practical guide for SMEs on structuring revolving overdraft lines to scale operations.</p>
             <button class="btn btn-outline" style="width:100%;">Read Article ➔</button>
           </div>
           <div class="card">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=500&q=80" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:12px;" alt="Secured Loan">
             <span style="color:var(--color-primary); font-weight:800; font-size:0.75rem;">SECURED VS UNSECURED • 6 min read</span>
             <h3 style="font-size:1.1rem; font-weight:800; margin:8px 0;">Gold Loan vs Personal Loan: Which Credit Option Suits You?</h3>
             <p style="font-size:0.88rem; color:var(--color-text-muted); margin-bottom:16px;">Comparing interest rates, collateral safety, LTV ratios, and repayment flexibility.</p>
@@ -146,17 +148,16 @@
     <!-- PERSONAL LOANS PAGE -->
     <div id="page-personal-loans" class="page-view">
       <section class="hero-section">
-        <div class="container">
-          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">UNCOLLATERALIZED CONSUMER CREDIT</span>
-          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Personal Loans Up to ₹40 Lakhs</h1>
-          <p style="color:var(--color-text-muted);">Quick disbursal, minimal documentation, and flexible tenures ranging from 12 to 84 months.</p>
-        </div>
-      </section>
-      <section class="container" style="padding:40px 24px;">
-        <div class="card">
-          <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:12px;">Instant Eligibility Check</h3>
-          <p style="color:var(--color-text-muted); margin-bottom:20px;">Use our paperless registration flow to check your pre-approved loan limit instantly.</p>
-          <button onclick="switchPage('register')" class="btn btn-primary">Apply Now ➔</button>
+        <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center;">
+          <div>
+            <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">UNCOLLATERALIZED CONSUMER CREDIT</span>
+            <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Personal Loans Up to ₹40 Lakhs</h1>
+            <p style="color:var(--color-text-muted); margin-bottom:20px;">Quick disbursal, minimal documentation, and flexible tenures ranging from 12 to 84 months.</p>
+            <button onclick="switchPage('register')" class="btn btn-primary">Apply Now ➔</button>
+          </div>
+          <div>
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=700&q=80" alt="Personal Loan" style="width:100%; height:280px; object-fit:cover; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+          </div>
         </div>
       </section>
     </div>
@@ -191,6 +192,8 @@
       <section class="container" style="padding:40px 24px;">
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:24px;">
           <div class="card">
+            <!-- Insurance Family Image -->
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:14px;" alt="Insurance Family">
             <h3 style="font-size:1.2rem; font-weight:900; color:var(--color-primary);">Term & Endowment Life Plans</h3>
             <p style="font-size:0.9rem; color:var(--color-text-muted); margin:8px 0 16px;">Ensure your family's financial security regardless of life's uncertainties.</p>
             <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:16px;">
@@ -269,10 +272,16 @@
     <!-- SUPPORT & GRIEVANCE PAGE -->
     <div id="page-support" class="page-view">
       <section class="hero-section">
-        <div class="container">
-          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">SUPPORT & GRIEVANCE ESCALATION</span>
-          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Contact Us & Grievance Redressal</h1>
-          <p style="color:var(--color-text-muted);">Prompt customer support and transparent grievance resolution under RBI Integrated Ombudsman Scheme guidelines.</p>
+        <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center;">
+          <div>
+            <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">SUPPORT & GRIEVANCE ESCALATION</span>
+            <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Contact Us & Grievance Redressal</h1>
+            <p style="color:var(--color-text-muted); margin-bottom:20px;">Prompt customer support and transparent grievance resolution under RBI Integrated Ombudsman Scheme guidelines.</p>
+          </div>
+          <div>
+            <!-- Customer Support Team Image Integration -->
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Customer Support" style="width:100%; height:260px; object-fit:cover; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+          </div>
         </div>
       </section>
       <section class="container" style="padding:40px 24px;">
