@@ -236,7 +236,7 @@
         </div>
       </section>
 
-      <!-- Institutional Products Section with Images -->
+      <!-- Institutional Products Section with ID -->
       <section id="products-section" style="padding: 60px 0; background: #ffffff;">
         <div class="container">
           <div style="text-align: center; max-width: 700px; margin: 0 auto 48px;">
@@ -702,9 +702,15 @@
     let uploadedData = { aadharFront: '', aadharBack: '', photo: '', nomineeAadhar: '' };
 
     function scrollToProducts() {
-      switchPage('home');
+      // Ensure we are on the home page first
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-home').classList.add('active');
+      
+      // Smooth scroll to products section
       const prodSec = document.getElementById('products-section');
-      if (prodSec) prodSec.scrollIntoView({ behavior: 'smooth' });
+      if (prodSec) {
+        prodSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function switchPage(pageId) {
