@@ -3,94 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SMFG Finance | Institutional Credit & Corporate Banking Solutions</title>
+  <title>Client Portal | Bread Financial Institutional Portal</title>
+  <meta name="description" content="Complete your 3-step paperless verified client registration with Aadhaar e-KYC and loan requirements at Bread Financial.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-primary: #064e3b;
-      --color-primary-dark: #022c22;
-      --color-sky: #10b981;
-      --color-bg: #f8fafc;
+      --color-primary: #0369a1;
+      --color-primary-container: #0284c7;
+      --color-primary-fixed: #e0f2fe;
+      --color-sky: #38bdf8;
+      --color-secondary: #0284c7;
+      --color-secondary-container: #bae6fd;
+      --color-bg: #f0f7ff;
       --color-surface: #ffffff;
-      --color-border: #e2e8f0;
+      --color-surface-low: #f0f9ff;
+      --color-surface-high: #e0f2fe;
+      --color-border: #bae6fd;
+      --color-border-light: #e0f2fe;
       --color-text-main: #0f172a;
       --color-text-muted: #334155;
+      --color-text-light: #64748b;
+      --color-success: #0284c7;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 24px;
-      --shadow-sm: 0 2px 10px rgba(6, 78, 59, 0.04);
-      --shadow-md: 0 8px 24px rgba(6, 78, 59, 0.08);
+      --shadow-sm: 0 2px 10px rgba(3, 105, 161, 0.04);
+      --shadow-md: 0 8px 24px rgba(3, 105, 161, 0.08);
+      --shadow-lg: 0 16px 40px rgba(3, 105, 161, 0.12);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Hanken Grotesk", sans-serif; }
-    body { background-color: var(--color-bg); color: var(--color-text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text-main);
+      background-color: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
     .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    header { background-color: var(--color-primary-dark); color: #fff; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .top-bar { background: #011611; padding: 6px 0; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .nav-main { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; }
-    .brand-group { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-    .brand-title { font-size: 1.25rem; font-weight: 900; color: #fff; line-height: 1; }
-    .brand-title span { color: var(--color-sky); }
-    .desktop-nav { display: flex; align-items: center; gap: 18px; }
-    .nav-link { background: none; border: none; color: #fff; font-size: 0.88rem; font-weight: 600; cursor: pointer; padding: 6px 0; }
-    .nav-link:hover { color: var(--color-sky); }
-    .btn { font-family: inherit; border-radius: var(--radius-sm); cursor: pointer; border: none; padding: 10px 20px; font-size: 0.9rem; font-weight: 700; display: inline-flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; transition: all 0.2s; }
-    .btn-primary { background-color: var(--color-primary); color: #fff; }
-    .btn-primary:hover { background-color: #047857; }
-    .btn-outline { border: 1.5px solid var(--color-border); color: var(--color-primary); background: #fff; }
-    .btn-outline:hover { border-color: var(--color-primary); background: #f0fdf4; }
-    .mobile-menu-btn { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
-    .mobile-drawer { display: none; background: #fff; border-bottom: 2px solid var(--color-border); padding: 20px; }
-    .mobile-drawer.active { display: block; }
-    .mobile-drawer button { display: block; width: 100%; text-align: left; padding: 12px 0; border: none; background: none; border-bottom: 1px solid var(--color-border); font-weight: 700; color: var(--color-text-main); }
-    .hero-section { background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); padding: 56px 0; border-bottom: 1px solid var(--color-border); }
+
+    header {
+      background-color: #12294B;
+      color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .top-utility-bar {
+      background-color: #0A1D37;
+      color: #ffffff;
+      padding: 6px 0;
+      font-size: 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .top-utility-inner { display: flex; justify-content: space-between; align-items: center; }
+    .nav-main-container { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; }
+    .brand-group { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; color: inherit; }
+    .brand-title { font-size: 1.25rem; font-weight: 900; color: #ffffff; line-height: 1; }
+    .brand-title span { color: #38bdf8; }
+    .brand-subtitle { font-size: 0.65rem; color: #94A3B8; text-transform: uppercase; margin-top: 3px; font-weight: 700; letter-spacing: 0.08em; }
+
+    .desktop-nav { display: flex; align-items: center; gap: 28px; }
+    .nav-link { background: none; border: none; color: #ffffff; font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 6px 0; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: #38bdf8; font-weight: 800; border-bottom: 2.5px solid #38bdf8; }
+
+    .btn {
+      font-family: var(--font-family); border-radius: var(--radius-sm); cursor: pointer;
+      transition: all 0.2s ease; border: none; justify-content: center; align-items: center;
+      gap: 8px; padding: 10px 20px; font-size: 0.9rem; font-weight: 700; line-height: 1;
+      text-decoration: none; display: inline-flex;
+    }
+    .btn-primary { background-color: var(--color-primary); color: #fff; box-shadow: 0 4px 14px rgba(3, 105, 161, 0.25); }
+    .btn-primary:hover { background-color: var(--color-primary-container); transform: translateY(-2px); }
+    .btn-outline { border: 1.5px solid var(--color-border); color: var(--color-primary); background-color: #fff; }
+    .btn-outline:hover { border-color: var(--color-primary); background-color: var(--color-surface-low); }
+
+    .hero-section {
+      background: linear-gradient(135deg, #ffffff 0%, #F0F7F9 100%);
+      padding: 80px 0;
+      border-bottom: 1px solid var(--color-border-light);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+
+    .card {
+      background-color: var(--color-surface); border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 32px;
+      transition: all 0.3s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 6px; }
+    .form-control {
+      width: 100%; padding: 12px 16px; font-family: inherit; font-size: 0.95rem;
+      border: 1.5px solid var(--color-border); border-radius: 9999px; outline: none;
+      transition: all 0.2s ease; background-color: #ffffff; color: var(--color-text-main);
+    }
+    .form-control:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.2); }
+
+    .register-wrapper { background-color: var(--color-bg); padding: 40px 0 60px; flex: 1; }
+    .register-container-card {
+      background: #ffffff; border-radius: var(--radius-lg);
+      border: 1.5px solid var(--color-border); box-shadow: var(--shadow-lg);
+      overflow: hidden; display: grid; grid-template-columns: 340px 1fr; max-width: 1080px; margin: 0 auto;
+    }
+    .register-hero-panel {
+      background: linear-gradient(165deg, #12294B 0%, #16466B 60%, #0369a1 100%);
+      color: #ffffff; padding: 36px 28px; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .checklist-step {
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+      border-radius: 8px; margin-bottom: 12px; background: rgba(255, 255, 255, 0.06);
+    }
+    .checklist-step.active { background: rgba(56, 189, 248, 0.25); border-left: 4px solid #38bdf8; }
+    .step-bubble {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.2); color: #ffffff;
+    }
+    .checklist-step.active .step-bubble { background: #38bdf8; color: #12294B; }
+    .register-form-panel { padding: 36px 40px; background: #ffffff; }
+
+    footer {
+      background-color: #12294B; color: #ffffff; padding: 50px 0 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: auto;
+    }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin-bottom: 40px; }
+
     .page-view { display: none; }
     .page-view.active { display: block; }
-    .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 28px; margin-bottom: 24px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 0.82rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 4px; }
-    .form-control { width: 100%; padding: 12px 16px; border: 1.5px solid var(--color-border); border-radius: var(--radius-sm); font-size: 0.95rem; background: #fff; outline: none; }
-    footer { background-color: var(--color-primary-dark); color: #fff; padding: 50px 0 30px; margin-top: auto; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 30px; }
-    @media(max-width: 900px) { .desktop-nav { display: none; } .mobile-menu-btn { display: block; } }
+
+    @media (max-width: 900px) {
+      .register-container-card { grid-template-columns: 1fr; }
+      .register-hero-panel { display: none; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .desktop-nav { display: none; }
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="top-bar">
-      <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-        <span>🛡️ ISO 27001 Certified & RBI Registered NBFC</span>
+    <div class="top-utility-bar">
+      <div class="container top-utility-inner">
+        <span>🛡️ RBI Registered Non-Banking Financial Company</span>
         <span>Toll Free: 1800-425-9900</span>
       </div>
     </div>
-    <div class="container nav-main">
+    <div class="container nav-main-container">
       <div class="brand-group" onclick="switchPage('home')">
-        <svg width="36" height="36" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#064e3b"/><path d="M12 20C12 15.5817 15.5817 12 20 12C24.4183 12 28 15.5817 28 20C28 24.4183 24.4183 28 20 28C15.5817 28 12 24.4183 12 20Z" stroke="#10b981" stroke-width="3"/></svg>
-        <div class="brand-title">SMFG <span>CREDIT</span></div>
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" rx="10" fill="#0369a1"/>
+          <path d="M12 20C12 15.5817 15.5817 12 20 12C24.4183 12 28 15.5817 28 20C28 24.4183 24.4183 28 20 28C15.5817 28 12 24.4183 12 20Z" stroke="#38bdf8" stroke-width="3"/>
+        </svg>
+        <div>
+          <div class="brand-title">Bread Financial <span>CREDIT</span></div>
+          <div class="brand-subtitle">Bread Financial Credit Co. Ltd.</div>
+        </div>
       </div>
       <nav class="desktop-nav">
-        <button class="nav-link" onclick="switchPage('home')">Home</button>
+        <button class="nav-link active" onclick="switchPage('home')">Home</button>
         <button class="nav-link" onclick="switchPage('knowledge-center')">Explore Products</button>
         <button class="nav-link" onclick="switchPage('personal-loans')">Personal Loans</button>
         <button class="nav-link" onclick="switchPage('business-loans')">Business Loans</button>
         <button class="nav-link" onclick="switchPage('insurance')">Insurance Suite</button>
-        <button class="nav-link" onclick="switchPage('about')">About Us</button>
-        <button class="btn btn-primary" onclick="switchPage('register')" style="border-radius:9999px;">Apply Now</button>
-        <button class="btn btn-outline" onclick="checkAuthAndNavigate()" id="nav-auth-btn" style="border-radius:9999px; padding:6px 14px;">Sign In ▾</button>
+        <button class="nav-link" onclick="switchPage('register')" style="color:#38bdf8; font-weight:800;">Apply Now</button>
+        <button class="btn" onclick="checkAuthAndNavigate()" style="background:#0369a1; color:#fff; border-radius:9999px; padding:8px 18px;" id="nav-auth-btn">Sign In ▾</button>
       </nav>
-      <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">☰</button>
-    </div>
-    <div class="mobile-drawer" id="mobileDrawer">
-      <button onclick="switchPage('home')">Home</button>
-      <button onclick="switchPage('knowledge-center')">Explore Products / Knowledge Center</button>
-      <button onclick="switchPage('personal-loans')">Personal Loans</button>
-      <button onclick="switchPage('business-loans')">Business Loans</button>
-      <button onclick="switchPage('insurance')">Insurance Suite</button>
-      <button onclick="switchPage('about')">About Us</button>
-      <button onclick="switchPage('register')" style="color:var(--color-primary);">Apply Now ➔</button>
-      <button onclick="checkAuthAndNavigate()">Sign In / Portal Login</button>
     </div>
   </header>
 
@@ -98,115 +188,50 @@
     <!-- HOME PAGE -->
     <div id="page-home" class="page-view active">
       <section class="hero-section">
-        <div class="container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:40px; align-items:center;">
+        <div class="container hero-grid">
           <div>
-            <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem; background:rgba(6,78,59,0.1); padding:6px 14px; border-radius:9999px;">ISO 27001 Certified & RBI Registered NBFC</span>
-            <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin:16px 0; line-height:1.15;">Next-Gen Capital for India’s Ambition</h1>
-            <p style="color:var(--color-text-muted); font-size:1.05rem; margin-bottom:24px;">Experience institutional-grade loan products, 100% paperless e-KYC approvals, and low competitive interest rates starting at 8.25% p.a.</p>
-            <div style="display:flex; gap:12px; flex-wrap:wrap;">
-              <button onclick="switchPage('register')" class="btn btn-primary" style="padding:12px 28px;">Apply For Loan →</button>
-              <!-- Explore Products Button -->
-              <button onclick="switchPage('knowledge-center')" class="btn btn-outline" style="padding:12px 28px;">Explore Products</button>
+            <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem;">ISO 27001 Certified & RBI Registered</span>
+            <h1 style="font-size:3.2rem; font-weight:900; color:var(--color-primary); margin:20px 0; line-height:1.1;">Next-Gen Capital for India’s Ambition</h1>
+            <p style="font-size:1.15rem; color:var(--color-text-muted); margin-bottom:32px;">Experience institutional-grade loan products, 100% paperless e-KYC approvals, and low competitive interest rates starting at 8.25% p.a.</p>
+            <div style="display:flex; gap:16px;">
+              <button onclick="switchPage('register')" class="btn btn-primary" style="padding:14px 32px; font-size:1.05rem;">Apply For Loan →</button>
+              <button onclick="switchPage('knowledge-center')" class="btn btn-outline" style="padding:14px 28px; font-size:1.05rem;">Explore Products</button>
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Corporate Team" style="width:100%; height:340px; object-fit:cover; border-radius:var(--radius-lg); box-shadow:var(--shadow-md); border:2px solid var(--color-border);">
-          </div>
-        </div>
-      </section>
-
-      <!-- METRICS SECTION -->
-      <section class="container" style="padding:48px 24px;">
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:24px; text-align:center;">
-          <div class="card">
-            <div style="font-size:2.2rem; font-weight:900; color:var(--color-primary);">₹45,000 Cr+</div>
-            <div style="font-size:0.85rem; color:var(--color-text-muted); font-weight:700; margin-top:4px;">Capital Disbursed</div>
-          </div>
-          <div class="card">
-            <div style="font-size:2.2rem; font-weight:900; color:var(--color-primary);">99.4%</div>
-            <div style="font-size:0.85rem; color:var(--color-text-muted); font-weight:700; margin-top:4px;">Sanction Accuracy</div>
-          </div>
-          <div class="card">
-            <div style="font-size:2.2rem; font-weight:900; color:var(--color-primary);">24 Hours</div>
-            <div style="font-size:0.85rem; color:var(--color-text-muted); font-weight:700; margin-top:4px;">Direct Disbursal</div>
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Bread Financial Team" style="width:100%; height:340px; object-fit:cover; border-radius:var(--radius-lg); box-shadow:var(--shadow-md); border:2px solid var(--color-border);">
           </div>
         </div>
       </section>
     </div>
 
-    <!-- KNOWLEDGE CENTER & EXPLORE PRODUCTS PAGE -->
+    <!-- KNOWLEDGE CENTER / EXPLORE PRODUCTS PAGE -->
     <div id="page-knowledge-center" class="page-view">
       <section class="hero-section">
         <div class="container">
-          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem; background:rgba(6,78,59,0.1); padding:6px 14px; border-radius:9999px;">FINANCIAL LITERACY & GUIDES</span>
+          <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem;">FINANCIAL LITERACY & GUIDES</span>
           <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin:16px 0; line-height:1.15;">Knowledge Center & Financial Insights</h1>
-          <p style="color:var(--color-text-muted); font-size:1.05rem; margin-bottom:24px;">Expert articles, regulatory disclosures, credit scoring advice, and borrowing guides curated by SMFG India Credit underwriters[span_4](start_span)[span_4](end_span).</p>
-          
-          <!-- Search Bar from Screenshots -->
-          <div style="display:flex; gap:12px; max-width:650px; background:#fff; padding:6px; border:1.5px solid var(--color-border); border-radius:9999px; box-shadow:var(--shadow-sm);">
-            <input type="text" placeholder="Search articles, guides, or loan topics..." class="form-control" style="border:none; border-radius:9999px; box-shadow:none; padding-left:16px;">
-            <button class="btn btn-primary" style="border-radius:9999px; padding:10px 24px; background:#bef264; color:#064e3b; font-weight:800;">🔍 Search</button>
-          </div>
+          <p style="color:var(--color-text-muted); font-size:1.05rem; margin-bottom:24px;">Expert articles, regulatory disclosures, credit scoring advice, and borrowing guides curated by Bread Financial underwriters.</p>
         </div>
       </section>
-
-      <!-- FEATURED ARTICLES & GUIDES (Matching Screenshots) -->
       <section class="container" style="padding:48px 24px;">
-        <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-primary); margin-bottom:24px;">Featured Articles & Guides[span_5](start_span)[span_5](end_span)</h2>
+        <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-primary); margin-bottom:24px;">Featured Articles & Guides</h2>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
-          
-          <!-- Article 1 -->
-          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <span style="background:#f0fdf4; color:var(--color-primary); padding:4px 10px; border-radius:9999px; font-weight:800; font-size:0.75rem;">CREDIT GUIDE</span>
-                <span style="font-size:0.8rem; color:#64748b; font-weight:700;">5 min read[span_6](start_span)[span_6](end_span)</span>
-              </div>
-              <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-text-main); margin-bottom:8px;">Understanding CIBIL Score Impact on Loan Interest Rates[span_7](start_span)[span_7](end_span)</h3>
-              <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:20px;">Learn how a 750+ CIBIL score unlocks lower interest rates and faster instant sanctions[span_8](start_span)[span_8](end_span).</p>
-            </div>
-            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%; justify-content:space-between;">Read Article <span>→</span></button>
+          <div class="card">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-primary); margin-bottom:8px;">Understanding CIBIL Score Impact on Loan Interest Rates</h3>
+            <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:16px;">Learn how a 750+ CIBIL score unlocks lower interest rates and faster instant sanctions.</p>
+            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Read Article →</button>
           </div>
-
-          <!-- Article 2 -->
-          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <span style="background:#f0fdf4; color:var(--color-primary); padding:4px 10px; border-radius:9999px; font-weight:800; font-size:0.75rem;">BUSINESS FINANCE</span>
-                <span style="font-size:0.8rem; color:#64748b; font-weight:700;">8 min read[span_9](start_span)[span_9](end_span)</span>
-              </div>
-              <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-text-main); margin-bottom:8px;">How Working Capital Facilities Boost Business Cash Flow[span_10](start_span)[span_10](end_span)</h3>
-              <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:20px;">A practical guide for SMEs on structuring revolving overdraft lines to scale operations[span_11](start_span)[span_11](end_span).</p>
-            </div>
-            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%; justify-content:space-between;">Read Article <span>→</span></button>
+          <div class="card">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-primary); margin-bottom:8px;">How Working Capital Facilities Boost Business Cash Flow</h3>
+            <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:16px;">A practical guide for SMEs on structuring revolving overdraft lines to scale operations.</p>
+            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Read Article →</button>
           </div>
-
-          <!-- Article 3 -->
-          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <span style="background:#f0fdf4; color:var(--color-primary); padding:4px 10px; border-radius:9999px; font-weight:800; font-size:0.75rem;">SECURED VS UNSECURED</span>
-                <span style="font-size:0.8rem; color:#64748b; font-weight:700;">6 min read[span_12](start_span)[span_12](end_span)</span>
-              </div>
-              <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-text-main); margin-bottom:8px;">Gold Loan vs Personal Loan: Which Credit Option Suits You?[span_13](start_span)[span_13](end_span)</h3>
-              <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:20px;">Comparing interest rates, collateral safety, LTV ratios, and repayment flexibility[span_14](start_span)[span_14](end_span).</p>
-            </div>
-            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%; justify-content:space-between;">Read Article <span>→</span></button>
+          <div class="card">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-primary); margin-bottom:8px;">Gold Loan vs Personal Loan: Which Credit Option Suits You?</h3>
+            <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:16px;">Comparing interest rates, collateral safety, LTV ratios, and repayment flexibility.</p>
+            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Read Article →</button>
           </div>
-
-          <!-- Article 4 -->
-          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <span style="background:#f0fdf4; color:var(--color-primary); padding:4px 10px; border-radius:9999px; font-weight:800; font-size:0.75rem;">TAX ADVISORY</span>
-                <span style="font-size:0.8rem; color:#64748b; font-weight:700;">7 min read[span_15](start_span)[span_15](end_span)</span>
-              </div>
-              <h3 style="font-size:1.15rem; font-weight:800; color:var(--color-text-main); margin-bottom:8px;">Tax Exemption Benefits Under Home Loans (Section 24 & 80C)[span_16](start_span)[span_16](end_span)</h3>
-              <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:20px;">Maximize your income tax deductions on principal and interest repayments each financial year[span_17](start_span)[span_17](end_span).</p>
-            </div>
-            <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%; justify-content:space-between;">Read Article <span>→</span></button>
-          </div>
-
         </div>
       </section>
     </div>
@@ -215,15 +240,10 @@
     <div id="page-personal-loans" class="page-view">
       <section class="hero-section">
         <div class="container">
-          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">UNCOLLATERALIZED CONSUMER CREDIT</span>
-          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Personal Loans Up to ₹40 Lakhs</h1>
-          <p style="color:var(--color-text-muted);">Quick disbursal, minimal documentation, and flexible tenures ranging from 12 to 84 months.</p>
-        </div>
-      </section>
-      <section class="container" style="padding:40px 24px;">
-        <div class="card">
-          <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:12px;">Instant Eligibility Check</h3>
-          <button onclick="switchPage('register')" class="btn btn-primary">Apply Now ➔</button>
+          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">INSTANT UNCOLLATERALIZED CREDIT</span>
+          <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin:20px 0;">Personal Loans for Every Milestone</h1>
+          <p style="font-size:1.1rem; color:var(--color-text-muted); margin-bottom:24px;">Instant paperless credit up to ₹40,00,000 with flexible repayment terms from 12 to 84 months.</p>
+          <button onclick="switchPage('register')" class="btn btn-primary" style="padding:14px 32px;">Open 3-Step e-KYC Portal →</button>
         </div>
       </section>
     </div>
@@ -232,15 +252,10 @@
     <div id="page-business-loans" class="page-view">
       <section class="hero-section">
         <div class="container">
-          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">SME & CORPORATE CREDIT</span>
-          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Working Capital & Machinery Loans</h1>
-          <p style="color:var(--color-text-muted);">Scale your business operations with institutional credit facilities up to ₹10 Crores.</p>
-        </div>
-      </section>
-      <section class="container" style="padding:40px 24px;">
-        <div class="card">
-          <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:12px;">Overdraft Facilities</h3>
-          <button onclick="switchPage('register')" class="btn btn-primary">Apply Now ➔</button>
+          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">SME WORKING CAPITAL</span>
+          <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin:20px 0;">Business & SME Credit Facilities</h1>
+          <p style="font-size:1.1rem; color:var(--color-text-muted); margin-bottom:24px;">Working capital lines, machinery purchase, and commercial expansion credit up to ₹10 Crore.</p>
+          <button onclick="switchPage('register')" class="btn btn-primary" style="padding:14px 32px;">Apply For Business Loan →</button>
         </div>
       </section>
     </div>
@@ -250,48 +265,39 @@
       <section class="hero-section">
         <div class="container">
           <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">COMPREHENSIVE RISK PROTECTION</span>
-          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Protection for Your Family & Assets</h1>
-        </div>
-      </section>
-    </div>
-
-    <!-- ABOUT US PAGE -->
-    <div id="page-about" class="page-view">
-      <section class="hero-section">
-        <div class="container">
-          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">OUR MISSION & HERITAGE</span>
-          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Pioneering Fair Credit For Every Indian</h1>
+          <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin:20px 0;">Insurance Suite & Protection</h1>
+          <p style="font-size:1.1rem; color:var(--color-text-muted); margin-bottom:24px;">Secure your family, health, and business assets with trusted underwriting partners.</p>
         </div>
       </section>
     </div>
 
     <!-- REGISTER PAGE -->
     <div id="page-register" class="page-view">
-      <div style="padding:40px 0;">
+      <div class="register-wrapper">
         <div class="container" style="max-width:600px;">
           <div class="card">
             <h2 style="font-size:1.5rem; font-weight:900; color:var(--color-primary); margin-bottom:16px;">Client Registration</h2>
             <div class="form-group">
               <label>Full Legal Name *</label>
-              <input type="text" id="reg-name" placeholder="Client Name" class="form-control">
+              <input type="text" id="reg-name" placeholder="Client Name" class="form-control" style="border-radius:8px;">
             </div>
             <div class="form-group">
               <label>Email Address *</label>
-              <input type="email" id="reg-email" placeholder="client@example.com" class="form-control">
+              <input type="email" id="reg-email" placeholder="client@example.com" class="form-control" style="border-radius:8px;">
             </div>
             <div class="form-group">
               <label>Mobile Number *</label>
-              <input type="tel" id="reg-phone" placeholder="+91 9876543210" class="form-control">
+              <input type="tel" id="reg-phone" placeholder="+91 9876543210" class="form-control" style="border-radius:8px;">
             </div>
             <div class="form-group">
               <label>Requested Loan Amount (₹)</label>
-              <input type="number" id="reg-loanAmount" value="200000" class="form-control">
+              <input type="number" id="reg-loanAmount" value="200000" class="form-control" style="border-radius:8px;">
             </div>
             <div class="form-group">
               <label>Create Login Password *</label>
-              <input type="password" id="reg-password" placeholder="••••••••" class="form-control">
+              <input type="password" id="reg-password" placeholder="••••••••" class="form-control" style="border-radius:8px;">
             </div>
-            <button onclick="submitClientRegistration()" class="btn btn-primary" style="width:100%; padding:14px;">Complete Registration ➔</button>
+            <button onclick="submitClientRegistration()" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px;">Complete Registration ➔</button>
           </div>
         </div>
       </div>
@@ -299,79 +305,74 @@
 
     <!-- USER DASHBOARD -->
     <div id="page-user-dashboard" class="page-view">
-      <div style="background:var(--color-primary); color:#fff; padding:32px 0;">
+      <div style="background:var(--color-primary); color:#fff; padding:36px 0;">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
           <div>
-            <h1 id="dash-client-name" style="font-size:1.8rem; font-weight:900;">Client Dashboard</h1>
-            <p id="dash-client-meta" style="color:#e0f2fe; font-size:0.88rem;"></p>
+            <h1 id="dash-client-name" style="font-size:2rem; font-weight:900;">Client Dashboard</h1>
+            <p id="dash-client-meta" style="color:#e0f2fe; font-size:0.9rem;"></p>
           </div>
-          <button onclick="logoutClient()" class="btn" style="background:#fee2e2; color:#dc2626;">Sign Out</button>
+          <button onclick="logoutClient()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:800;">Sign Out</button>
         </div>
       </div>
-      <div class="container" style="padding:40px 24px;">
+      <div class="container" style="padding:40px 0;">
         <div class="card">
-          <h3 style="font-size:1.2rem; font-weight:900; color:var(--color-primary);">Sanctioned Loan Balance</h3>
-          <div id="dash-loan-limit" style="font-size:2rem; font-weight:900; color:var(--color-primary); margin:8px 0;">₹0</div>
+          <div style="font-size:0.85rem; color:var(--color-text-light); font-weight:700;">SANCTIONED LOAN LIMIT</div>
+          <div id="dash-loan-limit" style="font-size:2rem; font-weight:900; color:var(--color-primary); margin:8px 0;">₹2,00,000</div>
         </div>
       </div>
     </div>
 
     <!-- LOGIN PAGE -->
     <div id="page-login" class="page-view">
-      <div style="max-width:400px; margin:60px auto; padding:0 20px;">
+      <div style="max-width:440px; margin:80px auto; padding:0 20px;">
         <div class="card">
-          <h2 style="font-size:1.6rem; font-weight:900; color:var(--color-primary); text-align:center; margin-bottom:16px;">Portal Login</h2>
+          <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-primary); margin-bottom:8px; text-align:center;">Portal Login</h2>
           <div class="form-group">
-            <label>Email or Admin ID</label>
-            <input type="text" id="login-user" class="form-control" placeholder="client@example.com or Ramadmin">
+            <label>Username or Email</label>
+            <input type="text" id="login-user" class="form-control" placeholder="client email or Ramadmin" style="border-radius:8px;">
           </div>
           <div class="form-group">
             <label>Password</label>
-            <input type="password" id="login-pass" class="form-control" placeholder="••••••••">
+            <input type="password" id="login-pass" class="form-control" placeholder="••••••••" style="border-radius:8px;">
           </div>
-          <button onclick="performPortalLogin()" class="btn btn-primary" style="width:100%; padding:12px;">Sign In ➔</button>
+          <button onclick="performLogin()" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px;">Sign In to Portal</button>
         </div>
       </div>
     </div>
 
     <!-- ADMIN DASHBOARD -->
     <div id="page-admin-dashboard" class="page-view">
-      <div style="background:var(--color-primary-dark); color:#fff; padding:24px 0;">
+      <div style="background:#0369a1; color:#fff; padding:24px 0;">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-          <h1 style="font-size:1.5rem; font-weight:900;">Executive Underwriter Portal</h1>
-          <button onclick="logoutAdmin()" class="btn" style="background:#fee2e2; color:#dc2626;">Exit Admin</button>
+          <h1 style="font-size:1.6rem; font-weight:900;">Executive Underwriter Portal</h1>
+          <button onclick="logoutAdmin()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:800;">Exit Admin</button>
         </div>
       </div>
-      <div class="container" style="padding:32px 24px;">
-        <div class="card" style="display:flex; gap:12px; margin-bottom:20px;">
-          <input type="text" id="admin-search" placeholder="🔍 Search Client ID..." class="form-control" style="margin:0;" oninput="renderAdminTable()">
-        </div>
+      <div class="container" style="padding:40px 0;">
         <div class="card">
-          <h3 style="font-size:1.2rem; font-weight:900; color:var(--color-primary); margin-bottom:16px;">Client Dossiers</h3>
-          <div id="admin-table-wrap">Loading...</div>
+          <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-primary); margin-bottom:20px;">All Client Applications</h3>
+          <div id="admin-applications-table-wrap">Loading applications...</div>
         </div>
       </div>
     </div>
   </main>
 
   <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <h3 style="color:var(--color-sky); font-size:1.1rem; font-weight:900; margin-bottom:12px;">SMFG CREDIT</h3>
-          <p style="font-size:0.85rem; color:#94A3B8;">SMFG India Credit Co. Ltd. is a non-banking financial corporation registered under RBI regulations.</p>
-        </div>
-        <div>
-          <h4 style="color:#fff; font-size:0.95rem; font-weight:800; margin-bottom:12px;">Credit Products</h4>
-          <p style="font-size:0.85rem; color:#94A3B8;">Personal Loans<br>Business Loans<br>Home Loans & LAP</p>
-        </div>
-        <div>
-          <h4 style="color:#fff; font-size:0.95rem; font-weight:800; margin-bottom:12px;">Support & Grievance</h4>
-          <p style="font-size:0.85rem; color:#94A3B8;">Toll Free: 1800-425-9900<br>Email: customercare@smfgindia.com</p>
+    <div class="container footer-grid">
+      <div>
+        <h3 style="color:#38bdf8; font-size:1.1rem; font-weight:900; margin-bottom:12px;">Bread Financial Credit</h3>
+        <p style="color:#94A3B8; font-size:0.85rem; line-height:1.6;">Bread Financial Credit Co. Ltd. is a non-banking financial corporation registered under RBI regulations.</p>
+      </div>
+      <div>
+        <h4 style="color:#ffffff; font-size:0.95rem; font-weight:800; margin-bottom:12px;">Loan Products</h4>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:0.85rem; color:#94A3B8;">
+          <span style="cursor:pointer;" onclick="switchPage('personal-loans')">Personal Loans</span>
+          <span style="cursor:pointer;" onclick="switchPage('business-loans')">Business & SME Credit</span>
         </div>
       </div>
-      <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:20px; text-align:center; font-size:0.82rem; color:#94A3B8;">
-        © 2026 SMFG India Credit Co. Ltd. All rights reserved. Registered NBFC Reg. No. N-14.0321.
+      <div>
+        <h4 style="color:#ffffff; font-size:0.95rem; font-weight:800; margin-bottom:12px;">Regulatory & Compliance</h4>
+        <p style="color:#94A3B8; font-size:0.82rem;">RBI Registration No: B-14.03211<br>© 2026 Bread Financial Credit Co. Ltd.</p>
       </div>
     </div>
   </footer>
@@ -381,32 +382,36 @@
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
       const target = document.getElementById('page-' + pageId);
       if (target) target.classList.add('active');
-      document.getElementById('mobileDrawer').classList.remove('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleMobileDrawer() {
-      document.getElementById('mobileDrawer').classList.toggle('active');
+      updateNavAuth();
     }
 
     function checkAuthAndNavigate() {
-      const token = localStorage.getItem('smfg_token');
+      const token = localStorage.getItem('breadfinancial_token');
       if (token) {
-        if (localStorage.getItem('smfg_is_admin') === 'true') {
+        if (localStorage.getItem('breadfinancial_is_admin') === 'true') {
           switchPage('admin-dashboard');
-          renderAdminTable();
+          loadAdminDashboard();
         } else {
           switchPage('user-dashboard');
-          loadUserDash();
+          loadUserDashboard();
         }
       } else {
         switchPage('login');
       }
     }
 
+    function updateNavAuth() {
+      const token = localStorage.getItem('breadfinancial_token');
+      const btn = document.getElementById('nav-auth-btn');
+      if (btn) {
+        btn.innerText = token ? 'My Account ▾' : 'Sign In ▾';
+      }
+    }
+
     function submitClientRegistration() {
-      const newClient = {
-        id: 'SMFG-' + Math.floor(1000 + Math.random() * 9000),
+      const newRecord = {
+        id: 'BF-' + Math.floor(1000 + Math.random() * 9000),
         fullName: document.getElementById('reg-name').value,
         email: document.getElementById('reg-email').value,
         phone: document.getElementById('reg-phone').value,
@@ -414,64 +419,94 @@
         password: document.getElementById('reg-password').value,
         status: 'Pending'
       };
-      let apps = JSON.parse(localStorage.getItem('smfg_apps') || '[]');
-      apps.push(newClient);
-      localStorage.setItem('smfg_apps', JSON.stringify(apps));
-      localStorage.setItem('smfg_user', JSON.stringify(newClient));
-      localStorage.setItem('smfg_token', 'token-' + newClient.id);
-      alert('Registration Successful! Your Client ID: ' + newClient.id);
+
+      let apps = JSON.parse(localStorage.getItem('breadfinancial_apps') || '[]');
+      apps.push(newRecord);
+      localStorage.setItem('breadfinancial_apps', JSON.stringify(apps));
+      localStorage.setItem('breadfinancial_user', JSON.stringify(newRecord));
+      localStorage.setItem('breadfinancial_token', 'token-' + newRecord.id);
+
+      alert('Registration Completed Successfully! ID: ' + newRecord.id);
       switchPage('user-dashboard');
-      loadUserDash();
+      loadUserDashboard();
     }
 
-    function performPortalLogin() {
+    function performLogin() {
       const u = document.getElementById('login-user').value.trim();
       const p = document.getElementById('login-pass').value.trim();
+
       if (u === 'Ramadmin' && p === 'Ram1233') {
-        localStorage.setItem('smfg_is_admin', 'true');
-        localStorage.setItem('smfg_token', 'admin-token');
+        localStorage.setItem('breadfinancial_is_admin', 'true');
+        localStorage.setItem('breadfinancial_token', 'admin-token');
         switchPage('admin-dashboard');
-        renderAdminTable();
+        loadAdminDashboard();
         return;
       }
-      let apps = JSON.parse(localStorage.getItem('smfg_apps') || '[]');
+
+      let apps = JSON.parse(localStorage.getItem('breadfinancial_apps') || '[]');
       let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
       if (found) {
-        localStorage.setItem('smfg_is_admin', 'false');
-        localStorage.setItem('smfg_user', JSON.stringify(found));
-        localStorage.setItem('smfg_token', 'token-' + found.id);
+        localStorage.setItem('breadfinancial_is_admin', 'false');
+        localStorage.setItem('breadfinancial_user', JSON.stringify(found));
+        localStorage.setItem('breadfinancial_token', 'token-' + found.id);
         switchPage('user-dashboard');
-        loadUserDash();
+        loadUserDashboard();
       } else {
-        alert('Invalid Login Credentials.');
+        alert('Invalid credentials. Please check your username/password.');
       }
     }
 
-    function loadUserDash() {
-      const u = JSON.parse(localStorage.getItem('smfg_user') || '{}');
-      if (u.fullName) {
-        document.getElementById('dash-client-name').innerText = u.fullName;
-        document.getElementById('dash-client-meta').innerText = 'Client ID: ' + u.id + ' | Phone: ' + u.phone;
-        document.getElementById('dash-loan-limit').innerText = '₹' + Number(u.loanAmount || 0).toLocaleString('en-IN');
+    function loadUserDashboard() {
+      const user = JSON.parse(localStorage.getItem('breadfinancial_user') || '{}');
+      if (!user.fullName) {
+        switchPage('login');
+        return;
       }
+      document.getElementById('dash-client-name').innerText = user.fullName;
+      document.getElementById('dash-client-meta').innerText = `Client ID: ${user.id} • Mobile: ${user.phone}`;
+      document.getElementById('dash-loan-limit').innerText = '₹' + Number(user.loanAmount || 200000).toLocaleString('en-IN');
     }
 
-    function renderAdminTable() {
-      let apps = JSON.parse(localStorage.getItem('smfg_apps') || '[]');
-      let q = document.getElementById('admin-search').value.toLowerCase().trim();
-      if (q) apps = apps.filter(a => a.id.toLowerCase().includes(q) || a.fullName.toLowerCase().includes(q));
-      
-      let html = `<table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
-        <tr style="background:#f0fdf4; text-align:left;"><th style="padding:10px;">ID & Name</th><th style="padding:10px;">Phone</th><th style="padding:10px;">Loan Amount</th></tr>`;
-      apps.forEach(a => {
-        html += `<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:10px;"><strong>${a.id}</strong><br>${a.fullName}</td><td style="padding:10px;">${a.phone}</td><td style="padding:10px;">₹${Number(a.loanAmount).toLocaleString('en-IN')}</td></tr>`;
+    function loadAdminDashboard() {
+      let apps = JSON.parse(localStorage.getItem('breadfinancial_apps') || '[]');
+      let html = `<table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+        <thead>
+          <tr style="background:#f0f9ff; border-bottom:2px solid #bae6fd; text-align:left;">
+            <th style="padding:12px;">ID & Name</th>
+            <th style="padding:12px;">Contact</th>
+            <th style="padding:12px;">Loan (₹)</th>
+            <th style="padding:12px;">Status</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      apps.forEach(app => {
+        html += `<tr style="border-bottom:1px solid #e0f2fe;">
+          <td style="padding:12px;"><strong>${app.id}</strong><br>${app.fullName}</td>
+          <td style="padding:12px;">${app.phone}<br>${app.email}</td>
+          <td style="padding:12px;">₹${Number(app.loanAmount).toLocaleString('en-IN')}</td>
+          <td style="padding:12px;">${app.status}</td>
+        </tr>`;
       });
-      html += '</table>';
-      document.getElementById('admin-table-wrap').innerHTML = html;
+      html += `</tbody></table>`;
+      document.getElementById('admin-applications-table-wrap').innerHTML = html;
     }
 
-    function logoutClient() { localStorage.clear(); switchPage('home'); }
-    function logoutAdmin() { localStorage.clear(); switchPage('login'); }
+    function logoutClient() {
+      localStorage.removeItem('breadfinancial_token');
+      localStorage.removeItem('breadfinancial_user');
+      switchPage('home');
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('breadfinancial_token');
+      localStorage.removeItem('breadfinancial_is_admin');
+      switchPage('login');
+    }
+
+    window.onload = () => {
+      updateNavAuth();
+    };
   </script>
 </body>
 </html>
