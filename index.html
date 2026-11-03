@@ -135,6 +135,25 @@
     .checklist-step.active .step-bubble { background: #38bdf8; color: #12294B; }
     .register-form-panel { padding: 36px 40px; background: #ffffff; }
 
+    /* Stylish Dashboard Animations & Styles */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dashboard-animate {
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .dash-banner {
+      background: linear-gradient(135deg, #12294B 0%, #0369a1 100%);
+      color: #fff; padding: 40px 32px; border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+      position: relative; overflow: hidden;
+    }
+    .dash-banner::after {
+      content: ''; position: absolute; right: -50px; bottom: -50px; width: 200px; height: 200px;
+      background: rgba(56, 189, 248, 0.15); border-radius: 50%; pointer-events: none;
+    }
+
     footer {
       background-color: #12294B; color: #ffffff; padding: 50px 0 30px;
       border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: auto;
@@ -245,47 +264,32 @@
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-            <!-- Personal Loan Card -->
             <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
                 <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80" alt="Personal Loan" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px; border:1px solid var(--color-border);">
                 <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:8px;">UNCOLLATERALIZED</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Personal Loans</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Uncollateralized credit lines up to ₹40 Lakhs for immediate personal requirements, medical, or travel needs.</p>
-                <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:20px; display:flex; flex-direction:column; gap:6px;">
-                  <li>✓ Rates from 11.9% p.a.</li>
-                  <li>✓ 100% Paperless e-KYC</li>
-                </ul>
               </div>
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Personal Loan</button>
             </div>
 
-            <!-- Business Loan Card -->
             <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
                 <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Business Loan" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px; border:1px solid var(--color-border);">
                 <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:8px;">SME & ENTERPRISE</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Business Loans</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Working capital, machinery purchase, and commercial expansion credit up to ₹10 Crore for growing enterprises.</p>
-                <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:20px; display:flex; flex-direction:column; gap:6px;">
-                  <li>✓ Credit lines up to ₹10 Crore</li>
-                  <li>✓ Flexible overdraft options</li>
-                </ul>
               </div>
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Business Loan</button>
             </div>
 
-            <!-- Home Loans & LAP Card -->
             <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
                 <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80" alt="Home Loans & LAP" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px; border:1px solid var(--color-border);">
                 <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:8px;">MORTGAGE CREDIT</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Home Loans & LAP</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Competitive mortgage rates starting at 8.25% p.a. for home acquisition, construction, or LAP refinancing.</p>
-                <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:20px; display:flex; flex-direction:column; gap:6px;">
-                  <li>✓ Tenure up to 30 Years</li>
-                  <li>✓ Balance transfer savings</li>
-                </ul>
               </div>
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Home Loan</button>
             </div>
@@ -293,80 +297,52 @@
         </div>
       </section>
 
-      <!-- Governance & Testimonial Section -->
-      <section style="padding: 60px 0; background: var(--color-surface-low); border-top: 1px solid var(--color-border-light); border-bottom: 1px solid var(--color-border-light);">
+      <!-- ABOUT US / MISSION & HERITAGE SECTION -->
+      <section style="padding: 70px 0; background: var(--color-surface-low); border-top: 1px solid var(--color-border-light); border-bottom: 1px solid var(--color-border-light);">
         <div class="container">
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
-            <div>
-              <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem; display:inline-block; margin-bottom:14px;">INSTITUTIONAL GOVERNANCE</span>
-              <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-primary); margin-bottom:16px;">Built on Trust, Precision & Digital Speed</h2>
-              <p style="color:var(--color-text-muted); font-size:1.02rem; line-height:1.7; margin-bottom:24px;">
-                Unlike traditional banks with endless paper delays, Bread Financial integrates automated risk engine technology to provide instant decisions while maintaining strict RBI compliance.
-              </p>
-              
-              <div style="display:flex; flex-direction:column; gap:14px;">
-                <div style="display:flex; gap:12px; align-items:flex-start;">
-                  <div style="font-weight:900; color:var(--color-primary); font-size:1.1rem;">1</div>
-                  <div>
-                    <div style="font-weight:800; color:var(--color-primary);">Transparent Interest Terms</div>
-                    <div style="font-size:0.85rem; color:var(--color-text-muted);">No hidden charges or surprise foreclosure penalties. Full disclosure upfront.</div>
-                  </div>
-                </div>
-                <div style="display:flex; gap:12px; align-items:flex-start;">
-                  <div style="font-weight:900; color:var(--color-primary); font-size:1.1rem;">2</div>
-                  <div>
-                    <div style="font-weight:800; color:var(--color-primary);">Instant Digital Sanction</div>
-                    <div style="font-size:0.85rem; color:var(--color-text-muted);">Paperless e-KYC and digital agreement signing completed in under 15 minutes.</div>
-                  </div>
-                </div>
-                <div style="display:flex; gap:12px; align-items:flex-start;">
-                  <div style="font-weight:900; color:var(--color-primary); font-size:1.1rem;">3</div>
-                  <div>
-                    <div style="font-weight:800; color:var(--color-primary);">24x7 Digital Client Portal</div>
-                    <div style="font-size:0.85rem; color:var(--color-text-muted);">Track repayments, download interest certificates, and request credit top-ups online.</div>
-                  </div>
-                </div>
-              </div>
+          <div style="max-width: 800px; margin: 0 auto 50px; text-align: center;">
+            <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem; display:inline-block; margin-bottom:14px;">OUR MISSION & HERITAGE</span>
+            <h2 style="font-size:2.8rem; font-weight:900; color:var(--color-primary); margin-bottom:20px; line-height:1.2;">Pioneering Fair Credit For Every Indian</h2>
+            <p style="color:var(--color-text-muted); font-size:1.12rem; line-height:1.7;">Bread Financial is a premier RBI-registered Non-Banking Financial Company (NBFC) dedicated to democratizing institutional capital with digital speed and absolute transparency.</p>
+          </div>
+
+          <div style="margin-bottom:60px; position:relative; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--color-border); box-shadow:var(--shadow-md);">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Corporate Boardroom" style="width:100%; height:400px; object-fit:cover; display:block;">
+            <div style="position:absolute; bottom:24px; left:24px; background:rgba(255, 255, 255, 0.95); padding:16px 24px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); border:1px solid var(--color-border);">
+              <div style="font-weight:900; color:var(--color-primary); font-size:1.05rem;">CRISIL AA+ Rated</div>
+              <div style="font-size:0.85rem; color:var(--color-text-muted);">Institutional Financial Soundness</div>
+            </div>
+          </div>
+
+          <div style="text-align:center; max-width:700px; margin:0 auto 40px;">
+            <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem; display:inline-block; margin-bottom:10px;">CORE VALUES</span>
+            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-primary); margin-bottom:12px;">Our Operating Pillars</h2>
+            <p style="color:var(--color-text-muted); font-size:1.02rem;">Guided by strict governance, ethical risk underwriting, and customer-first service principles.</p>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px;">
+            <div class="card" style="background:#ffffff;">
+              <div style="width:40px; height:40px; background:#e0f2fe; color:var(--color-primary); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; margin-bottom:16px;">🛡️</div>
+              <h3 style="font-size:1.25rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">RBI Compliance First</h3>
+              <p style="color:var(--color-text-muted); font-size:0.95rem; line-height:1.6;">Full adherence to Fair Practices Code, customer data privacy, and Ombudsman grievance mechanisms.</p>
             </div>
 
-            <!-- Testimonial Carousel -->
-            <div class="card" id="testimonial-carousel-card" style="background:#ffffff; color:var(--color-text-main); border-radius:var(--radius-lg); padding:36px; box-shadow:var(--shadow-lg); position:relative; overflow:hidden; border:1px solid var(--color-border-light);">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                <h3 style="color:var(--color-primary); font-size:1.2rem; font-weight:800;">Client Testimonial Carousel</h3>
-                <div style="display:flex; gap:8px;">
-                  <button onclick="prevTestimonial()" class="btn btn-outline" style="width:34px; height:34px; border-radius:50%; padding:0; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:900;">‹</button>
-                  <button onclick="nextTestimonial()" class="btn btn-outline" style="width:34px; height:34px; border-radius:50%; padding:0; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:900;">›</button>
-                </div>
-              </div>
+            <div class="card" style="background:#ffffff;">
+              <div style="width:40px; height:40px; background:#e0f2fe; color:var(--color-primary); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; margin-bottom:16px;">📈</div>
+              <h3 style="font-size:1.25rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Automated Risk Scoring</h3>
+              <p style="color:var(--color-text-muted); font-size:0.95rem; line-height:1.6;">Proprietary AI underwriting algorithms analyze cash flow patterns to sanction loans fairly without bias.</p>
+            </div>
 
-              <div id="testimonial-stars" style="display:flex; color:#f59e0b; margin-bottom:12px; gap:4px; font-size:1.1rem;">★★★★★</div>
-
-              <blockquote id="testimonial-quote" style="font-size:1.02rem; line-height:1.6; font-style:italic; margin-bottom:24px; color:var(--color-text-muted); min-height:80px;">
-                "Bread Financial approved our commercial credit facility of ₹2.5 Crore within 24 hours when we expanded our logistics fleet. Their transparent terms and dedicated account officer made all the difference."
-              </blockquote>
-
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-                <div style="display:flex; align-items:center; gap:14px;">
-                  <div id="testimonial-initials" style="width:42px; height:42px; border-radius:50%; background:var(--color-primary); color:#ffffff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1rem; flex-shrink:0;">BP</div>
-                  <div>
-                    <div id="testimonial-name" style="font-weight:800; font-size:1rem; color:var(--color-primary);">Biju Paul</div>
-                    <div id="testimonial-role" style="font-size:0.82rem; color:var(--color-text-muted);">Managing Director, Apex Logistics Pvt Ltd</div>
-                  </div>
-                </div>
-
-                <div id="testimonial-dots" style="display:flex; gap:6px;">
-                  <button onclick="setTestimonial(0)" style="width:20px; height:6px; border-radius:3px; background:var(--color-primary); border:none; cursor:pointer;"></button>
-                  <button onclick="setTestimonial(1)" style="width:6px; height:6px; border-radius:3px; background:var(--color-border); border:none; cursor:pointer;"></button>
-                  <button onclick="setTestimonial(2)" style="width:6px; height:6px; border-radius:3px; background:var(--color-border); border:none; cursor:pointer;"></button>
-                  <button onclick="setTestimonial(3)" style="width:6px; height:6px; border-radius:3px; background:var(--color-border); border:none; cursor:pointer;"></button>
-                </div>
-              </div>
+            <div class="card" style="background:#ffffff;">
+              <div style="width:40px; height:40px; background:#e0f2fe; color:var(--color-primary); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:900; margin-bottom:16px;">👥</div>
+              <h3 style="font-size:1.25rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Dedicated Account Managers</h3>
+              <p style="color:var(--color-text-muted); font-size:0.95rem; line-height:1.6;">Personalized support for every commercial credit client from application through full loan closure.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Ready to Accelerate Section (Added as in your screenshot) -->
+      <!-- Ready to Accelerate Section -->
       <section style="padding: 70px 0; background: #ffffff; text-align: center; border-bottom: 1px solid var(--color-border-light);">
         <div class="container" style="max-width: 800px;">
           <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem; display:inline-block; margin-bottom:14px;">GET STARTED TODAY</span>
@@ -499,7 +475,7 @@
                 <div style="font-size:48px; color:#16a34a; margin-bottom:12px;">✓</div>
                 <h3 style="color:#15803d; font-size:1.5rem; font-weight:900; margin-bottom:8px;">Registration Completed!</h3>
                 <p id="success-message-text" style="color:#0f172a; margin-bottom:24px; font-size:0.95rem;"></p>
-                <button onclick="switchPage('user-dashboard')" class="btn btn-primary" style="padding:12px 24px;">Open Client Dashboard →</button>
+                <button onclick="switchPage('user-dashboard'); loadUserDashboard();" class="btn btn-primary" style="padding:12px 24px;">Open Client Dashboard →</button>
               </div>
 
               <div id="form-steps-container">
@@ -533,7 +509,6 @@
                   </div>
                   <button type="button" onclick="goToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px; margin-bottom:20px;">Continue to Step 2 (KYC) →</button>
                   
-                  <!-- Corporate Team Image Below Button -->
                   <div style="margin-top:20px;">
                     <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Corporate Team" style="width:100%; height:260px; object-fit:cover; border-radius:var(--radius-md); border:1.5px solid var(--color-border); box-shadow:var(--shadow-sm);">
                   </div>
@@ -627,48 +602,74 @@
       </div>
     </div>
 
-    <!-- USER DASHBOARD -->
+    <!-- STYLISH USER DASHBOARD WITH ANIMATIONS & IMAGES -->
     <div id="page-user-dashboard" class="page-view">
-      <div style="background:var(--color-primary); color:#fff; padding:36px 0;">
-        <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
-          <div style="display:flex; align-items:center; gap:20px;">
-            <div id="dash-avatar-box" style="width:72px; height:72px; border-radius:50%; background:#38bdf8; color:#0f172a; font-weight:900; font-size:1.8rem; display:flex; align-items:center; justify-content:center; border:3px solid #38bdf8;"></div>
-            <div>
-              <h1 id="dash-client-name" style="font-size:2rem; font-weight:900; margin-bottom:4px;">Client Dashboard</h1>
-              <p id="dash-client-meta" style="color:#e0f2fe; font-size:0.9rem;"></p>
+      <div style="background:var(--color-bg); padding:40px 0;">
+        <div class="container">
+          
+          <!-- Stylish Banner Header -->
+          <div class="dash-banner dashboard-animate" style="margin-bottom:32px;">
+            <div style="display:flex; align-items:center; gap:24px; z-index:1;">
+              <div id="dash-avatar-box" style="width:84px; height:84px; border-radius:50%; background:#38bdf8; color:#0f172a; font-weight:900; font-size:2.2rem; display:flex; align-items:center; justify-content:center; border:4px solid rgba(255,255,255,0.4); box-shadow:0 8px 24px rgba(0,0,0,0.2);"></div>
+              <div>
+                <span style="background:rgba(56,189,248,0.25); color:#38bdf8; padding:4px 12px; border-radius:9999px; font-weight:800; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Verified Client Portal</span>
+                <h1 id="dash-client-name" style="font-size:2.2rem; font-weight:900; margin:6px 0 4px; line-height:1.2;">Welcome Client</h1>
+                <p id="dash-client-meta" style="color:#e0f2fe; font-size:0.92rem;"></p>
+              </div>
+            </div>
+            <div style="z-index:1;">
+              <button onclick="logoutClient()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:800; padding:10px 22px; border-radius:9999px; box-shadow:0 4px 12px rgba(220,38,38,0.2);">Sign Out ➔</button>
             </div>
           </div>
-          <div>
-            <button onclick="logoutClient()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:800;">Sign Out</button>
-          </div>
-        </div>
-      </div>
-      <div class="container" style="padding:40px 0;">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; margin-bottom:32px;">
-          <div class="card">
-            <div style="font-size:0.85rem; color:var(--color-text-light); font-weight:700;">SANCTIONED LOAN LIMIT</div>
-            <div id="dash-loan-limit" style="font-size:2rem; font-weight:900; color:var(--color-primary); margin:8px 0;">₹2,00,000</div>
-            <span id="dash-status-badge" style="background:#fef3c7; color:#b45309; padding:4px 12px; border-radius:9999px; font-size:0.75rem; font-weight:800;">Pending Verification</span>
-          </div>
-          <div class="card">
-            <div style="font-size:0.85rem; color:var(--color-text-light); font-weight:700;">WALLET DISBURSAL BALANCE</div>
-            <div id="dash-wallet-bal" style="font-size:2rem; font-weight:900; color:var(--color-success); margin:8px 0;">₹0</div>
-            <button onclick="requestWithdrawal()" class="btn btn-primary" style="padding:8px 16px; font-size:0.82rem;">Withdraw Funds ➔</button>
-          </div>
-        </div>
 
-        <div class="card" id="withdrawal-widget-card" style="display:none; background:#fff8e1; border:2px solid #ffe082; margin-bottom:32px;">
-          <h3 style="color:#e65100; font-size:1.2rem; font-weight:900; margin-bottom:8px;">⚠️ Withdrawal Processing</h3>
-          <p id="withdrawal-status-text" style="margin-bottom:14px; font-size:0.92rem;"></p>
-          <div id="countdown-timer-box" style="font-size:2rem; font-weight:900; color:#e65100; font-family:monospace; margin-bottom:12px;">05:00</div>
-          <div id="bank-mismatch-error" style="display:none; background:#FEE2E2; border:1px solid #EF4444; color:#B91C1C; padding:14px; border-radius:8px; font-weight:800; font-size:0.9rem;">
-            ⚠️ Incorrect account details wallet blocked please contact customer support executive.
-          </div>
-        </div>
+          <!-- Animated Metric Cards -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; margin-bottom:32px;">
+            <div class="card dashboard-animate" style="animation-delay: 0.1s; border-left: 5px solid var(--color-primary);">
+              <div style="font-size:0.82rem; color:var(--color-text-light); font-weight:800; letter-spacing:0.05em;">SANCTIONED LOAN LIMIT</div>
+              <div id="dash-loan-limit" style="font-size:2.2rem; font-weight:900; color:var(--color-primary); margin:10px 0;">₹2,00,000</div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.85rem; color:var(--color-text-muted);">Status:</span>
+                <span id="dash-status-badge" style="background:#fef3c7; color:#b45309; padding:4px 12px; border-radius:9999px; font-size:0.75rem; font-weight:800;">Pending Verification</span>
+              </div>
+            </div>
 
-        <div class="card">
-          <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:16px;">Registered Loan & Bank Particulars</h3>
-          <div id="dash-details-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:0.92rem;"></div>
+            <div class="card dashboard-animate" style="animation-delay: 0.2s; border-left: 5px solid #16a34a;">
+              <div style="font-size:0.82rem; color:var(--color-text-light); font-weight:800; letter-spacing:0.05em;">WALLET DISBURSAL BALANCE</div>
+              <div id="dash-wallet-bal" style="font-size:2.2rem; font-weight:900; color:#16a34a; margin:10px 0;">₹0</div>
+              <button onclick="requestWithdrawal()" class="btn btn-primary" style="width:100%; padding:10px; font-size:0.88rem; border-radius:8px;">Withdraw Funds to Bank ➔</button>
+            </div>
+          </div>
+
+          <!-- Withdrawal Countdown Widget -->
+          <div class="card dashboard-animate" id="withdrawal-widget-card" style="display:none; background:#fff8e1; border:2px solid #ffe082; margin-bottom:32px;">
+            <h3 style="color:#e65100; font-size:1.2rem; font-weight:900; margin-bottom:8px;">⚠️ Withdrawal Processing</h3>
+            <p id="withdrawal-status-text" style="margin-bottom:14px; font-size:0.92rem;"></p>
+            <div id="countdown-timer-box" style="font-size:2.2rem; font-weight:900; color:#e65100; font-family:monospace; margin-bottom:12px;">05:00</div>
+            <div id="bank-mismatch-error" style="display:none; background:#FEE2E2; border:1px solid #EF4444; color:#B91C1C; padding:14px; border-radius:8px; font-weight:800; font-size:0.9rem;">
+              ⚠️ Incorrect account details wallet blocked please contact customer support executive.
+            </div>
+          </div>
+
+          <!-- Registered Details & Attractive Images Grid -->
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;" class="dashboard-animate">
+            <div class="card">
+              <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:18px;">Registered Loan & Bank Particulars</h3>
+              <div id="dash-details-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:0.92rem;"></div>
+            </div>
+
+            <!-- Attractive Image Preview Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; background:linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+              <div>
+                <h3 style="font-size:1.1rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Verified Profile</h3>
+                <p style="font-size:0.85rem; color:var(--color-text-muted); margin-bottom:14px;">Secured with 256-bit bank grade encryption & Aadhaar e-KYC.</p>
+                <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80" alt="Verified Security" style="width:100%; height:160px; object-fit:cover; border-radius:8px; border:1px solid var(--color-border); box-shadow:var(--shadow-sm);">
+              </div>
+              <div style="margin-top:14px; font-size:0.75rem; color:#0369a1; font-weight:800; text-align:center;">
+                🛡️ RBI Compliant NBFC Portal
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -780,60 +781,6 @@
   <script>
     let currentRegStep = 1;
     let uploadedData = { aadharFront: '', aadharBack: '', photo: '', nomineeAadhar: '' };
-
-    const testimonials = [
-      {
-        quote: "Bread Financial approved our commercial credit facility of ₹2.5 Crore within 24 hours when we expanded our logistics fleet. Their transparent terms and dedicated account officer made all the difference.",
-        name: "Biju Paul",
-        role: "Managing Director, Apex Logistics Pvt Ltd",
-        initials: "BP"
-      },
-      {
-        quote: "The 100% paperless e-KYC and instant digital sanction process is light years ahead of traditional banks. Got my personal loan disbursed directly to my account in under 15 minutes.",
-        name: "Sneha Menon",
-        role: "Senior Tech Lead, Bengaluru",
-        initials: "SM"
-      },
-      {
-        quote: "As an SME owner, getting working capital without endless paperwork was incredible. The 24x7 digital portal makes tracking repayments and interest certificates effortless.",
-        name: "Vikram Malhotra",
-        role: "Founder, Zenith Retail Chains",
-        initials: "VM"
-      },
-      {
-        quote: "Extremely professional underwriting team with zero hidden charges or surprise foreclosure penalties. Highly recommend Bread Financial for mortgage credit.",
-        name: "Ananya Sharma",
-        role: "Chartered Accountant & Investor",
-        initials: "AS"
-      }
-    ];
-
-    let currentTestimonialIdx = 0;
-
-    function setTestimonial(idx) {
-      currentTestimonialIdx = (idx + testimonials.length) % testimonials.length;
-      const t = testimonials[currentTestimonialIdx];
-      document.getElementById('testimonial-quote').innerText = '"' + t.quote + '"';
-      document.getElementById('testimonial-name').innerText = t.name;
-      document.getElementById('testimonial-role').innerText = t.role;
-      document.getElementById('testimonial-initials').innerText = t.initials;
-
-      const dotsContainer = document.getElementById('testimonial-dots');
-      let dotsHtml = '';
-      for (let i = 0; i < testimonials.length; i++) {
-        const isSel = i === currentTestimonialIdx;
-        dotsHtml += `<button onclick="setTestimonial(${i})" style="width:${isSel ? '20px' : '6px'}; height:6px; border-radius:3px; background:${isSel ? 'var(--color-primary)' : 'var(--color-border)'}; border:none; cursor:pointer; transition:all 0.3s ease;"></button>`;
-      }
-      dotsContainer.innerHTML = dotsHtml;
-    }
-
-    function nextTestimonial() {
-      setTestimonial(currentTestimonialIdx + 1);
-    }
-
-    function prevTestimonial() {
-      setTestimonial(currentTestimonialIdx - 1);
-    }
 
     function switchPage(pageId) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
@@ -1007,7 +954,7 @@
         return;
       }
       document.getElementById('dash-client-name').innerText = user.fullName;
-      document.getElementById('dash-client-meta').innerText = `Client ID: ${user.id} • Mobile: ${user.phone}`;
+      document.getElementById('dash-client-meta').innerText = `Client ID: ${user.id} • Mobile: ${user.phone} • Email: ${user.email}`;
       document.getElementById('dash-avatar-box').innerText = user.fullName.charAt(0);
       document.getElementById('dash-loan-limit').innerText = '₹' + Number(user.loanAmount || 200000).toLocaleString('en-IN');
       document.getElementById('dash-wallet-bal').innerText = '₹' + Number(user.walletBalance || 0).toLocaleString('en-IN');
@@ -1019,7 +966,7 @@
         <div><strong>Tenure:</strong> ${user.tenure} Months</div>
         <div><strong>Bank:</strong> ${user.bankName} (${user.bankAcc})</div>
         <div><strong>IFSC:</strong> ${user.bankIfsc}</div>
-        <div><strong>Nominee:</strong> ${user.nomineeName}</div>
+        <div><strong>Nominee:</strong> ${user.nomineeName} (${user.nomineePhone})</div>
       `;
     }
 
