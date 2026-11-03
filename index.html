@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Portal | Bread Financial Institutional Portal</title>
-  <meta name="description" content="Complete your paperless verified client registration with Aadhaar e-KYC and loan requirements at Bread Financial.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -12,10 +11,6 @@
     :root {
       --color-primary: #0369a1;
       --color-primary-container: #0284c7;
-      --color-primary-fixed: #e0f2fe;
-      --color-sky: #38bdf8;
-      --color-secondary: #0284c7;
-      --color-secondary-container: #bae6fd;
       --color-bg: #f0f7ff;
       --color-surface: #ffffff;
       --color-surface-low: #f0f9ff;
@@ -24,10 +19,7 @@
       --color-text-main: #0f172a;
       --color-text-muted: #334155;
       --color-text-light: #64748b;
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --color-danger: #dc2626;
-      --font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-family: "Hanken Grotesk", sans-serif;
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 24px;
@@ -35,119 +27,49 @@
       --shadow-md: 0 8px 24px rgba(3, 105, 161, 0.08);
       --shadow-lg: 0 16px 40px rgba(3, 105, 161, 0.12);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      font-family: var(--font-family);
-      color: var(--color-text-main);
-      background-color: var(--color-bg);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
+    body { font-family: var(--font-family); color: var(--color-text-main); background-color: var(--color-bg); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
     .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-    header {
-      background-color: #12294B;
-      color: #ffffff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .top-utility-bar {
-      background-color: #0A1D37;
-      color: #ffffff;
-      padding: 6px 0;
-      font-size: 0.8rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
+    
+    header { background-color: #12294B; color: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .top-utility-bar { background-color: #0A1D37; color: #ffffff; padding: 6px 0; font-size: 0.8rem; }
     .top-utility-inner { display: flex; justify-content: space-between; align-items: center; }
     .nav-main-container { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; }
     .brand-group { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; color: inherit; }
     .brand-title { font-size: 1.25rem; font-weight: 900; color: #ffffff; line-height: 1; }
     .brand-title span { color: #38bdf8; }
-    .brand-subtitle { font-size: 0.65rem; color: #94A3B8; text-transform: uppercase; margin-top: 3px; font-weight: 700; letter-spacing: 0.08em; }
-
+    .brand-subtitle { font-size: 0.65rem; color: #94A3B8; text-transform: uppercase; margin-top: 3px; font-weight: 700; }
     .desktop-nav { display: flex; align-items: center; gap: 28px; }
-    .nav-link { background: none; border: none; color: #ffffff; font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 6px 0; transition: color 0.2s; text-decoration: none; }
-    .nav-link:hover, .nav-link.active { color: #38bdf8; font-weight: 800; border-bottom: 2.5px solid #38bdf8; }
+    .nav-link { background: none; border: none; color: #ffffff; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .nav-link:hover, .nav-link.active { color: #38bdf8; font-weight: 800; }
 
-    .btn {
-      font-family: var(--font-family); border-radius: var(--radius-sm); cursor: pointer;
-      transition: all 0.2s ease; border: none; justify-content: center; align-items: center;
-      gap: 8px; padding: 10px 20px; font-size: 0.9rem; font-weight: 700; line-height: 1;
-      text-decoration: none; display: inline-flex;
-    }
+    .btn { font-family: var(--font-family); border-radius: var(--radius-sm); cursor: pointer; border: none; display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 10px 20px; font-size: 0.9rem; font-weight: 700; text-decoration: none; transition: 0.2s; }
     .btn-primary { background-color: var(--color-primary); color: #fff; box-shadow: 0 4px 14px rgba(3, 105, 161, 0.25); }
     .btn-primary:hover { background-color: var(--color-primary-container); transform: translateY(-2px); }
     .btn-outline { border: 1.5px solid var(--color-border); color: var(--color-primary); background-color: #fff; }
-    .btn-outline:hover { border-color: var(--color-primary); background-color: var(--color-surface-low); }
 
-    .card {
-      background-color: var(--color-surface); border: 1px solid var(--color-border-light);
-      border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 28px;
-      transition: all 0.3s ease;
-    }
+    .card { background-color: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 28px; transition: 0.3s; }
     .card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
 
     .form-group { margin-bottom: 18px; }
     .form-group label { display: block; font-size: 0.85rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 6px; }
-    .form-control {
-      width: 100%; padding: 12px 16px; font-family: inherit; font-size: 0.95rem;
-      border: 1.5px solid var(--color-border); border-radius: 9999px; outline: none;
-      transition: all 0.2s ease; background-color: #ffffff; color: var(--color-text-main);
-    }
+    .form-control { width: 100%; padding: 12px 16px; font-family: inherit; font-size: 0.95rem; border: 1.5px solid var(--color-border); border-radius: 9999px; outline: none; background-color: #ffffff; color: var(--color-text-main); }
     .form-control:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.2); }
 
     .register-wrapper { background-color: var(--color-bg); padding: 40px 0 60px; }
-    .register-container-card {
-      background: #ffffff; border-radius: var(--radius-lg);
-      border: 1.5px solid var(--color-border); box-shadow: var(--shadow-lg);
-      overflow: hidden; display: grid; grid-template-columns: 340px 1fr; max-width: 1080px; margin: 0 auto;
-    }
-    .register-hero-panel {
-      background: linear-gradient(165deg, #12294B 0%, #16466B 60%, #0369a1 100%);
-      color: #ffffff; padding: 36px 28px; display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .checklist-step {
-      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
-      border-radius: 8px; margin-bottom: 12px; background: rgba(255, 255, 255, 0.06);
-    }
+    .register-container-card { background: #ffffff; border-radius: var(--radius-lg); border: 1.5px solid var(--color-border); box-shadow: var(--shadow-lg); overflow: hidden; display: grid; grid-template-columns: 340px 1fr; max-width: 1080px; margin: 0 auto; }
+    .register-hero-panel { background: linear-gradient(165deg, #12294B 0%, #16466B 60%, #0369a1 100%); color: #ffffff; padding: 36px 28px; display: flex; flex-direction: column; justify-content: space-between; }
+    .checklist-step { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; background: rgba(255, 255, 255, 0.06); }
     .checklist-step.active { background: rgba(56, 189, 248, 0.25); border-left: 4px solid #38bdf8; }
-    .step-bubble {
-      width: 28px; height: 28px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;
-      background: rgba(255, 255, 255, 0.2); color: #ffffff;
-    }
+    .step-bubble { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; background: rgba(255, 255, 255, 0.2); color: #ffffff; }
     .checklist-step.active .step-bubble { background: #38bdf8; color: #12294B; }
     .register-form-panel { padding: 36px 40px; background: #ffffff; }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .anim-fade { animation: fadeInUp 0.5s ease-out forwards; }
-
-    .dash-hero-banner {
-      background: linear-gradient(135deg, #0A1D37 0%, #12294B 50%, #0369a1 100%);
-      color: #fff; padding: 36px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
-      position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .dash-hero-banner::before {
-      content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px;
-      background: rgba(56, 189, 248, 0.15); border-radius: 50%; pointer-events: none;
-    }
-
-    .info-row {
-      display: flex; justify-content: space-between; align-items: center; padding: 12px 0;
-      border-bottom: 1px dashed var(--color-border-light); font-size: 0.92rem;
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .dashboard-animate { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .dash-banner { background: linear-gradient(135deg, #12294B 0%, #0369a1 100%); color: #fff; padding: 40px 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; position: relative; overflow: hidden; }
+    
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--color-border-light); font-size: 0.92rem; }
     .info-row:last-child { border-bottom: none; }
     .info-label { color: var(--color-text-light); font-weight: 600; display: flex; align-items: center; gap: 8px; }
     .info-val { font-weight: 800; color: var(--color-text-main); }
@@ -155,21 +77,12 @@
     .emi-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 10px; }
     .emi-table th { background: #f0f9ff; color: var(--color-primary); padding: 12px 16px; font-weight: 800; text-align: left; border-bottom: 2px solid var(--color-border); }
     .emi-table td { padding: 12px 16px; border-bottom: 1px solid var(--color-border-light); }
-    .emi-table tr:hover { background: #f8fafc; }
 
     .page-view { display: none; }
     .page-view.active { display: block; }
+    footer { background-color: #12294B; color: #ffffff; padding: 45px 0 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: auto; text-align: center; font-size: 0.85rem; }
 
-    footer {
-      background-color: #12294B; color: #ffffff; padding: 45px 0 25px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: auto;
-    }
-
-    @media (max-width: 900px) {
-      .register-container-card { grid-template-columns: 1fr; }
-      .register-hero-panel { display: none; }
-      .desktop-nav { display: none; }
-    }
+    @media (max-width: 900px) { .register-container-card { grid-template-columns: 1fr; } .register-hero-panel { display: none; } .desktop-nav { display: none; } }
   </style>
 </head>
 <body>
@@ -194,8 +107,6 @@
       </div>
       <nav class="desktop-nav">
         <button class="nav-link active" onclick="switchPage('home')">Home</button>
-        <button class="nav-link" onclick="switchPage('personal-loans')">Personal Loans</button>
-        <button class="nav-link" onclick="switchPage('business-loans')">Business Loans</button>
         <button class="nav-link" onclick="switchPage('register')" style="color:#38bdf8; font-weight:800;">Apply Now</button>
         <button class="btn" onclick="checkAuthAndNavigate()" style="background:#0369a1; color:#fff; border-radius:9999px; padding:8px 18px;" id="nav-auth-btn">Sign In ▾</button>
       </nav>
@@ -203,7 +114,7 @@
   </header>
 
   <main style="flex:1;">
-    <!-- HOME PAGE -->
+    <!-- HOME PAGE WITH ABOUT US SECTION -->
     <div id="page-home" class="page-view active">
       <section style="background: linear-gradient(135deg, #ffffff 0%, #F0F7F9 100%); padding: 60px 0;">
         <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;">
@@ -222,21 +133,21 @@
       </section>
 
       <!-- ABOUT US SECTION -->
-      <section style="padding: 60px 0; background: var(--color-surface-low);">
+      <section style="padding: 70px 0; background: var(--color-surface-low); border-top: 1px solid var(--color-border-light);">
         <div class="container">
-          <div style="text-align: center; max-width: 750px; margin: 0 auto 40px;">
-            <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem;">OUR MISSION & HERITAGE</span>
-            <h2 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Pioneering Fair Credit For Every Indian</h2>
-            <p style="color:var(--color-text-muted);">Bread Financial is a premier RBI-registered Non-Banking Financial Company (NBFC) dedicated to democratizing institutional capital with digital speed.</p>
+          <div style="max-width: 800px; margin: 0 auto 40px; text-align: center;">
+            <span style="background:rgba(3,105,161,0.1); color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.85rem; display:inline-block; margin-bottom:12px;">OUR MISSION & HERITAGE</span>
+            <h2 style="font-size:2.6rem; font-weight:900; color:var(--color-primary); margin-bottom:16px;">Pioneering Fair Credit For Every Indian</h2>
+            <p style="color:var(--color-text-muted); font-size:1.08rem; line-height:1.7;">Bread Financial is a premier RBI-registered Non-Banking Financial Company (NBFC) dedicated to democratizing institutional capital with digital speed and absolute transparency.</p>
           </div>
-          <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-md); margin-bottom:40px;">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Corporate Boardroom" style="width:100%; height:380px; object-fit:cover; display:block;">
+          <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-md); border:1px solid var(--color-border); max-width:1000px; margin:0 auto;">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Corporate Boardroom" style="width:100%; height:360px; object-fit:cover; display:block;">
           </div>
         </div>
       </section>
     </div>
 
-    <!-- REGISTER PAGE WITH MULTI-STEP FORM -->
+    <!-- REGISTER PAGE -->
     <div id="page-register" class="page-view">
       <div class="register-wrapper">
         <div class="container">
@@ -257,21 +168,18 @@
                   <div class="checklist-step" id="chk-step-2">
                     <span class="step-bubble">2</span>
                     <div>
-                      <div style="font-size:0.85rem; font-weight:800;">Aadhaar & Nominee KYC</div>
-                      <div style="font-size:0.72rem; color:#e0f2fe;">Upload documents preview</div>
+                      <div style="font-size:0.85rem; font-weight:800;">Aadhaar KYC</div>
+                      <div style="font-size:0.72rem; color:#e0f2fe;">Upload documents</div>
                     </div>
                   </div>
                   <div class="checklist-step" id="chk-step-3">
                     <span class="step-bubble">3</span>
                     <div>
                       <div style="font-size:0.85rem; font-weight:800;">Employment & Bank Spec</div>
-                      <div style="font-size:0.72rem; color:#e0f2fe;">Employment, bank & security</div>
+                      <div style="font-size:0.72rem; color:#e0f2fe;">Income, bank & security</div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div style="border-top:1px solid rgba(255,255,255,0.15); padding-top:16px;">
-                <div style="font-size:0.78rem; color:#e0f2fe;">🔒 256-bit Bank Grade Encrypted</div>
               </div>
             </div>
 
@@ -284,72 +192,48 @@
 
                 <div id="error-alert" style="display:none; background:#FEE2E2; color:#B91C1C; border:1px solid #F87171; padding:10px 14px; border-radius:8px; margin-bottom:16px; font-size:0.85rem; font-weight:700;"></div>
 
-                <!-- STEP 1 PANE -->
+                <!-- STEP 1 -->
                 <div class="form-step-pane" id="pane-1">
                   <div class="form-group">
                     <label>👤 Full Legal Name *</label>
-                    <input type="text" id="reg-name" placeholder="Enter client's legal name" class="form-control" style="border-radius:8px;">
+                    <input type="text" id="reg-name" placeholder="Enter legal name" class="form-control" style="border-radius:8px;">
                   </div>
                   <div class="form-group">
-                    <label>✉️ Email Address (Account Username) *</label>
+                    <label>✉️ Email Address *</label>
                     <input type="email" id="reg-email" placeholder="client@example.com" class="form-control" style="border-radius:8px;">
                   </div>
                   <div class="form-group">
-                    <label>📱 Mobile Phone Number *</label>
+                    <label>📱 Mobile Phone *</label>
                     <input type="tel" id="reg-phone" placeholder="+91 98765 43210" class="form-control" style="border-radius:8px;">
                   </div>
                   <div class="form-group">
                     <label>📅 Date of Birth *</label>
                     <input type="date" id="reg-dob" class="form-control" style="border-radius:8px;">
                   </div>
-                  <div class="form-group">
-                    <label>🏠 Residential Address *</label>
-                    <textarea id="reg-address" placeholder="Enter complete residential address" class="form-control" style="border-radius:8px; min-height:80px;"></textarea>
-                  </div>
-                  <button type="button" onclick="goToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px;">Continue to Step 2 (KYC) →</button>
+                  <button type="button" onclick="goToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px;">Continue to Step 2 →</button>
                 </div>
 
-                <!-- STEP 2 PANE -->
+                <!-- STEP 2 -->
                 <div class="form-step-pane" id="pane-2" style="display:none;">
                   <h3 style="font-size:0.98rem; font-weight:800; color:#0f172a; margin-bottom:12px;">🪪 Identity Uploads</h3>
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-                    <div style="background:#f0f9ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.78rem; font-weight:800; color:#0369a1; margin-bottom:6px;">Aadhaar Front *</div>
-                      <input type="file" id="file-aadharFront" accept="image/*" onchange="handleImageUpload(event, 'aadharFront')" style="font-size:0.75rem; width:100%;">
-                      <div id="preview-aadharFront" style="margin-top:6px; font-size:0.75rem; color:#16a34a; font-weight:700;"></div>
-                    </div>
-                    <div style="background:#f0f9ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.78rem; font-weight:800; color:#0369a1; margin-bottom:6px;">Aadhaar Back *</div>
-                      <input type="file" id="file-aadharBack" accept="image/*" onchange="handleImageUpload(event, 'aadharBack')" style="font-size:0.75rem; width:100%;">
-                      <div id="preview-aadharBack" style="margin-top:6px; font-size:0.75rem; color:#16a34a; font-weight:700;"></div>
-                    </div>
+                  <div class="form-group">
+                    <label>Aadhaar Front Image *</label>
+                    <input type="file" id="file-aadharFront" accept="image/*" onchange="handleImageUpload(event, 'aadharFront')">
+                    <div id="preview-aadharFront" style="font-size:0.75rem; color:#16a34a; font-weight:700;"></div>
                   </div>
-                  <div style="background:#f0f9ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; margin-bottom:14px; text-align:center;">
-                    <div style="font-size:0.78rem; font-weight:800; color:#0369a1; margin-bottom:6px;">👤 Profile Photo *</div>
-                    <input type="file" id="file-photo" accept="image/*" onchange="handleImageUpload(event, 'photo')" style="font-size:0.75rem; width:100%;">
-                    <div id="preview-photo" style="margin-top:6px; font-size:0.75rem; color:#16a34a; font-weight:700;"></div>
+                  <div class="form-group">
+                    <label>Aadhaar Back Image *</label>
+                    <input type="file" id="file-aadharBack" accept="image/*" onchange="handleImageUpload(event, 'aadharBack')">
+                    <div id="preview-aadharBack" style="font-size:0.75rem; color:#16a34a; font-weight:700;"></div>
                   </div>
-                  <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:8px; padding:14px; margin-bottom:16px;">
-                    <h4 style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:8px;">👥 Nominee Particulars</h4>
-                    <div class="form-group" style="margin-bottom:8px;">
-                      <label style="font-size:0.78rem;">Nominee Legal Name *</label>
-                      <input type="text" id="reg-nomineeName" placeholder="Nominee name" class="form-control" style="border-radius:6px; padding:10px;">
-                    </div>
-                    <div class="form-group" style="margin-bottom:8px;">
-                      <label style="font-size:0.78rem;">Nominee Mobile *</label>
-                      <input type="tel" id="reg-nomineePhone" placeholder="+91 Nominee phone" class="form-control" style="border-radius:6px; padding:10px;">
-                    </div>
-                  </div>
-                  <div style="display:flex; gap:10px;">
+                  <div style="display:flex; gap:10px; margin-top:20px;">
                     <button type="button" onclick="goToStep(1)" class="btn btn-outline" style="flex:1; padding:12px; border-radius:8px;">← Back</button>
                     <button type="button" onclick="goToStep(3)" class="btn btn-primary" style="flex:2; padding:12px; border-radius:8px;">Continue to Step 3 →</button>
                   </div>
                 </div>
 
-                <!-- STEP 3 PANE WITH NEW REQUESTED FIELDS -->
+                <!-- STEP 3 -->
                 <div class="form-step-pane" id="pane-3" style="display:none;">
-                  
-                  <!-- Employment Type Dropdown -->
                   <div class="form-group">
                     <label>💼 Employment Type *</label>
                     <select id="reg-empType" class="form-control" style="border-radius:8px;">
@@ -359,45 +243,38 @@
                     </select>
                   </div>
 
-                  <!-- Monthly Income (Numeric Keypad) -->
                   <div class="form-group">
                     <label>💵 Net Monthly Income (₹) *</label>
                     <input type="number" inputmode="numeric" id="reg-monthlyIncome" placeholder="e.g. 50000" class="form-control" style="border-radius:8px;">
                   </div>
 
-                  <!-- Loan Amount & Tenure -->
-                  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                    <div class="form-group">
-                      <label>💰 Loan Amount (₹)</label>
-                      <input type="number" inputmode="numeric" id="reg-loanAmount" value="200000" class="form-control" style="border-radius:8px;" oninput="updateEmiPreview()">
-                    </div>
-                    <div class="form-group">
-                      <label>⏱️ Tenure (Months)</label>
-                      <select id="reg-tenure" class="form-control" style="border-radius:8px;" onchange="updateEmiPreview()">
-                        <option value="12">12 Months (1 yr)</option>
-                        <option value="24" selected>24 Months (2 yrs)</option>
-                        <option value="36">36 Months (3 yrs)</option>
-                      </select>
-                    </div>
+                  <div class="form-group">
+                    <label>💰 Loan Amount Requested (₹)</label>
+                    <input type="number" inputmode="numeric" id="reg-loanAmount" value="200000" class="form-control" style="border-radius:8px;" oninput="updateEmiPreview()">
                   </div>
 
-                  <!-- Estimated EMI Display -->
+                  <div class="form-group">
+                    <label>⏱️ Repayment Tenure (Months)</label>
+                    <select id="reg-tenure" class="form-control" style="border-radius:8px;" onchange="updateEmiPreview()">
+                      <option value="12">12 Months</option>
+                      <option value="24" selected>24 Months</option>
+                      <option value="36">36 Months</option>
+                    </select>
+                  </div>
+
                   <div style="background:#f0f9ff; border:1px solid #bae6fd; padding:12px; border-radius:8px; margin-bottom:14px;">
                     <div style="font-size:0.78rem; color:#64748b; font-weight:700;">Estimated Flat Monthly EMI (@1% p.m.):</div>
-                    <div id="emi-preview-display" style="font-size:1.4rem; font-weight:900; color:#0369a1;">₹11,667 / mo</div>
+                    <div id="emi-preview-display" style="font-size:1.3rem; font-weight:900; color:#0369a1;">₹11,667 / mo</div>
                   </div>
 
-                  <h4 style="font-size:0.88rem; font-weight:800; color:#0f172a; margin-bottom:10px;">🏦 Disbursement Bank Details</h4>
-                  
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Bank Name *</label>
                     <input type="text" id="reg-bankName" placeholder="e.g. State Bank of India" class="form-control" style="border-radius:6px; padding:10px;">
                   </div>
 
-                  <!-- Account Number with Strict Number Keypad -->
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Account Number * (Numbers Only)</label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" id="reg-bankAcc" placeholder="Enter bank account number" class="form-control" style="border-radius:6px; padding:10px;">
+                    <input type="number" inputmode="numeric" pattern="[0-9]*" id="reg-bankAcc" placeholder="Account Number" class="form-control" style="border-radius:6px; padding:10px;">
                   </div>
 
                   <div class="form-group" style="margin-bottom:10px;">
@@ -405,8 +282,7 @@
                     <input type="text" id="reg-bankIfsc" placeholder="SBIN0001234" class="form-control" style="border-radius:6px; padding:10px;">
                   </div>
 
-                  <!-- Password and Confirm Password -->
-                  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
                     <div class="form-group" style="margin-bottom:0;">
                       <label style="font-size:0.78rem;">🔐 Password *</label>
                       <input type="password" id="reg-password" placeholder="At least 6 chars" class="form-control" style="border-radius:6px; padding:10px;">
@@ -421,8 +297,8 @@
                     <button type="button" onclick="goToStep(2)" class="btn btn-outline" style="flex:1; padding:12px; border-radius:8px;">← Back</button>
                     <button type="button" onclick="submitRegistration()" class="btn btn-primary" style="flex:2; padding:12px; border-radius:8px; background:#0369a1;">Complete Registration ✓</button>
                   </div>
-
                 </div>
+
               </div>
             </div>
 
@@ -431,14 +307,14 @@
       </div>
     </div>
 
-    <!-- HIGH-STYLISH USER DASHBOARD -->
+    <!-- STYLISH USER DASHBOARD WITH ANIMATIONS & IMAGES (PERSONAL INFO, WALLET & EMI DETAILS) -->
     <div id="page-user-dashboard" class="page-view">
       <div style="padding: 40px 0; background: var(--color-bg);">
         <div class="container">
           
-          <div class="dash-hero-banner anim-fade" style="margin-bottom:28px;">
+          <div class="dash-banner dashboard-animate" style="margin-bottom:28px;">
             <div style="display:flex; align-items:center; gap:20px; z-index:1;">
-              <div id="dash-avatar" style="width:76px; height:76px; border-radius:50%; background:#38bdf8; color:#0A1D37; font-size:2.2rem; font-weight:900; display:flex; align-items:center; justify-content:center; border:3px solid rgba(255,255,255,0.4); box-shadow:0 6px 18px rgba(0,0,0,0.2);"></div>
+              <div id="dash-avatar" style="width:76px; height:76px; border-radius:50%; background:#38bdf8; color:#0A1D37; font-size:2.2rem; font-weight:900; display:flex; align-items:center; justify-content:center; border:3px solid rgba(255,255,255,0.4);"></div>
               <div>
                 <span style="background:rgba(56,189,248,0.2); color:#38bdf8; padding:4px 12px; border-radius:9999px; font-weight:800; font-size:0.75rem; text-transform:uppercase;">Verified Client Workspace</span>
                 <h1 id="dash-welcome-name" style="font-size:2rem; font-weight:900; margin:4px 0 2px;">Client Portal</h1>
@@ -448,12 +324,12 @@
             <button onclick="logoutClient()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:800; border-radius:9999px; padding:10px 20px; z-index:1;">Sign Out ➔</button>
           </div>
 
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px; margin-bottom:28px;" class="anim-fade">
-            <div class="card" style="border-left:5px solid var(--color-primary); position:relative; overflow:hidden;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px; margin-bottom:28px;" class="dashboard-animate">
+            <div class="card" style="border-left:5px solid var(--color-primary);">
               <div style="font-size:0.8rem; font-weight:800; color:var(--color-text-light); text-transform:uppercase;">SANCTIONED CREDIT LIMIT</div>
               <div id="dash-limit-num" style="font-size:2.2rem; font-weight:900; color:var(--color-primary); margin:8px 0;">₹0</div>
               <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
-                <span style="color:var(--color-text-muted);">Application Status:</span>
+                <span style="color:var(--color-text-muted);">Status:</span>
                 <span id="dash-status-pill" style="background:#fef3c7; color:#b45309; padding:4px 12px; border-radius:9999px; font-weight:800; font-size:0.75rem;">Pending</span>
               </div>
             </div>
@@ -461,20 +337,18 @@
             <div class="card" style="border-left:5px solid #16a34a;">
               <div style="font-size:0.8rem; font-weight:800; color:var(--color-text-light); text-transform:uppercase;">AVAILABLE WALLET BALANCE</div>
               <div id="dash-wallet-num" style="font-size:2.2rem; font-weight:900; color:#16a34a; margin:8px 0;">₹0</div>
-              <button onclick="triggerWithdrawal()" class="btn btn-primary" style="width:100%; padding:10px; font-size:0.85rem; border-radius:8px;">Withdraw to Bank Account ➔</button>
+              <button onclick="triggerWithdrawal()" class="btn btn-primary" style="width:100%; padding:10px; font-size:0.85rem; border-radius:8px;">Withdraw to Bank ➔</button>
             </div>
 
             <div class="card" style="border-left:5px solid #38bdf8;">
               <div style="font-size:0.8rem; font-weight:800; color:var(--color-text-light); text-transform:uppercase;">ESTIMATED MONTHLY EMI</div>
               <div id="dash-emi-num" style="font-size:2.2rem; font-weight:900; color:#0369a1; margin:8px 0;">₹0</div>
-              <div style="font-size:0.8rem; color:var(--color-text-muted); display:flex; justify-content:space-between;">
-                <span>Tenure: <strong id="dash-tenure-text" style="color:var(--color-text-main);">0 Months</strong></span>
-                <span>Interest: <strong style="color:var(--color-success);">1% / mo</strong></span>
-              </div>
+              <div style="font-size:0.8rem; color:var(--color-text-muted);">Tenure: <strong id="dash-tenure-text" style="color:var(--color-text-main);">0 Months</strong></div>
             </div>
           </div>
 
-          <div class="card anim-fade" id="withdraw-widget" style="display:none; background:#fff8e1; border:2px solid #ffe082; margin-bottom:28px;">
+          <!-- Withdrawal Verification Widget -->
+          <div class="card dashboard-animate" id="withdraw-widget" style="display:none; background:#fff8e1; border:2px solid #ffe082; margin-bottom:28px;">
             <h3 style="color:#e65100; font-size:1.15rem; font-weight:900; margin-bottom:6px;">⚠️ Bank Clearing House Verification</h3>
             <p id="withdraw-status-desc" style="font-size:0.9rem; color:#d97706; margin-bottom:12px;"></p>
             <div id="countdown-clock" style="font-size:2rem; font-weight:900; color:#e65100; font-family:monospace; margin-bottom:10px;">05:00</div>
@@ -483,34 +357,21 @@
             </div>
           </div>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:28px;" class="anim-fade">
+          <!-- Personal Information & Bank Details Grid with Images -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:28px;" class="dashboard-animate">
             <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                  <h3 style="font-size:1.2rem; font-weight:900; color:var(--color-primary);">👤 Personal & Employment Particulars</h3>
-                  <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:9999px;">e-KYC Verified</span>
+                  <h3 style="font-size:1.2rem; font-weight:900; color:var(--color-primary);">👤 Personal & Employment Info</h3>
+                  <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:9999px;">Verified</span>
                 </div>
-                
-                <div class="info-row">
-                  <span class="info-label">✉️ Email Username</span>
-                  <span class="info-val" id="dash-info-email">-</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">📱 Registered Phone</span>
-                  <span class="info-val" id="dash-info-phone">-</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">💼 Employment Type</span>
-                  <span class="info-val" id="dash-info-emp">-</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">💵 Monthly Income</span>
-                  <span class="info-val" id="dash-info-income" style="color:var(--color-success);">-</span>
-                </div>
+                <div class="info-row"><span class="info-label">✉️ Email Username</span><span class="info-val" id="dash-info-email">-</span></div>
+                <div class="info-row"><span class="info-label">📱 Registered Phone</span><span class="info-val" id="dash-info-phone">-</span></div>
+                <div class="info-row"><span class="info-label">💼 Employment Type</span><span class="info-val" id="dash-info-emp">-</span></div>
+                <div class="info-row"><span class="info-label">💵 Monthly Income</span><span class="info-val" id="dash-info-income" style="color:#16a34a;">-</span></div>
               </div>
-
               <div style="margin-top:20px; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--color-border);">
-                <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80" alt="Verified Shield" style="width:100%; height:130px; object-fit:cover; display:block;">
+                <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80" alt="Shield" style="width:100%; height:120px; object-fit:cover; display:block;">
               </div>
             </div>
 
@@ -518,56 +379,35 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                   <h3 style="font-size:1.2rem; font-weight:900; color:var(--color-primary);">🏦 Disbursement Bank Account</h3>
-                  <span style="background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:9999px;">Direct Transfer Active</span>
+                  <span style="background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:9999px;">Direct Transfer</span>
                 </div>
-
-                <div class="info-row">
-                  <span class="info-label">🏛️ Bank Organization</span>
-                  <span class="info-val" id="dash-bank-name">-</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">💳 Account Number</span>
-                  <span class="info-val" id="dash-bank-acc">-</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">⚡ IFSC Routing Code</span>
-                  <span class="info-val" id="dash-bank-ifsc">-</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">🔒 Security Lock</span>
-                  <span class="info-val">Enforced</span>
-                </div>
+                <div class="info-row"><span class="info-label">🏛️ Bank Organization</span><span class="info-val" id="dash-bank-name">-</span></div>
+                <div class="info-row"><span class="info-label">💳 Account Number</span><span class="info-val" id="dash-bank-acc">-</span></div>
+                <div class="info-row"><span class="info-label">⚡ IFSC Routing Code</span><span class="info-val" id="dash-bank-ifsc">-</span></div>
               </div>
-
-              <div style="margin-top:20px; background:#f0f9ff; border:1px solid var(--color-border); padding:14px; border-radius:var(--radius-sm);">
-                <div style="font-size:0.8rem; font-weight:800; color:var(--color-primary);">⚡ FAST-TRACK DISBURSAL READY</div>
-                <div style="font-size:0.78rem; color:var(--color-text-muted);">Funds will be transferred directly to this linked bank account upon executive approval.</div>
+              <div style="margin-top:20px; background:#f0f9ff; border:1px solid var(--color-border); padding:12px; border-radius:var(--radius-sm);">
+                <div style="font-size:0.78rem; font-weight:800; color:var(--color-primary);">⚡ FAST-TRACK DISBURSAL READY</div>
               </div>
             </div>
           </div>
 
-          <div class="card anim-fade">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-              <div>
-                <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary);">📅 Calculated Loan EMI Schedule</h3>
-                <p style="font-size:0.85rem; color:var(--color-text-muted);">Repayment schedule structured flat @ 1% per month for the requested tenure.</p>
-              </div>
-              <span style="background:#e0f2fe; color:var(--color-primary); padding:6px 14px; border-radius:9999px; font-weight:800; font-size:0.8rem;">Auto-Debit Linked</span>
+          <!-- Calculated EMI Schedule Table -->
+          <div class="card dashboard-animate">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary);">📅 Calculated Loan EMI Schedule</h3>
             </div>
-
             <div style="overflow-x:auto;">
               <table class="emi-table">
                 <thead>
                   <tr>
                     <th>Installment #</th>
                     <th>Due Date</th>
-                    <th>Principal & Interest</th>
+                    <th>Structure</th>
                     <th>Flat Monthly EMI</th>
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody id="dash-emi-schedule-body">
-                </tbody>
+                <tbody id="dash-emi-schedule-body"></tbody>
               </table>
             </div>
           </div>
@@ -581,7 +421,6 @@
       <div style="max-width:420px; margin:70px auto; padding:0 20px;">
         <div class="card">
           <h2 style="font-size:1.6rem; font-weight:900; color:var(--color-primary); margin-bottom:16px; text-align:center;">Client Portal Login</h2>
-          <div id="login-err" style="display:none; background:#fee2e2; color:#dc2626; padding:10px; border-radius:6px; font-size:0.82rem; margin-bottom:12px; font-weight:700;"></div>
           <div class="form-group">
             <label>Email Username</label>
             <input type="text" id="login-user" class="form-control" placeholder="name@example.com">
@@ -597,13 +436,13 @@
   </main>
 
   <footer>
-    <div class="container" style="text-align:center; font-size:0.85rem; color:#94A3B8;">
+    <div class="container">
       <div>© 2026 Bread Financial Credit Co. Ltd. All rights reserved. Registered NBFC Reg. No. N-14.0321.</div>
     </div>
   </footer>
 
   <script>
-    let uploadedData = { aadharFront: '', aadharBack: '', photo: '' };
+    let uploadedData = { aadharFront: '', aadharBack: '' };
 
     function switchPage(pageId) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
@@ -647,7 +486,6 @@
           return;
         }
       }
-
       for (let i = 1; i <= 3; i++) {
         document.getElementById('pane-' + i).style.display = i === step ? 'block' : 'none';
         const chk = document.getElementById('chk-step-' + i);
@@ -666,8 +504,7 @@
       const reader = new FileReader();
       reader.onload = (e) => {
         uploadedData[key] = e.target.result;
-        const prev = document.getElementById('preview-' + key);
-        if (prev) prev.innerText = '✓ Uploaded successfully';
+        document.getElementById('preview-' + key).innerText = '✓ Uploaded successfully';
       };
       reader.readAsDataURL(file);
     }
@@ -742,9 +579,7 @@
         switchPage('user-dashboard');
         loadUserDashboard();
       } else {
-        const err = document.getElementById('login-err');
-        err.innerText = 'Invalid email or password.';
-        err.style.display = 'block';
+        alert('Invalid email or password.');
       }
     }
 
