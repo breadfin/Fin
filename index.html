@@ -236,7 +236,7 @@
         </div>
       </section>
 
-      <!-- Institutional Products Section (Scrolled on clicking 'Explore Products') -->
+      <!-- Institutional Products Section with Images -->
       <section id="products-section" style="padding: 60px 0; background: #ffffff;">
         <div class="container">
           <div style="text-align: center; max-width: 700px; margin: 0 auto 48px;">
@@ -246,8 +246,10 @@
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Personal Loan Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Personal Loans" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:16px;">
                 <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">UNCOLLATERALIZED</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Personal Loans</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Uncollateralized credit lines up to ₹40 Lakhs for immediate personal requirements, medical, or travel needs.</p>
@@ -259,8 +261,10 @@
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Personal Loan</button>
             </div>
 
-            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Business Loan Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80" alt="Business Loans" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:16px;">
                 <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">SME & ENTERPRISE</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Business Loans</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Working capital, machinery purchase, and commercial expansion credit up to ₹10 Crore for growing enterprises.</p>
@@ -272,8 +276,10 @@
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Business Loan</button>
             </div>
 
-            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Home Loans Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80" alt="Home Loans" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:16px;">
                 <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">MORTGAGE CREDIT</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Home Loans & LAP</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Competitive mortgage rates starting at 8.25% p.a. for home acquisition, construction, or LAP refinancing.</p>
@@ -288,7 +294,7 @@
         </div>
       </section>
 
-      <!-- Featured Articles & Guides Section (Matching Screenshot) -->
+      <!-- Featured Articles & Guides Section -->
       <section style="padding: 60px 0; background: var(--color-surface-low); border-top:1px solid var(--color-border-light);">
         <div class="container">
           <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-primary); margin-bottom:28px;">Featured Articles & Guides</h2>
@@ -675,7 +681,6 @@
             <span style="cursor:pointer;" onclick="switchPage('personal-loans')">Personal Loans</span>
             <span style="cursor:pointer;" onclick="switchPage('business-loans')">Business & SME Loans</span>
             <span style="cursor:pointer;" onclick="switchPage('home-loans')">Home Loans & LAP</span>
-            <span style="cursor:pointer;" onclick="switchPage('gold-lap-las')">Gold Loans & LAS</span>
           </div>
         </div>
         <div>
