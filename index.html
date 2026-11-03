@@ -235,7 +235,7 @@
         </div>
       </section>
 
-      <!-- Institutional Products Section -->
+      <!-- Institutional Products Section with User-Provided Images -->
       <section style="padding: 60px 0; background: #ffffff;">
         <div class="container">
           <div style="text-align: center; max-width: 700px; margin: 0 auto 48px;">
@@ -245,9 +245,11 @@
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Personal Loan Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
-                <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">UNCOLLATERALIZED</span>
+                <img src="insurance_hero_3.png" alt="Personal Loan" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px; border:1px solid var(--color-border);">
+                <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:8px;">UNCOLLATERALIZED</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Personal Loans</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Uncollateralized credit lines up to ₹40 Lakhs for immediate personal requirements, medical, or travel needs.</p>
                 <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:20px; display:flex; flex-direction:column; gap:6px;">
@@ -258,9 +260,11 @@
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Personal Loan</button>
             </div>
 
-            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Business Loan Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
-                <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">SME & ENTERPRISE</span>
+                <img src="health_insurance_3.png" alt="Business Loan" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px; border:1px solid var(--color-border);">
+                <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:8px;">SME & ENTERPRISE</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Business Loans</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Working capital, machinery purchase, and commercial expansion credit up to ₹10 Crore for growing enterprises.</p>
                 <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:20px; display:flex; flex-direction:column; gap:6px;">
@@ -271,9 +275,11 @@
               <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Business Loan</button>
             </div>
 
-            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <!-- Home Loans & LAP Card -->
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px;">
               <div>
-                <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">MORTGAGE CREDIT</span>
+                <img src="personal_loan_3.png" alt="Home Loans & LAP" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-sm); margin-bottom:16px; border:1px solid var(--color-border);">
+                <span style="background:#e0f2fe; color:var(--color-primary); padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:8px;">MORTGAGE CREDIT</span>
                 <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:10px;">Home Loans & LAP</h3>
                 <p style="color:var(--color-text-muted); font-size:0.92rem; margin-bottom:16px;">Competitive mortgage rates starting at 8.25% p.a. for home acquisition, construction, or LAP refinancing.</p>
                 <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-bottom:20px; display:flex; flex-direction:column; gap:6px;">
@@ -512,7 +518,12 @@
                     <label>🏠 Residential Address *</label>
                     <textarea id="reg-address" placeholder="Enter complete residential address" class="form-control" style="border-radius:8px; min-height:80px;"></textarea>
                   </div>
-                  <button type="button" onclick="goToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px;">Continue to Step 2 (KYC) →</button>
+                  <button type="button" onclick="goToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; border-radius:8px; margin-bottom:20px;">Continue to Step 2 (KYC) →</button>
+                  
+                  <!-- Added Corporate Team Image Below Button -->
+                  <div style="margin-top:20px;">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Corporate Team" style="width:100%; height:260px; object-fit:cover; border-radius:var(--radius-md); border:1.5px solid var(--color-border); box-shadow:var(--shadow-sm);">
+                  </div>
                 </div>
 
                 <div class="form-step-pane" id="pane-2" style="display:none;">
