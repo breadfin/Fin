@@ -70,6 +70,8 @@
       </div>
       <nav class="desktop-nav">
         <button class="nav-link" onclick="switchPage('home')">Home</button>
+        <button class="nav-link" onclick="switchPage('personal-loans')">Personal Loans</button>
+        <button class="nav-link" onclick="switchPage('business-loans')">Business Loans</button>
         <button class="nav-link" onclick="switchPage('insurance')">Insurance Suite</button>
         <button class="nav-link" onclick="switchPage('about')">About Us</button>
         <button class="nav-link" onclick="switchPage('investors')">Careers & Investors</button>
@@ -81,6 +83,8 @@
     </div>
     <div class="mobile-drawer" id="mobileDrawer">
       <button onclick="switchPage('home')">Home & Knowledge Center</button>
+      <button onclick="switchPage('personal-loans')">Personal Loans</button>
+      <button onclick="switchPage('business-loans')">Business Loans</button>
       <button onclick="switchPage('insurance')">Insurance Suite</button>
       <button onclick="switchPage('about')">About Us</button>
       <button onclick="switchPage('investors')">Careers & Investors</button>
@@ -135,6 +139,42 @@
             <p style="font-size:0.88rem; color:var(--color-text-muted); margin-bottom:16px;">Comparing interest rates, collateral safety, LTV ratios, and repayment flexibility.</p>
             <button class="btn btn-outline" style="width:100%;">Read Article ➔</button>
           </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PERSONAL LOANS PAGE -->
+    <div id="page-personal-loans" class="page-view">
+      <section class="hero-section">
+        <div class="container">
+          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">UNCOLLATERALIZED CONSUMER CREDIT</span>
+          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Personal Loans Up to ₹40 Lakhs</h1>
+          <p style="color:var(--color-text-muted);">Quick disbursal, minimal documentation, and flexible tenures ranging from 12 to 84 months.</p>
+        </div>
+      </section>
+      <section class="container" style="padding:40px 24px;">
+        <div class="card">
+          <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:12px;">Instant Eligibility Check</h3>
+          <p style="color:var(--color-text-muted); margin-bottom:20px;">Use our paperless registration flow to check your pre-approved loan limit instantly.</p>
+          <button onclick="switchPage('register')" class="btn btn-primary">Apply Now ➔</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- BUSINESS LOANS PAGE -->
+    <div id="page-business-loans" class="page-view">
+      <section class="hero-section">
+        <div class="container">
+          <span style="color:var(--color-primary); font-weight:800; font-size:0.85rem;">SME & CORPORATE CREDIT</span>
+          <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-primary); margin:12px 0;">Working Capital & Machinery Loans</h1>
+          <p style="color:var(--color-text-muted);">Scale your business operations with institutional credit facilities up to ₹10 Crores.</p>
+        </div>
+      </section>
+      <section class="container" style="padding:40px 24px;">
+        <div class="card">
+          <h3 style="font-size:1.3rem; font-weight:900; color:var(--color-primary); margin-bottom:12px;">Overdraft Facilities</h3>
+          <p style="color:var(--color-text-muted); margin-bottom:20px;">Flexible revolving lines of credit designed specifically for growing manufacturing and retail enterprises.</p>
+          <button onclick="switchPage('register')" class="btn btn-primary">Apply Now ➔</button>
         </div>
       </section>
     </div>
