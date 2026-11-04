@@ -1441,8 +1441,6 @@
       apps.forEach((app) => {
         let isApproved = app.status === 'Approval Loan';
         let cancelState = app.cancellationStatus || 'None';
-        let cancelBadgeColor = cancelState === 'Approved' ? '#dcfce7' : (cancelState === 'Requested' ? '#fef3c7' : '#f1f5f9');
-        let cancelTextColor = cancelState === 'Approved' ? '#15803d' : (cancelState === 'Requested' ? '#b45309' : '#64748b');
 
         html += `<tr style="border-bottom:1px solid #e0f2fe;">
           <td style="padding:12px 14px;">
@@ -1464,10 +1462,13 @@
             <button onclick="saveAdminWallet('${app.id}')" class="btn btn-primary" style="padding:4px 8px; font-size:0.72rem;">💾</button>
           </td>
           <td style="padding:12px 14px;">
-            <span style="background:${cancelBadgeColor}; color:${cancelTextColor}; padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; display:inline-block;">
-              ${cancelState}
-            </span>
-            ${cancelState === 'Requested' ? `<br><small style="color:#b45309;">Reason: ${app.cancellationReason || 'N/A'}</small><br><button onclick="approveCancellation('${app.id}')" class="btn btn-primary" style="padding:4px 10px; font-size:0.7rem; margin-top:6px;">✓ Approve Cancellation</button>` : ''}
+            <select id="cancel-select-${app.id}" onchange="updateAdminCancellationStatus('${app.id}')" style="padding:6px 10px; border-radius:6px; border:1px solid #cbd5e1; font-weight:700; font-family:inherit;">
+              <option value="None" ${cancelState === 'None' ? 'selected' : ''}>None</option>
+              <option value="Requested" ${cancelState === 'Requested' ? 'selected' : ''}>Requested</option>
+              <option value="Canceled" ${cancelState === 'Canceled' ? 'selected' : ''}>Canceled</option>
+              <option value="Approved" ${cancelState === 'Approved' ? 'selected' : ''}>Approved</option>
+            </select>
+            ${cancelState === 'Requested' ? `<br><small style="color:#b45309;">Reason: ${app.cancellationReason || 'N/A'}</small>` : ''}
           </td>
           <td style="padding:12px 14px; text-align:right;">
             <button onclick="viewClientDetails('${app.id}')" class="btn btn-outline" style="padding:6px 10px; font-size:0.75rem;">✏️ Edit</button>
@@ -1500,13 +1501,14 @@
       }
     }
 
-    function approveCancellation(id) {
+    function updateAdminCancellationStatus(id) {
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       let client = apps.find(a => a.id === id);
-      if (client) {
-        client.cancellationStatus = 'Approved';
+      const sel = document.getElementById('cancel-select-' + id);
+      if (client && sel) {
+        client.cancellationStatus = sel.value;
         safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Loan cancellation successfully approved by Admin!');
+        showToast('Cancellation status updated to ' + sel.value);
         renderAdminTable(apps);
       }
     }
@@ -1541,7 +1543,7 @@
       let client = apps.find(a => a.id === id);
       if (client) {
         client.fullName = document.getElementById('edit-name').value.trim();
-        client.email = document.getElementById('edit-edit-email' in window ? '' : 'edit-email').value.trim();
+        client.email = document.getElementById('edit-email').value.trim();
         client.phone = document.getElementById('edit-phone').value.trim();
         client.monthlyIncome = document.getElementById('edit-income').value.trim();
         client.aadhaar = document.getElementById('edit-aadhaar').value.trim();
