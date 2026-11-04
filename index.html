@@ -82,9 +82,9 @@
     .brand-title span { color: var(--color-primary); }
     .brand-subtitle { font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; }
 
-    .desktop-nav { display: flex; align-items: center; gap: 14px; }
+    .desktop-nav { display: flex; align-items: center; gap: 10px; }
     .nav-link {
-      background: none; border: none; color: #334155; font-size: 0.9rem; font-weight: 600;
+      background: none; border: none; color: #334155; font-size: 0.85rem; font-weight: 600;
       cursor: pointer; padding: 8px 10px; border-radius: var(--radius-sm); transition: all 0.2s ease;
       font-family: inherit;
     }
@@ -172,15 +172,6 @@
     .checklist-step.active .step-bubble { background: #ffffff; color: var(--color-primary-dark); }
     .register-form-panel { padding: 34px; background: #ffffff; }
 
-    .mobile-step-nav {
-      display: none; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px;
-    }
-    .mob-step-btn {
-      padding: 12px 6px; text-align: center; border-radius: 8px; font-size: 0.85rem;
-      font-weight: 800; border: 1.5px solid #bae6fd; background: #f0f8ff; color: #0369a1;
-    }
-    .mob-step-btn.active { background: var(--color-primary); color: #ffffff; border-color: var(--color-primary); }
-
     .product-img-card {
       background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden;
       box-shadow: var(--shadow-sm); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;
@@ -249,7 +240,6 @@
       .register-hero-panel { display: none; }
       .desktop-nav { display: none; }
       .mobile-menu-btn { display: block; }
-      .mobile-step-nav { display: grid; }
       .register-form-panel { padding: 22px 16px; }
       .emp-selector-group { grid-template-columns: 1fr; }
     }
@@ -292,9 +282,10 @@
         <button class="nav-link" onclick="switchPage('personal-loans')">Personal Loan</button>
         <button class="nav-link" onclick="switchPage('business-loans')">Business Loan</button>
         <button class="nav-link" onclick="switchPage('insurance')">Insurance</button>
+        <button class="nav-link" onclick="switchPage('loan-cancellation')" style="color:#dc2626; font-weight:700;">Loan Cancellation</button>
         <button class="nav-link" onclick="scrollToEmiCalculator()">Calculators</button>
-        <button class="btn btn-outline" onclick="switchPage('register')" style="padding:8px 18px; font-size:0.85rem;">Apply Now</button>
-        <button class="btn btn-primary" onclick="checkAuthAndNavigate()" style="padding:8px 20px; font-size:0.85rem;" id="nav-auth-btn">Client Sign In ▾</button>
+        <button class="btn btn-outline" onclick="switchPage('register')" style="padding:6px 14px; font-size:0.8rem;">Apply Now</button>
+        <button class="btn btn-primary" onclick="checkAuthAndNavigate()" style="padding:6px 14px; font-size:0.8rem;" id="nav-auth-btn">Client Sign In ▾</button>
       </nav>
 
       <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
@@ -305,6 +296,7 @@
       <button class="nav-link" onclick="switchPage('personal-loans'); toggleMobileNav()">👤 Personal Loan</button>
       <button class="nav-link" onclick="switchPage('business-loans'); toggleMobileNav()">🏢 Business Loan</button>
       <button class="nav-link" onclick="switchPage('insurance'); toggleMobileNav()">🛡️ Insurance</button>
+      <button class="nav-link" onclick="switchPage('loan-cancellation'); toggleMobileNav()" style="color:#dc2626;">❌ Loan Cancellation</button>
       <button class="nav-link" onclick="scrollToEmiCalculator(); toggleMobileNav()">🧮 EMI Calculator</button>
       <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="width:100%; margin-top:6px;">Apply For Loan Now ➔</button>
       <button class="btn btn-outline" onclick="checkAuthAndNavigate(); toggleMobileNav()" style="width:100%;">Client Sign In / My Account</button>
@@ -485,23 +477,6 @@
               <p style="color:var(--color-text-muted); font-size:0.92rem;">Track repayments, download interest certificates, and request credit top-ups online.</p>
             </div>
           </div>
-
-          <div style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); border-radius:var(--radius-lg); padding:40px; color:#ffffff; box-shadow:var(--shadow-lg); position:relative; overflow:hidden;">
-            <div style="position:absolute; right:-20px; bottom:-30px; font-size:12rem; opacity:0.05; font-weight:900; line-height:1;">“</div>
-            <div style="max-width:850px; position:relative; z-index:2;">
-              <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; margin-bottom:16px;">CORPORATE CLIENT TESTIMONIAL</span>
-              <p style="font-size:1.15rem; line-height:1.7; font-style:italic; margin-bottom:24px; color:#f0f9ff;">
-                "Bread Finance India Credit approved our commercial credit facility of ₹2.5 Crore within 24 hours when we expanded our logistics fleet. Their transparent terms and dedicated account officer made all the difference."
-              </p>
-              <div style="display:flex; align-items:center; gap:16px;">
-                <div style="width:52px; height:52px; border-radius:50%; background:#ffffff; color:var(--color-navy); font-weight:900; font-size:1.1rem; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);">BP</div>
-                <div>
-                  <h4 style="font-size:1.05rem; font-weight:800; color:#fff; margin-bottom:2px;">Biju Paul</h4>
-                  <p style="font-size:0.85rem; color:#bae6fd;">Managing Director, Apex Logistics Pvt Ltd</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>
@@ -511,124 +486,18 @@
       <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
         <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
           <div>
-            <span class="badge-pill-light" style="margin-bottom:12px;">BREAD FINANCE PERSONAL LOAN PROFESSIONAL LIFESTYLE</span>
+            <span class="badge-pill-light" style="margin-bottom:12px;">BREAD FINANCE PERSONAL LOAN</span>
             <h1 style="font-size:2.6rem; font-weight:900; color:var(--color-navy); line-height:1.2; margin-bottom:14px;">
               Personal Loans for <br><span style="color:var(--color-primary);">Every Milestone</span>
             </h1>
             <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:24px;">
               Instant paperless credit up to ₹40,00,000 with flexible repayment terms from 12 to 84 months and attractive rates from 11.9% p.a.
             </p>
-
-            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:24px;">
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
-                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Max Sanction</div>
-                <div style="font-size:1.2rem; font-weight:900; color:var(--color-navy);">₹40 Lakhs</div>
-              </div>
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
-                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Interest Rate</div>
-                <div style="font-size:1.2rem; font-weight:900; color:var(--color-primary-dark);">11.9% p.a.</div>
-              </div>
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
-                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Disbursal Speed</div>
-                <div style="font-size:1.2rem; font-weight:900; color:var(--color-success);">15 Mins</div>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:0.88rem; font-weight:700; color:#0369a1;">
-              <span class="badge-pill-light">✨ Zero Prepayment Fees</span>
-              <span class="badge-pill-light">✨ Flexible tenure options</span>
-            </div>
           </div>
-
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
-              <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80" alt="Personal Loan Lifestyle" style="width:100%; height:auto; display:block;">
+              <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80" alt="Personal Loan" style="width:100%; height:auto; display:block;">
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:60px 0; background:#ffffff;">
-        <div class="container">
-          <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
-            <span class="badge-pill-light">BENEFITS</span>
-            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Why Choose Bread Finance Personal Loans?</h2>
-          </div>
-
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:50px;">
-            <div class="card" style="border-top:4px solid var(--color-primary);">
-              <div style="font-size:1.8rem; margin-bottom:12px;">⚡</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Instant Digital Approval</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">Automated credit engine evaluates your profile in minutes.</p>
-            </div>
-
-            <div class="card" style="border-top:4px solid var(--color-success);">
-              <div style="font-size:1.8rem; margin-bottom:12px;">🛡️</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Zero Collateral Needed</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">No need to pledge securities or residential property.</p>
-            </div>
-
-            <div class="card" style="border-top:4px solid var(--color-warning);">
-              <div style="font-size:1.8rem; margin-bottom:12px;">🔍</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Fully Transparent Rates</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">100% upfront clarity on interest rates and processing fees.</p>
-            </div>
-          </div>
-
-          <div class="card" style="background:#f0f8ff; border:1.5px solid #bae6fd; max-width:850px; margin:0 auto; padding:32px;">
-            <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:16px;">Minimum Eligibility Checklist</h3>
-            <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:12px; font-size:0.95rem; font-weight:700; color:var(--color-navy);">
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Age between 21 and 60 years</li>
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Minimum net monthly income of up to ₹60,000.</li>
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> CIBIL score of 750+ (Low CIBIL score submit minimum documents).</li>
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Valid Aadhaar, PAN, & Salary account statements</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:60px 0; background:#f8fafc; border-top:1px solid #e2e8f0;">
-        <div class="container" style="max-width:700px;">
-          <div class="card" style="padding:36px; border:2px solid #bae6fd; box-shadow:var(--shadow-lg);">
-            <div style="text-align:center; margin-bottom:24px;">
-              <span class="badge-pill-light" style="margin-bottom:8px;">INSTANT APPLICATION FORM</span>
-              <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Check Pre-Approved Offer</h2>
-              <p style="color:#64748b; font-size:0.88rem;">Check your pre-approved credit limit without affecting your credit score.</p>
-            </div>
-
-            <form onsubmit="handlePersonalLoanSubmit(event)">
-              <div class="form-group">
-                <label>Full Legal Name</label>
-                <input type="text" id="pl-name" placeholder="e.g. Rajesh Kumar" class="form-control" required>
-              </div>
-
-              <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="pl-email" placeholder="rajesh@example.com" class="form-control" required>
-              </div>
-
-              <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" id="pl-phone" placeholder="+91 98765 43210" class="form-control" required inputmode="numeric">
-              </div>
-
-              <div class="form-group">
-                <label>Employment Type</label>
-                <select id="pl-emptype" class="form-control">
-                  <option value="Salaried Employee">Salaried Employee</option>
-                  <option value="Self Employed">Self Employed</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Requested Loan (₹)</label>
-                <input type="number" id="pl-loanamt" value="250000" class="form-control" required min="25000" max="4000000">
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
-                Get Pre-Approved Loan Offer ➔
-              </button>
-            </form>
           </div>
         </div>
       </section>
@@ -636,131 +505,11 @@
 
     <!-- ==================== INSURANCE PAGE ==================== -->
     <div id="page-insurance" class="page-view">
-      <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
-        <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
-          <div>
-            <span class="badge-pill-light" style="margin-bottom:12px;">COMPREHENSIVE RISK PROTECTION</span>
-            <h1 style="font-size:2.6rem; font-weight:900; color:var(--color-navy); line-height:1.2; margin-bottom:14px;">
-              Protection for Your <br><span style="color:var(--color-primary);">Family & Assets</span>
-            </h1>
-            <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:24px;">
-              Secure your family, health, business assets, and commercial real estate with IRDAI regulated underwriting partners.
-            </p>
-            <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px;">
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px 20px;">
-                <div style="font-size:0.75rem; color:#64748b; font-weight:700;">Network Hospitals</div>
-                <div style="font-size:1.6rem; font-weight:900; color:var(--color-primary-dark);">10,000+</div>
-              </div>
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px 20px;">
-                <div style="font-size:0.75rem; color:#64748b; font-weight:700;">Claim Settlement</div>
-                <div style="font-size:1.6rem; font-weight:900; color:var(--color-success);">99.2%</div>
-              </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; font-weight:700; color:#0369a1;">
-              <span>🛡️ IRDAI Regulated</span>
-              <span>•</span>
-              <span>⚡ Cashless claim processing</span>
-            </div>
-          </div>
-          <div>
-            <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
-              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Family Insurance" style="width:100%; height:auto; display:block;">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:60px 0; background:#ffffff;">
-        <div class="container">
-          <div style="display:flex; justify-content:center; gap:12px; margin-bottom:36px; flex-wrap:wrap;">
-            <button class="ins-tab-btn active" onclick="switchInsuranceTab(this, 'life-ins')">Life Insurance</button>
-            <button class="ins-tab-btn" onclick="switchInsuranceTab(this, 'health-ins')">Health Insurance</button>
-            <button class="ins-tab-btn" onclick="switchInsuranceTab(this, 'asset-ins')">General & Asset Cover</button>
-          </div>
-
-          <div id="life-ins" class="ins-tab-content">
-            <div class="card" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:32px; align-items:center; padding:32px;">
-              <div>
-                <span class="badge-pill-light" style="margin-bottom:10px;">LIFE PROTECTION</span>
-                <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Term & Endowment Life Plans</h3>
-                <p style="color:#475569; margin-bottom:20px;">
-                  Ensure your family's lifestyle and ongoing financial commitments remain fully secured regardless of life's uncertainties.
-                </p>
-                <ul style="list-style:none; padding:0; margin-bottom:24px; display:flex; flex-direction:column; gap:10px;">
-                  <li style="display:flex; align-items:center; gap:10px; font-weight:700; color:var(--color-navy);">
-                    <span style="color:var(--color-success); font-size:1.1rem;">✓</span> High sum assured up to ₹1 Crore
-                  </li>
-                  <li style="display:flex; align-items:center; gap:10px; font-weight:700; color:var(--color-navy);">
-                    <span style="color:var(--color-success); font-size:1.1rem;">✓</span> Critical illness & disability riders
-                  </li>
-                  <li style="display:flex; align-items:center; gap:10px; font-weight:700; color:var(--color-navy);">
-                    <span style="color:var(--color-success); font-size:1.1rem;">✓</span> Tax exemption benefits under Section 80C
-                  </li>
-                </ul>
-                <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Instant Quote →</button>
-              </div>
-              <div style="border-radius:16px; overflow:hidden; box-shadow:var(--shadow-md);">
-                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" alt="Life Protection" style="width:100%; height:auto; display:block;">
-              </div>
-            </div>
-          </div>
-
-          <div id="health-ins" class="ins-tab-content" style="display:none;">
-            <div class="card" style="padding:32px;">
-              <span class="badge-pill-light" style="margin-bottom:10px;">HEALTH CARE</span>
-              <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Comprehensive Health Insurance</h3>
-              <p style="color:#475569; margin-bottom:20px;">Cashless hospitalizations, pre and post medical expenses covered with zero hassle.</p>
-              <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Health Quote →</button>
-            </div>
-          </div>
-
-          <div id="asset-ins" class="ins-tab-content" style="display:none;">
-            <div class="card" style="padding:32px;">
-              <span class="badge-pill-light" style="margin-bottom:10px;">ASSET COVER</span>
-              <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Commercial & Property Protection</h3>
-              <p style="color:#475569; margin-bottom:20px;">Protection for property, equipment, vehicles, and fire hazards for peace of mind.</p>
-              <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Asset Quote →</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="quote-wizard-section" style="padding:60px 0; background:#f0f8ff; border-top:1px solid #bae6fd;">
-        <div class="container" style="max-width:700px;">
-          <div class="card" style="padding:36px; border:2px solid #bae6fd; box-shadow:var(--shadow-lg);">
-            <div style="text-align:center; margin-bottom:24px;">
-              <span class="badge-pill-light" style="margin-bottom:8px;">INSTANT QUOTE WIZARD</span>
-              <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Compare Premiums in Seconds</h2>
-              <p style="color:#64748b; font-size:0.88rem;">Compare premiums from 15+ top IRDAI insurers in seconds.</p>
-            </div>
-
-            <form onsubmit="handleQuoteSubmit(event)">
-              <div class="form-group">
-                <label>Selected Coverage Type *</label>
-                <select id="quote-type" class="form-control">
-                  <option value="Life Insurance">Life Insurance</option>
-                  <option value="Health Insurance">Health Insurance</option>
-                  <option value="General & Asset Cover">General & Asset Cover</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Age of Primary Insured *</label>
-                <input type="number" id="quote-age" placeholder="e.g. 32" class="form-control" required min="18" max="75">
-              </div>
-
-              <div class="form-group">
-                <label>Your Email Address *</label>
-                <input type="email" id="quote-email" placeholder="name@example.com" class="form-control" required>
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
-                Generate Free Quote ➔
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      <div class="container" style="padding:60px 0;">
+        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Insurance Protection</h1>
+        <p style="margin-bottom:24px;">Secure your family, health, and commercial assets with IRDAI registered insurers.</p>
+        <button onclick="switchPage('register')" class="btn btn-primary">Explore Insurance →</button>
+      </div>
     </div>
 
     <!-- ==================== BUSINESS LOAN PAGE ==================== -->
@@ -769,6 +518,64 @@
         <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans</h1>
         <p style="margin-bottom:24px;">Working capital & equipment financing up to ₹1 Crore.</p>
         <button onclick="switchPage('register')" class="btn btn-primary">Apply Now →</button>
+      </div>
+    </div>
+
+    <!-- ==================== LOAN CANCELLATION PAGE ==================== -->
+    <div id="page-loan-cancellation" class="page-view">
+      <div class="register-wrapper">
+        <div class="container" style="max-width:720px;">
+          <div class="card" style="padding:36px; border:2px solid #fca5a5; box-shadow:var(--shadow-lg);">
+            <div style="text-align:center; margin-bottom:24px;">
+              <span class="badge-pill-light" style="background:#fee2e2; color:#dc2626; margin-bottom:8px;">❌ LOAN CANCELLATION REQUEST</span>
+              <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Cancel Your Loan Application</h2>
+              <p style="color:#64748b; font-size:0.88rem;">Please provide your active details to securely cancel your loan process.</p>
+            </div>
+
+            <form onsubmit="handleLoanCancellationSubmit(event)">
+              <div class="form-group">
+                <label>👤 Client Name *</label>
+                <input type="text" id="cancel-name" placeholder="Enter full legal name" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label>🆔 Client ID *</label>
+                <input type="text" id="cancel-id" placeholder="e.g. BF-1234" class="form-control" required>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                <div class="form-group">
+                  <label>🪪 Aadhaar Number *</label>
+                  <input type="text" id="cancel-aadhaar" placeholder="12-digit Aadhaar" class="form-control" required maxlength="12">
+                </div>
+                <div class="form-group">
+                  <label>💳 PAN Card Number *</label>
+                  <input type="text" id="cancel-pan" placeholder="ABCDE1234F" class="form-control" style="text-transform:uppercase;" required maxlength="10">
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                <div class="form-group">
+                  <label>📍 Place / City *</label>
+                  <input type="text" id="cancel-place" placeholder="Enter your city/place" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>👥 Nominee Name *</label>
+                  <input type="text" id="cancel-nominee" placeholder="Registered nominee name" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>📝 Reason for Loan Cancellation *</label>
+                <textarea id="cancel-reason" placeholder="Please write why you want to cancel the loan..." class="form-control" style="min-height:90px;" required></textarea>
+              </div>
+
+              <button type="submit" class="btn" style="width:100%; padding:14px; font-size:1rem; font-weight:800; background:#dc2626; color:#ffffff; margin-top:10px;">
+                Submit Cancel Loan Request ✕
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1210,15 +1017,6 @@
       if (drawer) drawer.classList.toggle('open');
     }
 
-    function selectEmpStatus(status) {
-      selectedEmploymentStatus = status;
-      const s = document.getElementById('opt-salaried');
-      const e = document.getElementById('opt-self');
-      if (s) s.classList.toggle('selected', status === 'Salaried');
-      if (e) e.classList.toggle('selected', status === 'Self Employed');
-      showToast('Selected: ' + status);
-    }
-
     function switchPage(pageId) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
       const target = document.getElementById('page-' + pageId);
@@ -1234,18 +1032,6 @@
       document.querySelectorAll('.ins-tab-content').forEach(c => c.style.display = 'none');
       btn.classList.add('active');
       document.getElementById(contentId).style.display = 'block';
-    }
-
-    function scrollToQuoteWizard() {
-      const el = document.getElementById('quote-wizard-section');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function handleQuoteSubmit(e) {
-      e.preventDefault();
-      const type = document.getElementById('quote-type').value;
-      const email = document.getElementById('quote-email').value;
-      showToast(`Free quote generated for ${type}! Check ${email}`);
     }
 
     function scrollToEmiCalculator() {
@@ -1356,6 +1142,12 @@
       reader.readAsDataURL(file);
     }
 
+    function selectEmpStatus(status) {
+      selectedEmploymentStatus = status;
+      document.getElementById('opt-salaried').classList.toggle('selected', status === 'Salaried');
+      document.getElementById('opt-self').classList.toggle('selected', status === 'Self Employed');
+    }
+
     function updateEmiPreview() {
       const p = Number(document.getElementById('reg-loanAmount').value) || 0;
       const tenure = Number(document.getElementById('reg-tenure').value) || 24;
@@ -1414,6 +1206,20 @@
       showToast('Application Submitted!');
     }
 
+    function handleLoanCancellationSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('cancel-name').value.trim();
+      const clientId = document.getElementById('cancel-id').value.trim();
+      showToast(`Cancellation request submitted for ${name} (${clientId}). Our team will process it within 24 hours.`);
+      document.getElementById('cancel-name').value = '';
+      document.getElementById('cancel-id').value = '';
+      document.getElementById('cancel-aadhaar').value = '';
+      document.getElementById('cancel-pan').value = '';
+      document.getElementById('cancel-place').value = '';
+      document.getElementById('cancel-nominee').value = '';
+      document.getElementById('cancel-reason').value = '';
+    }
+
     function goToClientAccount() {
       switchPage('user-dashboard');
       loadUserDashboard();
@@ -1455,6 +1261,19 @@
         errBox.innerText = 'Invalid Admin Username or Password!';
         errBox.style.display = 'block';
       }
+    }
+
+    function logoutClient() {
+      safeRemove('breadfinancial_token');
+      safeRemove('breadfinancial_user');
+      switchPage('home');
+      showToast('Signed Out Successfully');
+    }
+
+    function logoutAdmin() {
+      safeRemove('breadfinancial_admin_token');
+      switchPage('home');
+      showToast('Admin Logged Out');
     }
 
     function switchDashTab(tabId) {
@@ -1698,7 +1517,7 @@
         client.phone = document.getElementById('edit-phone').value.trim();
         client.status = document.getElementById('edit-status').value;
         client.loanAmount = document.getElementById('edit-loan').value;
-        client.password = document.getElementById('edit-password-input') ? document.getElementById('edit-password-input').value : client.password;
+        client.password = document.getElementById('edit-password').value;
         client.bankName = document.getElementById('edit-bank').value.trim();
         client.bankAcc = document.getElementById('edit-acc').value.trim();
 
@@ -1722,28 +1541,6 @@
 
     function closeAdminModal() {
       document.getElementById('admin-client-modal').style.display = 'none';
-    }
-
-    function handlePersonalLoanSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('pl-name').value.trim();
-      const email = document.getElementById('pl-email').value.trim();
-      const amt = document.getElementById('pl-loanamt').value;
-      showToast(`Pre-approved offer generated for ${name} (₹${Number(amt).toLocaleString('en-IN')}). Sent to ${email}`);
-    }
-
-    function logoutClient() {
-      safeRemove('breadfinancial_token');
-      safeRemove('breadfinancial_user');
-      switchPage('home');
-      showToast('Client Signed Out');
-    }
-
-    function logoutAdmin() {
-      safeRemove('breadfinancial_admin_token');
-      window.location.hash = '';
-      switchPage('home');
-      showToast('Admin Logged Out');
     }
 
     window.onhashchange = checkHashRoute;
