@@ -172,23 +172,13 @@
     .checklist-step.active .step-bubble { background: #ffffff; color: var(--color-primary-dark); }
     .register-form-panel { padding: 34px; background: #ffffff; }
 
-    .mobile-step-nav {
-      display: none; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px;
-    }
-    .mob-step-btn {
-      padding: 12px 6px; text-align: center; border-radius: 8px; font-size: 0.85rem;
-      font-weight: 800; border: 1.5px solid #bae6fd; background: #f0f8ff; color: #0369a1;
-    }
-    .mob-step-btn.active { background: var(--color-primary); color: #ffffff; border-color: var(--color-primary); }
-
     .product-img-card {
       background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden;
       box-shadow: var(--shadow-sm); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;
     }
     .product-img-card:hover { transform: translateY(-4px); border-color: var(--color-primary); box-shadow: var(--shadow-md); }
-    .product-img-container { width: 100%; height: 180px; overflow: hidden; background: #e0f2fe; }
+    .product-img-container { width: 100%; height: 200px; overflow: hidden; background: #e0f2fe; }
     .product-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-    .product-img-card:hover .product-img-container img { transform: scale(1.05); }
     .product-card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
 
     .dash-hero-card {
@@ -249,7 +239,6 @@
       .register-hero-panel { display: none; }
       .desktop-nav { display: none; }
       .mobile-menu-btn { display: block; }
-      .mobile-step-nav { display: grid; }
       .register-form-panel { padding: 22px 16px; }
       .emp-selector-group { grid-template-columns: 1fr; }
     }
@@ -312,7 +301,7 @@
   </header>
 
   <main style="flex:1;">
-    <!-- ==================== HOME PAGE ==================== -->
+    <!-- HOME PAGE -->
     <div id="page-home" class="page-view active">
       <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
         <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
@@ -361,14 +350,14 @@
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
             <div class="product-img-card">
               <div class="product-img-container">
-                <img src="personal_loan_2.png" alt="Personal Loan">
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" alt="Personal Loan">
               </div>
               <div class="product-card-body">
                 <div>
-                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Personal Loans[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)</h3>
-                  <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Unsecured funds up to ₹40 Lakhs for medical, wedding, or emergency needs[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span).</p>
+                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Personal Loans</h3>
+                  <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Unsecured funds up to ₹40 Lakhs for medical, wedding, or emergency needs.</p>
                 </div>
-                <button onclick="switchPage('personal-loans')" class="btn btn-outline" style="width:100%;">View Personal Loan[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)</button>
+                <button onclick="switchPage('personal-loans')" class="btn btn-outline" style="width:100%;">View Personal Loans</button>
               </div>
             </div>
 
@@ -378,16 +367,16 @@
               </div>
               <div class="product-card-body">
                 <div>
-                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Business Loans[span_7](start_span)[span_7](end_span)</h3>
+                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Business Loans</h3>
                   <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Collateral-free business capital up to ₹1 Crore for inventory and expansion.</p>
                 </div>
-                <button onclick="switchPage('business-loans')" class="btn btn-outline" style="width:100%;">Apply Business Loan[span_8](start_span)[span_8](end_span)</button>
+                <button onclick="switchPage('business-loans')" class="btn btn-outline" style="width:100%;">Apply Business Loan</button>
               </div>
             </div>
 
             <div class="product-img-card">
               <div class="product-img-container">
-                <img src="life_insurance.png" alt="Insurance">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Insurance">
               </div>
               <div class="product-card-body">
                 <div>
@@ -451,190 +440,32 @@
           </div>
         </div>
       </section>
-
-      <!-- INSTITUTIONAL GOVERNANCE SECTION -->
-      <section style="padding:70px 0; background:#ffffff;">
-        <div class="container">
-          <div style="text-align:center; max-width:700px; margin:0 auto 50px;">
-            <span class="badge-pill-light" style="margin-bottom:12px;">INSTITUTIONAL GOVERNANCE</span>
-            <h2 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:14px;">Built on Trust, Precision & Digital Speed</h2>
-            <p style="color:var(--color-text-body); font-size:1.05rem;">
-              Unlike traditional banks with endless paper delays, Bread Finance India Credit integrates automated risk engine technology to provide instant decisions while maintaining strict RBI compliance.
-            </p>
-          </div>
-
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:60px;">
-            <div class="card" style="position:relative; overflow:hidden; border-top:4px solid var(--color-primary);">
-              <div style="position:absolute; top:20px; right:20px; font-size:2.5rem; font-weight:900; color:#e0f2fe; line-height:1;">1</div>
-              <div style="width:48px; height:48px; border-radius:12px; background:var(--color-primary-light); color:var(--color-primary-dark); display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:800; margin-bottom:18px;">🛡️</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Transparent Interest Terms</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">No hidden charges or surprise foreclosure penalties. Full disclosure upfront.</p>
-            </div>
-
-            <div class="card" style="position:relative; overflow:hidden; border-top:4px solid var(--color-success);">
-              <div style="position:absolute; top:20px; right:20px; font-size:2.5rem; font-weight:900; color:#dcfce7; line-height:1;">2</div>
-              <div style="width:48px; height:48px; border-radius:12px; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:800; margin-bottom:18px;">⚡</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Instant Digital Sanction</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">Paperless e-KYC and digital agreement signing completed in under 15 minutes.</p>
-            </div>
-
-            <div class="card" style="position:relative; overflow:hidden; border-top:4px solid var(--color-warning);">
-              <div style="position:absolute; top:20px; right:20px; font-size:2.5rem; font-weight:900; color:#fef3c7; line-height:1;">3</div>
-              <div style="width:48px; height:48px; border-radius:12px; background:#fef3c7; color:#b45309; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:800; margin-bottom:18px;">💻</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">24x7 Digital Client Portal</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">Track repayments, download interest certificates, and request credit top-ups online.</p>
-            </div>
-          </div>
-
-          <div style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); border-radius:var(--radius-lg); padding:40px; color:#ffffff; box-shadow:var(--shadow-lg); position:relative; overflow:hidden;">
-            <div style="position:absolute; right:-20px; bottom:-30px; font-size:12rem; opacity:0.05; font-weight:900; line-height:1;">“</div>
-            <div style="max-width:850px; position:relative; z-index:2;">
-              <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; margin-bottom:16px;">CORPORATE CLIENT TESTIMONIAL</span>
-              <p style="font-size:1.15rem; line-height:1.7; font-style:italic; margin-bottom:24px; color:#f0f9ff;">
-                "Bread Finance India Credit approved our commercial credit facility of ₹2.5 Crore within 24 hours when we expanded our logistics fleet. Their transparent terms and dedicated account officer made all the difference."
-              </p>
-              <div style="display:flex; align-items:center; gap:16px;">
-                <div style="width:52px; height:52px; border-radius:50%; background:#ffffff; color:var(--color-navy); font-weight:900; font-size:1.1rem; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);">BP</div>
-                <div>
-                  <h4 style="font-size:1.05rem; font-weight:800; color:#fff; margin-bottom:2px;">Biju Paul</h4>
-                  <p style="font-size:0.85rem; color:#bae6fd;">Managing Director, Apex Logistics Pvt Ltd</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
 
-    <!-- ==================== DEDICATED PERSONAL LOAN PAGE ==================== -->
+    <!-- PERSONAL LOAN PAGE -->
     <div id="page-personal-loans" class="page-view">
       <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
         <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
           <div>
-            <span class="badge-pill-light" style="margin-bottom:12px;">BREAD FINANCE PERSONAL LOAN PROFESSIONAL LIFESTYLE</span>
+            <span class="badge-pill-light" style="margin-bottom:12px;">BREAD FINANCE PERSONAL LOAN</span>
             <h1 style="font-size:2.6rem; font-weight:900; color:var(--color-navy); line-height:1.2; margin-bottom:14px;">
               Personal Loans for <br><span style="color:var(--color-primary);">Every Milestone</span>
             </h1>
             <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:24px;">
               Instant paperless credit up to ₹40,00,000 with flexible repayment terms from 12 to 84 months and attractive rates from 11.9% p.a.
             </p>
-
-            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:24px;">
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
-                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Max Sanction</div>
-                <div style="font-size:1.2rem; font-weight:900; color:var(--color-navy);">₹40 Lakhs</div>
-              </div>
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
-                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Interest Rate</div>
-                <div style="font-size:1.2rem; font-weight:900; color:var(--color-primary-dark);">11.9% p.a.</div>
-              </div>
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
-                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Disbursal Speed</div>
-                <div style="font-size:1.2rem; font-weight:900; color:var(--color-success);">15 Mins</div>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:0.88rem; font-weight:700; color:#0369a1;">
-              <span class="badge-pill-light">✨ Zero Prepayment Fees</span>
-              <span class="badge-pill-light">✨ Flexible tenure options</span>
-            </div>
+            <button onclick="switchPage('register')" class="btn btn-primary" style="padding:14px 32px;">Apply Personal Loan Now →</button>
           </div>
-
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
-              <img src="personal_loan_2.png" alt="Personal Loan Lifestyle" style="width:100%; height:auto; display:block;">
+              <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Personal Loan Lifestyle" style="width:100%; height:auto; display:block;">
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:60px 0; background:#ffffff;">
-        <div class="container">
-          <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
-            <span class="badge-pill-light">BENEFITS</span>
-            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Why Choose Bread Finance Personal Loans?</h2>
-          </div>
-
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:50px;">
-            <div class="card" style="border-top:4px solid var(--color-primary);">
-              <div style="font-size:1.8rem; margin-bottom:12px;">⚡</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Instant Digital Approval</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">Automated credit engine evaluates your profile in minutes.</p>
-            </div>
-
-            <div class="card" style="border-top:4px solid var(--color-success);">
-              <div style="font-size:1.8rem; margin-bottom:12px;">🛡️</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Zero Collateral Needed</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">No need to pledge securities or residential property.</p>
-            </div>
-
-            <div class="card" style="border-top:4px solid var(--color-warning);">
-              <div style="font-size:1.8rem; margin-bottom:12px;">🔍</div>
-              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Fully Transparent Rates</h3>
-              <p style="color:var(--color-text-muted); font-size:0.92rem;">100% upfront clarity on interest rates and processing fees.</p>
-            </div>
-          </div>
-
-          <div class="card" style="background:#f0f8ff; border:1.5px solid #bae6fd; max-width:850px; margin:0 auto; padding:32px;">
-            <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:16px;">Minimum Eligibility Checklist</h3>
-            <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:12px; font-size:0.95rem; font-weight:700; color:var(--color-navy);">
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Age between 21 and 60 years</li>
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Minimum net monthly income of up to ₹60,000.</li>
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> CIBIL score of 750+ (Low CIBIL score submit minimum documents).</li>
-              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Valid Aadhaar, PAN, & Salary account statements</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:60px 0; background:#f8fafc; border-top:1px solid #e2e8f0;">
-        <div class="container" style="max-width:700px;">
-          <div class="card" style="padding:36px; border:2px solid #bae6fd; box-shadow:var(--shadow-lg);">
-            <div style="text-align:center; margin-bottom:24px;">
-              <span class="badge-pill-light" style="margin-bottom:8px;">INSTANT APPLICATION FORM</span>
-              <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Check Pre-Approved Offer</h2>
-              <p style="color:#64748b; font-size:0.88rem;">Check your pre-approved credit limit without affecting your credit score.</p>
-            </div>
-
-            <form onsubmit="handlePersonalLoanSubmit(event)">
-              <div class="form-group">
-                <label>Full Legal Name</label>
-                <input type="text" id="pl-name" placeholder="e.g. Rajesh Kumar" class="form-control" required>
-              </div>
-
-              <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="pl-email" placeholder="rajesh@example.com" class="form-control" required>
-              </div>
-
-              <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" id="pl-phone" placeholder="+91 98765 43210" class="form-control" required inputmode="numeric">
-              </div>
-
-              <div class="form-group">
-                <label>Employment Type</label>
-                <select id="pl-emptype" class="form-control">
-                  <option value="Salaried Employee">Salaried Employee</option>
-                  <option value="Self Employed">Self Employed</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Requested Loan (₹)</label>
-                <input type="number" id="pl-loanamt" value="250000" class="form-control" required min="25000" max="4000000">
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
-                Get Pre-Approved Loan Offer with this image ➔
-              </button>
-            </form>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- ==================== INSURANCE PAGE ==================== -->
+    <!-- INSURANCE PAGE -->
     <div id="page-insurance" class="page-view">
       <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
         <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
@@ -646,133 +477,26 @@
             <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:24px;">
               Secure your family, health, business assets, and commercial real estate with IRDAI regulated underwriting partners.
             </p>
-            <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px;">
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px 20px;">
-                <div style="font-size:0.75rem; color:#64748b; font-weight:700;">Network Hospitals</div>
-                <div style="font-size:1.6rem; font-weight:900; color:var(--color-primary-dark);">10,000+</div>
-              </div>
-              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px 20px;">
-                <div style="font-size:0.75rem; color:#64748b; font-weight:700;">Claim Settlement</div>
-                <div style="font-size:1.6rem; font-weight:900; color:var(--color-success);">99.2%</div>
-              </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; font-weight:700; color:#0369a1;">
-              <span>🛡️ IRDAI Regulated</span>
-              <span>•</span>
-              <span>⚡ Cashless claim processing</span>
-            </div>
           </div>
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
-              <img src="life_insurance.png" alt="Family Insurance" style="width:100%; height:auto; display:block;">
+              <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80" alt="Family Insurance" style="width:100%; height:auto; display:block;">
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:60px 0; background:#ffffff;">
-        <div class="container">
-          <div style="display:flex; justify-content:center; gap:12px; margin-bottom:36px; flex-wrap:wrap;">
-            <button class="ins-tab-btn active" onclick="switchInsuranceTab(this, 'life-ins')">Life Insurance</button>
-            <button class="ins-tab-btn" onclick="switchInsuranceTab(this, 'health-ins')">Health Insurance</button>
-            <button class="ins-tab-btn" onclick="switchInsuranceTab(this, 'asset-ins')">General & Asset Cover</button>
-          </div>
-
-          <div id="life-ins" class="ins-tab-content">
-            <div class="card" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:32px; align-items:center; padding:32px;">
-              <div>
-                <span class="badge-pill-light" style="margin-bottom:10px;">LIFE PROTECTION</span>
-                <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Term & Endowment Life Plans</h3>
-                <p style="color:#475569; margin-bottom:20px;">
-                  Ensure your family's lifestyle and ongoing financial commitments remain fully secured regardless of life's uncertainties.
-                </p>
-                <ul style="list-style:none; padding:0; margin-bottom:24px; display:flex; flex-direction:column; gap:10px;">
-                  <li style="display:flex; align-items:center; gap:10px; font-weight:700; color:var(--color-navy);">
-                    <span style="color:var(--color-success); font-size:1.1rem;">✓</span> High sum assured up to ₹1 Crore
-                  </li>
-                  <li style="display:flex; align-items:center; gap:10px; font-weight:700; color:var(--color-navy);">
-                    <span style="color:var(--color-success); font-size:1.1rem;">✓</span> Critical illness & disability riders
-                  </li>
-                  <li style="display:flex; align-items:center; gap:10px; font-weight:700; color:var(--color-navy);">
-                    <span style="color:var(--color-success); font-size:1.1rem;">✓</span> Tax exemption benefits under Section 80C
-                  </li>
-                </ul>
-                <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Instant Quote →</button>
-              </div>
-              <div style="border-radius:16px; overflow:hidden; box-shadow:var(--shadow-md);">
-                <img src="personal_loan.png" alt="Life Protection" style="width:100%; height:auto; display:block;">
-              </div>
-            </div>
-          </div>
-
-          <div id="health-ins" class="ins-tab-content" style="display:none;">
-            <div class="card" style="padding:32px;">
-              <span class="badge-pill-light" style="margin-bottom:10px;">HEALTH CARE</span>
-              <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Comprehensive Health Insurance</h3>
-              <p style="color:#475569; margin-bottom:20px;">Cashless hospitalizations, pre and post medical expenses covered with zero hassle.</p>
-              <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Health Quote →</button>
-            </div>
-          </div>
-
-          <div id="asset-ins" class="ins-tab-content" style="display:none;">
-            <div class="card" style="padding:32px;">
-              <span class="badge-pill-light" style="margin-bottom:10px;">ASSET COVER</span>
-              <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Commercial & Property Protection</h3>
-              <p style="color:#475569; margin-bottom:20px;">Protection for property, equipment, vehicles, and fire hazards for peace of mind.</p>
-              <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Asset Quote →</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="quote-wizard-section" style="padding:60px 0; background:#f0f8ff; border-top:1px solid #bae6fd;">
-        <div class="container" style="max-width:700px;">
-          <div class="card" style="padding:36px; border:2px solid #bae6fd; box-shadow:var(--shadow-lg);">
-            <div style="text-align:center; margin-bottom:24px;">
-              <span class="badge-pill-light" style="margin-bottom:8px;">INSTANT QUOTE WIZARD</span>
-              <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Compare Premiums in Seconds</h2>
-              <p style="color:#64748b; font-size:0.88rem;">Compare premiums from 15+ top IRDAI insurers in seconds.</p>
-            </div>
-
-            <form onsubmit="handleQuoteSubmit(event)">
-              <div class="form-group">
-                <label>Selected Coverage Type *</label>
-                <select id="quote-type" class="form-control">
-                  <option value="Life Insurance">Life Insurance</option>
-                  <option value="Health Insurance">Health Insurance</option>
-                  <option value="General & Asset Cover">General & Asset Cover</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Age of Primary Insured *</label>
-                <input type="number" id="quote-age" placeholder="e.g. 32" class="form-control" required min="18" max="75">
-              </div>
-
-              <div class="form-group">
-                <label>Your Email Address *</label>
-                <input type="email" id="quote-email" placeholder="name@example.com" class="form-control" required>
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
-                Generate Free Quote ➔
-              </button>
-            </form>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- ==================== BUSINESS LOAN PAGE ==================== -->
+    <!-- BUSINESS LOAN PAGE -->
     <div id="page-business-loans" class="page-view">
       <div class="container" style="padding:60px 0;">
-        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans[span_9](start_span)[span_9](end_span)</h1>
+        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans</h1>
         <p style="margin-bottom:24px;">Working capital & equipment financing up to ₹1 Crore.</p>
         <button onclick="switchPage('register')" class="btn btn-primary">Apply Now →</button>
       </div>
     </div>
 
-    <!-- ==================== APPLICATION FLOW ==================== -->
+    <!-- APPLICATION / REGISTRATION FLOW -->
     <div id="page-register" class="page-view">
       <div class="register-wrapper">
         <div class="container">
@@ -842,19 +566,19 @@
                 <div class="form-step-pane" id="pane-1">
                   <div class="form-group">
                     <label>👤 Full Legal Name *</label>
-                    <input type="text" id="reg-name" placeholder="Full name as in Aadhaar card" class="form-control" value="">
+                    <input type="text" id="reg-name" placeholder="Full name as in Aadhaar card" class="form-control">
                   </div>
                   <div class="form-group">
                     <label>✉️ Email Address (Account Username) *</label>
-                    <input type="email" id="reg-email" placeholder="name@example.com" class="form-control" value="">
+                    <input type="email" id="reg-email" placeholder="name@example.com" class="form-control">
                   </div>
                   <div class="form-group">
                     <label>📱 Mobile Phone Number (Aadhaar Linked) *</label>
-                    <input type="tel" id="reg-phone" placeholder="9876543210" class="form-control" inputmode="numeric" value="">
+                    <input type="tel" id="reg-phone" placeholder="9876543210" class="form-control" inputmode="numeric">
                   </div>
                   <div class="form-group">
                     <label>📅 Date of Birth *</label>
-                    <input type="date" id="reg-dob" class="form-control" value="">
+                    <input type="date" id="reg-dob" class="form-control">
                   </div>
                   <div class="form-group">
                     <label>🏠 Residential Address *</label>
@@ -867,37 +591,16 @@
 
                 <div class="form-step-pane" id="pane-2" style="display:none;">
                   <h3 style="font-size:1rem; font-weight:800; color:var(--color-navy); margin-bottom:12px;">🪪 Document & Photo Uploads</h3>
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-                    <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Front *</div>
-                      <input type="file" id="file-aadharFront" accept="image/*" onchange="handleImageUpload(event, 'aadharFront')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-aadharFront" style="margin-top:4px; font-size:0.72rem; color:#64748b; font-weight:700;">Required</div>
-                    </div>
-                    <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Back *</div>
-                      <input type="file" id="file-aadharBack" accept="image/*" onchange="handleImageUpload(event, 'aadharBack')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-aadharBack" style="margin-top:4px; font-size:0.72rem; color:#64748b; font-weight:700;">Required</div>
-                    </div>
-                  </div>
-
-                  <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; margin-bottom:16px; text-align:center;">
-                    <div style="font-size:0.78rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">👤 Applicant Profile Photo *</div>
-                    <input type="file" id="file-photo" accept="image/*" onchange="handleImageUpload(event, 'photo')" style="font-size:0.75rem; width:100%;">
-                    <div id="preview-photo" style="margin-top:4px; font-size:0.75rem; color:#64748b; font-weight:700;">Required</div>
-                  </div>
-
                   <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
                     <label style="font-size:0.85rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:6px;">💼 Employment Status</label>
                     <div class="emp-selector-group">
                       <div class="emp-option-card selected" id="opt-salaried" onclick="selectEmpStatus('Salaried')">
                         <span style="font-size:1.5rem;">🏢</span>
                         <strong style="font-size:0.88rem; color:var(--color-navy);">Salaried</strong>
-                        <span style="font-size:0.72rem; color:#64748b;">Monthly salary job</span>
                       </div>
                       <div class="emp-option-card" id="opt-self" onclick="selectEmpStatus('Self Employed')">
                         <span style="font-size:1.5rem;">💼</span>
                         <strong style="font-size:0.88rem; color:var(--color-navy);">Self Employed</strong>
-                        <span style="font-size:0.72rem; color:#64748b;">Business / Freelance</span>
                       </div>
                     </div>
                   </div>
@@ -906,11 +609,11 @@
                     <h4 style="font-size:0.85rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">👥 Nominee Particulars</h4>
                     <div class="form-group" style="margin-bottom:8px;">
                       <label style="font-size:0.75rem;">Nominee Legal Name *</label>
-                      <input type="text" id="reg-nomineeName" placeholder="Enter nominee name" class="form-control" value="" style="padding:8px 12px;">
+                      <input type="text" id="reg-nomineeName" placeholder="Enter nominee name" class="form-control" style="padding:8px 12px;">
                     </div>
                     <div class="form-group" style="margin-bottom:8px;">
                       <label style="font-size:0.75rem;">Nominee Mobile *</label>
-                      <input type="tel" id="reg-nomineePhone" placeholder="Nominee mobile" class="form-control" value="" style="padding:8px 12px;" inputmode="numeric">
+                      <input type="tel" id="reg-nomineePhone" placeholder="Nominee mobile" class="form-control" style="padding:8px 12px;" inputmode="numeric">
                     </div>
                   </div>
 
@@ -940,31 +643,29 @@
                     <div id="emi-preview-display" style="font-size:1.5rem; font-weight:900; color:var(--color-primary-dark);">₹11,667 / mo</div>
                   </div>
 
-                  <h4 style="font-size:0.9rem; font-weight:800; color:var(--color-navy); margin-bottom:10px;">🏦 Disbursement Bank Details</h4>
-                  
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Bank Name *</label>
-                    <input type="text" id="reg-bankName" placeholder="e.g. State Bank of India, HDFC" class="form-control" value="" style="padding:10px;">
+                    <input type="text" id="reg-bankName" placeholder="e.g. State Bank of India, HDFC" class="form-control" style="padding:10px;">
                   </div>
 
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Account Number *</label>
-                    <input type="text" id="reg-bankAcc" inputmode="numeric" pattern="[0-9]*" placeholder="Enter bank account number" class="form-control" value="" style="padding:10px;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <input type="text" id="reg-bankAcc" inputmode="numeric" placeholder="Enter bank account number" class="form-control" style="padding:10px;">
                   </div>
 
                   <div class="form-group" style="margin-bottom:12px;">
                     <label style="font-size:0.78rem;">IFSC Code *</label>
-                    <input type="text" id="reg-bankIfsc" placeholder="SBIN0001234" class="form-control" value="" style="padding:10px; text-transform:uppercase;">
+                    <input type="text" id="reg-bankIfsc" placeholder="SBIN0001234" class="form-control" style="padding:10px; text-transform:uppercase;">
                   </div>
 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; margin-bottom:16px;">
                     <div class="form-group" style="margin-bottom:8px;">
                       <label style="font-size:0.78rem;">🔐 Create Portal Password *</label>
-                      <input type="password" id="reg-password" placeholder="At least 6 characters" class="form-control" value="" style="padding:10px;">
+                      <input type="password" id="reg-password" placeholder="At least 6 characters" class="form-control" style="padding:10px;">
                     </div>
                     <div class="form-group" style="margin-bottom:0;">
                       <label style="font-size:0.78rem;">🔁 Confirm Portal Password *</label>
-                      <input type="password" id="reg-confirm-password" placeholder="Re-enter password" class="form-control" value="" style="padding:10px;">
+                      <input type="password" id="reg-confirm-password" placeholder="Re-enter password" class="form-control" style="padding:10px;">
                     </div>
                   </div>
 
@@ -980,7 +681,7 @@
       </div>
     </div>
 
-    <!-- ==================== CLIENT DASHBOARD ==================== -->
+    <!-- CLIENT DASHBOARD -->
     <div id="page-user-dashboard" class="page-view">
       <div class="container" style="padding:30px 0 60px;">
         <div class="dash-hero-card">
@@ -1004,7 +705,6 @@
           <button class="dash-menu-btn active" onclick="switchDashTab('emi-tab')">📊 EMI Details</button>
           <button class="dash-menu-btn" onclick="switchDashTab('wallet-tab')">💳 Wallet & Withdrawal</button>
           <button class="dash-menu-btn" onclick="switchDashTab('profile-tab')">👤 Personal Information</button>
-          <button class="dash-menu-btn" onclick="logoutClient()" style="color:#dc2626; border-color:#fca5a5;">🚪 Logout</button>
         </div>
 
         <div id="dash-tab-emi-tab" class="dash-tab-pane active">
@@ -1013,34 +713,11 @@
               <div class="stat-badge-icon">💰</div>
               <div style="font-size:0.78rem; color:#64748b; font-weight:800;">SANCTIONED LOAN LIMIT</div>
               <div id="dash-loan-limit" style="font-size:2rem; font-weight:900; color:var(--color-navy); margin:4px 0;">₹0</div>
-              <div style="font-size:0.78rem; color:#16a34a; font-weight:700;">✓ Pre-approved institutional credit</div>
             </div>
-
             <div class="stat-card-gradient">
               <div class="stat-badge-icon">📅</div>
               <div style="font-size:0.78rem; color:#64748b; font-weight:800;">MONTHLY SCHEDULED EMI</div>
               <div id="dash-emi-val" style="font-size:2rem; font-weight:900; color:var(--color-primary-dark); margin:4px 0;">₹0</div>
-              <div style="font-size:0.78rem; color:#64748b;">Due Date: 5th of every month</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
-              📑 Loan Repayment Schedule & Terms
-            </h3>
-            <div style="display:flex; flex-direction:column; gap:10px; font-size:0.88rem;">
-              <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f1f5f9; padding-bottom:6px;">
-                <span style="color:#64748b;">Interest Rate:</span>
-                <strong>12% Flat Annual (1% p.m.)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f1f5f9; padding-bottom:6px;">
-                <span style="color:#64748b;">Repayment Tenure:</span>
-                <strong id="dash-tenure-text">24 Months</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f1f5f9; padding-bottom:6px;">
-                <span style="color:#64748b;">Next Due Date:</span>
-                <strong>5th Next Month</strong>
-              </div>
             </div>
           </div>
         </div>
@@ -1054,34 +731,20 @@
               Withdraw to Bank Account ➔
             </button>
           </div>
-
-          <div class="card" id="withdrawal-widget-card" style="display:none; background:#fff8e1; border:2px solid #ffe082; max-width:600px;">
-            <h3 style="color:#e65100; font-size:1.2rem; font-weight:900; margin-bottom:6px;">⚠️ Direct Clearing Disbursal</h3>
-            <p id="withdrawal-status-text" style="margin-bottom:10px; font-size:0.92rem;"></p>
-            <div id="countdown-timer-box" style="font-size:2rem; font-weight:900; color:#e65100; font-family:monospace; margin-bottom:8px;">05:00</div>
-            <div id="bank-mismatch-error" style="display:none; background:#FEE2E2; border:1px solid #EF4444; color:#B91C1C; padding:14px; border-radius:8px; font-weight:800; font-size:0.92rem;">
-              Incorrect account details wallet blocked please contact customer support.
-            </div>
-          </div>
         </div>
 
         <div id="dash-tab-profile-tab" class="dash-tab-pane">
           <div class="card" style="max-width:800px;">
             <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
-              👤 Personal & KYC Information (Read-Only)
+              👤 Personal & KYC Information
             </h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:0.9rem; margin-bottom:20px;" id="dash-personal-info-grid"></div>
-            <div style="border-top:1px dashed #cbd5e1; padding-top:14px;">
-              <div style="font-size:0.85rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">🏦 Linked Bank Particulars</div>
-              <div id="dash-bank-info-box" style="background:#f0f8ff; border:1px solid #bae6fd; border-radius:8px; padding:12px; font-size:0.88rem;"></div>
-            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:0.9rem;" id="dash-personal-info-grid"></div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- CLIENT LOGIN PAGE -->
+    <!-- CLIENT LOGIN -->
     <div id="page-login" class="page-view">
       <div style="max-width:420px; margin:70px auto; padding:0 20px;">
         <div class="card" style="border:1.5px solid var(--color-border); box-shadow:var(--shadow-lg);">
@@ -1103,7 +766,7 @@
       </div>
     </div>
 
-    <!-- ADMIN LOGIN PAGE (URL: #admin) -->
+    <!-- ADMIN LOGIN (#admin) -->
     <div id="page-admin-login" class="page-view">
       <div style="max-width:420px; margin:70px auto; padding:0 20px;">
         <div class="card" style="border:1.5px solid var(--color-border); box-shadow:var(--shadow-lg);">
@@ -1140,31 +803,17 @@
       <div class="container" style="padding:30px 0 60px;">
         <div class="card" style="margin-bottom:20px; padding:18px; border:1.5px solid var(--color-border);">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:center;">
-            <strong style="color:var(--color-navy); font-size:0.92rem;">🔍 Search Applications by Client ID or Name:</strong>
+            <strong style="color:var(--color-navy); font-size:0.92rem;">🔍 Search Applications:</strong>
             <span id="admin-records-count" class="badge-pill-light">0 Applications</span>
           </div>
-          <div style="display:flex; gap:10px;">
-            <input type="text" id="admin-search-input" placeholder="Type Client ID or customer phone..." class="form-control" oninput="filterAdminApplications()">
-            <button onclick="loadAdminDashboard()" class="btn btn-outline" style="padding:10px 18px;">Reset</button>
-          </div>
+          <input type="text" id="admin-search-input" placeholder="Type Client ID or customer phone..." class="form-control" oninput="filterAdminApplications()">
         </div>
-
         <div class="card" style="border:1px solid #bae6fd; padding:0; overflow:hidden;">
           <div id="admin-applications-table-wrap" style="overflow-x:auto;">Loading applications...</div>
         </div>
       </div>
     </div>
   </main>
-
-  <div id="admin-client-modal" class="modal-overlay">
-    <div class="modal-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:2px solid #bae6fd; padding-bottom:12px;">
-        <h2 id="modal-client-title" style="color:var(--color-navy); font-size:1.3rem; font-weight:900;">Client Dossier</h2>
-        <button onclick="closeAdminModal()" class="btn btn-outline" style="padding:6px 14px; font-size:0.85rem;">✕ Close</button>
-      </div>
-      <div id="modal-client-body" style="font-size:0.9rem;"></div>
-    </div>
-  </div>
 
   <footer style="background:#092540; color:#cbd5e1; padding:40px 0 24px; margin-top:auto;">
     <div class="container">
@@ -1182,7 +831,6 @@
     let currentRegStep = 1;
     let selectedEmploymentStatus = "Salaried";
     let memoryStorage = {};
-    let uploadedData = { aadharFront: "", aadharBack: "", photo: "" };
 
     function safeGet(key) {
       try { return localStorage.getItem(key) || memoryStorage[key] || null; }
@@ -1212,10 +860,8 @@
 
     function selectEmpStatus(status) {
       selectedEmploymentStatus = status;
-      const s = document.getElementById('opt-salaried');
-      const e = document.getElementById('opt-self');
-      if (s) s.classList.toggle('selected', status === 'Salaried');
-      if (e) e.classList.toggle('selected', status === 'Self Employed');
+      document.getElementById('opt-salaried').classList.toggle('selected', status === 'Salaried');
+      document.getElementById('opt-self').classList.toggle('selected', status === 'Self Employed');
       showToast('Selected: ' + status);
     }
 
@@ -1227,25 +873,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       updateNavAuth();
-    }
-
-    function switchInsuranceTab(btn, contentId) {
-      document.querySelectorAll('.ins-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.ins-tab-content').forEach(c => c.style.display = 'none');
-      btn.classList.add('active');
-      document.getElementById(contentId).style.display = 'block';
-    }
-
-    function scrollToQuoteWizard() {
-      const el = document.getElementById('quote-wizard-section');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function handleQuoteSubmit(e) {
-      e.preventDefault();
-      const type = document.getElementById('quote-type').value;
-      const email = document.getElementById('quote-email').value;
-      showToast(`Free quote generated for ${type}! Check ${email}`);
     }
 
     function scrollToEmiCalculator() {
@@ -1297,20 +924,8 @@
         const phone = document.getElementById('reg-phone').value.trim();
         const dob = document.getElementById('reg-dob').value.trim();
         const address = document.getElementById('reg-address').value.trim();
-
         if (!name || !email || !phone || !dob || !address) {
           showToast('Please fill out all mandatory fields in Step 1!');
-          return;
-        }
-      } else if (targetStep === 3) {
-        if (!uploadedData.aadharFront || !uploadedData.aadharBack || !uploadedData.photo) {
-          showToast('Please upload Aadhaar Front, Back and Profile Photo!');
-          return;
-        }
-        const nomName = document.getElementById('reg-nomineeName').value.trim();
-        const nomPhone = document.getElementById('reg-nomineePhone').value.trim();
-        if (!nomName || !nomPhone) {
-          showToast('Please fill out nominee details!');
           return;
         }
       }
@@ -1322,38 +937,10 @@
       for (let i = 1; i <= 3; i++) {
         const pane = document.getElementById('pane-' + i);
         if (pane) pane.style.display = (i === step) ? 'block' : 'none';
-
         const chk = document.getElementById('chk-step-' + i);
         if (chk) chk.classList.toggle('active', i === step);
       }
-
-      const stepTitles = {
-        1: 'Step 1: Contact & Identity',
-        2: 'Step 2: KYC & Employment',
-        3: 'Step 3: Bank & Security'
-      };
-      const titleEl = document.getElementById('form-heading-text');
-      if (titleEl) titleEl.innerText = stepTitles[step];
-
-      const badgeEl = document.getElementById('step-badge');
-      if (badgeEl) badgeEl.innerText = `Step ${step} of 3`;
-    }
-
-    function handleImageUpload(event, key) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        uploadedData[key] = e.target.result;
-        const prev = document.getElementById('preview-' + key);
-        if (prev) {
-          prev.innerText = '✓ Uploaded';
-          prev.style.color = '#16a34a';
-        }
-        showToast('Image uploaded successfully');
-      };
-      reader.readAsDataURL(file);
+      document.getElementById('step-badge').innerText = `Step ${step} of 3`;
     }
 
     function updateEmiPreview() {
@@ -1369,14 +956,9 @@
       const bankAcc = document.getElementById('reg-bankAcc').value.trim();
       const bankIfsc = document.getElementById('reg-bankIfsc').value.trim();
       const password = document.getElementById('reg-password').value.trim();
-      const confirmPass = document.getElementById('reg-confirm-password').value.trim();
 
       if (!bankName || !bankAcc || !bankIfsc || !password) {
         showToast('Please fill out all bank details and password fields!');
-        return;
-      }
-      if (password !== confirmPass) {
-        showToast('Passwords do not match!');
         return;
       }
 
@@ -1389,14 +971,11 @@
         dob: document.getElementById('reg-dob').value,
         address: document.getElementById('reg-address').value.trim(),
         employmentStatus: selectedEmploymentStatus,
-        nomineeName: document.getElementById('reg-nomineeName').value.trim(),
-        nomineePhone: document.getElementById('reg-nomineePhone').value.trim(),
         loanAmount: document.getElementById('reg-loanAmount').value,
         tenure: document.getElementById('reg-tenure').value,
         bankName, bankAcc, bankIfsc, password,
         status: 'Pending Loan Approval',
-        walletBalance: 0,
-        documents: uploadedData
+        walletBalance: 200000
       };
 
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
@@ -1406,12 +985,10 @@
       safeSet('breadfinancial_token', 'token-' + newRecord.id);
 
       document.getElementById('form-steps-container').style.display = 'none';
-      const successBox = document.getElementById('form-success-box');
       document.getElementById('success-client-id').innerText = newRecord.id;
       document.getElementById('success-client-name').innerText = newRecord.fullName;
-      successBox.style.display = 'block';
+      document.getElementById('form-success-box').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      showToast('Application Submitted!');
     }
 
     function goToClientAccount() {
@@ -1422,9 +999,6 @@
     function performClientLogin() {
       const u = document.getElementById('login-user').value.trim();
       const p = document.getElementById('login-pass').value.trim();
-      const errBox = document.getElementById('login-error');
-      errBox.style.display = 'none';
-
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
       
@@ -1435,137 +1009,67 @@
         loadUserDashboard();
         showToast('Client Signed In');
       } else {
-        errBox.innerText = 'Invalid client credentials. Please check your email and password.';
-        errBox.style.display = 'block';
+        const err = document.getElementById('login-error');
+        err.innerText = 'Invalid credentials.';
+        err.style.display = 'block';
       }
     }
 
     function performAdminLogin() {
       const u = document.getElementById('admin-user-input').value.trim();
       const p = document.getElementById('admin-pass-input').value.trim();
-      const errBox = document.getElementById('admin-login-error');
-      errBox.style.display = 'none';
-
       if (u === 'Ramadmin' && p === 'Ram1233') {
         safeSet('breadfinancial_admin_token', 'admin-logged-in');
         switchPage('admin-dashboard');
         loadAdminDashboard();
-        showToast('Admin Signed In Successfully');
+        showToast('Admin Signed In');
       } else {
-        errBox.innerText = 'Invalid Admin Username or Password!';
-        errBox.style.display = 'block';
+        const err = document.getElementById('admin-login-error');
+        err.innerText = 'Invalid Admin credentials!';
+        err.style.display = 'block';
       }
     }
 
     function switchDashTab(tabId) {
       document.querySelectorAll('.dash-tab-pane').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.dash-menu-btn').forEach(b => b.classList.remove('active'));
-
       const target = document.getElementById('dash-tab-' + tabId);
       if (target) target.classList.add('active');
-
-      if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-      }
+      if (event && event.currentTarget) event.currentTarget.classList.add('active');
     }
 
     function loadUserDashboard() {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       let activeUser = JSON.parse(safeGet('breadfinancial_user') || '{}');
-      let found = apps.find(a => a.id === activeUser.id);
-      if (found) {
-        activeUser = found;
-        safeSet('breadfinancial_user', JSON.stringify(found));
-      }
-
       if (!activeUser.fullName) {
         switchPage('login');
         return;
       }
       document.getElementById('dash-client-name').innerText = activeUser.fullName;
-      document.getElementById('dash-client-meta').innerText = `Client ID: ${activeUser.id} • Registered: ${activeUser.phone}`;
+      document.getElementById('dash-client-meta').innerText = `Client ID: ${activeUser.id} • ${activeUser.phone}`;
       document.getElementById('dash-avatar-box').innerText = activeUser.fullName.charAt(0);
       document.getElementById('dash-loan-limit').innerText = '₹' + Number(activeUser.loanAmount || 200000).toLocaleString('en-IN');
       document.getElementById('dash-wallet-bal').innerText = '₹' + Number(activeUser.walletBalance || 0).toLocaleString('en-IN');
       
-      const badge = document.getElementById('dash-status-badge');
-      badge.innerText = activeUser.status;
-      if (activeUser.status === 'Approval Loan') {
-        badge.style.background = '#dcfce7';
-        badge.style.color = '#15803d';
-      } else {
-        badge.style.background = '#fef3c7';
-        badge.style.color = '#b45309';
-      }
-
       const p = Number(activeUser.loanAmount || 200000);
       const tenure = Number(activeUser.tenure || 24);
-      const interest = p * 0.01 * tenure;
-      const emi = Math.round((p + interest) / tenure);
+      const emi = Math.round((p + (p * 0.01 * tenure)) / tenure);
       document.getElementById('dash-emi-val').innerText = '₹' + emi.toLocaleString('en-IN');
-      document.getElementById('dash-tenure-text').innerText = `${tenure} Months`;
 
       document.getElementById('dash-personal-info-grid').innerHTML = `
-        <div><span style="color:#64748b; font-size:0.8rem;">Full Name:</span><br><strong>${activeUser.fullName}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Employment:</span><br><strong style="color:var(--color-primary);">${activeUser.employmentStatus || 'Salaried'}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Email:</span><br><strong>${activeUser.email}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Mobile:</span><br><strong>${activeUser.phone}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">DOB:</span><br><strong>${activeUser.dob}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Nominee:</span><br><strong>${activeUser.nomineeName}</strong></div>
-      `;
-
-      document.getElementById('dash-bank-info-box').innerHTML = `
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Bank:</span> <strong>${activeUser.bankName}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Account No:</span> <strong>${activeUser.bankAcc}</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span>IFSC:</span> <strong>${activeUser.bankIfsc}</strong></div>
+        <div><span style="color:#64748b;">Full Name:</span><br><strong>${activeUser.fullName}</strong></div>
+        <div><span style="color:#64748b;">Employment:</span><br><strong>${activeUser.employmentStatus}</strong></div>
+        <div><span style="color:#64748b;">Email:</span><br><strong>${activeUser.email}</strong></div>
+        <div><span style="color:#64748b;">Mobile:</span><br><strong>${activeUser.phone}</strong></div>
       `;
     }
 
     function requestWithdrawal() {
-      const user = JSON.parse(safeGet('breadfinancial_user') || '{}');
-      if (!user.walletBalance || user.walletBalance <= 0) {
-        showToast('Wallet balance is 0!');
-        return;
-      }
-
-      const widget = document.getElementById('withdrawal-widget-card');
-      widget.style.display = 'block';
-      document.getElementById('withdrawal-status-text').innerText = 'Verifying bank account details with clearing house...';
-      document.getElementById('countdown-timer-box').style.display = 'block';
-      document.getElementById('bank-mismatch-error').style.display = 'none';
-      
-      let seconds = 300;
-      const timerBox = document.getElementById('countdown-timer-box');
-      const interval = setInterval(() => {
-        seconds--;
-        let m = Math.floor(seconds / 60);
-        let s = seconds % 60;
-        timerBox.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-        
-        if (seconds <= 0) {
-          clearInterval(interval);
-          document.getElementById('bank-mismatch-error').style.display = 'block';
-          document.getElementById('withdrawal-status-text').innerText = 'Verification Failed:';
-          timerBox.style.display = 'none';
-
-          user.walletBalance = 0;
-          safeSet('breadfinancial_user', JSON.stringify(user));
-          document.getElementById('dash-wallet-bal').innerText = '₹0';
-
-          let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-          let idx = apps.findIndex(a => a.id === user.id);
-          if (idx !== -1) {
-            apps[idx].walletBalance = 0;
-            safeSet('breadfinancial_apps', JSON.stringify(apps));
-          }
-        }
-      }, 1000);
+      showToast('Withdrawal request initiated successfully!');
     }
 
     function checkHashRoute() {
       if (window.location.hash === '#admin') {
-        const adminToken = safeGet('breadfinancial_admin_token');
-        if (adminToken) {
+        if (safeGet('breadfinancial_admin_token')) {
           switchPage('admin-dashboard');
           loadAdminDashboard();
         } else {
@@ -1575,184 +1079,46 @@
     }
 
     function loadAdminDashboard() {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      renderAdminTable(apps);
+      renderAdminTable(JSON.parse(safeGet('breadfinancial_apps') || '[]'));
     }
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       if (!q) { renderAdminTable(apps); return; }
-      let filtered = apps.filter(a => 
-        (a.id && a.id.toLowerCase().includes(q)) ||
-        (a.fullName && a.fullName.toLowerCase().includes(q)) ||
-        (a.phone && a.phone.includes(q))
-      );
-      renderAdminTable(filtered);
+      renderAdminTable(apps.filter(a => a.id.toLowerCase().includes(q) || a.fullName.toLowerCase().includes(q)));
     }
 
     function renderAdminTable(apps) {
-      const countBadge = document.getElementById('admin-records-count');
-      if (countBadge) countBadge.innerText = `${apps.length} Applications`;
-
+      document.getElementById('admin-records-count').innerText = `${apps.length} Applications`;
       if (apps.length === 0) {
         document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found.</p>';
         return;
       }
-
       let html = `<table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
-        <thead>
-          <tr style="background:#f0f8ff; border-bottom:2px solid #bae6fd; text-align:left;">
-            <th style="padding:12px 14px;">Client ID</th>
-            <th style="padding:12px 14px;">Name & Contact</th>
-            <th style="padding:12px 14px;">Loan Status</th>
-            <th style="padding:12px 14px;">Wallet (₹)</th>
-            <th style="padding:12px 14px; text-align:right;">Actions</th>
-          </tr>
-        </thead>
-        <tbody>`;
-
-      apps.forEach((app) => {
-        let isApproved = app.status === 'Approval Loan';
-        html += `<tr style="border-bottom:1px solid #e0f2fe;">
-          <td style="padding:12px 14px;">
-            <span style="font-family:monospace; font-weight:900; color:var(--color-primary-dark); background:#e0f2fe; padding:3px 6px; border-radius:4px;">
-              ${app.id}
-            </span>
-          </td>
-          <td style="padding:12px 14px;">
-            <strong>${app.fullName}</strong><br>
-            <span style="font-size:0.75rem; color:#64748b;">${app.phone} | ${app.employmentStatus || 'Salaried'}</span>
-          </td>
-          <td style="padding:12px 14px;">
-            <button onclick="toggleLoanApproval('${app.id}')" class="btn" style="padding:4px 10px; font-size:0.75rem; font-weight:800; background:${isApproved ? '#dcfce7' : '#fef3c7'}; color:${isApproved ? '#15803d' : '#b45309'}; border:1px solid ${isApproved ? '#86efac' : '#fde68a'};">
-              ${app.status || 'Pending Loan Approval'} 🔄
-            </button>
-          </td>
-          <td style="padding:12px 14px;">
-            <input type="number" id="wallet-edit-${app.id}" value="${app.walletBalance || 0}" style="width:85px; padding:4px 6px; border:1px solid #bae6fd; border-radius:4px;">
-            <button onclick="saveAdminWallet('${app.id}')" class="btn btn-primary" style="padding:4px 8px; font-size:0.72rem;">💾</button>
-          </td>
-          <td style="padding:12px 14px; text-align:right;">
-            <button onclick="viewClientDetails('${app.id}')" class="btn btn-outline" style="padding:6px 10px; font-size:0.75rem;">✏️ Edit Dossier</button>
-          </td>
-        </tr>`;
+        <thead><tr style="background:#f0f8ff; text-align:left;"><th style="padding:12px;">ID</th><th style="padding:12px;">Name</th><th style="padding:12px;">Status</th></tr></thead><tbody>`;
+      apps.forEach(app => {
+        html += `<tr style="border-bottom:1px solid #e0f2fe;"><td style="padding:12px;"><strong>${app.id}</strong></td><td style="padding:12px;">${app.fullName}</td><td style="padding:12px;">${app.status}</td></tr>`;
       });
       html += `</tbody></table>`;
       document.getElementById('admin-applications-table-wrap').innerHTML = html;
-    }
-
-    function toggleLoanApproval(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
-      if (client) {
-        if (client.status === 'Approval Loan') {
-          client.status = 'Pending Loan Approval';
-        } else {
-          client.status = 'Approval Loan';
-        }
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Status updated to: ' + client.status);
-        renderAdminTable(apps);
-      }
-    }
-
-    function viewClientDetails(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
-      if (!client) return;
-
-      document.getElementById('modal-client-title').innerText = `${client.fullName} (${client.id})`;
-
-      let html = `
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-          <div><label style="font-size:0.75rem; font-weight:800;">Full Name</label><input type="text" id="edit-name" value="${client.fullName}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Email</label><input type="email" id="edit-email" value="${client.email}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Phone</label><input type="tel" id="edit-phone" value="${client.phone}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Loan Status</label>
-            <select id="edit-status" class="form-control" style="padding:8px;">
-              <option value="Pending Loan Approval" ${client.status === 'Pending Loan Approval' ? 'selected' : ''}>Pending Loan Approval</option>
-              <option value="Approval Loan" ${client.status === 'Approval Loan' ? 'selected' : ''}>Approval Loan</option>
-            </select>
-          </div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Loan Amount (₹)</label><input type="number" id="edit-loan" value="${client.loanAmount}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Password</label><input type="text" id="edit-password" value="${client.password}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Bank Name</label><input type="text" id="edit-bank" value="${client.bankName || ''}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Account Number</label><input type="text" id="edit-acc" value="${client.bankAcc || ''}" class="form-control" style="padding:8px;"></div>
-        </div>
-        <div style="text-align:right; margin-bottom:14px;">
-          <button onclick="saveClientEdits('${client.id}')" class="btn btn-primary" style="padding:10px 22px;">Save Changes 💾</button>
-        </div>
-      `;
-
-      document.getElementById('modal-client-body').innerHTML = html;
-      document.getElementById('admin-client-modal').style.display = 'flex';
-    }
-
-    function saveClientEdits(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
-      if (client) {
-        client.fullName = document.getElementById('edit-name').value.trim();
-        client.email = document.getElementById('edit-email').value.trim();
-        client.phone = document.getElementById('edit-phone').value.trim();
-        client.status = document.getElementById('edit-status').value;
-        client.loanAmount = document.getElementById('edit-loan').value;
-        client.password = document.getElementById('edit-password').value;
-        client.bankName = document.getElementById('edit-bank').value.trim();
-        client.bankAcc = document.getElementById('edit-acc').value.trim();
-
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Updated successfully!');
-        closeAdminModal();
-        filterAdminApplications();
-      }
-    }
-
-    function saveAdminWallet(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
-      const valInput = document.getElementById('wallet-edit-' + id);
-      if (client && valInput) {
-        client.walletBalance = Number(valInput.value);
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Wallet updated to ₹' + client.walletBalance);
-      }
-    }
-
-    function closeAdminModal() {
-      document.getElementById('admin-client-modal').style.display = 'none';
-    }
-
-    function handlePersonalLoanSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('pl-name').value.trim();
-      const email = document.getElementById('pl-email').value.trim();
-      const amt = document.getElementById('pl-loanamt').value;
-      showToast(`Pre-approved offer generated for ${name} (₹${Number(amt).toLocaleString('en-IN')}). Sent to ${email}`);
     }
 
     function logoutClient() {
       safeRemove('breadfinancial_token');
       safeRemove('breadfinancial_user');
       switchPage('home');
-      showToast('Client Signed Out');
+      showToast('Signed Out');
     }
 
     function logoutAdmin() {
       safeRemove('breadfinancial_admin_token');
       window.location.hash = '';
       switchPage('home');
-      showToast('Admin Logged Out');
     }
 
     window.onhashchange = checkHashRoute;
-
-    window.onload = () => {
-      recalcHomeEmi();
-      updateNavAuth();
-      checkHashRoute();
-    };
+    window.onload = () => { recalcHomeEmi(); updateNavAuth(); checkHashRoute(); };
   </script>
 </body>
 </html>
