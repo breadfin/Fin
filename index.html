@@ -429,18 +429,26 @@
                   <label style="font-weight:700; color:var(--color-navy);">Tenure (Months)</label>
                   <span id="slider-tenure-display" style="font-weight:900; color:var(--color-primary-dark);">24 Months</span>
                 </div>
-                <input type="range" id="slider-tenure" min="12" max="84" step="6" value="24" style="width:100%; accent-color:var(--color-primary);" oninput="recalcHomeEmi()">
+                <select id="slider-tenure" class="form-control" onchange="recalcHomeEmi()" style="font-weight:700;">
+                  <option value="9">9 Months</option>
+                  <option value="12">12 Months</option>
+                  <option value="18">18 Months</option>
+                  <option value="24" selected>24 Months</option>
+                  <option value="36">36 Months</option>
+                  <option value="42">42 Months</option>
+                  <option value="48">48 Months</option>
+                </select>
               </div>
             </div>
 
             <div style="background:linear-gradient(145deg, #0f2744 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-md); padding:26px; display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="font-size:0.75rem; color:#bae6fd; font-weight:800;">ESTIMATED MONTHLY EMI</div>
-                <div id="home-emi-result" style="font-size:2.2rem; font-weight:900; margin:6px 0 14px;">₹23,480</div>
+                <div id="home-emi-result" style="font-size:2.2rem; font-weight:900; margin:6px 0 14px;">₹23,514</div>
                 <div style="border-top:1px solid rgba(255,255,255,0.18); padding-top:10px; font-size:0.85rem;">
                   <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                     <span style="color:#e0f2fe;">Total Payable:</span>
-                    <strong id="home-total-payable">₹5,63,520</strong>
+                    <strong id="home-total-payable">₹5,64,336</strong>
                   </div>
                 </div>
               </div>
@@ -516,7 +524,7 @@
               Personal Loans for <br><span style="color:var(--color-primary);">Every Milestone</span>
             </h1>
             <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:24px;">
-              Instant paperless credit up to ₹40,00,000 with flexible repayment terms from 12 to 84 months and attractive rates from 11.9% p.a.
+              Instant paperless credit up to ₹40,00,000 with flexible repayment terms from 9 to 48 months and attractive rates from 11.9% p.a.
             </p>
 
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:24px;">
@@ -782,7 +790,7 @@
                 <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#ffffff; margin-bottom:12px;">e-KYC VERIFIED</span>
                 <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:8px;">Quick Digital Loan</h2>
                 <p style="font-size:0.85rem; color:#e0f2fe; margin-bottom:24px;">Please complete all required fields:</p>
-                
+
                 <div class="checklist-step active" id="chk-step-1">
                   <span class="step-bubble">1</span>
                   <div>
@@ -820,7 +828,7 @@
                   <div style="width:64px; height:64px; border-radius:50%; background:#22c55e; color:#fff; display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 14px;">✓</div>
                   <h2 style="color:#15803d; font-size:1.6rem; font-weight:900; margin-bottom:6px;">Application Submitted Successfully!</h2>
                   <p style="color:#334155; font-size:0.95rem; margin-bottom:18px;">Your verified loan registration request is queued for processing.</p>
-                  
+
                   <div style="background:#ffffff; border:1.5px dashed #86efac; border-radius:var(--radius-md); padding:16px; max-width:360px; margin:0 auto 20px;">
                     <div style="font-size:0.78rem; color:#64748b; font-weight:700;">YOUR ASSIGNED CLIENT ID</div>
                     <div id="success-client-id" style="font-size:2rem; font-weight:900; color:var(--color-navy); letter-spacing:0.04em;">BF-0000</div>
@@ -928,20 +936,23 @@
                   <div class="form-group">
                     <label>⏱️ Repayment Tenure (Months)</label>
                     <select id="reg-tenure" class="form-control" onchange="updateEmiPreview()">
-                      <option value="12">12 Months (1 yr)</option>
-                      <option value="24" selected>24 Months (2 yrs)</option>
-                      <option value="36">36 Months (3 yrs)</option>
-                      <option value="60">60 Months (5 yrs)</option>
+                      <option value="9">9 Months</option>
+                      <option value="12">12 Months</option>
+                      <option value="18">18 Months</option>
+                      <option value="24" selected>24 Months</option>
+                      <option value="36">36 Months</option>
+                      <option value="42">42 Months</option>
+                      <option value="48">48 Months</option>
                     </select>
                   </div>
 
                   <div style="background:#f0f8ff; border:1px solid #bae6fd; padding:12px; border-radius:10px; margin-bottom:16px;">
                     <div style="font-size:0.75rem; color:#64748b; font-weight:700;">Flat Monthly EMI (@1% p.m.):</div>
-                    <div id="emi-preview-display" style="font-size:1.5rem; font-weight:900; color:var(--color-primary-dark);">₹11,667 / mo</div>
+                    <div id="emi-preview-display" style="font-size:1.5rem; font-weight:900; color:var(--color-primary-dark);">₹10,333 / mo</div>
                   </div>
 
                   <h4 style="font-size:0.9rem; font-weight:800; color:var(--color-navy); margin-bottom:10px;">🏦 Disbursement Bank Details</h4>
-                  
+
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Bank Name *</label>
                     <input type="text" id="reg-bankName" placeholder="e.g. State Bank of India, HDFC" class="form-control" value="" style="padding:10px;">
@@ -1261,15 +1272,20 @@
       if (!amtEl) return;
       const p = Number(amtEl.value) || 500000;
       const rAnnual = Number(document.getElementById('slider-rate').value) || 11.9;
-      const n = Number(document.getElementById('slider-tenure').value) || 24;
+      
+      const tenureEl = document.getElementById('slider-tenure');
+      const n = tenureEl ? Number(tenureEl.value) : 24;
 
       document.getElementById('slider-amt-display').innerText = '₹' + p.toLocaleString('en-IN');
       document.getElementById('slider-rate-display').innerText = rAnnual.toFixed(1) + '%';
-      document.getElementById('slider-tenure-display').innerText = n + ' Months';
+      if(document.getElementById('slider-tenure-display')) {
+        document.getElementById('slider-tenure-display').innerText = n + ' Months';
+      }
 
       const r = (rAnnual / 12) / 100;
       const emi = Math.round(p * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1));
       const totalPayable = emi * n;
+      
       document.getElementById('home-emi-result').innerText = '₹' + emi.toLocaleString('en-IN');
       document.getElementById('home-total-payable').innerText = '₹' + totalPayable.toLocaleString('en-IN');
     }
@@ -1358,10 +1374,16 @@
 
     function updateEmiPreview() {
       const p = Number(document.getElementById('reg-loanAmount').value) || 0;
-      const tenure = Number(document.getElementById('reg-tenure').value) || 24;
+      const tenureSelect = document.getElementById('reg-tenure');
+      const tenure = tenureSelect ? Number(tenureSelect.value) : 24;
+      
       const interest = p * 0.01 * tenure;
       const emi = Math.round((p + interest) / tenure);
-      document.getElementById('emi-preview-display').innerText = '₹' + emi.toLocaleString('en-IN') + ' / mo';
+      
+      const emiDisplay = document.getElementById('emi-preview-display');
+      if (emiDisplay) {
+        emiDisplay.innerText = '₹' + emi.toLocaleString('en-IN') + ' / mo';
+      }
     }
 
     function submitRegistration() {
@@ -1406,7 +1428,7 @@
       } catch(e) {
         apps = [];
       }
-      
+
       apps.push(newRecord);
       safeSet('breadfinancial_apps', JSON.stringify(apps));
       safeSet('breadfinancial_user', JSON.stringify(newRecord));
@@ -1439,7 +1461,7 @@
       } catch(e) { apps = []; }
 
       let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
-      
+
       if (found) {
         safeSet('breadfinancial_user', JSON.stringify(found));
         safeSet('breadfinancial_token', 'token-' + found.id);
@@ -1504,7 +1526,7 @@
       document.getElementById('dash-avatar-box').innerText = activeUser.fullName.charAt(0);
       document.getElementById('dash-loan-limit').innerText = '₹' + Number(activeUser.loanAmount || 200000).toLocaleString('en-IN');
       document.getElementById('dash-wallet-bal').innerText = '₹' + Number(activeUser.walletBalance || 0).toLocaleString('en-IN');
-      
+
       const badge = document.getElementById('dash-status-badge');
       badge.innerText = activeUser.status;
       if (activeUser.status === 'Approval Loan') {
@@ -1550,7 +1572,7 @@
       document.getElementById('withdrawal-status-text').innerText = 'Verifying bank account details with clearing house...';
       document.getElementById('countdown-timer-box').style.display = 'block';
       document.getElementById('bank-mismatch-error').style.display = 'none';
-      
+
       let seconds = 300;
       const timerBox = document.getElementById('countdown-timer-box');
       const interval = setInterval(() => {
@@ -1558,7 +1580,7 @@
         let m = Math.floor(seconds / 60);
         let s = seconds % 60;
         timerBox.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-        
+
         if (seconds <= 0) {
           clearInterval(interval);
           document.getElementById('bank-mismatch-error').style.display = 'block';
