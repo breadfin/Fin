@@ -227,14 +227,6 @@
       box-shadow: var(--shadow-lg); border: 1.5px solid var(--color-border);
     }
 
-    .ins-tab-btn {
-      padding: 10px 18px; border-radius: var(--radius-pill); font-weight: 700; font-size: 0.88rem;
-      border: 1.5px solid #bae6fd; background: #ffffff; color: var(--color-navy); cursor: pointer; transition: all 0.2s;
-    }
-    .ins-tab-btn.active {
-      background: var(--color-primary); color: #ffffff; border-color: var(--color-primary);
-    }
-
     @media (max-width: 960px) {
       .register-container-card { grid-template-columns: 1fr; }
       .register-hero-panel { display: none; }
@@ -282,7 +274,7 @@
         <button class="nav-link" onclick="switchPage('personal-loans')">Personal Loan</button>
         <button class="nav-link" onclick="switchPage('business-loans')">Business Loan</button>
         <button class="nav-link" onclick="switchPage('insurance')">Insurance</button>
-        <button class="nav-link" onclick="switchPage('loan-cancellation')" style="color:#dc2626; font-weight:700;">Loan Cancellation</button>
+        <button class="nav-link" onclick="switchPage('loan-cancellation')">Loan Cancellation</button>
         <button class="nav-link" onclick="scrollToEmiCalculator()">Calculators</button>
         <button class="btn btn-outline" onclick="switchPage('register')" style="padding:6px 14px; font-size:0.8rem;">Apply Now</button>
         <button class="btn btn-primary" onclick="checkAuthAndNavigate()" style="padding:6px 14px; font-size:0.8rem;" id="nav-auth-btn">Client Sign In ▾</button>
@@ -296,7 +288,7 @@
       <button class="nav-link" onclick="switchPage('personal-loans'); toggleMobileNav()">👤 Personal Loan</button>
       <button class="nav-link" onclick="switchPage('business-loans'); toggleMobileNav()">🏢 Business Loan</button>
       <button class="nav-link" onclick="switchPage('insurance'); toggleMobileNav()">🛡️ Insurance</button>
-      <button class="nav-link" onclick="switchPage('loan-cancellation'); toggleMobileNav()" style="color:#dc2626;">❌ Loan Cancellation</button>
+      <button class="nav-link" onclick="switchPage('loan-cancellation'); toggleMobileNav()">❌ Loan Cancellation</button>
       <button class="nav-link" onclick="scrollToEmiCalculator(); toggleMobileNav()">🧮 EMI Calculator</button>
       <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="width:100%; margin-top:6px;">Apply For Loan Now ➔</button>
       <button class="btn btn-outline" onclick="checkAuthAndNavigate(); toggleMobileNav()" style="width:100%;">Client Sign In / My Account</button>
@@ -525,11 +517,11 @@
     <div id="page-loan-cancellation" class="page-view">
       <div class="register-wrapper">
         <div class="container" style="max-width:720px;">
-          <div class="card" style="padding:36px; border:2px solid #fca5a5; box-shadow:var(--shadow-lg);">
+          <div class="card" style="padding:36px; border:2px solid var(--color-border); box-shadow:var(--shadow-lg);">
             <div style="text-align:center; margin-bottom:24px;">
-              <span class="badge-pill-light" style="background:#fee2e2; color:#dc2626; margin-bottom:8px;">❌ LOAN CANCELLATION REQUEST</span>
+              <span class="badge-pill-light" style="margin-bottom:8px;">❌ LOAN CANCELLATION REQUEST</span>
               <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Cancel Your Loan Application</h2>
-              <p style="color:#64748b; font-size:0.88rem;">Please provide your active details to securely cancel your loan process.</p>
+              <p style="color:#64748b; font-size:0.88rem;">Please provide your exact registered profile details to submit a valid cancellation request.</p>
             </div>
 
             <form onsubmit="handleLoanCancellationSubmit(event)">
@@ -570,7 +562,7 @@
                 <textarea id="cancel-reason" placeholder="Please write why you want to cancel the loan..." class="form-control" style="min-height:90px;" required></textarea>
               </div>
 
-              <button type="submit" class="btn" style="width:100%; padding:14px; font-size:1rem; font-weight:800; background:#dc2626; color:#ffffff; margin-top:10px;">
+              <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
                 Submit Cancel Loan Request ✕
               </button>
             </form>
@@ -664,8 +656,8 @@
                     <input type="date" id="reg-dob" class="form-control" value="">
                   </div>
                   <div class="form-group">
-                    <label>🏠 Residential Address *</label>
-                    <textarea id="reg-address" placeholder="Complete address with PIN code" class="form-control" style="min-height:70px;"></textarea>
+                    <label>🏠 Residential Address & Place *</label>
+                    <textarea id="reg-address" placeholder="Complete address with City/Place and PIN code" class="form-control" style="min-height:70px;"></textarea>
                   </div>
                   <button type="button" onclick="validateAndGoToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem;">
                     Continue to Step 2 (KYC & Employment) ➔
@@ -673,24 +665,29 @@
                 </div>
 
                 <div class="form-step-pane" id="pane-2" style="display:none;">
-                  <h3 style="font-size:1rem; font-weight:800; color:var(--color-navy); margin-bottom:12px;">🪪 Document & Photo Uploads</h3>
+                  <h3 style="font-size:1rem; font-weight:800; color:var(--color-navy); margin-bottom:12px;">🪪 Identity Numbers & Document Uploads</h3>
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-                    <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Front *</div>
-                      <input type="file" id="file-aadharFront" accept="image/*" onchange="handleImageUpload(event, 'aadharFront')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-aadharFront" style="margin-top:4px; font-size:0.72rem; color:#64748b; font-weight:700;">Required</div>
+                    <div class="form-group" style="margin-bottom:0;">
+                      <label style="font-size:0.75rem;">Aadhaar Number *</label>
+                      <input type="text" id="reg-aadhaar" placeholder="12-digit Aadhaar" class="form-control" maxlength="12" style="padding:10px; font-size:0.85rem;" inputmode="numeric">
                     </div>
-                    <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Back *</div>
-                      <input type="file" id="file-aadharBack" accept="image/*" onchange="handleImageUpload(event, 'aadharBack')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-aadharBack" style="margin-top:4px; font-size:0.72rem; color:#64748b; font-weight:700;">Required</div>
+                    <div class="form-group" style="margin-bottom:0;">
+                      <label style="font-size:0.75rem;">PAN Card Number *</label>
+                      <input type="text" id="reg-pan" placeholder="ABCDE1234F" class="form-control" maxlength="10" style="padding:10px; font-size:0.85rem; text-transform:uppercase;">
                     </div>
                   </div>
 
-                  <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; margin-bottom:16px; text-align:center;">
-                    <div style="font-size:0.78rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">👤 Applicant Profile Photo *</div>
-                    <input type="file" id="file-photo" accept="image/*" onchange="handleImageUpload(event, 'photo')" style="font-size:0.75rem; width:100%;">
-                    <div id="preview-photo" style="margin-top:4px; font-size:0.75rem; color:#64748b; font-weight:700;">Required</div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                    <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:10px; text-align:center;">
+                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Front</div>
+                      <input type="file" id="file-aadharFront" accept="image/*" onchange="handleImageUpload(event, 'aadharFront')" style="font-size:0.72rem; width:100%;">
+                      <div id="preview-aadharFront" style="margin-top:4px; font-size:0.72rem; color:#64748b; font-weight:700;">Optional</div>
+                    </div>
+                    <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:10px; text-align:center;">
+                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Back</div>
+                      <input type="file" id="file-aadharBack" accept="image/*" onchange="handleImageUpload(event, 'aadharBack')" style="font-size:0.72rem; width:100%;">
+                      <div id="preview-aadharBack" style="margin-top:4px; font-size:0.72rem; color:#64748b; font-weight:700;">Optional</div>
+                    </div>
                   </div>
 
                   <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
@@ -714,10 +711,6 @@
                     <div class="form-group" style="margin-bottom:8px;">
                       <label style="font-size:0.75rem;">Nominee Legal Name *</label>
                       <input type="text" id="reg-nomineeName" placeholder="Enter nominee name" class="form-control" value="" style="padding:8px 12px;">
-                    </div>
-                    <div class="form-group" style="margin-bottom:8px;">
-                      <label style="font-size:0.75rem;">Nominee Mobile *</label>
-                      <input type="tel" id="reg-nomineePhone" placeholder="Nominee mobile" class="form-control" value="" style="padding:8px 12px;" inputmode="numeric">
                     </div>
                   </div>
 
@@ -829,6 +822,11 @@
               <div id="dash-emi-val" style="font-size:2rem; font-weight:900; color:var(--color-primary-dark); margin:4px 0;">₹0</div>
               <div style="font-size:0.78rem; color:#64748b;">Due Date: 5th of every month</div>
             </div>
+          </div>
+
+          <div class="card" style="margin-bottom:24px;" id="cancellation-status-card">
+            <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:8px;">❌ Loan Cancellation Status</h3>
+            <p id="dash-cancel-status-text" style="font-size:0.92rem; color:#64748b;">No cancellation request initiated.</p>
           </div>
 
           <div class="card">
@@ -1027,13 +1025,6 @@
       updateNavAuth();
     }
 
-    function switchInsuranceTab(btn, contentId) {
-      document.querySelectorAll('.ins-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.ins-tab-content').forEach(c => c.style.display = 'none');
-      btn.classList.add('active');
-      document.getElementById(contentId).style.display = 'block';
-    }
-
     function scrollToEmiCalculator() {
       switchPage('home');
       setTimeout(() => {
@@ -1089,14 +1080,12 @@
           return;
         }
       } else if (targetStep === 3) {
-        if (!uploadedData.aadharFront || !uploadedData.aadharBack || !uploadedData.photo) {
-          showToast('Please upload Aadhaar Front, Back and Profile Photo!');
-          return;
-        }
+        const aadhaar = document.getElementById('reg-aadhaar').value.trim();
+        const pan = document.getElementById('reg-pan').value.trim();
         const nomName = document.getElementById('reg-nomineeName').value.trim();
-        const nomPhone = document.getElementById('reg-nomineePhone').value.trim();
-        if (!nomName || !nomPhone) {
-          showToast('Please fill out nominee details!');
+
+        if (!aadhaar || !pan || !nomName) {
+          showToast('Please provide Aadhaar, PAN and Nominee details!');
           return;
         }
       }
@@ -1180,15 +1169,16 @@
         phone: document.getElementById('reg-phone').value.trim(),
         dob: document.getElementById('reg-dob').value,
         address: document.getElementById('reg-address').value.trim(),
+        aadhaar: document.getElementById('reg-aadhaar').value.trim(),
+        pan: document.getElementById('reg-pan').value.trim().toUpperCase(),
         employmentStatus: selectedEmploymentStatus,
         nomineeName: document.getElementById('reg-nomineeName').value.trim(),
-        nomineePhone: document.getElementById('reg-nomineePhone').value.trim(),
         loanAmount: document.getElementById('reg-loanAmount').value,
         tenure: document.getElementById('reg-tenure').value,
         bankName, bankAcc, bankIfsc, password,
         status: 'Pending Loan Approval',
         walletBalance: 0,
-        documents: uploadedData
+        cancellationStatus: 'None'
       };
 
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
@@ -1209,8 +1199,37 @@
     function handleLoanCancellationSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('cancel-name').value.trim();
-      const clientId = document.getElementById('cancel-id').value.trim();
-      showToast(`Cancellation request submitted for ${name} (${clientId}). Our team will process it within 24 hours.`);
+      const clientId = document.getElementById('cancel-id').value.trim().toUpperCase();
+      const aadhaar = document.getElementById('cancel-aadhaar').value.trim();
+      const pan = document.getElementById('cancel-pan').value.trim().toUpperCase();
+      const place = document.getElementById('cancel-place').value.trim().toLowerCase();
+      const nominee = document.getElementById('cancel-nominee').value.trim().toLowerCase();
+      const reason = document.getElementById('cancel-reason').value.trim();
+
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let client = apps.find(a => a.id === clientId);
+
+      if (!client) {
+        showToast('Error: Invalid Client ID!');
+        return;
+      }
+
+      if (
+        client.fullName.toLowerCase() !== name.toLowerCase() ||
+        client.aadhaar !== aadhaar ||
+        client.pan !== pan ||
+        !client.address.toLowerCase().includes(place) ||
+        client.nomineeName.toLowerCase() !== nominee
+      ) {
+        showToast('Error: Details do not match our registration records!');
+        return;
+      }
+
+      client.cancellationStatus = 'Requested';
+      client.cancellationReason = reason;
+      safeSet('breadfinancial_apps', JSON.stringify(apps));
+
+      showToast('Cancellation request submitted successfully. Pending Admin review.');
       document.getElementById('cancel-name').value = '';
       document.getElementById('cancel-id').value = '';
       document.getElementById('cancel-aadhaar').value = '';
@@ -1317,6 +1336,15 @@
         badge.style.color = '#b45309';
       }
 
+      const cancelStatusBox = document.getElementById('dash-cancel-status-text');
+      if (activeUser.cancellationStatus === 'Approved') {
+        cancelStatusBox.innerHTML = `<strong style="color:#dc2626;">Loan Cancellation Successful</strong> (Approved by Admin)`;
+      } else if (activeUser.cancellationStatus === 'Requested') {
+        cancelStatusBox.innerHTML = `<strong style="color:#f59e0b;">Cancellation Pending Admin Approval</strong>`;
+      } else {
+        cancelStatusBox.innerHTML = `No active cancellation request.`;
+      }
+
       const p = Number(activeUser.loanAmount || 200000);
       const tenure = Number(activeUser.tenure || 24);
       const interest = p * 0.01 * tenure;
@@ -1329,7 +1357,7 @@
         <div><span style="color:#64748b; font-size:0.8rem;">Employment:</span><br><strong style="color:var(--color-primary);">${activeUser.employmentStatus || 'Salaried'}</strong></div>
         <div><span style="color:#64748b; font-size:0.8rem;">Email:</span><br><strong>${activeUser.email}</strong></div>
         <div><span style="color:#64748b; font-size:0.8rem;">Mobile:</span><br><strong>${activeUser.phone}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">DOB:</span><br><strong>${activeUser.dob}</strong></div>
+        <div><span style="color:#64748b; font-size:0.8rem;">Aadhaar/PAN:</span><br><strong>${activeUser.aadhaar || 'N/A'} / ${activeUser.pan || 'N/A'}</strong></div>
         <div><span style="color:#64748b; font-size:0.8rem;">Nominee:</span><br><strong>${activeUser.nomineeName}</strong></div>
       `;
 
@@ -1426,6 +1454,7 @@
             <th style="padding:12px 14px;">Name & Contact</th>
             <th style="padding:12px 14px;">Loan Status</th>
             <th style="padding:12px 14px;">Wallet (₹)</th>
+            <th style="padding:12px 14px;">Cancellation Status</th>
             <th style="padding:12px 14px; text-align:right;">Actions</th>
           </tr>
         </thead>
@@ -1433,6 +1462,10 @@
 
       apps.forEach((app) => {
         let isApproved = app.status === 'Approval Loan';
+        let cancelState = app.cancellationStatus || 'None';
+        let cancelBadgeColor = cancelState === 'Approved' ? '#dcfce7' : (cancelState === 'Requested' ? '#fef3c7' : '#f1f5f9');
+        let cancelTextColor = cancelState === 'Approved' ? '#15803d' : (cancelState === 'Requested' ? '#b45309' : '#64748b');
+
         html += `<tr style="border-bottom:1px solid #e0f2fe;">
           <td style="padding:12px 14px;">
             <span style="font-family:monospace; font-weight:900; color:var(--color-primary-dark); background:#e0f2fe; padding:3px 6px; border-radius:4px;">
@@ -1441,7 +1474,7 @@
           </td>
           <td style="padding:12px 14px;">
             <strong>${app.fullName}</strong><br>
-            <span style="font-size:0.75rem; color:#64748b;">${app.phone} | ${app.employmentStatus || 'Salaried'}</span>
+            <span style="font-size:0.75rem; color:#64748b;">${app.phone} | Aadhaar: ${app.aadhaar || 'N/A'}</span>
           </td>
           <td style="padding:12px 14px;">
             <button onclick="toggleLoanApproval('${app.id}')" class="btn" style="padding:4px 10px; font-size:0.75rem; font-weight:800; background:${isApproved ? '#dcfce7' : '#fef3c7'}; color:${isApproved ? '#15803d' : '#b45309'}; border:1px solid ${isApproved ? '#86efac' : '#fde68a'};">
@@ -1452,8 +1485,15 @@
             <input type="number" id="wallet-edit-${app.id}" value="${app.walletBalance || 0}" style="width:85px; padding:4px 6px; border:1px solid #bae6fd; border-radius:4px;">
             <button onclick="saveAdminWallet('${app.id}')" class="btn btn-primary" style="padding:4px 8px; font-size:0.72rem;">💾</button>
           </td>
+          <td style="padding:12px 14px;">
+            <span style="background:${cancelBadgeColor}; color:${cancelTextColor}; padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; display:inline-block;">
+              ${cancelState}
+            </span>
+            ${cancelState === 'Requested' ? `<br><small style="color:#b45309;">Reason: ${app.cancellationReason || 'N/A'}</small>` : ''}
+          </td>
           <td style="padding:12px 14px; text-align:right;">
-            <button onclick="viewClientDetails('${app.id}')" class="btn btn-outline" style="padding:6px 10px; font-size:0.75rem;">✏️ Edit Dossier</button>
+            ${cancelState === 'Requested' ? `<button onclick="approveCancellation('${app.id}')" class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem; margin-right:4px;">Approve Cancel</button>` : ''}
+            <button onclick="viewClientDetails('${app.id}')" class="btn btn-outline" style="padding:6px 10px; font-size:0.75rem;">✏️ Edit</button>
           </td>
         </tr>`;
       });
@@ -1465,13 +1505,31 @@
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       let client = apps.find(a => a.id === id);
       if (client) {
-        if (client.status === 'Approval Loan') {
-          client.status = 'Pending Loan Approval';
-        } else {
-          client.status = 'Approval Loan';
-        }
+        client.status = client.status === 'Approval Loan' ? 'Pending Loan Approval' : 'Approval Loan';
         safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Status updated to: ' + client.status);
+        showToast('Status updated');
+        renderAdminTable(apps);
+      }
+    }
+
+    function saveAdminWallet(id) {
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let client = apps.find(a => a.id === id);
+      const valInput = document.getElementById('wallet-edit-' + id);
+      if (client && valInput) {
+        client.walletBalance = Number(valInput.value);
+        safeSet('breadfinancial_apps', JSON.stringify(apps));
+        showToast('Wallet updated to ₹' + client.walletBalance);
+      }
+    }
+
+    function approveCancellation(id) {
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let client = apps.find(a => a.id === id);
+      if (client) {
+        client.cancellationStatus = 'Approved';
+        safeSet('breadfinancial_apps', JSON.stringify(apps));
+        showToast('Loan cancellation approved successfully!');
         renderAdminTable(apps);
       }
     }
@@ -1488,16 +1546,9 @@
           <div><label style="font-size:0.75rem; font-weight:800;">Full Name</label><input type="text" id="edit-name" value="${client.fullName}" class="form-control" style="padding:8px;"></div>
           <div><label style="font-size:0.75rem; font-weight:800;">Email</label><input type="email" id="edit-email" value="${client.email}" class="form-control" style="padding:8px;"></div>
           <div><label style="font-size:0.75rem; font-weight:800;">Phone</label><input type="tel" id="edit-phone" value="${client.phone}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Loan Status</label>
-            <select id="edit-status" class="form-control" style="padding:8px;">
-              <option value="Pending Loan Approval" ${client.status === 'Pending Loan Approval' ? 'selected' : ''}>Pending Loan Approval</option>
-              <option value="Approval Loan" ${client.status === 'Approval Loan' ? 'selected' : ''}>Approval Loan</option>
-            </select>
-          </div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Loan Amount (₹)</label><input type="number" id="edit-loan" value="${client.loanAmount}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Password</label><input type="text" id="edit-password" value="${client.password}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Bank Name</label><input type="text" id="edit-bank" value="${client.bankName || ''}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Account Number</label><input type="text" id="edit-acc" value="${client.bankAcc || ''}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Aadhaar Number</label><input type="text" id="edit-aadhaar" value="${client.aadhaar || ''}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">PAN Number</label><input type="text" id="edit-pan" value="${client.pan || ''}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Nominee</label><input type="text" id="edit-nominee" value="${client.nomineeName || ''}" class="form-control" style="padding:8px;"></div>
         </div>
         <div style="text-align:right; margin-bottom:14px;">
           <button onclick="saveClientEdits('${client.id}')" class="btn btn-primary" style="padding:10px 22px;">Save Changes 💾</button>
@@ -1515,27 +1566,14 @@
         client.fullName = document.getElementById('edit-name').value.trim();
         client.email = document.getElementById('edit-email').value.trim();
         client.phone = document.getElementById('edit-phone').value.trim();
-        client.status = document.getElementById('edit-status').value;
-        client.loanAmount = document.getElementById('edit-loan').value;
-        client.password = document.getElementById('edit-password').value;
-        client.bankName = document.getElementById('edit-bank').value.trim();
-        client.bankAcc = document.getElementById('edit-acc').value.trim();
+        client.aadhaar = document.getElementById('edit-aadhaar').value.trim();
+        client.pan = document.getElementById('edit-pan').value.trim().toUpperCase();
+        client.nomineeName = document.getElementById('edit-nominee').value.trim();
 
         safeSet('breadfinancial_apps', JSON.stringify(apps));
         showToast('Updated successfully!');
         closeAdminModal();
         filterAdminApplications();
-      }
-    }
-
-    function saveAdminWallet(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
-      const valInput = document.getElementById('wallet-edit-' + id);
-      if (client && valInput) {
-        client.walletBalance = Number(valInput.value);
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Wallet updated to ₹' + client.walletBalance);
       }
     }
 
