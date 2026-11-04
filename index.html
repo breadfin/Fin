@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bread Finance | Leading NBFC for Instant Personal, Business Loans & Insurance</title>
-  <meta name="description" content="Instant digital paperless loans and comprehensive insurance coverage with Bread Finance Credit Co. Ltd.">
+  <title>Bread Finance | Personal Loans, Business Loans & Insurance</title>
+  <meta name="description" content="Instant digital paperless loans and insurance coverage with Bread Finance Credit Co. Ltd. RBI Registered NBFC.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -236,7 +236,6 @@
       box-shadow: var(--shadow-lg); border: 1.5px solid var(--color-border);
     }
 
-    /* Insurance specific styles */
     .ins-tab-btn {
       padding: 10px 18px; border-radius: var(--radius-pill); font-weight: 700; font-size: 0.88rem;
       border: 1.5px solid #bae6fd; background: #ffffff; color: var(--color-navy); cursor: pointer; transition: all 0.2s;
@@ -292,7 +291,6 @@
         <button class="nav-link active" onclick="switchPage('home')">Home</button>
         <button class="nav-link" onclick="switchPage('personal-loans')">Personal Loan</button>
         <button class="nav-link" onclick="switchPage('business-loans')">Business Loan</button>
-        <!-- Replaced Loan Against Property with Insurance -->
         <button class="nav-link" onclick="switchPage('insurance')">Insurance</button>
         <button class="nav-link" onclick="scrollToEmiCalculator()">Calculators</button>
         <button class="btn btn-outline" onclick="switchPage('register')" style="padding:8px 18px; font-size:0.85rem;">Apply Now</button>
@@ -324,13 +322,13 @@
               <span class="badge-pill-light" style="background:#dcfce7; color:#15803d;">⚡ DISBURSAL IN 30 MINS*</span>
             </div>
             <h1 style="font-size:2.8rem; font-weight:900; color:var(--color-navy); line-height:1.15; margin-bottom:14px;">
-              Get Instant Personal Loans <br><span style="color:var(--color-primary);">Up to ₹30 Lakhs*</span>
+              Get Instant Personal Loans <br><span style="color:var(--color-primary);">Up to ₹40 Lakhs*</span>
             </h1>
             <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:26px;">
               Fulfill your dreams with collateral-free personal credit. Minimal documentation, flexible tenures, and competitive rates starting @ 11.9%* p.a.
             </p>
             <div style="display:flex; gap:14px; flex-wrap:wrap;">
-              <button onclick="switchPage('register')" class="btn btn-primary" style="padding:14px 32px; font-size:1rem;">Apply for Loan Now →</button>
+              <button onclick="switchPage('personal-loans')" class="btn btn-primary" style="padding:14px 32px; font-size:1rem;">Explore Personal Loans →</button>
               <button onclick="scrollToEmiCalculator()" class="btn btn-outline" style="padding:14px 26px; font-size:1rem;">Calculate EMI</button>
             </div>
           </div>
@@ -358,19 +356,19 @@
         <div class="container">
           <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
             <span class="badge-pill-light">POPULAR PRODUCTS</span>
-            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Credit & Protection Products</h2>
+            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Credit Products For Every Need</h2>
           </div>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
             <div class="product-img-card">
               <div class="product-img-container">
-                <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=600&q=80" alt="Personal Loan">
+                <img src="personal_loan_2.png" alt="Personal Loan">
               </div>
               <div class="product-card-body">
                 <div>
-                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Personal Loans</h3>
-                  <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Unsecured funds up to ₹30 Lakhs for medical, wedding, or emergency needs.</p>
+                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Personal Loans[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)</h3>
+                  <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Unsecured funds up to ₹40 Lakhs for medical, wedding, or emergency needs[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span).</p>
                 </div>
-                <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Personal Loan</button>
+                <button onclick="switchPage('personal-loans')" class="btn btn-outline" style="width:100%;">View Personal Loan[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)</button>
               </div>
             </div>
 
@@ -380,24 +378,23 @@
               </div>
               <div class="product-card-body">
                 <div>
-                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Business Loans</h3>
+                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Business Loans[span_7](start_span)[span_7](end_span)</h3>
                   <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Collateral-free business capital up to ₹1 Crore for inventory and expansion.</p>
                 </div>
-                <button onclick="switchPage('register')" class="btn btn-outline" style="width:100%;">Apply Business Loan</button>
+                <button onclick="switchPage('business-loans')" class="btn btn-outline" style="width:100%;">Apply Business Loan[span_8](start_span)[span_8](end_span)</button>
               </div>
             </div>
 
-            <!-- Changed Loan Against Property card to Insurance -->
             <div class="product-img-card">
               <div class="product-img-container">
-                <img src="life_insurance.png" alt="Insurance Protection">
+                <img src="life_insurance.png" alt="Insurance">
               </div>
               <div class="product-card-body">
                 <div>
                   <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Insurance Protection</h3>
                   <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Comprehensive family, health, and commercial risk coverage with top IRDAI insurers.</p>
                 </div>
-                <button onclick="switchPage('insurance')" class="btn btn-outline" style="width:100%;">Explore Insurance →</button>
+                <button onclick="switchPage('insurance')" class="btn btn-outline" style="width:100%;">Explore Insurance</button>
               </div>
             </div>
           </div>
@@ -423,31 +420,31 @@
               <div style="margin-bottom:20px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
                   <label style="font-weight:700; color:var(--color-navy);">Interest Rate (% p.a.)</label>
-                  <span id="slider-rate-display" style="font-weight:900; color:var(--color-primary-dark);">12.0%</span>
+                  <span id="slider-rate-display" style="font-weight:900; color:var(--color-primary-dark);">11.9%</span>
                 </div>
-                <input type="range" id="slider-rate" min="8.5" max="24.0" step="0.5" value="12.0" style="width:100%; accent-color:var(--color-primary);" oninput="recalcHomeEmi()">
+                <input type="range" id="slider-rate" min="8.5" max="24.0" step="0.5" value="11.9" style="width:100%; accent-color:var(--color-primary);" oninput="recalcHomeEmi()">
               </div>
               <div style="margin-bottom:10px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
                   <label style="font-weight:700; color:var(--color-navy);">Tenure (Months)</label>
                   <span id="slider-tenure-display" style="font-weight:900; color:var(--color-primary-dark);">24 Months</span>
                 </div>
-                <input type="range" id="slider-tenure" min="12" max="60" step="6" value="24" style="width:100%; accent-color:var(--color-primary);" oninput="recalcHomeEmi()">
+                <input type="range" id="slider-tenure" min="12" max="84" step="6" value="24" style="width:100%; accent-color:var(--color-primary);" oninput="recalcHomeEmi()">
               </div>
             </div>
 
             <div style="background:linear-gradient(145deg, #0f2744 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-md); padding:26px; display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="font-size:0.75rem; color:#bae6fd; font-weight:800;">ESTIMATED MONTHLY EMI</div>
-                <div id="home-emi-result" style="font-size:2.2rem; font-weight:900; margin:6px 0 14px;">₹23,537</div>
+                <div id="home-emi-result" style="font-size:2.2rem; font-weight:900; margin:6px 0 14px;">₹23,480</div>
                 <div style="border-top:1px solid rgba(255,255,255,0.18); padding-top:10px; font-size:0.85rem;">
                   <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                     <span style="color:#e0f2fe;">Total Payable:</span>
-                    <strong id="home-total-payable">₹5,64,888</strong>
+                    <strong id="home-total-payable">₹5,63,520</strong>
                   </div>
                 </div>
               </div>
-              <button onclick="applyWithCalculatedValues()" class="btn" style="background:#ffffff; color:var(--color-primary-dark); font-weight:900; margin-top:16px; width:100%;">
+              <button onclick="switchPage('personal-loans')" class="btn" style="background:#ffffff; color:var(--color-primary-dark); font-weight:900; margin-top:16px; width:100%;">
                 Apply with this Loan →
               </button>
             </div>
@@ -466,7 +463,6 @@
             </p>
           </div>
 
-          <!-- 3 Feature Steps Grid -->
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:60px;">
             <div class="card" style="position:relative; overflow:hidden; border-top:4px solid var(--color-primary);">
               <div style="position:absolute; top:20px; right:20px; font-size:2.5rem; font-weight:900; color:#e0f2fe; line-height:1;">1</div>
@@ -490,7 +486,6 @@
             </div>
           </div>
 
-          <!-- Corporate Client Testimonial Banner -->
           <div style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); border-radius:var(--radius-lg); padding:40px; color:#ffffff; box-shadow:var(--shadow-lg); position:relative; overflow:hidden;">
             <div style="position:absolute; right:-20px; bottom:-30px; font-size:12rem; opacity:0.05; font-weight:900; line-height:1;">“</div>
             <div style="max-width:850px; position:relative; z-index:2;">
@@ -507,14 +502,140 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+    </div>
 
+    <!-- ==================== DEDICATED PERSONAL LOAN PAGE ==================== -->
+    <div id="page-personal-loans" class="page-view">
+      <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
+        <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
+          <div>
+            <span class="badge-pill-light" style="margin-bottom:12px;">BREAD FINANCE PERSONAL LOAN PROFESSIONAL LIFESTYLE</span>
+            <h1 style="font-size:2.6rem; font-weight:900; color:var(--color-navy); line-height:1.2; margin-bottom:14px;">
+              Personal Loans for <br><span style="color:var(--color-primary);">Every Milestone</span>
+            </h1>
+            <p style="font-size:1.05rem; color:var(--color-text-body); margin-bottom:24px;">
+              Instant paperless credit up to ₹40,00,000 with flexible repayment terms from 12 to 84 months and attractive rates from 11.9% p.a.
+            </p>
+
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:24px;">
+              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
+                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Max Sanction</div>
+                <div style="font-size:1.2rem; font-weight:900; color:var(--color-navy);">₹40 Lakhs</div>
+              </div>
+              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
+                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Interest Rate</div>
+                <div style="font-size:1.2rem; font-weight:900; color:var(--color-primary-dark);">11.9% p.a.</div>
+              </div>
+              <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:12px; text-align:center;">
+                <div style="font-size:0.7rem; color:#64748b; font-weight:700;">Disbursal Speed</div>
+                <div style="font-size:1.2rem; font-weight:900; color:var(--color-success);">15 Mins</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:0.88rem; font-weight:700; color:#0369a1;">
+              <span class="badge-pill-light">✨ Zero Prepayment Fees</span>
+              <span class="badge-pill-light">✨ Flexible tenure options</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
+              <img src="personal_loan_2.png" alt="Personal Loan Lifestyle" style="width:100%; height:auto; display:block;">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:60px 0; background:#ffffff;">
+        <div class="container">
+          <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
+            <span class="badge-pill-light">BENEFITS</span>
+            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Why Choose Bread Finance Personal Loans?</h2>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:50px;">
+            <div class="card" style="border-top:4px solid var(--color-primary);">
+              <div style="font-size:1.8rem; margin-bottom:12px;">⚡</div>
+              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Instant Digital Approval</h3>
+              <p style="color:var(--color-text-muted); font-size:0.92rem;">Automated credit engine evaluates your profile in minutes.</p>
+            </div>
+
+            <div class="card" style="border-top:4px solid var(--color-success);">
+              <div style="font-size:1.8rem; margin-bottom:12px;">🛡️</div>
+              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Zero Collateral Needed</h3>
+              <p style="color:var(--color-text-muted); font-size:0.92rem;">No need to pledge securities or residential property.</p>
+            </div>
+
+            <div class="card" style="border-top:4px solid var(--color-warning);">
+              <div style="font-size:1.8rem; margin-bottom:12px;">🔍</div>
+              <h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Fully Transparent Rates</h3>
+              <p style="color:var(--color-text-muted); font-size:0.92rem;">100% upfront clarity on interest rates and processing fees.</p>
+            </div>
+          </div>
+
+          <div class="card" style="background:#f0f8ff; border:1.5px solid #bae6fd; max-width:850px; margin:0 auto; padding:32px;">
+            <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:16px;">Minimum Eligibility Checklist</h3>
+            <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:12px; font-size:0.95rem; font-weight:700; color:var(--color-navy);">
+              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Age between 21 and 60 years</li>
+              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Minimum net monthly income of up to ₹60,000.</li>
+              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> CIBIL score of 750+ (Low CIBIL score submit minimum documents).</li>
+              <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--color-success); font-size:1.2rem;">✓</span> Valid Aadhaar, PAN, & Salary account statements</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:60px 0; background:#f8fafc; border-top:1px solid #e2e8f0;">
+        <div class="container" style="max-width:700px;">
+          <div class="card" style="padding:36px; border:2px solid #bae6fd; box-shadow:var(--shadow-lg);">
+            <div style="text-align:center; margin-bottom:24px;">
+              <span class="badge-pill-light" style="margin-bottom:8px;">INSTANT APPLICATION FORM</span>
+              <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">Check Pre-Approved Offer</h2>
+              <p style="color:#64748b; font-size:0.88rem;">Check your pre-approved credit limit without affecting your credit score.</p>
+            </div>
+
+            <form onsubmit="handlePersonalLoanSubmit(event)">
+              <div class="form-group">
+                <label>Full Legal Name</label>
+                <input type="text" id="pl-name" placeholder="e.g. Rajesh Kumar" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="pl-email" placeholder="rajesh@example.com" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="pl-phone" placeholder="+91 98765 43210" class="form-control" required inputmode="numeric">
+              </div>
+
+              <div class="form-group">
+                <label>Employment Type</label>
+                <select id="pl-emptype" class="form-control">
+                  <option value="Salaried Employee">Salaried Employee</option>
+                  <option value="Self Employed">Self Employed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Requested Loan (₹)</label>
+                <input type="number" id="pl-loanamt" value="250000" class="form-control" required min="25000" max="4000000">
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
+                Get Pre-Approved Loan Offer with this image ➔
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </div>
 
     <!-- ==================== INSURANCE PAGE ==================== -->
     <div id="page-insurance" class="page-view">
-      <!-- Section 1: Hero Banner -->
       <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
         <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
           <div>
@@ -549,7 +670,6 @@
         </div>
       </section>
 
-      <!-- Section 2: Coverage Types & Details -->
       <section style="padding:60px 0; background:#ffffff;">
         <div class="container">
           <div style="display:flex; justify-content:center; gap:12px; margin-bottom:36px; flex-wrap:wrap;">
@@ -605,7 +725,6 @@
         </div>
       </section>
 
-      <!-- Section 3: Instant Quote Wizard -->
       <section id="quote-wizard-section" style="padding:60px 0; background:#f0f8ff; border-top:1px solid #bae6fd;">
         <div class="container" style="max-width:700px;">
           <div class="card" style="padding:36px; border:2px solid #bae6fd; box-shadow:var(--shadow-lg);">
@@ -644,12 +763,20 @@
       </section>
     </div>
 
+    <!-- ==================== BUSINESS LOAN PAGE ==================== -->
+    <div id="page-business-loans" class="page-view">
+      <div class="container" style="padding:60px 0;">
+        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans[span_9](start_span)[span_9](end_span)</h1>
+        <p style="margin-bottom:24px;">Working capital & equipment financing up to ₹1 Crore.</p>
+        <button onclick="switchPage('register')" class="btn btn-primary">Apply Now →</button>
+      </div>
+    </div>
+
     <!-- ==================== APPLICATION FLOW ==================== -->
     <div id="page-register" class="page-view">
       <div class="register-wrapper">
         <div class="container">
           <div class="register-container-card">
-            
             <div class="register-hero-panel">
               <div>
                 <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#ffffff; margin-bottom:12px;">e-KYC VERIFIED</span>
@@ -686,12 +813,6 @@
             <div class="register-form-panel">
               <div style="display:flex; justify-content:flex-end; align-items:center; margin-bottom:14px;">
                 <span id="step-badge" class="badge-pill-light">Step 1 of 3</span>
-              </div>
-
-              <div class="mobile-step-nav">
-                <button type="button" class="mob-step-btn active" id="mob-step-1">1. Details</button>
-                <button type="button" class="mob-step-btn" id="mob-step-2">2. KYC</button>
-                <button type="button" class="mob-step-btn" id="mob-step-3">3. Bank</button>
               </div>
 
               <div id="form-success-box" style="display:none; animation:pageFade 0.4s ease;">
@@ -960,22 +1081,6 @@
       </div>
     </div>
 
-    <!-- OTHER LOAN TABS -->
-    <div id="page-personal-loans" class="page-view">
-      <div class="container" style="padding:60px 0;">
-        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Personal Loans</h1>
-        <p style="margin-bottom:24px;">Immediate credit lines up to ₹30 Lakhs with paperless e-KYC.</p>
-        <button onclick="switchPage('register')" class="btn btn-primary">Apply Now →</button>
-      </div>
-    </div>
-    <div id="page-business-loans" class="page-view">
-      <div class="container" style="padding:60px 0;">
-        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans</h1>
-        <p style="margin-bottom:24px;">Working capital & equipment financing up to ₹1 Crore.</p>
-        <button onclick="switchPage('register')" class="btn btn-primary">Apply Now →</button>
-      </div>
-    </div>
-
     <!-- CLIENT LOGIN PAGE -->
     <div id="page-login" class="page-view">
       <div style="max-width:420px; margin:70px auto; padding:0 20px;">
@@ -1155,7 +1260,7 @@
       const amtEl = document.getElementById('slider-amt');
       if (!amtEl) return;
       const p = Number(amtEl.value) || 500000;
-      const rAnnual = Number(document.getElementById('slider-rate').value) || 12;
+      const rAnnual = Number(document.getElementById('slider-rate').value) || 11.9;
       const n = Number(document.getElementById('slider-tenure').value) || 24;
 
       document.getElementById('slider-amt-display').innerText = '₹' + p.toLocaleString('en-IN');
@@ -1167,16 +1272,6 @@
       const totalPayable = emi * n;
       document.getElementById('home-emi-result').innerText = '₹' + emi.toLocaleString('en-IN');
       document.getElementById('home-total-payable').innerText = '₹' + totalPayable.toLocaleString('en-IN');
-    }
-
-    function applyWithCalculatedValues() {
-      const p = document.getElementById('slider-amt').value;
-      const n = document.getElementById('slider-tenure').value;
-      switchPage('register');
-      document.getElementById('reg-loanAmount').value = p;
-      document.getElementById('reg-tenure').value = n;
-      updateEmiPreview();
-      showToast('Loan values updated to Step 3');
     }
 
     function checkAuthAndNavigate() {
@@ -1230,9 +1325,6 @@
 
         const chk = document.getElementById('chk-step-' + i);
         if (chk) chk.classList.toggle('active', i === step);
-
-        const mobBtn = document.getElementById('mob-step-' + i);
-        if (mobBtn) mobBtn.classList.toggle('active', i === step);
       }
 
       const stepTitles = {
@@ -1245,9 +1337,6 @@
 
       const badgeEl = document.getElementById('step-badge');
       if (badgeEl) badgeEl.innerText = `Step ${step} of 3`;
-
-      const formTop = document.getElementById('form-steps-container');
-      if (formTop) formTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function handleImageUpload(event, key) {
@@ -1633,6 +1722,14 @@
 
     function closeAdminModal() {
       document.getElementById('admin-client-modal').style.display = 'none';
+    }
+
+    function handlePersonalLoanSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('pl-name').value.trim();
+      const email = document.getElementById('pl-email').value.trim();
+      const amt = document.getElementById('pl-loanamt').value;
+      showToast(`Pre-approved offer generated for ${name} (₹${Number(amt).toLocaleString('en-IN')}). Sent to ${email}`);
     }
 
     function logoutClient() {
