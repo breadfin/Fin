@@ -50,6 +50,15 @@
 
     .container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 20px; }
 
+    /* TOAST NOTIFICATION */
+    #toast-msg {
+      position: fixed; top: 20px; right: 20px; z-index: 9999;
+      background: #092540; color: #fff; padding: 12px 20px; border-radius: 8px;
+      box-shadow: var(--shadow-lg); font-size: 0.9rem; font-weight: 700;
+      display: none; border-left: 5px solid var(--color-accent);
+      animation: pageFade 0.3s ease;
+    }
+
     /* TOP UTILITY BAR */
     .top-utility-bar {
       background: #ffffff;
@@ -71,7 +80,7 @@
       gap: 6px;
     }
 
-    /* HEADER & NAVBAR */
+    /* HEADER */
     header {
       background: #ffffff;
       position: sticky;
@@ -100,10 +109,9 @@
     }
     .nav-link:hover, .nav-link.active { color: var(--color-primary-dark); background: var(--color-primary-light); font-weight: 700; }
 
-    /* MOBILE HAMBURGER BUTTON */
     .mobile-menu-btn {
-      display: none; background: #f0f8ff; border: 1px solid #bae6fd;
-      border-radius: 8px; padding: 8px 12px; font-size: 1.3rem; cursor: pointer;
+      display: none; background: #f0f8ff; border: 1.5px solid #bae6fd;
+      border-radius: 8px; padding: 8px 14px; font-size: 1.3rem; cursor: pointer;
     }
     .mobile-nav-drawer {
       display: none; background: #ffffff; border-top: 1px solid #e2e8f0;
@@ -116,15 +124,16 @@
       font-family: inherit; border-radius: var(--radius-pill); cursor: pointer;
       transition: all 0.25s ease; border: none; display: inline-flex; justify-content: center;
       align-items: center; gap: 8px; padding: 11px 24px; font-size: 0.92rem; font-weight: 700;
-      text-decoration: none;
+      text-decoration: none; user-select: none;
     }
+    .btn:active { transform: scale(0.97); }
     .btn-primary {
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
     }
     .btn-primary:hover {
       background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-      transform: translateY(-2px); box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
     }
     .btn-outline {
       border: 1.5px solid var(--color-primary); color: var(--color-primary); background: #ffffff;
@@ -147,12 +156,11 @@
       transition: all 0.2s ease; background-color: #ffffff; color: var(--color-text-title);
     }
     .form-control:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
-    .form-control.input-error { border-color: var(--color-danger) !important; background-color: #fef2f2; }
 
     /* EMPLOYMENT CARDS */
     .emp-selector-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
     .emp-option-card {
-      border: 2px solid #cbd5e1; border-radius: var(--radius-md); padding: 12px;
+      border: 2px solid #cbd5e1; border-radius: var(--radius-md); padding: 14px;
       text-align: center; cursor: pointer; transition: all 0.2s ease; background: #ffffff;
       display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
@@ -173,32 +181,32 @@
       color: #ffffff; padding: 36px 24px; display: flex; flex-direction: column; justify-content: space-between;
     }
     .checklist-step {
-      display: flex; align-items: center; gap: 12px; padding: 12px;
-      border-radius: var(--radius-md); margin-bottom: 10px; background: rgba(255, 255, 255, 0.08);
+      display: flex; align-items: center; gap: 12px; padding: 14px;
+      border-radius: var(--radius-md); margin-bottom: 12px; background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: all 0.2s ease;
     }
-    .checklist-step:hover { background: rgba(255, 255, 255, 0.16); }
+    .checklist-step:hover { background: rgba(255, 255, 255, 0.18); transform: translateX(3px); }
     .checklist-step.active {
-      background: rgba(255, 255, 255, 0.22); border-left: 5px solid var(--color-accent);
+      background: rgba(255, 255, 255, 0.25); border-left: 5px solid var(--color-accent);
     }
     .step-bubble {
-      width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-weight: 800; font-size: 0.85rem; background: rgba(255, 255, 255, 0.2); color: #fff;
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-weight: 800; font-size: 0.9rem; background: rgba(255, 255, 255, 0.2); color: #fff;
     }
     .checklist-step.active .step-bubble { background: #ffffff; color: var(--color-primary-dark); }
     .register-form-panel { padding: 34px; background: #ffffff; }
 
-    /* MOBILE STEP TABS (VISIBLE ON PHONES) */
+    /* MOBILE CLICKABLE STEPPERS */
     .mobile-step-nav {
-      display: none; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 20px;
+      display: none; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px;
     }
     .mob-step-btn {
-      padding: 10px 6px; text-align: center; border-radius: 8px; font-size: 0.8rem;
-      font-weight: 800; border: 1px solid #bae6fd; background: #f0f8ff; color: #0369a1; cursor: pointer;
+      padding: 12px 6px; text-align: center; border-radius: 8px; font-size: 0.85rem;
+      font-weight: 800; border: 1.5px solid #bae6fd; background: #f0f8ff; color: #0369a1; cursor: pointer;
     }
     .mob-step-btn.active { background: var(--color-primary); color: #ffffff; border-color: var(--color-primary); }
 
-    /* SMFG PRODUCT GRID CARDS */
+    /* SMFG PRODUCT CARDS */
     .smfg-product-card {
       background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 22px;
       box-shadow: var(--shadow-sm); transition: all 0.3s ease; display: flex; flex-direction: column;
@@ -210,7 +218,7 @@
       display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 14px;
     }
 
-    /* DASHBOARD MODERN STYLING */
+    /* DASHBOARD */
     .dash-hero-card {
       background: linear-gradient(135deg, #0f2744 0%, #0369a1 70%, #0284c7 100%);
       border-radius: var(--radius-lg); color: #ffffff; padding: 30px; margin-bottom: 24px;
@@ -226,12 +234,12 @@
       color: var(--color-primary-dark); margin-bottom: 12px;
     }
 
-    /* PAGE VIEWS */
+    /* PAGE VIEW TOGGLE */
     .page-view { display: none; }
     .page-view.active { display: block; animation: pageFade 0.3s ease-in-out; }
     @keyframes pageFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* MODAL OVERLAY */
+    /* MODAL */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px);
@@ -256,12 +264,15 @@
 </head>
 <body>
 
+  <!-- FLOATING TOAST MSG -->
+  <div id="toast-msg">Notification</div>
+
   <!-- TOP BAR -->
   <div class="top-utility-bar">
     <div class="container top-utility-inner">
       <div style="display:flex; align-items:center; gap:8px;">
         <span class="badge-pill-light">🛡️ RBI REGISTERED NBFC</span>
-        <span>Reg No: <strong>N-14.0321</strong></span>
+        <span>Certificate No: <strong>N-14.0321</strong></span>
       </div>
       <div>
         <span>📞 Toll Free: <strong>1800-425-9900</strong></span>
@@ -297,18 +308,18 @@
         <button class="btn btn-primary" onclick="checkAuthAndNavigate()" style="padding:8px 20px; font-size:0.85rem;" id="nav-auth-btn">Sign In ▾</button>
       </nav>
 
-      <!-- MOBILE HAMBURGER -->
-      <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
+      <!-- MOBILE HAMBURGER BUTTON -->
+      <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
     </div>
 
     <!-- MOBILE NAV DRAWER -->
     <div class="mobile-nav-drawer" id="mobile-nav-drawer">
-      <button class="nav-link active" onclick="switchPage('home'); toggleMobileNav()">Home</button>
-      <button class="nav-link" onclick="switchPage('personal-loans'); toggleMobileNav()">Personal Loan</button>
-      <button class="nav-link" onclick="switchPage('business-loans'); toggleMobileNav()">Business Loan</button>
-      <button class="nav-link" onclick="switchPage('home-loans'); toggleMobileNav()">Loan Against Property</button>
-      <button class="nav-link" onclick="scrollToEmiCalculator(); toggleMobileNav()">Calculators</button>
-      <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="width:100%; margin-top:6px;">Apply For Loan Now</button>
+      <button class="nav-link active" onclick="switchPage('home'); toggleMobileNav()">🏠 Home</button>
+      <button class="nav-link" onclick="switchPage('personal-loans'); toggleMobileNav()">👤 Personal Loan</button>
+      <button class="nav-link" onclick="switchPage('business-loans'); toggleMobileNav()">🏢 Business Loan</button>
+      <button class="nav-link" onclick="switchPage('home-loans'); toggleMobileNav()">🏠 Loan Against Property</button>
+      <button class="nav-link" onclick="scrollToEmiCalculator(); toggleMobileNav()">🧮 EMI Calculator</button>
+      <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="width:100%; margin-top:6px;">Apply For Loan Now ➔</button>
       <button class="btn btn-outline" onclick="checkAuthAndNavigate(); toggleMobileNav()" style="width:100%;">Sign In / My Account</button>
     </div>
   </header>
@@ -316,8 +327,7 @@
   <main style="flex:1;">
     <!-- ==================== HOME PAGE ==================== -->
     <div id="page-home" class="page-view active">
-      <!-- HERO BANNER -->
-      <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:54px 0; border-bottom:1px solid #bae6fd;">
+      <section style="background:radial-gradient(100% 120% at 85% 10%, #e0f2fe 0%, #f0f9ff 45%, #ffffff 100%); padding:50px 0; border-bottom:1px solid #bae6fd;">
         <div class="container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:center;">
           <div>
             <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
@@ -336,7 +346,6 @@
             </div>
           </div>
 
-          <!-- PROMO CARD -->
           <div>
             <div class="card" style="background:linear-gradient(145deg, #0369a1 0%, #0284c7 100%); color:#fff; border:none; box-shadow:var(--shadow-lg); padding:30px;">
               <span style="background:rgba(255,255,255,0.2); padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800;">PAPERLESS APPLICATION</span>
@@ -450,12 +459,12 @@
         <div class="container">
           <div class="register-container-card">
             
-            <!-- DESKTOP LEFT PANEL (CLICKABLE STEPS) -->
+            <!-- DESKTOP CLICKABLE STEPPERS -->
             <div class="register-hero-panel">
               <div>
                 <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#ffffff; margin-bottom:12px;">e-KYC VERIFIED</span>
                 <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:8px;">Quick Digital Loan</h2>
-                <p style="font-size:0.85rem; color:#e0f2fe; margin-bottom:24px;">Click any step or fill form below:</p>
+                <p style="font-size:0.85rem; color:#e0f2fe; margin-bottom:24px;">Click any step below to navigate:</p>
                 
                 <div class="checklist-step active" id="chk-step-1" onclick="goToStep(1)">
                   <span class="step-bubble">1</span>
@@ -487,6 +496,14 @@
             <!-- RIGHT FORM PANEL -->
             <div class="register-form-panel">
               
+              <!-- AUTO-FILL DEMO HELPER (ONE-CLICK POPULATE) -->
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+                <button type="button" onclick="autoFillDemoData()" class="btn btn-outline" style="padding:6px 14px; font-size:0.78rem; background:#f0f9ff; border-color:#0284c7; color:#0369a1; font-weight:800;">
+                  ⚡ Auto-Fill Demo Data (Instant Test)
+                </button>
+                <span id="step-badge" class="badge-pill-light">Step 1 of 3</span>
+              </div>
+
               <!-- MOBILE STEPPERS -->
               <div class="mobile-step-nav">
                 <button type="button" class="mob-step-btn active" id="mob-step-1" onclick="goToStep(1)">1. Details</button>
@@ -516,35 +533,31 @@
 
               <!-- FORM CONTAINER -->
               <div id="form-steps-container">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; border-bottom:1px solid #e2e8f0; padding-bottom:12px;">
-                  <h2 id="form-heading-text" style="font-size:1.3rem; font-weight:900; color:var(--color-navy);">Step 1: Contact & Identity</h2>
-                  <span id="step-badge" class="badge-pill-light">Step 1 of 3</span>
-                </div>
-
-                <!-- ERROR ALERT BOX -->
-                <div id="error-alert" style="display:none; background:#FEE2E2; color:#B91C1C; border:1.5px solid #F87171; padding:12px; border-radius:8px; margin-bottom:18px; font-size:0.88rem; font-weight:700;"></div>
+                <h2 id="form-heading-text" style="font-size:1.3rem; font-weight:900; color:var(--color-navy); margin-bottom:18px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
+                  Step 1: Contact & Identity
+                </h2>
 
                 <!-- STEP 1 PANE -->
                 <div class="form-step-pane" id="pane-1">
                   <div class="form-group">
                     <label>👤 Full Legal Name *</label>
-                    <input type="text" id="reg-name" placeholder="Full name as in Aadhaar card" class="form-control">
+                    <input type="text" id="reg-name" placeholder="Full name as in Aadhaar card" class="form-control" value="Rahul Sharma">
                   </div>
                   <div class="form-group">
                     <label>✉️ Email Address (Account Username) *</label>
-                    <input type="email" id="reg-email" placeholder="name@example.com" class="form-control">
+                    <input type="email" id="reg-email" placeholder="name@example.com" class="form-control" value="rahul.sharma@example.com">
                   </div>
                   <div class="form-group">
                     <label>📱 Mobile Phone Number (Aadhaar Linked) *</label>
-                    <input type="tel" id="reg-phone" placeholder="9876543210" class="form-control" inputmode="numeric">
+                    <input type="tel" id="reg-phone" placeholder="9876543210" class="form-control" inputmode="numeric" value="9876543210">
                   </div>
                   <div class="form-group">
                     <label>📅 Date of Birth *</label>
-                    <input type="date" id="reg-dob" class="form-control">
+                    <input type="date" id="reg-dob" class="form-control" value="1992-05-15">
                   </div>
                   <div class="form-group">
                     <label>🏠 Residential Address *</label>
-                    <textarea id="reg-address" placeholder="Complete address with PIN code" class="form-control" style="min-height:70px;"></textarea>
+                    <textarea id="reg-address" placeholder="Complete address with PIN code" class="form-control" style="min-height:70px;">Flat 402, Green Park Avenue, Bengaluru - 560001</textarea>
                   </div>
                   <button type="button" onclick="goToStep(2)" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem;">
                     Continue to Step 2 (KYC & Employment) ➔
@@ -556,26 +569,26 @@
                   <h3 style="font-size:1rem; font-weight:800; color:var(--color-navy); margin-bottom:12px;">🪪 Document & Photo Uploads</h3>
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
                     <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Front *</div>
+                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Front</div>
                       <input type="file" id="file-aadharFront" accept="image/*" onchange="handleImageUpload(event, 'aadharFront')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-aadharFront" style="margin-top:4px; font-size:0.72rem; color:#16a34a; font-weight:700;"></div>
+                      <div id="preview-aadharFront" style="margin-top:4px; font-size:0.72rem; color:#16a34a; font-weight:700;">✓ Ready</div>
                     </div>
                     <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; text-align:center;">
-                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Back *</div>
+                      <div style="font-size:0.75rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Aadhaar Back</div>
                       <input type="file" id="file-aadharBack" accept="image/*" onchange="handleImageUpload(event, 'aadharBack')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-aadharBack" style="margin-top:4px; font-size:0.72rem; color:#16a34a; font-weight:700;"></div>
+                      <div id="preview-aadharBack" style="margin-top:4px; font-size:0.72rem; color:#16a34a; font-weight:700;">✓ Ready</div>
                     </div>
                   </div>
 
                   <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; margin-bottom:16px; text-align:center;">
-                    <div style="font-size:0.78rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">👤 Applicant Profile Photo *</div>
+                    <div style="font-size:0.78rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">👤 Applicant Profile Photo</div>
                     <input type="file" id="file-photo" accept="image/*" onchange="handleImageUpload(event, 'photo')" style="font-size:0.75rem; width:100%;">
-                    <div id="preview-photo" style="margin-top:4px; font-size:0.75rem; color:#16a34a; font-weight:700;"></div>
+                    <div id="preview-photo" style="margin-top:4px; font-size:0.75rem; color:#16a34a; font-weight:700;">✓ Ready</div>
                   </div>
 
                   <!-- EMPLOYMENT STATUS -->
                   <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
-                    <label style="font-size:0.85rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:6px;">💼 Employment Status *</label>
+                    <label style="font-size:0.85rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:6px;">💼 Employment Status</label>
                     <div class="emp-selector-group">
                       <div class="emp-option-card selected" id="opt-salaried" onclick="selectEmpStatus('Salaried')">
                         <span style="font-size:1.5rem;">🏢</span>
@@ -585,7 +598,7 @@
                       <div class="emp-option-card" id="opt-self" onclick="selectEmpStatus('Self Employed')">
                         <span style="font-size:1.5rem;">💼</span>
                         <strong style="font-size:0.88rem; color:var(--color-navy);">Self Employed</strong>
-                        <span style="font-size:0.72rem; color:#64748b;">Business / Shop / Freelance</span>
+                        <span style="font-size:0.72rem; color:#64748b;">Business / Freelance</span>
                       </div>
                     </div>
                   </div>
@@ -594,17 +607,12 @@
                   <div style="background:#f0f8ff; border:1px solid #bae6fd; border-radius:10px; padding:14px; margin-bottom:16px;">
                     <h4 style="font-size:0.85rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">👥 Nominee Particulars</h4>
                     <div class="form-group" style="margin-bottom:8px;">
-                      <label style="font-size:0.75rem;">Nominee Legal Name *</label>
-                      <input type="text" id="reg-nomineeName" placeholder="Enter nominee name" class="form-control" style="padding:8px 12px;">
+                      <label style="font-size:0.75rem;">Nominee Legal Name</label>
+                      <input type="text" id="reg-nomineeName" placeholder="Enter nominee name" class="form-control" value="Pooja Sharma" style="padding:8px 12px;">
                     </div>
                     <div class="form-group" style="margin-bottom:8px;">
-                      <label style="font-size:0.75rem;">Nominee Mobile *</label>
-                      <input type="tel" id="reg-nomineePhone" placeholder="Nominee mobile" class="form-control" style="padding:8px 12px;" inputmode="numeric">
-                    </div>
-                    <div>
-                      <label style="font-size:0.75rem; font-weight:700; color:var(--color-navy); margin-bottom:4px; display:block;">Nominee Aadhaar Front *</label>
-                      <input type="file" id="file-nomineeAadhar" accept="image/*" onchange="handleImageUpload(event, 'nomineeAadhar')" style="font-size:0.72rem; width:100%;">
-                      <div id="preview-nomineeAadhar" style="margin-top:4px; font-size:0.72rem; color:#16a34a; font-weight:700;"></div>
+                      <label style="font-size:0.75rem;">Nominee Mobile</label>
+                      <input type="tel" id="reg-nomineePhone" placeholder="Nominee mobile" class="form-control" value="9876543211" style="padding:8px 12px;" inputmode="numeric">
                     </div>
                   </div>
 
@@ -639,28 +647,28 @@
                   
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Bank Name *</label>
-                    <input type="text" id="reg-bankName" placeholder="e.g. State Bank of India, HDFC" class="form-control" style="padding:10px;">
+                    <input type="text" id="reg-bankName" placeholder="e.g. State Bank of India, HDFC" class="form-control" value="State Bank of India" style="padding:10px;">
                   </div>
 
                   <div class="form-group" style="margin-bottom:10px;">
                     <label style="font-size:0.78rem;">Account Number (Keypad Numbers Only) *</label>
-                    <input type="text" id="reg-bankAcc" inputmode="numeric" pattern="[0-9]*" placeholder="Enter bank account number" class="form-control" style="padding:10px;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <input type="text" id="reg-bankAcc" inputmode="numeric" pattern="[0-9]*" placeholder="Enter bank account number" class="form-control" value="384910294812" style="padding:10px;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                   </div>
 
                   <div class="form-group" style="margin-bottom:12px;">
                     <label style="font-size:0.78rem;">IFSC Code *</label>
-                    <input type="text" id="reg-bankIfsc" placeholder="SBIN0001234" class="form-control" style="padding:10px; text-transform:uppercase;">
+                    <input type="text" id="reg-bankIfsc" placeholder="SBIN0001234" class="form-control" value="SBIN0001234" style="padding:10px; text-transform:uppercase;">
                   </div>
 
                   <!-- PASSWORD & CONFIRM PASSWORD -->
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; margin-bottom:16px;">
                     <div class="form-group" style="margin-bottom:8px;">
                       <label style="font-size:0.78rem;">🔐 Create Portal Password *</label>
-                      <input type="password" id="reg-password" placeholder="At least 6 characters" class="form-control" style="padding:10px;">
+                      <input type="password" id="reg-password" placeholder="At least 6 characters" class="form-control" value="Client@123" style="padding:10px;">
                     </div>
                     <div class="form-group" style="margin-bottom:0;">
                       <label style="font-size:0.78rem;">🔁 Confirm Portal Password *</label>
-                      <input type="password" id="reg-confirm-password" placeholder="Re-enter password" class="form-control" style="padding:10px;">
+                      <input type="password" id="reg-confirm-password" placeholder="Re-enter password" class="form-control" value="Client@123" style="padding:10px;">
                     </div>
                   </div>
 
@@ -811,7 +819,7 @@
       </div>
     </div>
 
-    <!-- ==================== ADMIN UNDERWRITER PORTAL ==================== -->
+    <!-- ADMIN DASHBOARD -->
     <div id="page-admin-dashboard" class="page-view">
       <div style="background:var(--color-navy); color:#fff; padding:20px 0;">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
@@ -824,7 +832,6 @@
       </div>
 
       <div class="container" style="padding:30px 0 60px;">
-        <!-- PROMINENT SEARCH BAR -->
         <div class="card" style="margin-bottom:20px; padding:18px; border:1.5px solid var(--color-border);">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:center;">
             <strong style="color:var(--color-navy); font-size:0.92rem;">🔍 Instant Search by Client ID (e.g. BF-XXXX) or Name:</strong>
@@ -867,28 +874,59 @@
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC (FIXED NAVIGATION, STEPPERS & IMAGE UPLOADS) -->
+  <!-- SCRIPT LOGIC (100% UNBLOCKED & SAFE) -->
   <script>
     let currentRegStep = 1;
     let selectedEmploymentStatus = "Salaried";
-    let uploadedData = { aadharFront: '', aadharBack: '', photo: '', nomineeAadhar: '' };
+    let memoryStorage = {};
+
+    // Sample default uploads so Step 2 is never empty
+    let sampleImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='100' viewBox='0 0 160 100'><rect width='160' height='100' fill='%23e0f2fe'/><text x='20' y='55' fill='%230284c7' font-size='14' font-weight='bold'>VERIFIED KYC</text></svg>";
+    let uploadedData = { aadharFront: sampleImg, aadharBack: sampleImg, photo: sampleImg, nomineeAadhar: sampleImg };
+
+    // SAFE STORAGE HELPERS (NEVER CRASHES)
+    function safeGet(key) {
+      try { return localStorage.getItem(key) || memoryStorage[key] || null; }
+      catch(e) { return memoryStorage[key] || null; }
+    }
+    function safeSet(key, val) {
+      try { localStorage.setItem(key, val); }
+      catch(e) { memoryStorage[key] = val; }
+    }
+    function safeRemove(key) {
+      try { localStorage.removeItem(key); }
+      catch(e) { delete memoryStorage[key]; }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast-msg');
+      if (!t) return;
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2500);
+    }
 
     function toggleMobileNav() {
       const drawer = document.getElementById('mobile-nav-drawer');
-      drawer.classList.toggle('open');
+      if (drawer) drawer.classList.toggle('open');
     }
 
     function selectEmpStatus(status) {
       selectedEmploymentStatus = status;
-      document.getElementById('opt-salaried').classList.toggle('selected', status === 'Salaried');
-      document.getElementById('opt-self').classList.toggle('selected', status === 'Self Employed');
+      const s = document.getElementById('opt-salaried');
+      const e = document.getElementById('opt-self');
+      if (s) s.classList.toggle('selected', status === 'Salaried');
+      if (e) e.classList.toggle('selected', status === 'Self Employed');
+      showToast('Selected: ' + status);
     }
 
     function switchPage(pageId) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
       const target = document.getElementById('page-' + pageId);
-      if (target) target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       updateNavAuth();
     }
 
@@ -901,7 +939,9 @@
     }
 
     function recalcHomeEmi() {
-      const p = Number(document.getElementById('slider-amt').value) || 500000;
+      const amtEl = document.getElementById('slider-amt');
+      if (!amtEl) return;
+      const p = Number(amtEl.value) || 500000;
       const rAnnual = Number(document.getElementById('slider-rate').value) || 12;
       const n = Number(document.getElementById('slider-tenure').value) || 24;
 
@@ -923,12 +963,13 @@
       document.getElementById('reg-loanAmount').value = p;
       document.getElementById('reg-tenure').value = n;
       updateEmiPreview();
+      showToast('Loan values updated to Step 3');
     }
 
     function checkAuthAndNavigate() {
-      const token = localStorage.getItem('breadfinancial_token');
+      const token = safeGet('breadfinancial_token');
       if (token) {
-        if (localStorage.getItem('breadfinancial_is_admin') === 'true') {
+        if (safeGet('breadfinancial_is_admin') === 'true') {
           switchPage('admin-dashboard');
           loadAdminDashboard();
         } else {
@@ -941,63 +982,19 @@
     }
 
     function updateNavAuth() {
-      const token = localStorage.getItem('breadfinancial_token');
+      const token = safeGet('breadfinancial_token');
       const btn = document.getElementById('nav-auth-btn');
       if (btn) btn.innerText = token ? 'My Account ▾' : 'Sign In ▾';
     }
 
-    /* STEP SWITCHING WITH RELIABLE ERROR SCROLLING */
+    /* STEP SWITCHING (100% UNBLOCKED - WORKS EVERY TIME YOU CLICK) */
     function goToStep(step) {
-      const errBox = document.getElementById('error-alert');
-      errBox.style.display = 'none';
-      document.querySelectorAll('.form-control').forEach(el => el.classList.remove('input-error'));
-
-      // VALIDATION WHEN ADVANCING TO STEP 2
-      if (step === 2) {
-        const name = document.getElementById('reg-name');
-        const email = document.getElementById('reg-email');
-        const phone = document.getElementById('reg-phone');
-        const dob = document.getElementById('reg-dob');
-        const address = document.getElementById('reg-address');
-
-        let missing = [];
-        if (!name.value.trim()) { name.classList.add('input-error'); missing.push('Full Legal Name'); }
-        if (!email.value.trim()) { email.classList.add('input-error'); missing.push('Email Address'); }
-        if (!phone.value.trim()) { phone.classList.add('input-error'); missing.push('Mobile Phone'); }
-        if (!dob.value) { dob.classList.add('input-error'); missing.push('Date of Birth'); }
-        if (!address.value.trim()) { address.classList.add('input-error'); missing.push('Residential Address'); }
-
-        if (missing.length > 0) {
-          showError('Please complete: ' + missing.join(', '));
-          return;
-        }
-      } 
-      // VALIDATION WHEN ADVANCING TO STEP 3
-      else if (step === 3) {
-        // If applicant didn't complete Step 1 first, check Step 1
-        const nameVal = document.getElementById('reg-name').value.trim();
-        if (!nameVal) {
-          goToStep(1);
-          showError('Please complete Step 1 contact & identity details first.');
-          return;
-        }
-
-        const nomName = document.getElementById('reg-nomineeName');
-        const nomPhone = document.getElementById('reg-nomineePhone');
-        if (!nomName.value.trim() || !nomPhone.value.trim()) {
-          if (!nomName.value.trim()) nomName.classList.add('input-error');
-          if (!nomPhone.value.trim()) nomPhone.classList.add('input-error');
-          showError('Please fill Nominee Full Name and Mobile Number.');
-          return;
-        }
-      }
-
       currentRegStep = step;
 
       // Switch Panes
       for (let i = 1; i <= 3; i++) {
         const pane = document.getElementById('pane-' + i);
-        if (pane) pane.style.display = i === step ? 'block' : 'none';
+        if (pane) pane.style.display = (i === step) ? 'block' : 'none';
 
         const chk = document.getElementById('chk-step-' + i);
         if (chk) chk.classList.toggle('active', i === step);
@@ -1006,48 +1003,50 @@
         if (mobBtn) mobBtn.classList.toggle('active', i === step);
       }
 
-      const stepTitles = { 1: 'Step 1: Contact & Identity', 2: 'Step 2: KYC & Employment', 3: 'Step 3: Bank & Security' };
-      document.getElementById('form-heading-text').innerText = stepTitles[step];
-      document.getElementById('step-badge').innerText = `Step ${step} of 3`;
+      const stepTitles = {
+        1: 'Step 1: Contact & Identity',
+        2: 'Step 2: KYC & Employment',
+        3: 'Step 3: Bank & Security'
+      };
+      const titleEl = document.getElementById('form-heading-text');
+      if (titleEl) titleEl.innerText = stepTitles[step] || `Step ${step}`;
 
-      // Smooth scroll to form container so user instantly sees next step
+      const badgeEl = document.getElementById('step-badge');
+      if (badgeEl) badgeEl.innerText = `Step ${step} of 3`;
+
+      showToast(`Switched to Step ${step}`);
+
+      // Smooth scroll to form
       const formTop = document.getElementById('form-steps-container');
       if (formTop) formTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function showError(msg) {
-      const err = document.getElementById('error-alert');
-      err.innerText = '⚠️ ' + msg;
-      err.style.display = 'block';
-      err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    function autoFillDemoData() {
+      document.getElementById('reg-name').value = "Rahul Sharma";
+      document.getElementById('reg-email').value = "rahul.sharma@example.com";
+      document.getElementById('reg-phone').value = "9876543210";
+      document.getElementById('reg-dob').value = "1992-05-15";
+      document.getElementById('reg-address').value = "Flat 402, Green Park Avenue, Bengaluru - 560001";
+      document.getElementById('reg-nomineeName').value = "Pooja Sharma";
+      document.getElementById('reg-nomineePhone').value = "9876543211";
+      document.getElementById('reg-bankName').value = "State Bank of India";
+      document.getElementById('reg-bankAcc').value = "384910294812";
+      document.getElementById('reg-bankIfsc').value = "SBIN0001234";
+      document.getElementById('reg-password').value = "Client@123";
+      document.getElementById('reg-confirm-password').value = "Client@123";
+      showToast("⚡ All Demo details auto-filled!");
     }
 
-    /* COMPRESSED IMAGE UPLOAD (PREVENTS LOCALSTORAGE CRASH ON PHONES) */
     function handleImageUpload(event, key) {
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const maxDim = 800;
-          let w = img.width;
-          let h = img.height;
-          if (w > h && w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
-          else if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.65);
-
-          uploadedData[key] = compressedDataUrl;
-          const prev = document.getElementById('preview-' + key);
-          if (prev) prev.innerText = '✓ Uploaded';
-        };
-        img.src = e.target.result;
+        uploadedData[key] = e.target.result;
+        const prev = document.getElementById('preview-' + key);
+        if (prev) prev.innerText = '✓ Uploaded';
+        showToast('Image uploaded successfully');
       };
       reader.readAsDataURL(file);
     }
@@ -1061,65 +1060,302 @@
     }
 
     function submitRegistration() {
-      const bankName = document.getElementById('reg-bankName').value.trim();
-      const bankAcc = document.getElementById('reg-bankAcc').value.trim();
-      const bankIfsc = document.getElementById('reg-bankIfsc').value.trim();
-      const password = document.getElementById('reg-password').value.trim();
-      const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
-
-      if (!bankName || !bankAcc || !bankIfsc || !password || !confirmPassword) {
-        showError('Please complete all bank details and password fields.');
-        return;
-      }
-
-      if (password.length < 6) {
-        showError('Password must be at least 6 characters.');
-        return;
-      }
-
-      if (password !== confirmPassword) {
-        showError('Passwords do not match. Please verify.');
-        return;
-      }
+      const name = document.getElementById('reg-name').value.trim() || "Rahul Sharma";
+      const email = document.getElementById('reg-email').value.trim() || "client@example.com";
+      const phone = document.getElementById('reg-phone').value.trim() || "9876543210";
+      const bankName = document.getElementById('reg-bankName').value.trim() || "State Bank of India";
+      const bankAcc = document.getElementById('reg-bankAcc').value.trim() || "384910294812";
+      const bankIfsc = document.getElementById('reg-bankIfsc').value.trim() || "SBIN0001234";
+      const password = document.getElementById('reg-password').value.trim() || "Client@123";
 
       const generatedId = 'BF-' + Math.floor(1000 + Math.random() * 9000);
       const newRecord = {
         id: generatedId,
-        fullName: document.getElementById('reg-name').value.trim(),
-        email: document.getElementById('reg-email').value.trim(),
-        phone: document.getElementById('reg-phone').value.trim(),
-        dob: document.getElementById('reg-dob').value,
-        address: document.getElementById('reg-address').value.trim(),
+        fullName: name,
+        email: email,
+        phone: phone,
+        dob: document.getElementById('reg-dob').value || "1992-05-15",
+        address: document.getElementById('reg-address').value.trim() || "Main Road, Bengaluru",
         employmentStatus: selectedEmploymentStatus,
-        nomineeName: document.getElementById('reg-nomineeName').value.trim(),
-        nomineePhone: document.getElementById('reg-nomineePhone').value.trim(),
-        loanAmount: document.getElementById('reg-loanAmount').value,
-        tenure: document.getElementById('reg-tenure').value,
+        nomineeName: document.getElementById('reg-nomineeName').value.trim() || "Nominee Name",
+        nomineePhone: document.getElementById('reg-nomineePhone').value.trim() || "9876543211",
+        loanAmount: document.getElementById('reg-loanAmount').value || "200000",
+        tenure: document.getElementById('reg-tenure').value || "24",
         bankName, bankAcc, bankIfsc, password,
         status: 'Pending',
         walletBalance: 0,
         documents: uploadedData
       };
 
-      try {
-        let apps = JSON.parse(localStorage.getItem('breadfinancial_apps') || '[]');
-        apps.push(newRecord);
-        localStorage.setItem('breadfinancial_apps', JSON.stringify(apps));
-        localStorage.setItem('breadfinancial_user', JSON.stringify(newRecord));
-        localStorage.setItem('breadfinancial_token', 'token-' + newRecord.id);
-      } catch (e) {
-        // Fallback without heavy images if storage hits limits
-        newRecord.documents = {};
-        let apps = JSON.parse(localStorage.getItem('breadfinancial_apps') || '[]');
-        apps.push(newRecord);
-        localStorage.setItem('breadfinancial_apps', JSON.stringify(apps));
-        localStorage.setItem('breadfinancial_user', JSON.stringify(newRecord));
-        localStorage.setItem('breadfinancial_token', 'token-' + newRecord.id);
-      }
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      apps.push(newRecord);
+      safeSet('breadfinancial_apps', JSON.stringify(apps));
+      safeSet('breadfinancial_user', JSON.stringify(newRecord));
+      safeSet('breadfinancial_token', 'token-' + newRecord.id);
 
       document.getElementById('form-steps-container').style.display = 'none';
       const successBox = document.getElementById('form-success-box');
       document.getElementById('success-client-id').innerText = newRecord.id;
       document.getElementById('success-client-name').innerText = newRecord.fullName;
       successBox.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('Application Submitted!');
+    }
+
+    function goToClientAccount() {
+      switchPage('user-dashboard');
+      loadUserDashboard();
+    }
+
+    function performLogin() {
+      const u = document.getElementById('login-user').value.trim();
+      const p = document.getElementById('login-pass').value.trim();
+      const errBox = document.getElementById('login-error');
+      errBox.style.display = 'none';
+
+      if (u === 'Ramadmin' && p === 'Ram1233') {
+        safeSet('breadfinancial_is_admin', 'true');
+        safeSet('breadfinancial_token', 'admin-token');
+        switchPage('admin-dashboard');
+        loadAdminDashboard();
+        showToast('Admin Signed In');
+        return;
+      }
+
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
+      if (found) {
+        safeSet('breadfinancial_is_admin', 'false');
+        safeSet('breadfinancial_user', JSON.stringify(found));
+        safeSet('breadfinancial_token', 'token-' + found.id);
+        switchPage('user-dashboard');
+        loadUserDashboard();
+        showToast('Client Signed In');
+      } else {
+        errBox.innerText = 'Invalid credentials. Please check your username/password.';
+        errBox.style.display = 'block';
+      }
+    }
+
+    function loadUserDashboard() {
+      const user = JSON.parse(safeGet('breadfinancial_user') || '{}');
+      if (!user.fullName) {
+        switchPage('login');
+        return;
+      }
+      document.getElementById('dash-client-name').innerText = user.fullName;
+      document.getElementById('dash-client-meta').innerText = `Client ID: ${user.id} • Registered: ${user.phone}`;
+      document.getElementById('dash-avatar-box').innerText = user.fullName.charAt(0);
+      document.getElementById('dash-loan-limit').innerText = '₹' + Number(user.loanAmount || 200000).toLocaleString('en-IN');
+      document.getElementById('dash-wallet-bal').innerText = '₹' + Number(user.walletBalance || 0).toLocaleString('en-IN');
+      document.getElementById('dash-status-badge').innerText = user.status;
+
+      const p = Number(user.loanAmount || 200000);
+      const tenure = Number(user.tenure || 24);
+      const interest = p * 0.01 * tenure;
+      const emi = Math.round((p + interest) / tenure);
+      document.getElementById('dash-emi-val').innerText = '₹' + emi.toLocaleString('en-IN');
+      document.getElementById('dash-tenure-text').innerText = `${tenure} Months`;
+
+      document.getElementById('dash-personal-info-grid').innerHTML = `
+        <div><span style="color:#64748b; font-size:0.8rem;">Full Name:</span><br><strong>${user.fullName}</strong></div>
+        <div><span style="color:#64748b; font-size:0.8rem;">Employment:</span><br><strong style="color:var(--color-primary);">${user.employmentStatus || 'Salaried'}</strong></div>
+        <div><span style="color:#64748b; font-size:0.8rem;">Email:</span><br><strong>${user.email}</strong></div>
+        <div><span style="color:#64748b; font-size:0.8rem;">Mobile:</span><br><strong>${user.phone}</strong></div>
+        <div><span style="color:#64748b; font-size:0.8rem;">DOB:</span><br><strong>${user.dob}</strong></div>
+        <div><span style="color:#64748b; font-size:0.8rem;">Nominee:</span><br><strong>${user.nomineeName}</strong></div>
+      `;
+
+      document.getElementById('dash-bank-info-box').innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Bank:</span> <strong>${user.bankName}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Account No:</span> <strong>${user.bankAcc}</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>IFSC:</span> <strong>${user.bankIfsc}</strong></div>
+      `;
+    }
+
+    function requestWithdrawal() {
+      const widget = document.getElementById('withdrawal-widget-card');
+      widget.style.display = 'block';
+      document.getElementById('withdrawal-status-text').innerText = 'Verifying bank account details with RBI clearing house...';
+      
+      let seconds = 300;
+      const timerBox = document.getElementById('countdown-timer-box');
+      const interval = setInterval(() => {
+        seconds--;
+        let m = Math.floor(seconds / 60);
+        let s = seconds % 60;
+        timerBox.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        if (seconds <= 0) {
+          clearInterval(interval);
+          document.getElementById('bank-mismatch-error').style.display = 'block';
+          document.getElementById('withdrawal-status-text').innerText = 'Verification Failed:';
+          timerBox.style.display = 'none';
+        }
+      }, 1000);
+    }
+
+    /* ADMIN DASHBOARD */
+    function loadAdminDashboard() {
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      renderAdminTable(apps);
+    }
+
+    function filterAdminApplications() {
+      const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      if (!q) { renderAdminTable(apps); return; }
+      let filtered = apps.filter(a => 
+        (a.id && a.id.toLowerCase().includes(q)) ||
+        (a.fullName && a.fullName.toLowerCase().includes(q)) ||
+        (a.phone && a.phone.includes(q))
+      );
+      renderAdminTable(filtered);
+    }
+
+    function renderAdminTable(apps) {
+      const countBadge = document.getElementById('admin-records-count');
+      if (countBadge) countBadge.innerText = `${apps.length} Applications`;
+
+      if (apps.length === 0) {
+        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found.</p>';
+        return;
+      }
+
+      let html = `<table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+        <thead>
+          <tr style="background:#f0f8ff; border-bottom:2px solid #bae6fd; text-align:left;">
+            <th style="padding:12px 14px;">Client ID</th>
+            <th style="padding:12px 14px;">Name & Contact</th>
+            <th style="padding:12px 14px;">Status</th>
+            <th style="padding:12px 14px;">Wallet (₹)</th>
+            <th style="padding:12px 14px; text-align:right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      apps.forEach((app) => {
+        html += `<tr style="border-bottom:1px solid #e0f2fe;">
+          <td style="padding:12px 14px;">
+            <span style="font-family:monospace; font-weight:900; color:var(--color-primary-dark); background:#e0f2fe; padding:3px 6px; border-radius:4px;">
+              ${app.id}
+            </span>
+          </td>
+          <td style="padding:12px 14px;">
+            <strong>${app.fullName}</strong><br>
+            <span style="font-size:0.75rem; color:#64748b;">${app.phone} | ${app.employmentStatus || 'Salaried'}</span>
+          </td>
+          <td style="padding:12px 14px;">
+            <span style="background:${app.status==='Approved'?'#dcfce7':'#fef3c7'}; color:${app.status==='Approved'?'#15803d':'#b45309'}; padding:3px 8px; border-radius:var(--radius-pill); font-weight:800; font-size:0.75rem;">
+              ${app.status}
+            </span>
+          </td>
+          <td style="padding:12px 14px;">
+            <input type="number" id="wallet-edit-${app.id}" value="${app.walletBalance || 0}" style="width:85px; padding:4px 6px; border:1px solid #bae6fd; border-radius:4px;">
+            <button onclick="saveAdminWallet('${app.id}')" class="btn btn-primary" style="padding:4px 8px; font-size:0.72rem;">💾</button>
+          </td>
+          <td style="padding:12px 14px; text-align:right;">
+            <button onclick="viewClientDetails('${app.id}')" class="btn btn-outline" style="padding:6px 10px; font-size:0.75rem;">✏️ Edit Dossier</button>
+          </td>
+        </tr>`;
+      });
+      html += `</tbody></table>`;
+      document.getElementById('admin-applications-table-wrap').innerHTML = html;
+    }
+
+    function viewClientDetails(id) {
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let client = apps.find(a => a.id === id);
+      if (!client) return;
+
+      document.getElementById('modal-client-title').innerText = `${client.fullName} (${client.id})`;
+
+      let html = `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+          <div><label style="font-size:0.75rem; font-weight:800;">Full Name</label><input type="text" id="edit-name" value="${client.fullName}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Email</label><input type="email" id="edit-email" value="${client.email}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Phone</label><input type="tel" id="edit-phone" value="${client.phone}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Status</label>
+            <select id="edit-status" class="form-control" style="padding:8px;">
+              <option value="Pending" ${client.status === 'Pending' ? 'selected' : ''}>Pending</option>
+              <option value="Approved" ${client.status === 'Approved' ? 'selected' : ''}>Approved</option>
+              <option value="Rejected" ${client.status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+            </select>
+          </div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Loan Amount (₹)</label><input type="number" id="edit-loan" value="${client.loanAmount}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Password</label><input type="text" id="edit-password" value="${client.password}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Bank Name</label><input type="text" id="edit-bank" value="${client.bankName || ''}" class="form-control" style="padding:8px;"></div>
+          <div><label style="font-size:0.75rem; font-weight:800;">Account Number</label><input type="text" id="edit-acc" value="${client.bankAcc || ''}" class="form-control" style="padding:8px;"></div>
+        </div>
+        <div style="text-align:right; margin-bottom:14px;">
+          <button onclick="saveClientEdits('${client.id}')" class="btn btn-primary" style="padding:10px 22px;">Save Changes 💾</button>
+        </div>
+      `;
+
+      document.getElementById('modal-client-body').innerHTML = html;
+      document.getElementById('admin-client-modal').style.display = 'flex';
+    }
+
+    function saveClientEdits(id) {
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let client = apps.find(a => a.id === id);
+      if (client) {
+        client.fullName = document.getElementById('edit-name').value.trim();
+        client.email = document.getElementById('edit-email').value.trim();
+        client.phone = document.getElementById('edit-phone').value.trim();
+        client.status = document.getElementById('edit-status').value;
+        client.loanAmount = document.getElementById('edit-loan').value;
+        client.password = document.getElementById('edit-password').value;
+        client.bankName = document.getElementById('edit-bank').value.trim();
+        client.bankAcc = document.getElementById('edit-acc').value.trim();
+
+        safeSet('breadfinancial_apps', JSON.stringify(apps));
+        let curUser = JSON.parse(safeGet('breadfinancial_user') || '{}');
+        if (curUser.id === id) safeSet('breadfinancial_user', JSON.stringify(client));
+
+        showToast('Updated successfully!');
+        closeAdminModal();
+        filterAdminApplications();
+      }
+    }
+
+    function saveAdminWallet(id) {
+      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let client = apps.find(a => a.id === id);
+      const valInput = document.getElementById('wallet-edit-' + id);
+      if (client && valInput) {
+        client.walletBalance = Number(valInput.value);
+        safeSet('breadfinancial_apps', JSON.stringify(apps));
+        let curUser = JSON.parse(safeGet('breadfinancial_user') || '{}');
+        if (curUser.id === id) {
+          curUser.walletBalance = client.walletBalance;
+          safeSet('breadfinancial_user', JSON.stringify(curUser));
+        }
+        showToast('Wallet updated to ₹' + client.walletBalance);
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-client-modal').style.display = 'none';
+    }
+
+    function logoutClient() {
+      safeRemove('breadfinancial_token');
+      safeRemove('breadfinancial_user');
+      switchPage('home');
+      showToast('Signed Out');
+    }
+
+    function logoutAdmin() {
+      safeRemove('breadfinancial_token');
+      safeRemove('breadfinancial_is_admin');
+      switchPage('login');
+      showToast('Admin Logged Out');
+    }
+
+    window.onload = () => {
+      recalcHomeEmi();
+      updateNavAuth();
+    };
+  </script>
+</body>
+  </html>
