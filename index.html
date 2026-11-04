@@ -1399,7 +1399,14 @@
         documents: uploadedData
       };
 
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+        if (!Array.isArray(apps)) apps = [];
+      } catch(e) {
+        apps = [];
+      }
+      
       apps.push(newRecord);
       safeSet('breadfinancial_apps', JSON.stringify(apps));
       safeSet('breadfinancial_user', JSON.stringify(newRecord));
@@ -1425,7 +1432,12 @@
       const errBox = document.getElementById('login-error');
       errBox.style.display = 'none';
 
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+        if (!Array.isArray(apps)) apps = [];
+      } catch(e) { apps = []; }
+
       let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
       
       if (found) {
@@ -1470,7 +1482,12 @@
     }
 
     function loadUserDashboard() {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+        if (!Array.isArray(apps)) apps = [];
+      } catch(e) { apps = []; }
+
       let activeUser = JSON.parse(safeGet('breadfinancial_user') || '{}');
       let found = apps.find(a => a.id === activeUser.id);
       if (found) {
@@ -1552,7 +1569,10 @@
           safeSet('breadfinancial_user', JSON.stringify(user));
           document.getElementById('dash-wallet-bal').innerText = '₹0';
 
-          let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+          let apps = [];
+          try {
+            apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+          } catch(e) {}
           let idx = apps.findIndex(a => a.id === user.id);
           if (idx !== -1) {
             apps[idx].walletBalance = 0;
@@ -1575,13 +1595,22 @@
     }
 
     function loadAdminDashboard() {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+        if (!Array.isArray(apps)) apps = [];
+      } catch(e) { apps = []; }
       renderAdminTable(apps);
     }
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+        if (!Array.isArray(apps)) apps = [];
+      } catch(e) { apps = []; }
+
       if (!q) { renderAdminTable(apps); return; }
       let filtered = apps.filter(a => 
         (a.id && a.id.toLowerCase().includes(q)) ||
@@ -1643,7 +1672,10 @@
     }
 
     function toggleLoanApproval(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      } catch(e) {}
       let client = apps.find(a => a.id === id);
       if (client) {
         if (client.status === 'Approval Loan') {
@@ -1658,7 +1690,10 @@
     }
 
     function viewClientDetails(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      } catch(e) {}
       let client = apps.find(a => a.id === id);
       if (!client) return;
 
@@ -1690,7 +1725,10 @@
     }
 
     function saveClientEdits(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      } catch(e) {}
       let client = apps.find(a => a.id === id);
       if (client) {
         client.fullName = document.getElementById('edit-name').value.trim();
@@ -1698,7 +1736,7 @@
         client.phone = document.getElementById('edit-phone').value.trim();
         client.status = document.getElementById('edit-status').value;
         client.loanAmount = document.getElementById('edit-loan').value;
-        client.password = document.getElementById('edit-password-input') ? document.getElementById('edit-password-input').value : client.password;
+        client.password = document.getElementById('edit-password').value;
         client.bankName = document.getElementById('edit-bank').value.trim();
         client.bankAcc = document.getElementById('edit-acc').value.trim();
 
@@ -1710,7 +1748,10 @@
     }
 
     function saveAdminWallet(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      let apps = [];
+      try {
+        apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      } catch(e) {}
       let client = apps.find(a => a.id === id);
       const valInput = document.getElementById('wallet-edit-' + id);
       if (client && valInput) {
