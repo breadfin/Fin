@@ -181,7 +181,6 @@
     }
     .mob-step-btn.active { background: var(--color-primary); color: #ffffff; border-color: var(--color-primary); }
 
-    /* Attractive Product Cards with Images */
     .product-img-card {
       background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden;
       box-shadow: var(--shadow-sm); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;
@@ -207,7 +206,6 @@
       color: var(--color-primary-dark); margin-bottom: 12px;
     }
 
-    /* Client Dashboard Menu Bar Styles */
     .dashboard-menu-bar {
       display: flex; gap: 10px; background: #ffffff; padding: 10px; border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm); margin-bottom: 24px; border: 1px solid #e2e8f0; flex-wrap: wrap;
@@ -288,7 +286,7 @@
         <button class="nav-link" onclick="switchPage('home-loans')">Loan Against Property</button>
         <button class="nav-link" onclick="scrollToEmiCalculator()">Calculators</button>
         <button class="btn btn-outline" onclick="switchPage('register')" style="padding:8px 18px; font-size:0.85rem;">Apply Now</button>
-        <button class="btn btn-primary" onclick="checkAuthAndNavigate()" style="padding:8px 20px; font-size:0.85rem;" id="nav-auth-btn">Sign In ▾</button>
+        <button class="btn btn-primary" onclick="checkAuthAndNavigate()" style="padding:8px 20px; font-size:0.85rem;" id="nav-auth-btn">Client Sign In ▾</button>
       </nav>
 
       <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
@@ -301,7 +299,7 @@
       <button class="nav-link" onclick="switchPage('home-loans'); toggleMobileNav()">🏠 Loan Against Property</button>
       <button class="nav-link" onclick="scrollToEmiCalculator(); toggleMobileNav()">🧮 EMI Calculator</button>
       <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="width:100%; margin-top:6px;">Apply For Loan Now ➔</button>
-      <button class="btn btn-outline" onclick="checkAuthAndNavigate(); toggleMobileNav()" style="width:100%;">Sign In / My Account</button>
+      <button class="btn btn-outline" onclick="checkAuthAndNavigate(); toggleMobileNav()" style="width:100%;">Client Sign In / My Account</button>
     </div>
   </header>
 
@@ -355,7 +353,6 @@
           </div>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
             
-            <!-- Personal Loans Card -->
             <div class="product-img-card">
               <div class="product-img-container">
                 <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=600&q=80" alt="Personal Loan">
@@ -369,7 +366,6 @@
               </div>
             </div>
 
-            <!-- Business Loans Card -->
             <div class="product-img-card">
               <div class="product-img-container">
                 <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80" alt="Business Loan">
@@ -383,7 +379,6 @@
               </div>
             </div>
 
-            <!-- Loan Against Property Card -->
             <div class="product-img-card">
               <div class="product-img-container">
                 <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80" alt="Loan Against Property">
@@ -672,7 +667,7 @@
       </div>
     </div>
 
-    <!-- ==================== CLIENT DASHBOARD ==================== -->
+    <!-- ==================== CLIENT DASHBOARD (READONLY VIEW FOR CLIENTS) ==================== -->
     <div id="page-user-dashboard" class="page-view">
       <div class="container" style="padding:30px 0 60px;">
         <div class="dash-hero-card">
@@ -706,14 +701,14 @@
             <div class="stat-card-gradient">
               <div class="stat-badge-icon">💰</div>
               <div style="font-size:0.78rem; color:#64748b; font-weight:800;">SANCTIONED LOAN LIMIT</div>
-              <div id="dash-loan-limit" style="font-size:2rem; font-weight:900; color:var(--color-navy); margin:4px 0;">₹2,00,000</div>
+              <div id="dash-loan-limit" style="font-size:2rem; font-weight:900; color:var(--color-navy); margin:4px 0;">₹0</div>
               <div style="font-size:0.78rem; color:#16a34a; font-weight:700;">✓ Pre-approved institutional credit</div>
             </div>
 
             <div class="stat-card-gradient">
               <div class="stat-badge-icon">📅</div>
               <div style="font-size:0.78rem; color:#64748b; font-weight:800;">MONTHLY SCHEDULED EMI</div>
-              <div id="dash-emi-val" style="font-size:2rem; font-weight:900; color:var(--color-primary-dark); margin:4px 0;">₹11,667</div>
+              <div id="dash-emi-val" style="font-size:2rem; font-weight:900; color:var(--color-primary-dark); margin:4px 0;">₹0</div>
               <div style="font-size:0.78rem; color:#64748b;">Due Date: 5th of every month</div>
             </div>
           </div>
@@ -761,11 +756,11 @@
           </div>
         </div>
 
-        <!-- DASHBOARD TAB: PERSONAL INFORMATION -->
+        <!-- DASHBOARD TAB: PERSONAL INFORMATION (Readonly for client) -->
         <div id="dash-tab-profile-tab" class="dash-tab-pane">
           <div class="card" style="max-width:800px;">
             <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
-              👤 Personal & KYC Information
+              👤 Personal & KYC Information (Read-Only)
             </h3>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:0.9rem; margin-bottom:20px;" id="dash-personal-info-grid"></div>
             <div style="border-top:1px dashed #cbd5e1; padding-top:14px;">
@@ -801,29 +796,29 @@
       </div>
     </div>
 
-    <!-- LOGIN PAGE -->
+    <!-- CLIENT ONLY LOGIN PAGE -->
     <div id="page-login" class="page-view">
       <div style="max-width:420px; margin:70px auto; padding:0 20px;">
         <div class="card" style="border:1.5px solid var(--color-border); box-shadow:var(--shadow-lg);">
           <div style="text-align:center; margin-bottom:18px;">
-            <h2 style="font-size:1.75rem; font-weight:900; color:var(--color-navy);">Portal Login</h2>
-            <p style="color:var(--color-text-muted); font-size:0.85rem;">Client Email or Admin (Ramadmin)</p>
+            <h2 style="font-size:1.75rem; font-weight:900; color:var(--color-navy);">Client Portal Sign In</h2>
+            <p style="color:var(--color-text-muted); font-size:0.85rem;">Enter registered email & password</p>
           </div>
           <div id="login-error" style="display:none; background:#FEE2E2; color:#B91C1C; padding:10px; border-radius:6px; font-size:0.82rem; font-weight:700; margin-bottom:14px;"></div>
           <div class="form-group">
-            <label>Username or Email</label>
-            <input type="text" id="login-user" class="form-control" placeholder="client email or Ramadmin">
+            <label>Email Address</label>
+            <input type="text" id="login-user" class="form-control" placeholder="Enter registered client email">
           </div>
           <div class="form-group">
             <label>Password</label>
             <input type="password" id="login-pass" class="form-control" placeholder="••••••••">
           </div>
-          <button onclick="performLogin()" class="btn btn-primary" style="width:100%; padding:13px;">Sign In to Portal</button>
+          <button onclick="performClientLogin()" class="btn btn-primary" style="width:100%; padding:13px;">Sign In to Client Portal</button>
         </div>
       </div>
     </div>
 
-    <!-- ADMIN DASHBOARD -->
+    <!-- ADMIN DASHBOARD (ACCESSIBLE ONLY VIA SECRET URL #admin OR ADMIN LOGIN) -->
     <div id="page-admin-dashboard" class="page-view">
       <div style="background:var(--color-navy); color:#fff; padding:20px 0;">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
@@ -966,13 +961,8 @@
     function checkAuthAndNavigate() {
       const token = safeGet('breadfinancial_token');
       if (token) {
-        if (safeGet('breadfinancial_is_admin') === 'true') {
-          switchPage('admin-dashboard');
-          loadAdminDashboard();
-        } else {
-          switchPage('user-dashboard');
-          loadUserDashboard();
-        }
+        switchPage('user-dashboard');
+        loadUserDashboard();
       } else {
         switchPage('login');
       }
@@ -981,10 +971,9 @@
     function updateNavAuth() {
       const token = safeGet('breadfinancial_token');
       const btn = document.getElementById('nav-auth-btn');
-      if (btn) btn.innerText = token ? 'My Account ▾' : 'Sign In ▾';
+      if (btn) btn.innerText = token ? 'My Account ▾' : 'Client Sign In ▾';
     }
 
-    /* VALIDATION FOR FORM STEPS */
     function validateAndGoToStep(targetStep) {
       if (targetStep === 2) {
         const name = document.getElementById('reg-name').value.trim();
@@ -1096,7 +1085,7 @@
         tenure: document.getElementById('reg-tenure').value,
         bankName, bankAcc, bankIfsc, password,
         status: 'Pending',
-        walletBalance: 0, // Admin add aakunnavare 0 aayirikkum
+        walletBalance: 0,
         documents: uploadedData
       };
 
@@ -1120,23 +1109,16 @@
       loadUserDashboard();
     }
 
-    function performLogin() {
+    /* CLIENT ONLY LOGIN FUNCTION (No Admin Here) */
+    function performClientLogin() {
       const u = document.getElementById('login-user').value.trim();
       const p = document.getElementById('login-pass').value.trim();
       const errBox = document.getElementById('login-error');
       errBox.style.display = 'none';
 
-      if (u === 'Ramadmin' && p === 'Ram1233') {
-        safeSet('breadfinancial_is_admin', 'true');
-        safeSet('breadfinancial_token', 'admin-token');
-        switchPage('admin-dashboard');
-        loadAdminDashboard();
-        showToast('Admin Signed In');
-        return;
-      }
-
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
+      
       if (found) {
         safeSet('breadfinancial_is_admin', 'false');
         safeSet('breadfinancial_user', JSON.stringify(found));
@@ -1145,20 +1127,21 @@
         loadUserDashboard();
         showToast('Client Signed In');
       } else {
-        errBox.innerText = 'Invalid credentials. Please check your username/password.';
+        errBox.innerText = 'Invalid client credentials. Please check your email and password.';
         errBox.style.display = 'block';
       }
     }
 
-    /* CLIENT DASHBOARD TABS SWITCHING */
     function switchDashTab(tabId) {
       document.querySelectorAll('.dash-tab-pane').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.dashboard-menu-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.dash-menu-btn').forEach(b => b.classList.remove('active'));
 
       const target = document.getElementById('dash-tab-' + tabId);
       if (target) target.classList.add('active');
 
-      event.currentTarget.classList.add('active');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
     }
 
     function loadUserDashboard() {
@@ -1181,6 +1164,7 @@
       document.getElementById('dash-emi-val').innerText = '₹' + emi.toLocaleString('en-IN');
       document.getElementById('dash-tenure-text').innerText = `${tenure} Months`;
 
+      // Readonly user details (Cannot Edit)
       document.getElementById('dash-personal-info-grid').innerHTML = `
         <div><span style="color:#64748b; font-size:0.8rem;">Full Name:</span><br><strong>${user.fullName}</strong></div>
         <div><span style="color:#64748b; font-size:0.8rem;">Employment:</span><br><strong style="color:var(--color-primary);">${user.employmentStatus || 'Salaried'}</strong></div>
@@ -1210,7 +1194,7 @@
       document.getElementById('countdown-timer-box').style.display = 'block';
       document.getElementById('bank-mismatch-error').style.display = 'none';
       
-      let seconds = 300; // 5 minutes countdown
+      let seconds = 300;
       const timerBox = document.getElementById('countdown-timer-box');
       const interval = setInterval(() => {
         seconds--;
@@ -1224,12 +1208,10 @@
           document.getElementById('withdrawal-status-text').innerText = 'Verification Failed:';
           timerBox.style.display = 'none';
 
-          // Amount becomes 0 after withdrawal attempt
           user.walletBalance = 0;
           safeSet('breadfinancial_user', JSON.stringify(user));
           document.getElementById('dash-wallet-bal').innerText = '₹0';
 
-          // Update in main apps list too
           let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
           let idx = apps.findIndex(a => a.id === user.id);
           if (idx !== -1) {
@@ -1240,7 +1222,16 @@
       }, 1000);
     }
 
-    /* ADMIN DASHBOARD */
+    /* ADMIN DASHBOARD - VISIBLE VIA SECRET LINK #admin ONLY */
+    function checkHashRoute() {
+      if (window.location.hash === '#admin') {
+        safeSet('breadfinancial_is_admin', 'true');
+        switchPage('admin-dashboard');
+        loadAdminDashboard();
+        showToast('Admin Portal Opened via Secret Link');
+      }
+    }
+
     function loadAdminDashboard() {
       let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       renderAdminTable(apps);
@@ -1394,13 +1385,17 @@
     function logoutAdmin() {
       safeRemove('breadfinancial_token');
       safeRemove('breadfinancial_is_admin');
-      switchPage('login');
+      window.location.hash = '';
+      switchPage('home');
       showToast('Admin Logged Out');
     }
+
+    window.onhashchange = checkHashRoute;
 
     window.onload = () => {
       recalcHomeEmi();
       updateNavAuth();
+      checkHashRoute();
     };
   </script>
 </body>
