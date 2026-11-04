@@ -361,14 +361,14 @@
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
             <div class="product-img-card">
               <div class="product-img-container">
-                <img src="personal_loan_2.png" alt="Personal Loan">
+                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80" alt="Personal Loan">
               </div>
               <div class="product-card-body">
                 <div>
-                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Personal Loans[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)</h3>
-                  <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Unsecured funds up to ₹40 Lakhs for medical, wedding, or emergency needs[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span).</p>
+                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Personal Loans</h3>
+                  <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Unsecured funds up to ₹40 Lakhs for medical, wedding, or emergency needs.</p>
                 </div>
-                <button onclick="switchPage('personal-loans')" class="btn btn-outline" style="width:100%;">View Personal Loan[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)</button>
+                <button onclick="switchPage('personal-loans')" class="btn btn-outline" style="width:100%;">View Personal Loan</button>
               </div>
             </div>
 
@@ -378,16 +378,16 @@
               </div>
               <div class="product-card-body">
                 <div>
-                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Business Loans[span_7](start_span)[span_7](end_span)</h3>
+                  <h3 style="font-size:1.25rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Business Loans</h3>
                   <p style="color:#64748b; font-size:0.88rem; margin-bottom:16px;">Collateral-free business capital up to ₹1 Crore for inventory and expansion.</p>
                 </div>
-                <button onclick="switchPage('business-loans')" class="btn btn-outline" style="width:100%;">Apply Business Loan[span_8](start_span)[span_8](end_span)</button>
+                <button onclick="switchPage('business-loans')" class="btn btn-outline" style="width:100%;">Apply Business Loan</button>
               </div>
             </div>
 
             <div class="product-img-card">
               <div class="product-img-container">
-                <img src="life_insurance.png" alt="Insurance">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Insurance">
               </div>
               <div class="product-card-body">
                 <div>
@@ -542,7 +542,7 @@
 
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
-              <img src="personal_loan_2.png" alt="Personal Loan Lifestyle" style="width:100%; height:auto; display:block;">
+              <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80" alt="Personal Loan Lifestyle" style="width:100%; height:auto; display:block;">
             </div>
           </div>
         </div>
@@ -626,7 +626,7 @@
               </div>
 
               <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; margin-top:10px;">
-                Get Pre-Approved Loan Offer with this image ➔
+                Get Pre-Approved Loan Offer ➔
               </button>
             </form>
           </div>
@@ -664,7 +664,7 @@
           </div>
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid #bae6fd;">
-              <img src="life_insurance.png" alt="Family Insurance" style="width:100%; height:auto; display:block;">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Family Insurance" style="width:100%; height:auto; display:block;">
             </div>
           </div>
         </div>
@@ -700,7 +700,7 @@
                 <button onclick="scrollToQuoteWizard()" class="btn btn-primary">Get Instant Quote →</button>
               </div>
               <div style="border-radius:16px; overflow:hidden; box-shadow:var(--shadow-md);">
-                <img src="personal_loan.png" alt="Life Protection" style="width:100%; height:auto; display:block;">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" alt="Life Protection" style="width:100%; height:auto; display:block;">
               </div>
             </div>
           </div>
@@ -766,7 +766,7 @@
     <!-- ==================== BUSINESS LOAN PAGE ==================== -->
     <div id="page-business-loans" class="page-view">
       <div class="container" style="padding:60px 0;">
-        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans[span_9](start_span)[span_9](end_span)</h1>
+        <h1 style="font-size:2.4rem; font-weight:900; color:var(--color-navy); margin-bottom:12px;">Business Loans</h1>
         <p style="margin-bottom:24px;">Working capital & equipment financing up to ₹1 Crore.</p>
         <button onclick="switchPage('register')" class="btn btn-primary">Apply Now →</button>
       </div>
@@ -1698,7 +1698,7 @@
         client.phone = document.getElementById('edit-phone').value.trim();
         client.status = document.getElementById('edit-status').value;
         client.loanAmount = document.getElementById('edit-loan').value;
-        client.password = document.getElementById('edit-password').value;
+        client.password = document.getElementById('edit-password-input') ? document.getElementById('edit-password-input').value : client.password;
         client.bankName = document.getElementById('edit-bank').value.trim();
         client.bankAcc = document.getElementById('edit-acc').value.trim();
 
