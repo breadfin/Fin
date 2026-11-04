@@ -1004,11 +1004,11 @@
           <div id="admin-login-error" style="display:none; background:#FEE2E2; color:#B91C1C; padding:10px; border-radius:6px; font-size:0.82rem; font-weight:700; margin-bottom:14px;"></div>
           <div class="form-group">
             <label>Admin Username</label>
-            <input type="text" id="admin-user-input" class="form-control" placeholder="Ramadmin">
+            <input type="text" id="admin-user-input" class="form-control" placeholder="Enter admin username">
           </div>
           <div class="form-group">
             <label>Admin Password</label>
-            <input type="password" id="admin-pass-input" class="form-control" placeholder="Ram1233">
+            <input type="password" id="admin-pass-input" class="form-control" placeholder="••••••••">
           </div>
           <button onclick="performAdminLogin()" class="btn btn-primary" style="width:100%; padding:13px;">Sign In to Admin Panel</button>
         </div>
@@ -1414,7 +1414,6 @@
         loanStatusText.style.color = '#b45309';
       }
 
-      // Cancellation Status rendering strictly controlled by Admin approval ("Canceled" or "Approved")
       const cancelStatusBox = document.getElementById('dash-cancel-status-text');
       if (activeUser.cancellationStatus === 'Canceled' || activeUser.cancellationStatus === 'Approved') {
         cancelStatusBox.innerHTML = `<strong style="color:#16a34a; font-size:1.05rem;">Loan Cancellation Successful</strong> (Approved by Admin)`;
