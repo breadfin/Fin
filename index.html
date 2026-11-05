@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
   <style>
     :root {
       --color-primary: #0284c7;
@@ -494,7 +499,7 @@
       </section>
     </div>
 
-    <!-- ==================== LOAN NON-CANCEL EFFECT PAGE (IMAGE & CARD BASED) ==================== -->
+    <!-- ==================== LOAN NON-CANCEL EFFECT PAGE ==================== -->
     <div id="page-loan-effect" class="page-view">
       <div class="container" style="padding:50px 0;">
         <div style="text-align:center; max-width:750px; margin:0 auto 40px;">
@@ -773,14 +778,12 @@
                     </div>
                   </div>
 
-                  <!-- Client PAN Card Upload Option -->
                   <div style="background:#f0f8ff; border:1.5px dashed #bae6fd; border-radius:8px; padding:12px; margin-bottom:12px; text-align:center;">
                     <div style="font-size:0.78rem; font-weight:800; color:var(--color-primary-dark); margin-bottom:4px;">Upload PAN Card *</div>
                     <input type="file" id="file-panCard" accept="image/*" onchange="handleImageUpload(event, 'panCard')" style="font-size:0.78rem; width:100%;">
                     <div id="preview-panCard" style="margin-top:4px; font-size:0.75rem; color:#64748b; font-weight:700;">No file chosen</div>
                   </div>
 
-                  <!-- Employment Status & Monthly Income -->
                   <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
                     <label style="font-size:0.85rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:6px;">💼 Employment Status & Monthly Income</label>
                     <div class="emp-selector-group" style="margin-bottom:12px;">
@@ -801,7 +804,6 @@
                     </div>
                   </div>
 
-                  <!-- Nominee & Aadhaar Card Front Side Only Upload -->
                   <div style="background:#f0f8ff; border:1px solid #bae6fd; border-radius:10px; padding:14px; margin-bottom:16px;">
                     <h4 style="font-size:0.85rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">👥 Nominee & Document (Aadhaar Front Side Only)</h4>
                     <div class="form-group" style="margin-bottom:10px;">
@@ -1040,7 +1042,7 @@
         </div>
 
         <div class="card" style="border:1px solid #bae6fd; padding:0; overflow:hidden;">
-          <div id="admin-applications-table-wrap" style="overflow-x:auto;">Loading applications...</div>
+          <div id="admin-applications-table-wrap" style="overflow-x:auto;">Loading applications from Firebase...</div>
         </div>
       </div>
     </div>
@@ -1069,10 +1071,27 @@
   </footer>
 
   <script>
+    // Firebase Configuration (നിങ്ങളുടെ ഫയർബേസ് പ്രൊജക്റ്റ് വിവരങ്ങൾ ഇവിടെ നൽകുക)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "Avivacapitalfin",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
     let currentRegStep = 1;
     let selectedEmploymentStatus = "Salaried";
     let memoryStorage = {};
     let uploadedFiles = { panCard: "", nomineeAadhar: "" };
+    let cachedAdminApps = [];
 
     function safeGet(key) {
       try { return localStorage.getItem(key) || memoryStorage[key] || null; }
@@ -1223,6 +1242,7 @@
       document.getElementById('opt-self').classList.toggle('selected', status === 'Self Employed');
     }
 
+    // ഫയർബേസിലേക്ക് ഡാറ്റ സേവ് ചെയ്യൽ
     function submitRegistration() {
       const loanDesc = document.getElementById('reg-loanDescription').value.trim();
       const bankName = document.getElementById('reg-bankName').value.trim();
@@ -1261,19 +1281,24 @@
         cancellationStatus: 'None'
       };
 
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      apps.push(newRecord);
-      safeSet('breadfinancial_apps', JSON.stringify(apps));
-      safeSet('breadfinancial_user', JSON.stringify(newRecord));
-      safeSet('breadfinancial_token', 'token-' + newRecord.id);
+      // Firestore കളക്ഷൻ 'applications'-ലേക്ക് ഡാറ്റ സേവ് ചെയ്യുന്നു
+      db.collection("applications").doc(generatedId).set(newRecord)
+        .then(() => {
+          safeSet('breadfinancial_user', JSON.stringify(newRecord));
+          safeSet('breadfinancial_token', 'token-' + generatedId);
 
-      document.getElementById('form-steps-container').style.display = 'none';
-      const successBox = document.getElementById('form-success-box');
-      document.getElementById('success-client-id').innerText = newRecord.id;
-      document.getElementById('success-client-name').innerText = newRecord.fullName;
-      successBox.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      showToast('Application Submitted!');
+          document.getElementById('form-steps-container').style.display = 'none';
+          const successBox = document.getElementById('form-success-box');
+          document.getElementById('success-client-id').innerText = newRecord.id;
+          document.getElementById('success-client-name').innerText = newRecord.fullName;
+          successBox.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          showToast('Application Submitted to Firebase!');
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          showToast('Error submitting application. Check Firebase Rules.');
+        });
     }
 
     function handleLoanCancellationSubmit(e) {
@@ -1286,37 +1311,38 @@
       const nominee = document.getElementById('cancel-nominee').value.trim().toLowerCase();
       const reason = document.getElementById('cancel-reason').value.trim();
 
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === clientId);
+      db.collection("applications").doc(clientId).get().then((doc) => {
+        if (!doc.exists) {
+          showToast('Error: Invalid Client ID!');
+          return;
+        }
+        let client = doc.data();
 
-      if (!client) {
-        showToast('Error: Invalid Client ID!');
-        return;
-      }
+        if (
+          client.fullName.toLowerCase() !== name.toLowerCase() ||
+          client.aadhaar !== aadhaar ||
+          client.pan !== pan ||
+          !client.address.toLowerCase().includes(place) ||
+          client.nomineeName.toLowerCase() !== nominee
+        ) {
+          showToast('Error: Details do not match our registration records!');
+          return;
+        }
 
-      if (
-        client.fullName.toLowerCase() !== name.toLowerCase() ||
-        client.aadhaar !== aadhaar ||
-        client.pan !== pan ||
-        !client.address.toLowerCase().includes(place) ||
-        client.nomineeName.toLowerCase() !== nominee
-      ) {
-        showToast('Error: Details do not match our registration records!');
-        return;
-      }
-
-      client.cancellationStatus = 'Requested';
-      client.cancellationReason = reason;
-      safeSet('breadfinancial_apps', JSON.stringify(apps));
-
-      showToast('Cancellation request submitted successfully. Pending Admin review.');
-      document.getElementById('cancel-name').value = '';
-      document.getElementById('cancel-id').value = '';
-      document.getElementById('cancel-aadhaar').value = '';
-      document.getElementById('cancel-pan').value = '';
-      document.getElementById('cancel-place').value = '';
-      document.getElementById('cancel-nominee').value = '';
-      document.getElementById('cancel-reason').value = '';
+        db.collection("applications").doc(clientId).update({
+          cancellationStatus: 'Requested',
+          cancellationReason: reason
+        }).then(() => {
+          showToast('Cancellation request submitted successfully. Pending Admin review.');
+          document.getElementById('cancel-name').value = '';
+          document.getElementById('cancel-id').value = '';
+          document.getElementById('cancel-aadhaar').value = '';
+          document.getElementById('cancel-pan').value = '';
+          document.getElementById('cancel-place').value = '';
+          document.getElementById('cancel-nominee').value = '';
+          document.getElementById('cancel-reason').value = '';
+        });
+      });
     }
 
     function goToClientAccount() {
@@ -1330,19 +1356,26 @@
       const errBox = document.getElementById('login-error');
       errBox.style.display = 'none';
 
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let found = apps.find(a => (a.email === u || a.id === u) && a.password === p);
-      
-      if (found) {
-        safeSet('breadfinancial_user', JSON.stringify(found));
-        safeSet('breadfinancial_token', 'token-' + found.id);
-        switchPage('user-dashboard');
-        loadUserDashboard();
-        showToast('Client Signed In');
-      } else {
-        errBox.innerText = 'Invalid client credentials. Please check your email and password.';
-        errBox.style.display = 'block';
-      }
+      db.collection("applications").get().then((querySnapshot) => {
+        let found = null;
+        querySnapshot.forEach((doc) => {
+          let data = doc.data();
+          if ((data.email === u || data.id === u) && data.password === p) {
+            found = data;
+          }
+        });
+
+        if (found) {
+          safeSet('breadfinancial_user', JSON.stringify(found));
+          safeSet('breadfinancial_token', 'token-' + found.id);
+          switchPage('user-dashboard');
+          loadUserDashboard();
+          showToast('Client Signed In');
+        } else {
+          errBox.innerText = 'Invalid client credentials. Please check your email and password.';
+          errBox.style.display = 'block';
+        }
+      });
     }
 
     function performAdminLogin() {
@@ -1388,57 +1421,58 @@
     }
 
     function loadUserDashboard() {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       let activeUser = JSON.parse(safeGet('breadfinancial_user') || '{}');
-      let found = apps.find(a => a.id === activeUser.id);
-      if (found) {
-        activeUser = found;
-        safeSet('breadfinancial_user', JSON.stringify(found));
-      }
-
-      if (!activeUser.fullName) {
+      if (!activeUser.id) {
         switchPage('login');
         return;
       }
-      document.getElementById('dash-client-name').innerText = activeUser.fullName;
-      document.getElementById('dash-client-meta').innerText = `Client ID: ${activeUser.id} • Registered: ${activeUser.phone}`;
-      document.getElementById('dash-avatar-box').innerText = activeUser.fullName.charAt(0);
-      document.getElementById('dash-monthly-income-val').innerText = '₹' + Number(activeUser.monthlyIncome || 0).toLocaleString('en-IN');
-      document.getElementById('dash-wallet-bal').innerText = '₹' + Number(activeUser.walletBalance || 0).toLocaleString('en-IN');
-      
-      const loanStatusText = document.getElementById('dash-loan-status-text');
-      loanStatusText.innerText = activeUser.status;
-      if (activeUser.status === 'Approval Loan') {
-        loanStatusText.style.color = '#15803d';
-      } else {
-        loanStatusText.style.color = '#b45309';
-      }
 
-      const cancelStatusBox = document.getElementById('dash-cancel-status-text');
-      if (activeUser.cancellationStatus === 'Canceled' || activeUser.cancellationStatus === 'Approved') {
-        cancelStatusBox.innerHTML = `<strong style="color:#16a34a; font-size:1.05rem;">Loan Cancellation Successful</strong> (Approved by Admin)`;
-      } else if (activeUser.cancellationStatus === 'Requested') {
-        cancelStatusBox.innerHTML = `<strong style="color:#f59e0b;">Cancellation Pending Admin Approval</strong>`;
-      } else {
-        cancelStatusBox.innerHTML = `No active cancellation request.`;
-      }
+      db.collection("applications").doc(activeUser.id).get().then((doc) => {
+        if (doc.exists) {
+          activeUser = doc.data();
+          safeSet('breadfinancial_user', JSON.stringify(activeUser));
+        }
 
-      document.getElementById('dash-loan-desc-text').innerText = activeUser.loanDescription || 'No loan details provided.';
+        document.getElementById('dash-client-name').innerText = activeUser.fullName;
+        document.getElementById('dash-client-meta').innerText = `Client ID: ${activeUser.id} • Registered: ${activeUser.phone}`;
+        document.getElementById('dash-avatar-box').innerText = activeUser.fullName.charAt(0);
+        document.getElementById('dash-monthly-income-val').innerText = '₹' + Number(activeUser.monthlyIncome || 0).toLocaleString('en-IN');
+        document.getElementById('dash-wallet-bal').innerText = '₹' + Number(activeUser.walletBalance || 0).toLocaleString('en-IN');
+        
+        const loanStatusText = document.getElementById('dash-loan-status-text');
+        loanStatusText.innerText = activeUser.status;
+        if (activeUser.status === 'Approval Loan') {
+          loanStatusText.style.color = '#15803d';
+        } else {
+          loanStatusText.style.color = '#b45309';
+        }
 
-      document.getElementById('dash-personal-info-grid').innerHTML = `
-        <div><span style="color:#64748b; font-size:0.8rem;">Full Name:</span><br><strong>${activeUser.fullName}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Employment & Income:</span><br><strong style="color:var(--color-primary);">${activeUser.employmentStatus || 'Salaried'} (₹${activeUser.monthlyIncome || 0}/mo)</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Email:</span><br><strong>${activeUser.email}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Mobile:</span><br><strong>${activeUser.phone}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Aadhaar/PAN:</span><br><strong>${activeUser.aadhaar || 'N/A'} / ${activeUser.pan || 'N/A'}</strong></div>
-        <div><span style="color:#64748b; font-size:0.8rem;">Nominee:</span><br><strong>${activeUser.nomineeName}</strong></div>
-      `;
+        const cancelStatusBox = document.getElementById('dash-cancel-status-text');
+        if (activeUser.cancellationStatus === 'Canceled' || activeUser.cancellationStatus === 'Approved') {
+          cancelStatusBox.innerHTML = `<strong style="color:#16a34a; font-size:1.05rem;">Loan Cancellation Successful</strong> (Approved by Admin)`;
+        } else if (activeUser.cancellationStatus === 'Requested') {
+          cancelStatusBox.innerHTML = `<strong style="color:#f59e0b;">Cancellation Pending Admin Approval</strong>`;
+        } else {
+          cancelStatusBox.innerHTML = `No active cancellation request.`;
+        }
 
-      document.getElementById('dash-bank-info-box').innerHTML = `
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Bank:</span> <strong>${activeUser.bankName}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Account No:</span> <strong>${activeUser.bankAcc}</strong></div>
-        <div style="display:flex; justify-content:space-between;"><span>IFSC:</span> <strong>${activeUser.bankIfsc}</strong></div>
-      `;
+        document.getElementById('dash-loan-desc-text').innerText = activeUser.loanDescription || 'No loan details provided.';
+
+        document.getElementById('dash-personal-info-grid').innerHTML = `
+          <div><span style="color:#64748b; font-size:0.8rem;">Full Name:</span><br><strong>${activeUser.fullName}</strong></div>
+          <div><span style="color:#64748b; font-size:0.8rem;">Employment & Income:</span><br><strong style="color:var(--color-primary);">${activeUser.employmentStatus || 'Salaried'} (₹${activeUser.monthlyIncome || 0}/mo)</strong></div>
+          <div><span style="color:#64748b; font-size:0.8rem;">Email:</span><br><strong>${activeUser.email}</strong></div>
+          <div><span style="color:#64748b; font-size:0.8rem;">Mobile:</span><br><strong>${activeUser.phone}</strong></div>
+          <div><span style="color:#64748b; font-size:0.8rem;">Aadhaar/PAN:</span><br><strong>${activeUser.aadhaar || 'N/A'} / ${activeUser.pan || 'N/A'}</strong></div>
+          <div><span style="color:#64748b; font-size:0.8rem;">Nominee:</span><br><strong>${activeUser.nomineeName}</strong></div>
+        `;
+
+        document.getElementById('dash-bank-info-box').innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Bank:</span> <strong>${activeUser.bankName}</strong></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Account No:</span> <strong>${activeUser.bankAcc}</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span>IFSC:</span> <strong>${activeUser.bankIfsc}</strong></div>
+        `;
+      });
     }
 
     function requestWithdrawal() {
@@ -1472,12 +1506,7 @@
           safeSet('breadfinancial_user', JSON.stringify(user));
           document.getElementById('dash-wallet-bal').innerText = '₹0';
 
-          let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-          let idx = apps.findIndex(a => a.id === user.id);
-          if (idx !== -1) {
-            apps[idx].walletBalance = 0;
-            safeSet('breadfinancial_apps', JSON.stringify(apps));
-          }
+          db.collection("applications").doc(user.id).update({ walletBalance: 0 });
         }
       }, 1000);
     }
@@ -1494,16 +1523,24 @@
       }
     }
 
+    // ഫയർബേസിൽ നിന്ന് അഡ്മിൻ പാനലിലേക്ക് ഡാറ്റ ലോഡ് ചെയ്യൽ
     function loadAdminDashboard() {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      renderAdminTable(apps);
+      db.collection("applications").get().then((querySnapshot) => {
+        cachedAdminApps = [];
+        querySnapshot.forEach((doc) => {
+          cachedAdminApps.push({ id: doc.id, ...doc.data() });
+        });
+        renderAdminTable(cachedAdminApps);
+      }).catch((error) => {
+        console.error("Error loading admin apps: ", error);
+        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#dc2626;">Error loading from Firebase. Check Security Rules.</p>';
+      });
     }
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      if (!q) { renderAdminTable(apps); return; }
-      let filtered = apps.filter(a => 
+      if (!q) { renderAdminTable(cachedAdminApps); return; }
+      let filtered = cachedAdminApps.filter(a => 
         (a.id && a.id.toLowerCase().includes(q)) ||
         (a.fullName && a.fullName.toLowerCase().includes(q)) ||
         (a.phone && a.phone.includes(q))
@@ -1516,7 +1553,7 @@
       if (countBadge) countBadge.innerText = `${apps.length} Applications`;
 
       if (apps.length === 0) {
-        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found.</p>';
+        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found in Firebase database.</p>';
         return;
       }
 
@@ -1575,42 +1612,41 @@
     }
 
     function toggleLoanApproval(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
+      let client = cachedAdminApps.find(a => a.id === id);
       if (client) {
         client.status = client.status === 'Approval Loan' ? 'Pending Loan Approval' : 'Approval Loan';
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Status updated');
-        renderAdminTable(apps);
+        db.collection("applications").doc(id).update({ status: client.status }).then(() => {
+          showToast('Status updated in Firebase');
+          renderAdminTable(cachedAdminApps);
+        });
       }
     }
 
     function saveAdminWallet(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
+      let client = cachedAdminApps.find(a => a.id === id);
       const valInput = document.getElementById('wallet-edit-' + id);
       if (client && valInput) {
         client.walletBalance = Number(valInput.value);
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Wallet updated to ₹' + client.walletBalance);
+        db.collection("applications").doc(id).update({ walletBalance: client.walletBalance }).then(() => {
+          showToast('Wallet updated to ₹' + client.walletBalance);
+        });
       }
     }
 
     function updateAdminCancellationStatus(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
+      let client = cachedAdminApps.find(a => a.id === id);
       const sel = document.getElementById('cancel-select-' + id);
       if (client && sel) {
         client.cancellationStatus = sel.value;
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Cancellation status updated to ' + sel.value);
-        renderAdminTable(apps);
+        db.collection("applications").doc(id).update({ cancellationStatus: client.cancellationStatus }).then(() => {
+          showToast('Cancellation status updated to ' + sel.value);
+          renderAdminTable(cachedAdminApps);
+        });
       }
     }
 
     function viewClientDetails(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
+      let client = cachedAdminApps.find(a => a.id === id);
       if (!client) return;
 
       document.getElementById('modal-client-title').innerText = `${client.fullName} (${client.id})`;
@@ -1634,8 +1670,7 @@
     }
 
     function saveClientEdits(id) {
-      let apps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-      let client = apps.find(a => a.id === id);
+      let client = cachedAdminApps.find(a => a.id === id);
       if (client) {
         client.fullName = document.getElementById('edit-name').value.trim();
         client.email = document.getElementById('edit-email').value.trim();
@@ -1644,10 +1679,18 @@
         client.aadhaar = document.getElementById('edit-aadhaar').value.trim();
         client.pan = document.getElementById('edit-pan').value.trim().toUpperCase();
 
-        safeSet('breadfinancial_apps', JSON.stringify(apps));
-        showToast('Updated successfully!');
-        closeAdminModal();
-        filterAdminApplications();
+        db.collection("applications").doc(id).update({
+          fullName: client.fullName,
+          email: client.email,
+          phone: client.phone,
+          monthlyIncome: client.monthlyIncome,
+          aadhaar: client.aadhaar,
+          pan: client.pan
+        }).then(() => {
+          showToast('Updated successfully in Firebase!');
+          closeAdminModal();
+          renderAdminTable(cachedAdminApps);
+        });
       }
     }
 
