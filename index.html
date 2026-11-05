@@ -1071,14 +1071,15 @@
   </footer>
 
   <script>
-    // Firebase Configuration (നിങ്ങളുടെ ഫയർബേസ് പ്രൊജക്റ്റ് വിവരങ്ങൾ ഇവിടെ നൽകുക)
+    // Your Firebase Configuration
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "Avivacapitalfin",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyBVLRqoYgqWQc16Wlvnz006gKJ5obhni3U",
+      authDomain: "avivacapitalfin-a1c57.firebaseapp.com",
+      projectId: "avivacapitalfin-a1c57",
+      storageBucket: "avivacapitalfin-a1c57.firebasestorage.app",
+      messagingSenderId: "230095587897",
+      appId: "1:230095587897:web:609b09904ab50fcdf79be8",
+      measurementId: "G-VXQS93MDQP"
     };
 
     // Initialize Firebase
@@ -1242,7 +1243,6 @@
       document.getElementById('opt-self').classList.toggle('selected', status === 'Self Employed');
     }
 
-    // ഫയർബേസിലേക്ക് ഡാറ്റ സേവ് ചെയ്യൽ
     function submitRegistration() {
       const loanDesc = document.getElementById('reg-loanDescription').value.trim();
       const bankName = document.getElementById('reg-bankName').value.trim();
@@ -1281,7 +1281,6 @@
         cancellationStatus: 'None'
       };
 
-      // Firestore കളക്ഷൻ 'applications'-ലേക്ക് ഡാറ്റ സേവ് ചെയ്യുന്നു
       db.collection("applications").doc(generatedId).set(newRecord)
         .then(() => {
           safeSet('breadfinancial_user', JSON.stringify(newRecord));
@@ -1523,7 +1522,6 @@
       }
     }
 
-    // ഫയർബേസിൽ നിന്ന് അഡ്മിൻ പാനലിലേക്ക് ഡാറ്റ ലോഡ് ചെയ്യൽ
     function loadAdminDashboard() {
       db.collection("applications").get().then((querySnapshot) => {
         cachedAdminApps = [];
