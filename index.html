@@ -951,29 +951,23 @@
 
     function loadAdminDashboard() {
       const tableWrap = document.getElementById('admin-applications-table-wrap');
-      if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Auto-syncing local data & loading...</p>';
+      if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Loading applications from database...</p>';
 
-      // AUTOMATIC MIGRATION: Auto push old local storage data to Firestore upon opening Admin Panel
-      try {
-        let localApps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
-        if (localApps.length > 0) {
-          localApps.forEach(app => {
-            firebase.firestore().collection("applications").doc(app.id).set(app).catch(e => console.log(e));
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-
-      // Real-time listener from Firestore
-      firebase.firestore().collection("applications").onSnapshot((querySnapshot) => {
+      firebase.firestore().collection("applications").get().then((querySnapshot) => {
         let firestoreApps = [];
         querySnapshot.forEach((doc) => {
-          firestoreApps.push(doc.data());
+          let data = doc.data();
+          if (!data.id) {
+            data.id = doc.id;
+          }
+          firestoreApps.push(data);
         });
+
         renderAdminTable(firestoreApps);
-      }, (error) => {
-        tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error loading data: ${error.message}</p>`;
+      }).catch((error) => {
+        if (tableWrap) {
+          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error loading data: ${error.message}</p>`;
+        }
       });
     }
 
@@ -982,7 +976,11 @@
       
       firebase.firestore().collection("applications").get().then((querySnapshot) => {
         let firestoreApps = [];
-        querySnapshot.forEach((doc) => { firestoreApps.push(doc.data()); });
+        querySnapshot.forEach((doc) => { 
+          let data = doc.data();
+          if (!data.id) data.id = doc.id;
+          firestoreApps.push(data); 
+        });
 
         if (!q) { renderAdminTable(firestoreApps); return; }
         let filtered = firestoreApps.filter(a => 
@@ -1017,12 +1015,12 @@
         html += `<tr style="border-bottom:1px solid #e0f2fe;">
           <td style="padding:12px 14px;">
             <span style="font-family:monospace; font-weight:900; color:var(--color-primary-dark); background:#e0f2fe; padding:3px 6px; border-radius:4px;">
-              ${app.id}
+              ${app.id || 'N/A'}
             </span>
           </td>
           <td style="padding:12px 14px;">
-            <strong>${app.fullName}</strong><br>
-            <span style="font-size:0.75rem; color:#64748b;">${app.phone} | PAN: ${app.pan || 'N/A'}</span>
+            <strong>${app.fullName || 'Unknown'}</strong><br>
+            <span style="font-size:0.75rem; color:#64748b;">${app.phone || 'N/A'} | PAN: ${app.pan || 'N/A'}</span>
           </td>
           <td style="padding:12px 14px;">
             <strong style="color:var(--color-primary);">${app.status || 'Pending Loan Approval'}</strong>
