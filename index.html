@@ -655,6 +655,7 @@
     let currentRegStep = 1;
     let selectedEmploymentStatus = "Salaried";
     let memoryStorage = {};
+    window.allAdminApps = [];
 
     function safeGet(key) {
       try { return localStorage.getItem(key) || memoryStorage[key] || null; }
@@ -965,45 +966,32 @@
           firestoreApps.push(data);
         });
 
+        window.allAdminApps = firestoreApps; // Store locally for instant search
         renderAdminTable(firestoreApps);
       }).catch((error) => {
         if (tableWrap) {
-          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error loading data: ${error.message}</p>`;
+          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error loading: ${error.message}</p>`;
         }
       });
     }
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
-      const tableWrap = document.getElementById('admin-applications-table-wrap');
-      if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Searching...</p>';
+      let apps = window.allAdminApps || [];
 
-      firebase.firestore().collection("applications").get().then((querySnapshot) => {
-        let firestoreApps = [];
-        querySnapshot.forEach((doc) => { 
-          let data = doc.data();
-          if (!data.id) data.id = doc.id;
-          firestoreApps.push(data); 
-        });
+      if (!q) {
+        renderAdminTable(apps);
+        return;
+      }
 
-        if (!q) { 
-          renderAdminTable(firestoreApps); 
-          return; 
-        }
+      let filtered = apps.filter(a => 
+        (a.id && a.id.toLowerCase().includes(q)) ||
+        (a.fullName && a.fullName.toLowerCase().includes(q)) ||
+        (a.phone && a.phone.includes(q)) ||
+        (a.pan && a.pan.toLowerCase().includes(q))
+      );
 
-        let filtered = firestoreApps.filter(a => 
-          (a.id && a.id.toLowerCase().includes(q)) ||
-          (a.fullName && a.fullName.toLowerCase().includes(q)) ||
-          (a.phone && a.phone.includes(q)) ||
-          (a.pan && a.pan.toLowerCase().includes(q))
-        );
-
-        renderAdminTable(filtered);
-      }).catch((error) => {
-        if (tableWrap) {
-          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error searching: ${error.message}</p>`;
-        }
-      });
+      renderAdminTable(filtered);
     }
 
     function renderAdminTable(apps) {
@@ -1011,7 +999,7 @@
       if (countBadge) countBadge.innerText = `${apps.length} Applications`;
 
       if (apps.length === 0) {
-        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No matching client records found.</p>';
+        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found.</p>';
         return;
       }
 
