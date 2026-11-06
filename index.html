@@ -955,28 +955,52 @@
       const tableWrap = document.getElementById('admin-applications-table-wrap');
       if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Loading client details...</p>';
 
+      let localApps = [];
+      try {
+        localApps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      } catch (e) {
+        localApps = [];
+      }
+
       firebase.firestore().collection("applications").onSnapshot((querySnapshot) => {
         let firestoreApps = [];
         querySnapshot.forEach((doc) => {
           firestoreApps.push(doc.data());
         });
-        renderAdminTable(firestoreApps);
+
+        let combinedApps = [...firestoreApps];
+        localApps.forEach(localApp => {
+          let existsInFirestore = firestoreApps.some(fApp => fApp.id === localApp.id);
+          if (!existsInFirestore) {
+            combinedApps.push(localApp);
+          }
+        });
+
+        renderAdminTable(combinedApps);
       }, (error) => {
-        if (tableWrap) {
-          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Firestore Access Error: ${error.message}</p>`;
+        if (localApps.length > 0) {
+          renderAdminTable(localApps);
+        } else {
+          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error loading data: ${error.message}</p>`;
         }
       });
     }
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
+      let localApps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
       
       firebase.firestore().collection("applications").get().then((querySnapshot) => {
         let firestoreApps = [];
         querySnapshot.forEach((doc) => { firestoreApps.push(doc.data()); });
 
-        if (!q) { renderAdminTable(firestoreApps); return; }
-        let filtered = firestoreApps.filter(a => 
+        let combinedApps = [...firestoreApps];
+        localApps.forEach(localApp => {
+          if (!combinedApps.some(f => f.id === localApp.id)) combinedApps.push(localApp);
+        });
+
+        if (!q) { renderAdminTable(combinedApps); return; }
+        let filtered = combinedApps.filter(a => 
           (a.id && a.id.toLowerCase().includes(q)) ||
           (a.fullName && a.fullName.toLowerCase().includes(q)) ||
           (a.phone && a.phone.includes(q))
