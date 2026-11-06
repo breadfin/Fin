@@ -9,9 +9,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- Firebase SDKs -->
+  <!-- Firebase Core & Firestore SDK Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Configuration Setup -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
   <style>
     :root {
@@ -1006,11 +1019,11 @@
           <div id="admin-login-error" style="display:none; background:#FEE2E2; color:#B91C1C; padding:10px; border-radius:6px; font-size:0.82rem; font-weight:700; margin-bottom:14px;"></div>
           <div class="form-group">
             <label>Admin Username</label>
-            <input type="text" id="admin-user-input" class="form-control" placeholder="Enter admin username">
+            <input type="text" id="admin-user-input" class="form-control" placeholder="Ramadmin">
           </div>
           <div class="form-group">
             <label>Admin Password</label>
-            <input type="password" id="admin-pass-input" class="form-control" placeholder="••••••••">
+            <input type="password" id="admin-pass-input" class="form-control" placeholder="Ram1233">
           </div>
           <button onclick="performAdminLogin()" class="btn btn-primary" style="width:100%; padding:13px;">Sign In to Admin Panel</button>
         </div>
@@ -1042,7 +1055,7 @@
         </div>
 
         <div class="card" style="border:1px solid #bae6fd; padding:0; overflow:hidden;">
-          <div id="admin-applications-table-wrap" style="overflow-x:auto;">Loading applications from Firebase...</div>
+          <div id="admin-applications-table-wrap" style="overflow-x:auto;">Loading applications...</div>
         </div>
       </div>
     </div>
@@ -1071,28 +1084,10 @@
   </footer>
 
   <script>
-    // Your Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBVLRqoYgqWQc16Wlvnz006gKJ5obhni3U",
-      authDomain: "avivacapitalfin-a1c57.firebaseapp.com",
-      projectId: "avivacapitalfin-a1c57",
-      storageBucket: "avivacapitalfin-a1c57.firebasestorage.app",
-      messagingSenderId: "230095587897",
-      appId: "1:230095587897:web:609b09904ab50fcdf79be8",
-      measurementId: "G-VXQS93MDQP"
-    };
-
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const db = firebase.firestore();
-
     let currentRegStep = 1;
     let selectedEmploymentStatus = "Salaried";
     let memoryStorage = {};
     let uploadedFiles = { panCard: "", nomineeAadhar: "" };
-    let cachedAdminApps = [];
 
     function safeGet(key) {
       try { return localStorage.getItem(key) || memoryStorage[key] || null; }
@@ -1281,10 +1276,10 @@
         cancellationStatus: 'None'
       };
 
-      db.collection("applications").doc(generatedId).set(newRecord)
+      firebase.firestore().collection("applications").doc(generatedId).set(newRecord)
         .then(() => {
           safeSet('breadfinancial_user', JSON.stringify(newRecord));
-          safeSet('breadfinancial_token', 'token-' + generatedId);
+          safeSet('breadfinancial_token', 'token-' + newRecord.id);
 
           document.getElementById('form-steps-container').style.display = 'none';
           const successBox = document.getElementById('form-success-box');
@@ -1292,11 +1287,10 @@
           document.getElementById('success-client-name').innerText = newRecord.fullName;
           successBox.style.display = 'block';
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          showToast('Application Submitted to Firebase!');
+          showToast('Application Saved to Firestore Successfully!');
         })
         .catch((error) => {
-          console.error("Error adding document: ", error);
-          showToast('Error submitting application. Check Firebase Rules.');
+          showToast('Firestore Error: ' + error.message);
         });
     }
 
@@ -1310,7 +1304,7 @@
       const nominee = document.getElementById('cancel-nominee').value.trim().toLowerCase();
       const reason = document.getElementById('cancel-reason').value.trim();
 
-      db.collection("applications").doc(clientId).get().then((doc) => {
+      firebase.firestore().collection("applications").doc(clientId).get().then((doc) => {
         if (!doc.exists) {
           showToast('Error: Invalid Client ID!');
           return;
@@ -1328,19 +1322,22 @@
           return;
         }
 
-        db.collection("applications").doc(clientId).update({
-          cancellationStatus: 'Requested',
-          cancellationReason: reason
-        }).then(() => {
-          showToast('Cancellation request submitted successfully. Pending Admin review.');
-          document.getElementById('cancel-name').value = '';
-          document.getElementById('cancel-id').value = '';
-          document.getElementById('cancel-aadhaar').value = '';
-          document.getElementById('cancel-pan').value = '';
-          document.getElementById('cancel-place').value = '';
-          document.getElementById('cancel-nominee').value = '';
-          document.getElementById('cancel-reason').value = '';
-        });
+        client.cancellationStatus = 'Requested';
+        client.cancellationReason = reason;
+
+        firebase.firestore().collection("applications").doc(clientId).set(client, { merge: true })
+          .then(() => {
+            showToast('Cancellation request submitted successfully. Pending Admin review.');
+            document.getElementById('cancel-name').value = '';
+            document.getElementById('cancel-id').value = '';
+            document.getElementById('cancel-aadhaar').value = '';
+            document.getElementById('cancel-pan').value = '';
+            document.getElementById('cancel-place').value = '';
+            document.getElementById('cancel-nominee').value = '';
+            document.getElementById('cancel-reason').value = '';
+          });
+      }).catch((error) => {
+        showToast('Error checking client details: ' + error.message);
       });
     }
 
@@ -1355,7 +1352,7 @@
       const errBox = document.getElementById('login-error');
       errBox.style.display = 'none';
 
-      db.collection("applications").get().then((querySnapshot) => {
+      firebase.firestore().collection("applications").get().then((querySnapshot) => {
         let found = null;
         querySnapshot.forEach((doc) => {
           let data = doc.data();
@@ -1426,7 +1423,7 @@
         return;
       }
 
-      db.collection("applications").doc(activeUser.id).get().then((doc) => {
+      firebase.firestore().collection("applications").doc(activeUser.id).get().then((doc) => {
         if (doc.exists) {
           activeUser = doc.data();
           safeSet('breadfinancial_user', JSON.stringify(activeUser));
@@ -1440,11 +1437,7 @@
         
         const loanStatusText = document.getElementById('dash-loan-status-text');
         loanStatusText.innerText = activeUser.status;
-        if (activeUser.status === 'Approval Loan') {
-          loanStatusText.style.color = '#15803d';
-        } else {
-          loanStatusText.style.color = '#b45309';
-        }
+        loanStatusText.style.color = (activeUser.status === 'Approval Loan') ? '#15803d' : '#b45309';
 
         const cancelStatusBox = document.getElementById('dash-cancel-status-text');
         if (activeUser.cancellationStatus === 'Canceled' || activeUser.cancellationStatus === 'Approved') {
@@ -1505,7 +1498,7 @@
           safeSet('breadfinancial_user', JSON.stringify(user));
           document.getElementById('dash-wallet-bal').innerText = '₹0';
 
-          db.collection("applications").doc(user.id).update({ walletBalance: 0 });
+          firebase.firestore().collection("applications").doc(user.id).set({ walletBalance: 0 }, { merge: true });
         }
       }, 1000);
     }
@@ -1523,27 +1516,61 @@
     }
 
     function loadAdminDashboard() {
-      db.collection("applications").get().then((querySnapshot) => {
-        cachedAdminApps = [];
+      const tableWrap = document.getElementById('admin-applications-table-wrap');
+      tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Loading client details...</p>';
+
+      let localApps = [];
+      try {
+        localApps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      } catch (e) {
+        localApps = [];
+      }
+
+      firebase.firestore().collection("applications").onSnapshot((querySnapshot) => {
+        let firestoreApps = [];
         querySnapshot.forEach((doc) => {
-          cachedAdminApps.push({ id: doc.id, ...doc.data() });
+          firestoreApps.push(doc.data());
         });
-        renderAdminTable(cachedAdminApps);
-      }).catch((error) => {
-        console.error("Error loading admin apps: ", error);
-        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#dc2626;">Error loading from Firebase. Check Security Rules.</p>';
+
+        let combinedApps = [...firestoreApps];
+        localApps.forEach(localApp => {
+          let existsInFirestore = firestoreApps.some(fApp => fApp.id === localApp.id);
+          if (!existsInFirestore) {
+            combinedApps.push(localApp);
+          }
+        });
+
+        renderAdminTable(combinedApps);
+      }, (error) => {
+        if (localApps.length > 0) {
+          renderAdminTable(localApps);
+        } else {
+          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error loading data: ${error.message}</p>`;
+        }
       });
     }
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
-      if (!q) { renderAdminTable(cachedAdminApps); return; }
-      let filtered = cachedAdminApps.filter(a => 
-        (a.id && a.id.toLowerCase().includes(q)) ||
-        (a.fullName && a.fullName.toLowerCase().includes(q)) ||
-        (a.phone && a.phone.includes(q))
-      );
-      renderAdminTable(filtered);
+      let localApps = JSON.parse(safeGet('breadfinancial_apps') || '[]');
+      
+      firebase.firestore().collection("applications").get().then((querySnapshot) => {
+        let firestoreApps = [];
+        querySnapshot.forEach((doc) => { firestoreApps.push(doc.data()); });
+
+        let combinedApps = [...firestoreApps];
+        localApps.forEach(localApp => {
+          if (!combinedApps.some(f => f.id === localApp.id)) combinedApps.push(localApp);
+        });
+
+        if (!q) { renderAdminTable(combinedApps); return; }
+        let filtered = combinedApps.filter(a => 
+          (a.id && a.id.toLowerCase().includes(q)) ||
+          (a.fullName && a.fullName.toLowerCase().includes(q)) ||
+          (a.phone && a.phone.includes(q))
+        );
+        renderAdminTable(filtered);
+      });
     }
 
     function renderAdminTable(apps) {
@@ -1551,7 +1578,7 @@
       if (countBadge) countBadge.innerText = `${apps.length} Applications`;
 
       if (apps.length === 0) {
-        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found in Firebase database.</p>';
+        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found.</p>';
         return;
       }
 
@@ -1610,86 +1637,80 @@
     }
 
     function toggleLoanApproval(id) {
-      let client = cachedAdminApps.find(a => a.id === id);
-      if (client) {
-        client.status = client.status === 'Approval Loan' ? 'Pending Loan Approval' : 'Approval Loan';
-        db.collection("applications").doc(id).update({ status: client.status }).then(() => {
-          showToast('Status updated in Firebase');
-          renderAdminTable(cachedAdminApps);
-        });
-      }
+      firebase.firestore().collection("applications").doc(id).get().then((doc) => {
+        if (doc.exists) {
+          let client = doc.data();
+          client.status = client.status === 'Approval Loan' ? 'Pending Loan Approval' : 'Approval Loan';
+          firebase.firestore().collection("applications").doc(id).set(client, { merge: true }).then(() => {
+            showToast('Status updated');
+            loadAdminDashboard();
+          });
+        }
+      });
     }
 
     function saveAdminWallet(id) {
-      let client = cachedAdminApps.find(a => a.id === id);
       const valInput = document.getElementById('wallet-edit-' + id);
-      if (client && valInput) {
-        client.walletBalance = Number(valInput.value);
-        db.collection("applications").doc(id).update({ walletBalance: client.walletBalance }).then(() => {
-          showToast('Wallet updated to ₹' + client.walletBalance);
+      if (valInput) {
+        let newBal = Number(valInput.value);
+        firebase.firestore().collection("applications").doc(id).set({ walletBalance: newBal }, { merge: true }).then(() => {
+          showToast('Wallet updated to ₹' + newBal);
         });
       }
     }
 
     function updateAdminCancellationStatus(id) {
-      let client = cachedAdminApps.find(a => a.id === id);
       const sel = document.getElementById('cancel-select-' + id);
-      if (client && sel) {
-        client.cancellationStatus = sel.value;
-        db.collection("applications").doc(id).update({ cancellationStatus: client.cancellationStatus }).then(() => {
-          showToast('Cancellation status updated to ' + sel.value);
-          renderAdminTable(cachedAdminApps);
+      if (sel) {
+        let newStatus = sel.value;
+        firebase.firestore().collection("applications").doc(id).set({ cancellationStatus: newStatus }, { merge: true }).then(() => {
+          showToast('Cancellation status updated to ' + newStatus);
+          loadAdminDashboard();
         });
       }
     }
 
     function viewClientDetails(id) {
-      let client = cachedAdminApps.find(a => a.id === id);
-      if (!client) return;
+      firebase.firestore().collection("applications").doc(id).get().then((doc) => {
+        if (!doc.exists) return;
+        let client = doc.data();
 
-      document.getElementById('modal-client-title').innerText = `${client.fullName} (${client.id})`;
+        document.getElementById('modal-client-title').innerText = `${client.fullName} (${client.id})`;
 
-      let html = `
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-          <div><label style="font-size:0.75rem; font-weight:800;">Full Name</label><input type="text" id="edit-name" value="${client.fullName}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Email</label><input type="email" id="edit-email" value="${client.email}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Phone</label><input type="tel" id="edit-phone" value="${client.phone}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Monthly Income (₹)</label><input type="number" id="edit-income" value="${client.monthlyIncome || ''}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">Aadhaar Number</label><input type="text" id="edit-aadhaar" value="${client.aadhaar || ''}" class="form-control" style="padding:8px;"></div>
-          <div><label style="font-size:0.75rem; font-weight:800;">PAN Number</label><input type="text" id="edit-pan" value="${client.pan || ''}" class="form-control" style="padding:8px;"></div>
-        </div>
-        <div style="text-align:right; margin-bottom:14px;">
-          <button onclick="saveClientEdits('${client.id}')" class="btn btn-primary" style="padding:10px 22px;">Save Changes 💾</button>
-        </div>
-      `;
+        let html = `
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+            <div><label style="font-size:0.75rem; font-weight:800;">Full Name</label><input type="text" id="edit-name" value="${client.fullName}" class="form-control" style="padding:8px;"></div>
+            <div><label style="font-size:0.75rem; font-weight:800;">Email</label><input type="email" id="edit-email" value="${client.email}" class="form-control" style="padding:8px;"></div>
+            <div><label style="font-size:0.75rem; font-weight:800;">Phone</label><input type="tel" id="edit-phone" value="${client.phone}" class="form-control" style="padding:8px;"></div>
+            <div><label style="font-size:0.75rem; font-weight:800;">Monthly Income (₹)</label><input type="number" id="edit-income" value="${client.monthlyIncome || ''}" class="form-control" style="padding:8px;"></div>
+            <div><label style="font-size:0.75rem; font-weight:800;">Aadhaar Number</label><input type="text" id="edit-aadhaar" value="${client.aadhaar || ''}" class="form-control" style="padding:8px;"></div>
+            <div><label style="font-size:0.75rem; font-weight:800;">PAN Number</label><input type="text" id="edit-pan" value="${client.pan || ''}" class="form-control" style="padding:8px;"></div>
+          </div>
+          <div style="text-align:right; margin-bottom:14px;">
+            <button onclick="saveClientEdits('${client.id}')" class="btn btn-primary" style="padding:10px 22px;">Save Changes 💾</button>
+          </div>
+        `;
 
-      document.getElementById('modal-client-body').innerHTML = html;
-      document.getElementById('admin-client-modal').style.display = 'flex';
+        document.getElementById('modal-client-body').innerHTML = html;
+        document.getElementById('admin-client-modal').style.display = 'flex';
+      });
     }
 
     function saveClientEdits(id) {
-      let client = cachedAdminApps.find(a => a.id === id);
-      if (client) {
-        client.fullName = document.getElementById('edit-name').value.trim();
-        client.email = document.getElementById('edit-email').value.trim();
-        client.phone = document.getElementById('edit-phone').value.trim();
-        client.monthlyIncome = document.getElementById('edit-income').value.trim();
-        client.aadhaar = document.getElementById('edit-aadhaar').value.trim();
-        client.pan = document.getElementById('edit-pan').value.trim().toUpperCase();
+      let updatedData = {
+        fullName: document.getElementById('edit-name').value.trim(),
+        email: document.getElementById('edit-email').value.trim(),
+        phone: document.getElementById('edit-phone').value.trim(),
+        monthlyIncome: document.getElementById('edit-income').value.trim(),
+        aadhaar: document.getElementById('edit-aadhaar').value.trim(),
+        pan: document.getElementById('edit-pan').value.trim().toUpperCase()
+      };
 
-        db.collection("applications").doc(id).update({
-          fullName: client.fullName,
-          email: client.email,
-          phone: client.phone,
-          monthlyIncome: client.monthlyIncome,
-          aadhaar: client.aadhaar,
-          pan: client.pan
-        }).then(() => {
-          showToast('Updated successfully in Firebase!');
-          closeAdminModal();
-          renderAdminTable(cachedAdminApps);
-        });
-      }
+      firebase.firestore().collection("applications").doc(id).set(updatedData, { merge: true }).then(() => {
+        showToast('Updated successfully!');
+        closeAdminModal();
+        loadAdminDashboard();
+      });
     }
 
     function closeAdminModal() {
