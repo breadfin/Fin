@@ -632,12 +632,16 @@
       </div>
 
       <div class="container" style="padding:30px 0 60px;">
+        <!-- SEARCH & FILTER CARD -->
         <div class="card" style="margin-bottom:20px; padding:18px; border:1.5px solid var(--color-border);">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:center;">
-            <strong style="color:var(--color-navy); font-size:0.92rem;">🔍 Search Applications:</strong>
+            <strong style="color:var(--color-navy); font-size:0.92rem;">🔍 Search by Client ID or Name:</strong>
             <span id="admin-records-count" class="badge-pill-light">0 Applications</span>
           </div>
-          <input type="text" id="admin-search-input" placeholder="Type Client ID or customer name..." class="form-control" oninput="filterAdminApplications()">
+          <div style="display:grid; grid-template-columns:1fr auto; gap:10px;">
+            <input type="text" id="admin-search-input" placeholder="Type Client ID (e.g. BF-1234) or customer name..." class="form-control" oninput="filterAdminApplications()">
+            <button onclick="filterAdminApplications()" class="btn btn-primary" style="padding:10px 20px;">Search</button>
+          </div>
         </div>
 
         <div class="card" style="border:1px solid #bae6fd; padding:0; overflow:hidden;">
@@ -951,15 +955,13 @@
 
     function loadAdminDashboard() {
       const tableWrap = document.getElementById('admin-applications-table-wrap');
-      if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Loading applications from database...</p>';
+      if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Loading applications...</p>';
 
       firebase.firestore().collection("applications").get().then((querySnapshot) => {
         let firestoreApps = [];
         querySnapshot.forEach((doc) => {
           let data = doc.data();
-          if (!data.id) {
-            data.id = doc.id;
-          }
+          if (!data.id) data.id = doc.id;
           firestoreApps.push(data);
         });
 
@@ -973,7 +975,9 @@
 
     function filterAdminApplications() {
       const q = document.getElementById('admin-search-input').value.toLowerCase().trim();
-      
+      const tableWrap = document.getElementById('admin-applications-table-wrap');
+      if (tableWrap) tableWrap.innerHTML = '<p style="text-align:center; padding:20px;">Searching...</p>';
+
       firebase.firestore().collection("applications").get().then((querySnapshot) => {
         let firestoreApps = [];
         querySnapshot.forEach((doc) => { 
@@ -982,13 +986,23 @@
           firestoreApps.push(data); 
         });
 
-        if (!q) { renderAdminTable(firestoreApps); return; }
+        if (!q) { 
+          renderAdminTable(firestoreApps); 
+          return; 
+        }
+
         let filtered = firestoreApps.filter(a => 
           (a.id && a.id.toLowerCase().includes(q)) ||
           (a.fullName && a.fullName.toLowerCase().includes(q)) ||
-          (a.phone && a.phone.includes(q))
+          (a.phone && a.phone.includes(q)) ||
+          (a.pan && a.pan.toLowerCase().includes(q))
         );
+
         renderAdminTable(filtered);
+      }).catch((error) => {
+        if (tableWrap) {
+          tableWrap.innerHTML = `<p style="text-align:center; padding:20px; color:red;">Error searching: ${error.message}</p>`;
+        }
       });
     }
 
@@ -997,7 +1011,7 @@
       if (countBadge) countBadge.innerText = `${apps.length} Applications`;
 
       if (apps.length === 0) {
-        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No client records found.</p>';
+        document.getElementById('admin-applications-table-wrap').innerHTML = '<p style="text-align:center; padding:30px; color:#64748b;">No matching client records found.</p>';
         return;
       }
 
