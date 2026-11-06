@@ -25,6 +25,15 @@
       measurementId: "G-VXQS93MDQP"
     };
     firebase.initializeApp(firebaseConfig);
+
+    // Enable offline persistence to prevent data loss on unstable connection
+    try {
+      firebase.firestore().enablePersistence().catch((err) => {
+        if (err.code == 'unimplemented') {
+          console.log('Persistence is not available on this browser.');
+        }
+      });
+    } catch(e) { console.log(e); }
   </script>
 
   <style>
@@ -224,17 +233,6 @@
     .page-view { display: none; }
     .page-view.active { display: block; animation: pageFade 0.3s ease-in-out; }
     @keyframes pageFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px);
-      display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px;
-    }
-    .modal-content {
-      background: #ffffff; width: 100%; max-width: 900px; max-height: 92vh;
-      overflow-y: auto; border-radius: var(--radius-lg); padding: 28px;
-      box-shadow: var(--shadow-lg); border: 1.5px solid var(--color-border);
-    }
 
     @media (max-width: 960px) {
       .register-container-card { grid-template-columns: 1fr; }
