@@ -966,7 +966,7 @@
           firestoreApps.push(data);
         });
 
-        window.allAdminApps = firestoreApps; // Store locally for instant search
+        window.allAdminApps = firestoreApps; // Store locally for instant search & stability
         renderAdminTable(firestoreApps);
       }).catch((error) => {
         if (tableWrap) {
@@ -1009,6 +1009,7 @@
             <th style="padding:12px 14px;">Client ID</th>
             <th style="padding:12px 14px;">Name & Contact</th>
             <th style="padding:12px 14px;">Loan Status</th>
+            <th style="padding:12px 14px; text-align:center;">Action</th>
           </tr>
         </thead>
         <tbody>`;
@@ -1027,10 +1028,27 @@
           <td style="padding:12px 14px;">
             <strong style="color:var(--color-primary);">${app.status || 'Pending Loan Approval'}</strong>
           </td>
+          <td style="padding:12px 14px; text-align:center;">
+            <button onclick="editClientStatus('${app.id}')" class="btn btn-primary" style="padding:6px 12px; font-size:0.75rem;">Edit Status</button>
+          </td>
         </tr>`;
       });
       html += `</tbody></table>`;
       document.getElementById('admin-applications-table-wrap').innerHTML = html;
+    }
+
+    function editClientStatus(clientId) {
+      let newStatus = prompt("Enter new status for " + clientId + " (e.g. Approved, Rejected, Pending):", "Approved");
+      if (!newStatus) return;
+
+      firebase.firestore().collection("applications").doc(clientId).update({
+        status: newStatus
+      }).then(() => {
+        showToast("Status updated successfully!");
+        loadAdminDashboard(); // Refresh table
+      }).catch((error) => {
+        showToast("Error: " + error.message);
+      });
     }
 
     window.onhashchange = checkHashRoute;
