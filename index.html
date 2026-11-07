@@ -2500,3 +2500,76 @@
     };
   });
 </script>
+<!-- LIVE REAL-TIME DASHBOARD AUTO-SYNC -->
+<script>
+  window.loadUserDashboard = async function() {
+    try {
+      const apps = await api('applications');
+      applicationRecords = apps;
+      
+      let activeUser = currentClient;
+      if (currentSession && !currentSession.admin) {
+        const found = apps.find(a => 
+          (currentSession.id && a.id === currentSession.id) ||
+          (currentSession.email && a.email.toLowerCase() === currentSession.email.toLowerCase()) ||
+          (activeUser && activeUser.id && a.id === activeUser.id)
+        );
+        if (found) {
+          activeUser = found;
+          currentClient = found;
+        }
+      } else if (activeUser && activeUser.id) {
+        const found = apps.find(a => a.id === activeUser.id);
+        if (found) {
+          activeUser = found;
+          currentClient = found;
+        }
+      }
+
+      if (!activeUser || !activeUser.fullName) return;
+
+      const statusBadge = document.getElementById('dash-status-badge');
+      if (statusBadge) {
+        statusBadge.innerText = activeUser.status || 'Pending Loan Approval';
+        if (activeUser.status === 'Approval Loan') {
+          statusBadge.style.background = '#dcfce7';
+          statusBadge.style.color = '#15803d';
+        } else {
+          statusBadge.style.background = '#fef3c7';
+          statusBadge.style.color = '#b45309';
+        }
+      }
+
+      const loanStatusText = document.getElementById('dash-loan-status-text');
+      if (loanStatusText) {
+        loanStatusText.innerText = activeUser.status || 'Pending Loan Approval';
+        loanStatusText.style.color = (activeUser.status === 'Approval Loan') ? '#15803d' : '#b45309';
+      }
+
+      const walletBal = document.getElementById('dash-wallet-bal');
+      if (walletBal) {
+        walletBal.innerText = '₹' + Number(activeUser.walletBalance || 0).toLocaleString('en-IN');
+      }
+
+      const cancelStatusBox = document.getElementById('dash-cancel-status-text');
+      if (cancelStatusBox) {
+        if (activeUser.cancellationStatus === 'Canceled' || activeUser.cancellationStatus === 'Approved') {
+          cancelStatusBox.innerHTML = '<strong style="color:#16a34a; font-size:1.05rem;">Loan Cancellation Successful</strong> (Approved by Admin)';
+        } else if (activeUser.cancellationStatus === 'Requested') {
+          cancelStatusBox.innerHTML = '<strong style="color:#f59e0b;">Cancellation Pending Admin Approval</strong>';
+        } else {
+          cancelStatusBox.innerHTML = 'No active cancellation request.';
+        }
+      }
+    } catch (e) {
+      console.error("Dashboard sync error:", e);
+    }
+  };
+
+  setInterval(() => {
+    const dashPage = document.getElementById('page-user-dashboard');
+    if (dashPage && dashPage.classList.contains('active')) {
+      window.loadUserDashboard();
+    }
+  }, 3000);
+</script>
