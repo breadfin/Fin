@@ -2617,3 +2617,47 @@
     setInterval(fixAllBrokenImages, 1000);
   })();
 </script>
+<!-- AUTOMATIC 100% IMAGE FIX FOR ALL PAGES -->
+<script>
+  (function() {
+    const photoMap = {
+      'team': 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      'workspace': 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+      'financial-planning': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+      'insurance-family': 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80',
+      'insurance-health': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
+      'insurance-property': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
+      'business-planning': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+      'business-inventory': 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+      'business-equipment': 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+      'business-growth': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      'cancellation-review': 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80',
+      'cancellation-support': 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
+      'loan-lifestyle': 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+      'pay-over-time': 'https://images.unsplash.com/photo-1556742049-0a67e5572293?auto=format&fit=crop&w=800&q=80',
+      'smarter-spending': 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80',
+      'understanding-credit': 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=800&q=80',
+      'responsible-saving': 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80'
+    };
+
+    function fixAllBrokenImages() {
+      const allImgs = document.getElementsByTagName('img');
+      for (let i = 0; i < allImgs.length; i++) {
+        const item = allImgs[i];
+        const currentSrc = item.getAttribute('src') || '';
+        
+        for (const key in photoMap) {
+          if (currentSrc.indexOf(key) !== -1) {
+            item.src = photoMap[key];
+            item.removeAttribute('loading');
+            break;
+          }
+        }
+      }
+    }
+
+    fixAllBrokenImages();
+    window.addEventListener('load', fixAllBrokenImages);
+    setInterval(fixAllBrokenImages, 1000);
+  })();
+</script>
