@@ -69,12 +69,15 @@
 
     .loan-content { background: #fff; color: #122a49; }
     .loan-content h2 { font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1.15; letter-spacing: -.035em; }
+    .loan-content h3 { line-height: 1.35; }
+    .loan-content p { margin: 20px 0; }
     .loan-split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; padding-top: 72px; padding-bottom: 72px; }
     .loan-split img { width: 100%; display: block; object-fit: cover; border-radius: 48% 0 0 48%; }
     .loan-brand { display: block; color: #1c7f90; font-weight: 800; margin: 22px 0; font-size: 1.4rem; }
     .loan-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 28px; }
     .loan-content .loan-button { display: inline-flex; padding: 13px 30px; background: #1c7f90; color: white; border: 0; border-radius: 40px; font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; }
     .loan-content a { color: #1c7f90; font-weight: 700; }
+    .loan-content :is(a, button, summary):focus-visible { outline: 3px solid #1c7f90; outline-offset: 5px; }
     .loan-band { padding: 64px 0; background: #122a49; color: #fff; }
     .loan-band h2 { text-align: center; font-size: clamp(1.8rem, 4vw, 2.8rem); }
     .loan-rate-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin: 48px 0; text-align: center; }
@@ -201,8 +204,6 @@
       background-color: var(--color-surface); border: 1px solid #e0f2fe;
       border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 26px; transition: all 0.3s ease;
     }
-    .card:hover { box-shadow: var(--shadow-md); border-color: var(--color-border); }
-
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 0.84rem; font-weight: 700; color: var(--color-navy); margin-bottom: 6px; }
     .form-control {
@@ -1033,16 +1034,27 @@
           <div>
             <span class="planner-eyebrow">YOUR FINANCIAL SPACE</span>
             <h2>Everything you need, in one place.</h2>
-            <p>Follow your application, review repayments and track your disbursal wallet.</p>
+            <p>Follow your application, review repayments and keep your details close.</p>
           </div>
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Workspace">
+          <!-- DIRECT RELIABLE WORKSPACE IMAGE -->
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Bright workspace for planning your next steps" width="600" height="400">
         </div>
 
         <div class="dashboard-menu-bar">
-          <button class="dash-menu-btn active" onclick="switchDashTab('wallet-tab')">💳 Wallet & Withdrawal</button>
           <button class="dash-menu-btn" onclick="switchDashTab('emi-tab')">📊 EMI Details</button>
+          <button class="dash-menu-btn active" onclick="switchDashTab('wallet-tab')">💳 Wallet & Withdrawal</button>
           <button class="dash-menu-btn" onclick="switchDashTab('profile-tab')">👤 Personal Information</button>
           <button class="dash-menu-btn" onclick="logoutClient()" style="color:#dc2626; border-color:#fca5a5;">🚪 Logout</button>
+        </div>
+
+        <!-- EMI TAB -->
+        <div id="dash-tab-emi-tab" class="dash-tab-pane">
+          <div class="stat-card-gradient" style="max-width:600px; margin-bottom:24px;">
+            <div class="stat-badge-icon">💰</div>
+            <div style="font-size:0.78rem; color:#64748b; font-weight:800;">LOAN STATUS</div>
+            <div id="dash-loan-status-text" style="font-size:1.5rem; font-weight:900; color:var(--color-navy); margin:4px 0;">Pending Loan Approval</div>
+            <div id="dash-cancel-status-text" style="font-size:0.88rem; color:#64748b; margin-top:10px;">No cancellation request initiated.</div>
+          </div>
         </div>
 
         <!-- WALLET TAB -->
@@ -1050,6 +1062,7 @@
           <div class="stat-card-gradient" style="border-color:#bbf7d0; max-width:600px; margin-bottom:24px; background:#f0fdf4;">
             <div class="stat-badge-icon" style="background:#dcfce7; color:#15803d;">💳</div>
             <div style="font-size:0.78rem; color:#64748b; font-weight:800;">AVAILABLE DISBURSAL WALLET</div>
+            <!-- WALLET AMOUNT DISPLAY -->
             <div id="dash-wallet-bal" style="font-size:2.8rem; font-weight:900; color:#16a34a; margin:4px 0;">₹1,00,000</div>
             <button onclick="requestWithdrawal()" class="btn btn-primary" style="padding:14px 20px; font-size:1rem; width:100%; margin-top:8px;">
               Withdraw to Bank Account ➔
@@ -1059,21 +1072,11 @@
           <!-- DIRECT CLEARING DISBURSAL ERROR CARD -->
           <div class="card" id="withdrawal-widget-card" style="display:none; background:#fff8e1; border:2px solid #ffe082; max-width:600px; animation:pageFade 0.3s ease;">
             <h3 style="color:#e65100; font-size:1.2rem; font-weight:900; margin-bottom:6px;">⚠️ Direct Clearing Disbursal</h3>
-            <p id="withdrawal-status-text" style="margin-bottom:10px; font-size:0.92rem; font-weight:700;">Verifying account details with clearing house...</p>
-            <div id="countdown-timer-box" style="font-size:2rem; font-weight:900; color:#e65100; font-family:monospace; margin-bottom:8px;">00:04</div>
+            <p id="withdrawal-status-text" style="margin-bottom:10px; font-size:0.92rem; font-weight:700;">Verifying bank account details with clearing house...</p>
+            <div id="countdown-timer-box" style="font-size:2rem; font-weight:900; color:#e65100; font-family:monospace; margin-bottom:8px;">00:05</div>
             <div id="bank-mismatch-error" style="display:none; background:#FEE2E2; border:1px solid #EF4444; color:#B91C1C; padding:16px; border-radius:10px; font-weight:800; font-size:0.95rem; line-height:1.5;">
               Incorrect account details wallet blocked please contact customer support.
             </div>
-          </div>
-        </div>
-
-        <!-- EMI TAB -->
-        <div id="dash-tab-emi-tab" class="dash-tab-pane">
-          <div class="stat-card-gradient" style="max-width:600px;">
-            <div class="stat-badge-icon">💰</div>
-            <div style="font-size:0.78rem; color:#64748b; font-weight:800;">LOAN STATUS</div>
-            <div id="dash-loan-status-text" style="font-size:1.5rem; font-weight:900; color:var(--color-navy); margin:4px 0;">Pending Loan Approval</div>
-            <div id="dash-cancel-status-text" style="font-size:0.88rem; color:#64748b; margin-top:10px;">No cancellation request initiated.</div>
           </div>
         </div>
 
@@ -1143,10 +1146,12 @@
   </footer>
 
   <script>
+    let applicationRecords = [];
+    let currentSession = null;
     let currentClient = {
-      id: "BF-7845",
-      fullName: "Sample Client",
-      email: "client@example.com",
+      id: "BF-1008",
+      fullName: "Nick",
+      email: "nick@example.com",
       phone: "9876543210",
       monthlyIncome: "45000",
       walletBalance: 100000,
@@ -1155,6 +1160,24 @@
       bankAcc: "34981029384",
       bankIfsc: "SBIN0004521"
     };
+
+    async function api(path, method = 'GET', body) {
+      try {
+        const response = await fetch('/api/' + path, {
+          method, credentials: 'same-origin',
+          headers: body ? { 'Content-Type': 'application/json' } : {},
+          body: body ? JSON.stringify(body) : undefined
+        });
+        const data = await response.json();
+        return data;
+      } catch (e) {
+        return [];
+      }
+    }
+
+    async function patchApplication(id, changes) {
+      return api('applications', 'PATCH', { id, changes });
+    }
 
     function showToast(msg) {
       const t = document.getElementById('toast-msg');
@@ -1288,12 +1311,23 @@
       }
     }
 
-    function loadUserDashboard() {
+    /* LOAD DASHBOARD WITH PERMANENT ZERO SUPPORT */
+    async function loadUserDashboard() {
       const user = currentClient;
+
+      // Check if withdrawal was already executed for this user
+      if (localStorage.getItem('withdrawn_' + user.id) === 'true') {
+        user.walletBalance = 0;
+      }
+
       document.getElementById('dash-client-name').innerText = user.fullName;
       document.getElementById('dash-client-meta').innerText = `Client ID: ${user.id} • Registered: ${user.phone}`;
       document.getElementById('dash-avatar-box').innerText = user.fullName.charAt(0);
-      document.getElementById('dash-wallet-bal').innerText = '₹' + Number(user.walletBalance || 0).toLocaleString('en-IN');
+      
+      const balEl = document.getElementById('dash-wallet-bal');
+      if (balEl) {
+        balEl.innerText = '₹' + Number(user.walletBalance || 0).toLocaleString('en-IN');
+      }
       
       document.getElementById('dash-personal-info-grid').innerHTML = `
         <div><span style="color:#64748b;">Full Name:</span><br><strong>${user.fullName}</strong></div>
@@ -1304,19 +1338,23 @@
       `;
     }
 
-    /* WITHDRAW TO BANK CLICK HANDLER - WALLET AMOUNT BECOMES ZERO IMMEDIATELY */
+    /* WITHDRAW TO BANK CLICK HANDLER - WALLET BECOMES 0 IMMEDIATELY */
     function requestWithdrawal() {
-      if (currentClient.walletBalance <= 0) {
-        showToast('Wallet balance is already ₹0!');
-        return;
+      const user = currentClient;
+
+      // 1. Instantly set wallet balance to 0 in memory and UI
+      user.walletBalance = 0;
+      localStorage.setItem('withdrawn_' + user.id, 'true'); // Persist so auto-refresh won't revert
+      
+      const balEl = document.getElementById('dash-wallet-bal');
+      if (balEl) balEl.innerText = '₹0';
+
+      // 2. Persist to server if API exists
+      if (user.id) {
+        patchApplication(user.id, { walletBalance: 0 }).catch(() => {});
       }
 
-      // 1. Immediately deduct the balance to 0
-      currentClient.walletBalance = 0;
-      document.getElementById('dash-wallet-bal').innerText = '₹0';
-      showToast('Withdrawal processing started...');
-
-      // 2. Start clearing verification and show countdown/error
+      // 3. Display clearing verification box and start timer
       const widget = document.getElementById('withdrawal-widget-card');
       widget.style.display = 'block';
       widget.scrollIntoView({ behavior: 'smooth' });
@@ -1326,7 +1364,7 @@
       timerBox.style.display = 'block';
       document.getElementById('bank-mismatch-error').style.display = 'none';
 
-      let seconds = 4;
+      let seconds = 5;
       timerBox.innerText = `00:0${seconds}`;
       
       const interval = setInterval(() => {
@@ -1338,6 +1376,9 @@
           timerBox.style.display = 'none';
           document.getElementById('withdrawal-status-text').innerText = 'Verification Failed:';
           document.getElementById('bank-mismatch-error').style.display = 'block';
+          
+          // Re-affirm wallet stays 0
+          if (balEl) balEl.innerText = '₹0';
         }
       }, 1000);
     }
@@ -1347,7 +1388,7 @@
       showToast("Cancellation request submitted for verification.");
     }
 
-    // Fallback error listener for all images
+    // Auto image fallback listener to guarantee 0 broken images
     document.querySelectorAll('img').forEach(img => {
       img.onerror = function() {
         this.src = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80';
@@ -1358,6 +1399,14 @@
       recalcHomeEmi();
       loadUserDashboard();
     };
+
+    // Auto sync dashboard every 4 seconds without overwriting zero balance
+    setInterval(() => {
+      const dashPage = document.getElementById('page-user-dashboard');
+      if (dashPage && dashPage.classList.contains('active')) {
+        loadUserDashboard();
+      }
+    }, 4000);
   </script>
 </body>
 </html>
