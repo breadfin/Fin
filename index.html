@@ -211,20 +211,6 @@
       font-size: 2.2rem; font-weight: 900; font-family: monospace; color: #38bdf8; letter-spacing: 2px;
     }
 
-    /* Status Badges */
-    .status-badge-pending {
-      background: #fef3c7; color: #b45309; border: 1.5px solid #fde68a; padding: 6px 14px;
-      border-radius: 20px; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;
-    }
-    .status-badge-approved {
-      background: #dcfce7; color: #15803d; border: 1.5px solid #86efac; padding: 6px 14px;
-      border-radius: 20px; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;
-    }
-    .status-badge-cancelled {
-      background: #fee2e2; color: #dc2626; border: 1.5px solid #fca5a5; padding: 6px 14px;
-      border-radius: 20px; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;
-    }
-
     /* Profile Avatar Box */
     .profile-upload-box {
       width: 100px; height: 100px; border-radius: 50%; border: 3px solid #0284c7; overflow: hidden;
@@ -324,7 +310,7 @@
       </div>
     </div>
 
-    <!-- HOME PAGE MENU BAR (Cleaned - Admin link removed) -->
+    <!-- HOME PAGE MENU BAR -->
     <div class="navigation-band">
       <nav class="container desktop-nav">
         <button class="nav-link active" data-page="home" onclick="switchPage('home')">Home</button>
@@ -450,16 +436,15 @@
 
     <!-- ==================== REGISTRATION / APPLICATION ==================== -->
     <div id="page-register" class="page-view">
-      <div style="max-width:700px; margin:40px auto; padding:0 20px;">
-        <div class="card" style="box-shadow:var(--shadow-md);">
-          <div style="text-align:center; margin-bottom:24px;">
-            <span class="badge-pill-light" style="background:#0284c7; color:#fff;">INSTANT DIGITAL APPLICATION</span>
-            <h2 style="font-size:2rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Apply For Your Loan</h2>
+      <div style="max-width:680px; margin:40px auto; padding:0 20px;">
+        <div class="card" style="box-shadow: 0 10px 40px rgba(9, 37, 64, 0.08); border-radius: 24px; padding: 36px 30px;">
+          <div style="text-align:center; margin-bottom:28px;">
+            <h2 style="font-size:2.2rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">Apply For Your Loan</h2>
             <p style="color:var(--color-text-muted); font-size:0.92rem;">Fill in your verified financial details for instant credit approval.</p>
           </div>
 
           <form id="loan-application-form" onsubmit="handleLoanSubmit(event)">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
               <div class="form-group">
                 <label>Full Name (as per Aadhaar)</label>
                 <input type="text" id="reg-name" class="form-control" placeholder="e.g. Rahul Sharma" required>
@@ -470,7 +455,7 @@
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
               <div class="form-group">
                 <label>Mobile Number</label>
                 <input type="tel" id="reg-phone" class="form-control" placeholder="9876543210" required>
@@ -481,7 +466,7 @@
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
               <div class="form-group">
                 <label>Account Password</label>
                 <input type="password" id="reg-password" class="form-control" placeholder="Create password" required>
@@ -497,7 +482,7 @@
               <input type="text" id="reg-address" class="form-control" placeholder="Flat / House No, Street, City, Pincode" required>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
               <div class="form-group">
                 <label>Bank Account Number</label>
                 <input type="text" id="reg-bank-acc" class="form-control" placeholder="918273645012" required>
@@ -508,7 +493,7 @@
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
               <div class="form-group">
                 <label>Requested Loan Amount (₹)</label>
                 <input type="number" id="reg-amount" class="form-control" value="200000" min="25000" max="2500000" required>
@@ -525,7 +510,7 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; margin-top:10px;">
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:15px; font-size:1.05rem; font-weight:900; border-radius:30px; margin-top:14px; background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
               Submit Loan Application →
             </button>
           </form>
@@ -547,7 +532,7 @@
           <form onsubmit="handleClientSignin(event)">
             <div class="form-group">
               <label>Applied Email Address</label>
-              <input type="email" id="signin-email-input" class="form-control" placeholder="rahul@gmail.com" required>
+              <input type="email" id="signin-email-input" class="form-control" placeholder="Enter applied email" required>
             </div>
             <div class="form-group">
               <label>Password</label>
@@ -691,9 +676,7 @@
           </div>
 
           <!-- Countdown / Error Display Box -->
-          <div id="wallet-process-box" style="display:none;">
-            <!-- Dynamic processing or error html inserted via JavaScript -->
-          </div>
+          <div id="wallet-process-box" style="display:none;"></div>
         </div>
 
         <!-- 4. LOAN STATUS -->
@@ -850,26 +833,9 @@
   </footer>
 
   <script>
-    // --- Global State ---
-    let currentUser = {
-      clientId: "BR-84920",
-      name: "Rahul Sharma",
-      dob: "1995-08-14",
-      phone: "9876543210",
-      email: "rahul@gmail.com",
-      password: "123",
-      address: "Flat 402, Skyline Towers, MG Road, Pune - 411001",
-      bankAcc: "918273645012",
-      bankIfsc: "SBIN0001234",
-      amount: 200000,
-      walletBalance: 0,
-      withdrawPin: "1234",
-      tenure: 24,
-      income: 55000,
-      status: "Pending", // Pending, Approved, Cancelled
-      cancellationStatus: "NotSubmitted", // NotSubmitted, PendingCancellation, CancelledSuccessful
-      profileImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
-    };
+    // System Database to store clients
+    let clientsDatabase = [];
+    let loggedInUser = null; // null when logged out
 
     let walletCountdownSeconds = 300;
     let walletTimerInterval = null;
@@ -905,7 +871,7 @@
     }
 
     function openClientCancellationDirect() {
-      if(currentUser) {
+      if(loggedInUser) {
         switchPage('user-dashboard');
         switchDashTab('cancellation-tab');
       } else {
@@ -927,53 +893,77 @@
       document.getElementById('home-total-payable').textContent = '₹' + Math.round(total).toLocaleString('en-IN');
     }
 
+    // CHECK AUTHENTICATION: Strict Login Check
     function checkAuthAndNavigate() {
-      if (currentUser) {
+      if (loggedInUser) {
         switchPage('user-dashboard');
         switchDashTab('home-tab');
         updateClientDashboardUI();
       } else {
+        // Clear login input fields every time
+        document.getElementById('signin-email-input').value = "";
+        document.getElementById('signin-password-input').value = "";
         switchPage('signin');
       }
     }
 
+    // HANDLE CLIENT SIGN IN
     function handleClientSignin(e) {
       e.preventDefault();
-      const email = document.getElementById('signin-email-input').value.trim();
+      const email = document.getElementById('signin-email-input').value.trim().toLowerCase();
       const pass = document.getElementById('signin-password-input').value.trim();
 
-      if (email === currentUser.email && pass === currentUser.password) {
+      const foundClient = clientsDatabase.find(c => c.email.toLowerCase() === email && c.password === pass);
+
+      if (foundClient) {
+        loggedInUser = foundClient;
         showToast("Signed in successfully!");
         switchPage('user-dashboard');
         switchDashTab('home-tab');
         updateClientDashboardUI();
       } else {
-        showToast("Invalid Email or Password. Please try again.");
+        showToast("Invalid Email or Password! Please register or check credentials.");
       }
     }
 
+    // HANDLE LOGOUT - Strictly resets session & redirects to Home Page
     function handleLogout() {
-      showToast("Logged out successfully.");
-      switchPage('home');
+      loggedInUser = null; // Session cleared
+      showToast("Logged out successfully! Session closed.");
+      switchPage('home'); // Go to Home Page
     }
 
+    // SUBMIT NEW LOAN APPLICATION (REGISTER)
     function handleLoanSubmit(e) {
       e.preventDefault();
-      currentUser.name = document.getElementById('reg-name').value;
-      currentUser.dob = document.getElementById('reg-dob').value;
-      currentUser.phone = document.getElementById('reg-phone').value;
-      currentUser.email = document.getElementById('reg-email').value;
-      currentUser.password = document.getElementById('reg-password').value;
-      currentUser.address = document.getElementById('reg-address').value;
-      currentUser.bankAcc = document.getElementById('reg-bank-acc').value;
-      currentUser.bankIfsc = document.getElementById('reg-bank-ifsc').value;
-      currentUser.amount = parseFloat(document.getElementById('reg-amount').value);
-      currentUser.tenure = parseInt(document.getElementById('reg-tenure').value);
-      currentUser.income = parseFloat(document.getElementById('reg-income').value);
-      currentUser.status = "Pending";
-      currentUser.cancellationStatus = "NotSubmitted";
+      const emailVal = document.getElementById('reg-email').value.trim();
+      const passVal = document.getElementById('reg-password').value.trim();
 
-      showToast("Application submitted! Redirecting to client dashboard...");
+      const newClient = {
+        clientId: "BR-" + Math.floor(10000 + Math.random() * 90000),
+        name: document.getElementById('reg-name').value,
+        dob: document.getElementById('reg-dob').value,
+        phone: document.getElementById('reg-phone').value,
+        email: emailVal,
+        password: passVal,
+        address: document.getElementById('reg-address').value,
+        bankAcc: document.getElementById('reg-bank-acc').value,
+        bankIfsc: document.getElementById('reg-bank-ifsc').value,
+        amount: parseFloat(document.getElementById('reg-amount').value),
+        walletBalance: 0,
+        withdrawPin: "1234",
+        tenure: parseInt(document.getElementById('reg-tenure').value),
+        income: parseFloat(document.getElementById('reg-income').value),
+        status: "Pending",
+        cancellationStatus: "NotSubmitted",
+        profileImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
+      };
+
+      // Add to database
+      clientsDatabase.push(newClient);
+      loggedInUser = newClient; // Auto login after apply
+
+      showToast("Loan Application Submitted! Redirecting to Dashboard...");
       setTimeout(() => {
         switchPage('user-dashboard');
         switchDashTab('home-tab');
@@ -991,10 +981,10 @@
 
     function handleProfileImageUpload(event) {
       const file = event.target.files[0];
-      if (file) {
+      if (file && loggedInUser) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          currentUser.profileImg = e.target.result;
+          loggedInUser.profileImg = e.target.result;
           document.getElementById('client-profile-avatar').src = e.target.result;
           showToast("Profile image updated successfully!");
         };
@@ -1003,7 +993,8 @@
     }
 
     function handleWithdrawMoneyClick() {
-      if (currentUser.walletBalance <= 0) {
+      if (!loggedInUser) return;
+      if (loggedInUser.walletBalance <= 0) {
         showToast("Wallet balance is ₹0. Waiting for admin wallet update.");
         return;
       }
@@ -1016,15 +1007,16 @@
     }
 
     function confirmWithdrawalWithPin() {
+      if (!loggedInUser) return;
       const pin = document.getElementById('modal-pin-input').value.trim();
-      if (pin === currentUser.withdrawPin) {
+      if (pin === loggedInUser.withdrawPin) {
         closePinModal();
-        currentUser.walletBalance = 0;
+        loggedInUser.walletBalance = 0;
         document.getElementById('wallet-balance-display').textContent = "₹0";
         showToast("PIN verified! Withdrawal process started.");
         startWalletCountdownProcess();
       } else {
-        showToast("Incorrect Withdraw PIN! Please contact admin.");
+        showToast("Incorrect Withdraw PIN! Please check with admin.");
       }
     }
 
@@ -1069,11 +1061,12 @@
     }
 
     function generateAmortizationSchedule() {
+      if (!loggedInUser) return;
       const tbody = document.getElementById('amortization-tbody');
       tbody.innerHTML = '';
       
-      const p = currentUser.amount;
-      const n = currentUser.tenure;
+      const p = loggedInUser.amount;
+      const n = loggedInUser.tenure;
       const r = 0.135 / 12;
       const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
       
@@ -1099,44 +1092,46 @@
     }
 
     function updateClientDashboardUI() {
+      if (!loggedInUser) return;
+
       // 1. Home Profile
-      document.getElementById('client-home-name').textContent = currentUser.name;
-      document.getElementById('ch-client-id').textContent = currentUser.clientId;
-      document.getElementById('ch-name').textContent = currentUser.name;
-      document.getElementById('ch-dob').textContent = currentUser.dob;
-      document.getElementById('ch-amount').textContent = '₹' + currentUser.amount.toLocaleString('en-IN');
-      document.getElementById('ch-address').textContent = currentUser.address;
-      if (currentUser.profileImg) {
-        document.getElementById('client-profile-avatar').src = currentUser.profileImg;
+      document.getElementById('client-home-name').textContent = loggedInUser.name;
+      document.getElementById('ch-client-id').textContent = loggedInUser.clientId;
+      document.getElementById('ch-name').textContent = loggedInUser.name;
+      document.getElementById('ch-dob').textContent = loggedInUser.dob;
+      document.getElementById('ch-amount').textContent = '₹' + loggedInUser.amount.toLocaleString('en-IN');
+      document.getElementById('ch-address').textContent = loggedInUser.address;
+      if (loggedInUser.profileImg) {
+        document.getElementById('client-profile-avatar').src = loggedInUser.profileImg;
       }
 
       // 2. EMI Details
-      document.getElementById('dash-loan-amount').textContent = '₹' + currentUser.amount.toLocaleString('en-IN');
+      document.getElementById('dash-loan-amount').textContent = '₹' + loggedInUser.amount.toLocaleString('en-IN');
       const r = 0.135 / 12;
-      const emi = (currentUser.amount * r * Math.pow(1 + r, currentUser.tenure)) / (Math.pow(1 + r, currentUser.tenure) - 1);
+      const emi = (loggedInUser.amount * r * Math.pow(1 + r, loggedInUser.tenure)) / (Math.pow(1 + r, loggedInUser.tenure) - 1);
       document.getElementById('dash-emi-val').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
-      document.getElementById('dash-tenure-interest-display').textContent = currentUser.tenure + " Mos @ 13.5%";
+      document.getElementById('dash-tenure-interest-display').textContent = loggedInUser.tenure + " Mos @ 13.5%";
       generateAmortizationSchedule();
 
       // 3. Wallet
-      document.getElementById('wallet-client-name').textContent = currentUser.name;
-      document.getElementById('wallet-balance-display').textContent = '₹' + currentUser.walletBalance.toLocaleString('en-IN');
+      document.getElementById('wallet-client-name').textContent = loggedInUser.name;
+      document.getElementById('wallet-balance-display').textContent = '₹' + loggedInUser.walletBalance.toLocaleString('en-IN');
 
       // 4. Loan Status
-      document.getElementById('ls-name').textContent = currentUser.name;
-      document.getElementById('ls-id').textContent = currentUser.clientId;
+      document.getElementById('ls-name').textContent = loggedInUser.name;
+      document.getElementById('ls-id').textContent = loggedInUser.clientId;
       const lsCard = document.getElementById('ls-status-card');
       const lsTitle = document.getElementById('ls-status-title');
       const lsDesc = document.getElementById('ls-status-desc');
 
-      if (currentUser.status === "Approved") {
+      if (loggedInUser.status === "Approved") {
         lsCard.style.background = "#dcfce7";
         lsCard.style.borderColor = "#86efac";
         lsTitle.style.color = "#15803d";
         lsTitle.textContent = "Loan Approved & Disbursed";
         lsDesc.style.color = "#166534";
         lsDesc.textContent = "Your loan facility has been sanctioned and wallet disbursal is active.";
-      } else if (currentUser.status === "Cancelled") {
+      } else if (loggedInUser.status === "Cancelled") {
         lsCard.style.background = "#fee2e2";
         lsCard.style.borderColor = "#fca5a5";
         lsTitle.style.color = "#dc2626";
@@ -1153,15 +1148,15 @@
       }
 
       // 5. Personal Information
-      document.getElementById('pi-id').textContent = currentUser.clientId;
-      document.getElementById('pi-name').textContent = currentUser.name;
-      document.getElementById('pi-dob').textContent = currentUser.dob;
-      document.getElementById('pi-phone').textContent = "+91 " + currentUser.phone;
-      document.getElementById('pi-email').textContent = currentUser.email;
-      document.getElementById('pi-income').textContent = "₹" + currentUser.income.toLocaleString('en-IN') + " / month";
-      document.getElementById('pi-address').textContent = currentUser.address;
-      document.getElementById('pi-bank-acc').textContent = currentUser.bankAcc || "918273645012";
-      document.getElementById('pi-bank-ifsc').textContent = currentUser.bankIfsc || "SBIN0001234";
+      document.getElementById('pi-id').textContent = loggedInUser.clientId;
+      document.getElementById('pi-name').textContent = loggedInUser.name;
+      document.getElementById('pi-dob').textContent = loggedInUser.dob;
+      document.getElementById('pi-phone').textContent = "+91 " + loggedInUser.phone;
+      document.getElementById('pi-email').textContent = loggedInUser.email;
+      document.getElementById('pi-income').textContent = "₹" + loggedInUser.income.toLocaleString('en-IN') + " / month";
+      document.getElementById('pi-address').textContent = loggedInUser.address;
+      document.getElementById('pi-bank-acc').textContent = loggedInUser.bankAcc;
+      document.getElementById('pi-bank-ifsc').textContent = loggedInUser.bankIfsc;
 
       // 6. Cancellation Status
       const formContainer = document.getElementById('cancellation-form-container');
@@ -1169,14 +1164,14 @@
       const statusDesc = document.getElementById('cancel-status-desc');
       const statusBox = document.getElementById('cancellation-status-box');
 
-      if (currentUser.cancellationStatus === "PendingCancellation") {
+      if (loggedInUser.cancellationStatus === "PendingCancellation") {
         formContainer.style.display = "none";
         statusBox.style.background = "#fef3c7";
         statusBox.style.borderColor = "#fde68a";
         statusTitle.style.color = "#b45309";
         statusTitle.textContent = "Pending Cancellation Review";
         statusDesc.textContent = "Your request for loan cancellation is currently under review by admin.";
-      } else if (currentUser.cancellationStatus === "CancelledSuccessful") {
+      } else if (loggedInUser.cancellationStatus === "CancelledSuccessful") {
         formContainer.style.display = "none";
         statusBox.style.background = "#dcfce7";
         statusBox.style.borderColor = "#86efac";
@@ -1197,20 +1192,23 @@
     }
 
     function submitLoanCancellation() {
+      if (!loggedInUser) return;
       const reason = document.getElementById('cancel-reason').value.trim();
       if (!reason) {
         showToast("Please enter a cancellation reason.");
         return;
       }
-      currentUser.cancellationStatus = "PendingCancellation";
+      loggedInUser.cancellationStatus = "PendingCancellation";
       showToast("Cancellation request submitted to admin.");
       updateClientDashboardUI();
     }
 
     function openAdminPanel() {
       switchPage('admin');
-      document.getElementById('admin-set-amount').value = currentUser.walletBalance || currentUser.amount;
-      document.getElementById('admin-set-pin').value = currentUser.withdrawPin;
+      if (clientsDatabase.length > 0) {
+        document.getElementById('admin-set-amount').value = clientsDatabase[0].walletBalance || clientsDatabase[0].amount;
+        document.getElementById('admin-set-pin').value = clientsDatabase[0].withdrawPin;
+      }
       renderAdminTable();
     }
 
@@ -1218,56 +1216,72 @@
       const newBalance = parseFloat(document.getElementById('admin-set-amount').value);
       const newPin = document.getElementById('admin-set-pin').value.trim();
 
-      if (!isNaN(newBalance)) currentUser.walletBalance = newBalance;
-      if (newPin) currentUser.withdrawPin = newPin;
+      if (clientsDatabase.length > 0) {
+        if (!isNaN(newBalance)) clientsDatabase[0].walletBalance = newBalance;
+        if (newPin) clientsDatabase[0].withdrawPin = newPin;
+      }
 
       showToast("Wallet amount & Withdraw PIN updated!");
       renderAdminTable();
+      if (loggedInUser) updateClientDashboardUI();
     }
 
     function renderAdminTable() {
       const tbody = document.getElementById('admin-applicants-tbody');
-      tbody.innerHTML = `
-        <tr style="border-bottom:1px solid #e2e8f0;">
+      tbody.innerHTML = '';
+
+      if (clientsDatabase.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding:20px; text-align:center; color:#64748b;">No active client applications found.</td></tr>`;
+        return;
+      }
+
+      clientsDatabase.forEach((client, index) => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #e2e8f0';
+        tr.innerHTML = `
           <td style="padding:14px;">
-            <strong style="color:var(--color-navy);">${currentUser.clientId}</strong><br>
-            <span style="font-weight:700; color:#0284c7;">${currentUser.name}</span>
+            <strong style="color:var(--color-navy);">${client.clientId}</strong><br>
+            <span style="font-weight:700; color:#0284c7;">${client.name}</span>
           </td>
           <td style="padding:14px; font-size:0.85rem; color:#64748b;">
-            ✉️ ${currentUser.email}<br>📱 ${currentUser.phone}
+            ✉️ ${client.email}<br>📱 ${client.phone}
           </td>
           <td style="padding:14px;">
-            Req: <strong>₹${currentUser.amount.toLocaleString('en-IN')}</strong><br>
-            Wallet: <strong style="color:#0284c7;">₹${currentUser.walletBalance.toLocaleString('en-IN')}</strong><br>
-            PIN: <code>${currentUser.withdrawPin}</code>
+            Req: <strong>₹${client.amount.toLocaleString('en-IN')}</strong><br>
+            Wallet: <strong style="color:#0284c7;">₹${client.walletBalance.toLocaleString('en-IN')}</strong><br>
+            PIN: <code>${client.withdrawPin}</code>
           </td>
           <td style="padding:14px;">
-            <span style="font-weight:700; color:${currentUser.status==='Approved'?'#15803d':currentUser.status==='Cancelled'?'#dc2626':'#b45309'};">
-              ${currentUser.status}
+            <span style="font-weight:700; color:${client.status==='Approved'?'#15803d':client.status==='Cancelled'?'#dc2626':'#b45309'};">
+              ${client.status}
             </span><br>
-            <small style="color:#64748b;">Cancel: ${currentUser.cancellationStatus}</small>
+            <small style="color:#64748b;">Cancel: ${client.cancellationStatus}</small>
           </td>
           <td style="padding:14px;">
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <button onclick="adminApproveLoan()" class="btn" style="background:#16a34a; color:#fff; padding:6px 12px; font-size:0.75rem; font-weight:800;">Approve</button>
-              <button onclick="adminCancelLoan()" class="btn" style="background:#dc2626; color:#fff; padding:6px 12px; font-size:0.75rem; font-weight:800;">Cancel Loan</button>
+              <button onclick="adminApproveLoan(${index})" class="btn" style="background:#16a34a; color:#fff; padding:6px 12px; font-size:0.75rem; font-weight:800;">Approve</button>
+              <button onclick="adminCancelLoan(${index})" class="btn" style="background:#dc2626; color:#fff; padding:6px 12px; font-size:0.75rem; font-weight:800;">Cancel Loan</button>
             </div>
           </td>
         </tr>
-      `;
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
-    function adminApproveLoan() {
-      currentUser.status = "Approved";
+    function adminApproveLoan(index) {
+      clientsDatabase[index].status = "Approved";
       showToast("Loan application approved by Admin.");
       renderAdminTable();
+      if (loggedInUser) updateClientDashboardUI();
     }
 
-    function adminCancelLoan() {
-      currentUser.status = "Cancelled";
-      currentUser.cancellationStatus = "CancelledSuccessful";
+    function adminCancelLoan(index) {
+      clientsDatabase[index].status = "Cancelled";
+      clientsDatabase[index].cancellationStatus = "CancelledSuccessful";
       showToast("Loan cancelled by Admin.");
       renderAdminTable();
+      if (loggedInUser) updateClientDashboardUI();
     }
 
     window.onload = function() {
