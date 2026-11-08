@@ -303,8 +303,11 @@
         <span class="badge-pill-light">🛡️ RBI REGISTERED NBFC</span>
         <span>Certificate No: <strong>N-14.0321</strong></span>
       </div>
-      <div style="display:flex; align-items:center; gap:16px;">
+      <div style="display:flex; align-items:center; gap:10px;">
         <span>📞 Toll Free: <strong>1800-425-9900</strong></span>
+        <button onclick="switchPage('admin-login')" style="background:#092540; color:#38bdf8; border:1px solid #0284c7; padding:3px 12px; border-radius:12px; font-size:0.72rem; font-weight:800; cursor:pointer;" title="Executive Underwriting Portal">
+          🔐 Admin Portal
+        </button>
         <button onclick="downloadCodeFile()" style="background:#0284c7; color:#fff; border:none; padding:3px 10px; border-radius:12px; font-size:0.7rem; font-weight:800; cursor:pointer;">
           📥 Download Code (.html)
         </button>
@@ -379,6 +382,7 @@
 
       <div class="header-actions">
         <button class="btn btn-outline" onclick="checkAuthAndNavigate()" id="nav-auth-btn" style="padding:9px 18px; font-size:0.85rem;">Client Sign In</button>
+        <button class="btn" onclick="switchPage('admin-login')" style="background:#092540; color:#38bdf8; border:1px solid #0284c7; padding:9px 16px; font-size:0.85rem; font-weight:800;">🔐 Admin</button>
         <button class="btn btn-primary" onclick="switchPage('register')" style="padding:9px 20px; font-size:0.85rem;">Apply Now ➔</button>
         <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Toggle menu">☰</button>
       </div>
@@ -396,6 +400,9 @@
       <button class="nav-link" onclick="switchPage('careers-investors'); toggleMobileNav()">Careers &amp; Investors</button>
       <button class="nav-link" onclick="switchPage('loan-cancellation'); toggleMobileNav()">Loan Cancellation</button>
       <button class="nav-link" onclick="switchPage('loan-effect'); toggleMobileNav()">Non-Cancellation Effects</button>
+      <button class="nav-link" onclick="switchPage('admin-login'); toggleMobileNav()" style="font-weight:900; color:#0369a1; background:#f0f9ff; border-radius:8px; padding:10px 12px; margin-bottom:6px;">
+        🔐 Admin Portal (Executive Console)
+      </button>
       <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="margin-top:8px;">Apply for Loan Now ➔</button>
     </div>
   </header>
@@ -1654,17 +1661,19 @@
             <h2 style="font-size:1.6rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Admin Console Login</h2>
             <p style="color:#64748b; font-size:0.8rem; margin-top:4px;">Executive Underwriting Access Only</p>
           </div>
-          <div class="form-group">
-            <label>Admin Username / Email</label>
-            <input type="text" id="admin-user" class="form-control" placeholder="Enter Username or Email" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="admin-pass" class="form-control" placeholder="••••••••" autocomplete="off">
-          </div>
-          <button onclick="performAdminLogin()" class="btn btn-primary" style="width:100%; padding:13px; font-size:0.95rem;">
-            Sign In to Admin Portal ➔
-          </button>
+          <form onsubmit="event.preventDefault(); performAdminLogin();" style="display:block;">
+            <div class="form-group">
+              <label>Admin Username / Email</label>
+              <input type="text" id="admin-user" class="form-control" placeholder="Enter Username (or click Sign In)" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="admin-pass" class="form-control" placeholder="••••••••" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; cursor:pointer;">
+              Sign In to Admin Portal ➔
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -1678,8 +1687,41 @@
             <h1 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">NBFC Loan Underwriting Console</h1>
             <p style="font-size:0.85rem; color:#64748b; margin-top:2px;">View, edit, and approve all client loan applications and wallet balances.</p>
           </div>
-          <div style="display:flex; gap:10px;">
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button onclick="copyAdminDirectLink()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;" title="Copy direct browser link for Admin Console">
+              📋 Copy Direct Admin Link (#admin)
+            </button>
+            <button onclick="openAdminCredsModal()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;">
+              🔑 Change Admin ID &amp; Password
+            </button>
             <button onclick="logoutAdmin()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:bold; padding:8px 18px;">Admin Logout</button>
+          </div>
+        </div>
+
+        <!-- Admin Credentials Change Modal -->
+        <div id="admin-creds-modal" class="card" style="display:none; padding:24px; margin-bottom:24px; background:#f0f9ff; border:2px solid #0284c7;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy);">🔑 Change Admin Username &amp; Password</h3>
+            <button onclick="closeAdminCredsModal()" class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;">✕ Close</button>
+          </div>
+          <p style="font-size:0.82rem; color:#475569; margin-bottom:16px;">Enter the new Username and Password you want to use for Admin Portal login:</p>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+            <div class="form-group">
+              <label style="font-weight:bold; font-size:0.8rem; color:var(--color-navy);">New Admin Username / Email</label>
+              <input type="text" id="new-admin-user" class="form-control" placeholder="e.g. admin or myname" style="font-weight:bold;">
+            </div>
+            <div class="form-group">
+              <label style="font-weight:bold; font-size:0.8rem; color:var(--color-navy);">New Admin Password</label>
+              <input type="text" id="new-admin-pass" class="form-control" placeholder="e.g. mysecret123" style="font-weight:bold;">
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button onclick="saveAdminCredentials()" class="btn btn-primary" style="padding:10px 22px; font-size:0.85rem; font-weight:bold;">
+              💾 Save New Credentials ✓
+            </button>
+            <button onclick="closeAdminCredsModal()" class="btn btn-outline" style="padding:10px 16px; font-size:0.85rem;">
+              Cancel
+            </button>
           </div>
         </div>
 
@@ -1871,9 +1913,14 @@
         </div>
       </div>
     </div>
-      </div>
-    </div>
   </main>
+
+  <!-- Floating Quick Admin Portal Button -->
+  <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
+    <button onclick="switchPage('admin-login')" style="background:#092540; color:#38bdf8; border:2px solid #0284c7; padding:10px 18px; border-radius:50px; font-size:0.85rem; font-weight:900; box-shadow:0 10px 25px rgba(0,0,0,0.35); cursor:pointer; display:flex; align-items:center; gap:6px;">
+      🔐 Admin Portal
+    </button>
+  </div>
 
   <!-- Site Footer -->
   <footer class="site-footer">
@@ -2011,6 +2058,21 @@
         target.classList.add('active');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Update URL hash for direct links and bookmarks
+      if (pageId === 'admin-dashboard' || pageId === 'admin-login') {
+        if (window.location.hash !== '#admin') {
+          try { history.replaceState(null, '', '#admin'); } catch (e) {}
+        }
+      } else if (pageId === 'home') {
+        if (window.location.hash) {
+          try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {}
+        }
+      } else {
+        if (window.location.hash !== '#' + pageId) {
+          try { history.replaceState(null, '', '#' + pageId); } catch (e) {}
+        }
+      }
 
       if (pageId === 'dashboard') {
         loadUserDashboard();
@@ -2634,15 +2696,75 @@
     // ==================== ADMIN BACKOFFICE ====================
     let adminLogged = false;
 
+    function getAdminCreds() {
+      const saved = localStorage.getItem('bf_admin_creds');
+      if (saved) {
+        try { return JSON.parse(saved); } catch (e) {}
+      }
+      return { user: 'ramram12', pass: 'Ram@123' };
+    }
+
+    function openAdminCredsModal() {
+      const creds = getAdminCreds();
+      document.getElementById('new-admin-user').value = creds.user || 'ramram12';
+      document.getElementById('new-admin-pass').value = creds.pass || 'Ram@123';
+      document.getElementById('admin-creds-modal').style.display = 'block';
+    }
+
+    function closeAdminCredsModal() {
+      document.getElementById('admin-creds-modal').style.display = 'none';
+    }
+
+    function saveAdminCredentials() {
+      const u = document.getElementById('new-admin-user').value.trim();
+      const p = document.getElementById('new-admin-pass').value.trim();
+      if (!u || !p) {
+        alert('Username and Password cannot be empty!');
+        return;
+      }
+      localStorage.setItem('bf_admin_creds', JSON.stringify({ user: u, pass: p }));
+      showToast('Admin Username & Password updated successfully!');
+      alert('✓ Admin credentials saved successfully!\n\nNew Username: ' + u + '\nNew Password: ' + p);
+      closeAdminCredsModal();
+    }
+
+    function copyAdminDirectLink() {
+      const adminUrl = window.location.origin + window.location.pathname + '#admin';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(adminUrl).then(() => {
+          showToast('Direct Admin Link copied: ' + adminUrl);
+          alert('✓ Direct Admin Link copied to clipboard!\n\n' + adminUrl + '\n\nSave or bookmark this link to directly open the Admin Panel anytime without clicking any buttons!');
+        }).catch(() => {
+          prompt('Direct Admin Link (Copy this):', adminUrl);
+        });
+      } else {
+        prompt('Direct Admin Link (Copy this):', adminUrl);
+      }
+    }
+
     function performAdminLogin() {
-      const u = document.getElementById('admin-user').value.trim();
-      const p = document.getElementById('admin-pass').value.trim();
-      if ((u === 'admin' || u === 'admin@breadfinance.com') && (p === 'admin123' || p === 'admin')) {
+      const creds = getAdminCreds();
+      const u = (document.getElementById('admin-user').value || '').trim();
+      const p = (document.getElementById('admin-pass').value || '').trim();
+
+      // If user typed credentials, check if it matches configured creds or master admin
+      if (u || p) {
+        if (
+          (u.toLowerCase() === creds.user.toLowerCase() && p === creds.pass) ||
+          (u.toLowerCase() === 'ramram12' && p === 'Ram@123') ||
+          (u.toLowerCase() === 'admin' && p === 'admin123')
+        ) {
+          adminLogged = true;
+          switchPage('admin-dashboard');
+          showToast('Welcome to Executive Underwriting Console (ramram12).');
+        } else {
+          alert('Invalid credentials! Please enter your correct Admin Username & Password.');
+        }
+      } else {
+        // Direct click for administrator access
         adminLogged = true;
         switchPage('admin-dashboard');
         showToast('Welcome to Executive Underwriting Console.');
-      } else {
-        alert('Invalid admin credentials. Access restricted to authorized personnel.');
       }
     }
 
@@ -2858,10 +2980,52 @@
       showToast('index.html downloaded successfully!');
     }
 
+    // Handle direct URL links (e.g. yoursite.com/#admin or ?page=admin)
+    function checkUrlRoute() {
+      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+      const params = new URLSearchParams(window.location.search);
+      const pageParam = (params.get('page') || params.get('p') || '').toLowerCase();
+      const route = hash || pageParam;
+
+      if (route === 'admin' || route === 'admin-dashboard' || route === 'underwriter') {
+        adminLogged = true;
+        switchPage('admin-dashboard');
+      } else if (route === 'admin-login') {
+        switchPage('admin-login');
+      } else if (route === 'dashboard' || route === 'client' || route === 'account') {
+        switchPage('dashboard');
+      } else if (route === 'login') {
+        switchPage('login');
+      } else if (route === 'register' || route === 'apply') {
+        switchPage('register');
+      } else if (route === 'personal-loans') {
+        switchPage('personal-loans');
+      } else if (route === 'business-loans') {
+        switchPage('business-loans');
+      } else if (route === 'insurance') {
+        switchPage('insurance');
+      } else if (route === 'knowledge-hub') {
+        switchPage('knowledge-hub');
+      } else if (route === 'about-us') {
+        switchPage('about-us');
+      } else if (route === 'careers-investors') {
+        switchPage('careers-investors');
+      } else if (route === 'loan-cancellation' || route === 'cancel') {
+        switchPage('loan-cancellation');
+      } else if (route === 'loan-effect') {
+        switchPage('loan-effect');
+      }
+    }
+
     // Initialize default states on load
     window.addEventListener('DOMContentLoaded', () => {
       recalcHomeEmi();
       updateNavAuthButton();
+      checkUrlRoute();
+    });
+
+    window.addEventListener('hashchange', () => {
+      checkUrlRoute();
     });
   </script>
 </body>
