@@ -260,7 +260,7 @@
     @keyframes pageFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px);
+      background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
       display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px;
     }
     .modal-content {
@@ -291,10 +291,33 @@
       padding: 12px 24px; border-radius: var(--radius-pill); font-weight: 700; font-size: 0.9rem;
       box-shadow: var(--shadow-lg); z-index: 9999; display: none; border-left: 4px solid var(--color-accent);
     }
+    .doc-preview-thumb {
+      max-height: 90px;
+      max-width: 140px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+    .doc-preview-thumb:hover { transform: scale(1.04); }
   </style>
 </head>
 <body>
   <div id="toast-msg">Notification</div>
+
+  <!-- Document Full View Modal -->
+  <div id="doc-viewer-modal" class="modal-overlay" onclick="closeDocPreviewModal(event)">
+    <div class="modal-content" style="max-width:700px; text-align:center; position:relative;" onclick="event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <strong id="doc-modal-title" style="color:var(--color-navy); font-size:1.05rem;">Document Preview</strong>
+        <button onclick="closeDocPreviewModal()" class="btn btn-outline" style="padding:4px 12px; font-size:0.8rem;">✕ Close</button>
+      </div>
+      <div id="doc-modal-body" style="min-height:200px; display:flex; align-items:center; justify-content:center;">
+        <img id="doc-modal-img" src="" alt="Document" style="max-height:70vh; max-width:100%; border-radius:8px; box-shadow:var(--shadow-md);">
+      </div>
+    </div>
+  </div>
 
   <!-- Top Utility Bar -->
   <div class="top-utility-bar">
@@ -1081,7 +1104,7 @@
       </div>
     </div>
 
-    <!-- ==================== REGISTRATION (3 STEPS) ==================== -->
+    <!-- ==================== REGISTRATION (4 STEPS WITH DOCUMENT UPLOADS) ==================== -->
     <div id="page-register" class="page-view">
       <div class="register-wrapper">
         <div class="container">
@@ -1091,7 +1114,7 @@
               <div>
                 <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.75rem; margin-bottom:10px; display:inline-block;">E-KYC VERIFIED</span>
                 <h2 style="font-size:1.8rem; font-weight:900; line-height:1.2; margin-bottom:12px;">Loan Application</h2>
-                <p style="color:#e0f2fe; font-size:0.85rem; line-height:1.6; margin-bottom:24px;">Complete all 3 stages for immediate sanction.</p>
+                <p style="color:#e0f2fe; font-size:0.85rem; line-height:1.6; margin-bottom:24px;">Complete all 4 stages for immediate sanction.</p>
 
                 <div class="checklist-step active" id="chk-step-1">
                   <div class="step-bubble">1</div>
@@ -1104,13 +1127,21 @@
                 <div class="checklist-step" id="chk-step-2">
                   <div class="step-bubble">2</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">KYC &amp; Employment</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">Aadhaar, PAN, Income/Docs</small>
+                    <div style="font-weight:800; font-size:0.85rem;">KYC &amp; Loan Request</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">Aadhaar, PAN, Income, Amount</small>
                   </div>
                 </div>
 
                 <div class="checklist-step" id="chk-step-3">
                   <div class="step-bubble">3</div>
+                  <div>
+                    <div style="font-weight:800; font-size:0.85rem;">Documents &amp; Nominee</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Documents &amp; Nominee Info</small>
+                  </div>
+                </div>
+
+                <div class="checklist-step" id="chk-step-4">
+                  <div class="step-bubble">4</div>
                   <div>
                     <div style="font-weight:800; font-size:0.85rem;">Bank &amp; Security</div>
                     <small style="color:#bae6fd; font-size:0.7rem;">Account &amp; Password</small>
@@ -1157,9 +1188,9 @@
                   </button>
                 </div>
 
-                <!-- STEP 2: KYC & EMPLOYMENT -->
+                <!-- STEP 2: KYC & LOAN REQUEST -->
                 <div id="step-panel-2" style="display:none;">
-                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 2: KYC &amp; Employment</h3>
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 2: KYC &amp; Loan Request</h3>
                   <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Enter your tax IDs and select your desired loan amount and tenure.</p>
 
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
@@ -1188,31 +1219,54 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <label>Nominee Full Name *</label>
-                    <input type="text" id="reg-nominee" required class="form-control" placeholder="Nominee legal name">
-                  </div>
-
-                  <!-- Loan Amount & Tenure (with 9m, 12m, 24m, 36m, 42m, 48m) -->
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; background:#f0f9ff; padding:16px; border-radius:12px; border:1px solid #bae6fd; margin-bottom:16px;">
-                    <div class="form-group" style="margin-bottom:0;">
-                      <label style="color:#0369a1;">Loan Required Amount (₹) *</label>
-                      <input type="number" id="reg-loanAmount" required min="50000" max="500000" step="10000" value="200000" class="form-control" oninput="updateLiveRegEmi()">
-                      <small style="color:#64748b; font-size:0.75rem;">Between ₹50,000 and ₹5,00,000</small>
+                  <!-- Loan Amount & Tenure (with requested loan required options) -->
+                  <div style="background:#f0f9ff; padding:18px; border-radius:12px; border:1px solid #bae6fd; margin-bottom:20px;">
+                    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:16px;">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label style="color:#0369a1; font-weight:800; font-size:0.9rem;">Loan Required Amount (₹) *</label>
+                        <select id="reg-loanAmount" class="form-control" onchange="updateLiveRegEmi()" style="font-weight:bold; font-size:0.95rem; color:var(--color-navy); padding:11px 14px;">
+                          <option value="100000">1,00,000 (1 Lakh)</option>
+                          <option value="150000">₹1,50,000 (1.5 Lakhs)</option>
+                          <option value="200000" selected>2,00,000 (2 Lakhs)</option>
+                          <option value="250000">2,50,000 (2.5 Lakhs)</option>
+                          <option value="300000">₹3,00,000 (3 Lakhs)</option>
+                          <option value="350000">₹3,50,000 (3.5 Lakhs)</option>
+                          <option value="400000">₹4,00,000 (4 Lakhs)</option>
+                          <option value="450000">₹4,50,000 (4.5 Lakhs)</option>
+                          <option value="500000">₹5,00,000 (5 Lakhs)</option>
+                        </select>
+                        <small style="color:#64748b; font-size:0.75rem;">Select your approved institutional loan limit</small>
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label style="color:#0369a1; font-weight:800; font-size:0.9rem;">Loan Tenure *</label>
+                        <select id="reg-tenure" class="form-control" onchange="updateLiveRegEmi()" style="font-weight:bold; font-size:0.95rem; padding:11px 14px;">
+                          <option value="9">9 Months (1% monthly / 11.9% p.a.)</option>
+                          <option value="12">12 Months (1% monthly / 11.9% p.a.)</option>
+                          <option value="24" selected>24 Months (1% monthly / 11.9% p.a.)</option>
+                          <option value="36">36 Months (1% monthly / 11.9% p.a.)</option>
+                          <option value="42">42 Months (1% monthly / 11.9% p.a.)</option>
+                          <option value="48">48 Months (1% monthly / 11.9% p.a.)</option>
+                        </select>
+                        <small id="reg-live-emi-calc" style="color:var(--color-primary-dark); font-weight:bold; font-size:0.78rem;">
+                          Est. EMI: ₹9,406 / mo
+                        </small>
+                      </div>
                     </div>
-                    <div class="form-group" style="margin-bottom:0;">
-                      <label style="color:#0369a1;">Loan Tenure *</label>
-                      <select id="reg-tenure" class="form-control" onchange="updateLiveRegEmi()">
-                        <option value="9">9 Months (1% monthly / 11.9% p.a.)</option>
-                        <option value="12">12 Months (1% monthly / 11.9% p.a.)</option>
-                        <option value="24" selected>24 Months (1% monthly / 11.9% p.a.)</option>
-                        <option value="36">36 Months (1% monthly / 11.9% p.a.)</option>
-                        <option value="42">42 Months (1% monthly / 11.9% p.a.)</option>
-                        <option value="48">48 Months (1% monthly / 11.9% p.a.)</option>
-                      </select>
-                      <small id="reg-live-emi-calc" style="color:var(--color-primary-dark); font-weight:bold; font-size:0.78rem;">
-                        Est. EMI: ₹9,406 / mo
-                      </small>
+
+                    <!-- Quick Tap Amount Buttons for Mobile -->
+                    <div style="margin-top:10px; border-top:1px dashed #bae6fd; padding-top:8px;">
+                      <span style="font-size:0.72rem; color:#0369a1; font-weight:700; display:block; margin-bottom:6px;">⚡ Quick Select Amount:</span>
+                      <div style="display:flex; flex-wrap:wrap; gap:6px;" id="loan-amount-pills">
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(100000)">1L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(150000)">1.5L</button>
+                        <button type="button" class="btn btn-primary" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(200000)">2L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(250000)">2.5L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(300000)">3L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(350000)">3.5L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(400000)">4L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(450000)">4.5L</button>
+                        <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(500000)">5L</button>
+                      </div>
                     </div>
                   </div>
 
@@ -1221,14 +1275,117 @@
                       ← Back
                     </button>
                     <button type="button" onclick="nextRegStep(3)" class="btn btn-primary" style="flex:2; padding:12px;">
-                      Continue to Step 3 ➔
+                      Continue to Documents Upload ➔
                     </button>
                   </div>
                 </div>
 
-                <!-- STEP 3: BANK & SECURITY -->
+                <!-- STEP 3: DOCUMENTS UPLOAD & NOMINEE (LOAN REQUIRED SHESHAM VARUNNA NEXT PAGE) -->
                 <div id="step-panel-3" style="display:none;">
-                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 3: Bank Account &amp; Password</h3>
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 3: Documents Upload</h3>
+                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Upload documents from phone gallery or take a photo directly using mobile camera.</p>
+
+                  <!-- Client Documents Box -->
+                  <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:18px;">
+                    <h4 style="font-size:0.88rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                      <span>📄</span> Client Documents
+                    </h4>
+
+                    <!-- 1. Client Aadhaar Front Side Upload -->
+                    <div class="form-group" style="margin-bottom:16px;">
+                      <label style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Client Aadhaar Front Side Upload *</span>
+                        <span style="font-size:0.72rem; color:#64748b; font-weight:normal;">Take Photo / Choose File</span>
+                      </label>
+                      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <label class="btn btn-outline" style="padding:10px 18px; font-size:0.85rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:#fff; border-style:dashed; border-width:2px; position:relative; overflow:hidden;">
+                          <span>📷 Upload Photo / Camera</span>
+                          <input type="file" id="reg-client-aadhaar-front" accept="image/*,.pdf" style="position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:10; font-size:40px;" onchange="handleDocUpload(event, 'clientAadhaarFront')">
+                        </label>
+                        <span id="file-name-clientAadhaarFront" style="font-size:0.82rem; color:#64748b; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">No file chosen</span>
+                      </div>
+                      <div id="preview-clientAadhaarFront" style="display:none; margin-top:8px;"></div>
+                    </div>
+
+                    <!-- 2. Client Aadhaar Back Side Upload -->
+                    <div class="form-group" style="margin-bottom:16px;">
+                      <label style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Client Aadhaar Back Side Upload *</span>
+                        <span style="font-size:0.72rem; color:#64748b; font-weight:normal;">Take Photo / Choose File</span>
+                      </label>
+                      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <label class="btn btn-outline" style="padding:10px 18px; font-size:0.85rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:#fff; border-style:dashed; border-width:2px; position:relative; overflow:hidden;">
+                          <span>📷 Upload Photo / Camera</span>
+                          <input type="file" id="reg-client-aadhaar-back" accept="image/*,.pdf" style="position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:10; font-size:40px;" onchange="handleDocUpload(event, 'clientAadhaarBack')">
+                        </label>
+                        <span id="file-name-clientAadhaarBack" style="font-size:0.82rem; color:#64748b; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">No file chosen</span>
+                      </div>
+                      <div id="preview-clientAadhaarBack" style="display:none; margin-top:8px;"></div>
+                    </div>
+
+                    <!-- 3. Client PAN Card or Any Other Documents Upload -->
+                    <div class="form-group" style="margin-bottom:4px;">
+                      <label style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Client PAN Card or Any Other Documents Upload *</span>
+                        <span style="font-size:0.72rem; color:#64748b; font-weight:normal;">PAN / Voter ID / Passport</span>
+                      </label>
+                      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <label class="btn btn-outline" style="padding:10px 18px; font-size:0.85rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:#fff; border-style:dashed; border-width:2px; position:relative; overflow:hidden;">
+                          <span>📷 Upload Photo / Camera</span>
+                          <input type="file" id="reg-client-pan-doc" accept="image/*,.pdf" style="position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:10; font-size:40px;" onchange="handleDocUpload(event, 'clientPanDoc')">
+                        </label>
+                        <span id="file-name-clientPanDoc" style="font-size:0.82rem; color:#64748b; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">No file chosen</span>
+                      </div>
+                      <div id="preview-clientPanDoc" style="display:none; margin-top:8px;"></div>
+                    </div>
+                  </div>
+
+                  <!-- Nominee Section (ennum thazhe nominee name nominee contact number nominee adhar front side upload) -->
+                  <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:14px; padding:18px; margin-bottom:20px;">
+                    <h4 style="font-size:0.88rem; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                      <span>👥</span> Nominee Information &amp; Aadhaar Upload
+                    </h4>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                      <div class="form-group">
+                        <label>Nominee Name *</label>
+                        <input type="text" id="reg-nominee" required class="form-control" placeholder="Full name of nominee">
+                      </div>
+                      <div class="form-group">
+                        <label>Nominee Contact Number *</label>
+                        <input type="tel" id="reg-nominee-phone" required maxlength="10" class="form-control" placeholder="10-digit mobile number">
+                      </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:4px;">
+                      <label style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Nominee Aadhaar Front Side Upload *</span>
+                        <span style="font-size:0.72rem; color:#64748b; font-weight:normal;">Take Photo / Choose File</span>
+                      </label>
+                      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <label class="btn btn-outline" style="padding:10px 18px; font-size:0.85rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:#fff; border-style:dashed; border-width:2px; position:relative; overflow:hidden;">
+                          <span>📷 Upload Photo / Camera</span>
+                          <input type="file" id="reg-nominee-aadhaar-front" accept="image/*,.pdf" style="position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:10; font-size:40px;" onchange="handleDocUpload(event, 'nomineeAadhaarFront')">
+                        </label>
+                        <span id="file-name-nomineeAadhaarFront" style="font-size:0.82rem; color:#64748b; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">No file chosen</span>
+                      </div>
+                      <div id="preview-nomineeAadhaarFront" style="display:none; margin-top:8px;"></div>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; gap:12px;">
+                    <button type="button" onclick="nextRegStep(2)" class="btn btn-outline" style="flex:1; padding:12px;">
+                      ← Back
+                    </button>
+                    <button type="button" onclick="nextRegStep(4)" class="btn btn-primary" style="flex:2; padding:12px;">
+                      Continue to Step 4 (Bank Details) ➔
+                    </button>
+                  </div>
+                </div>
+
+                <!-- STEP 4: BANK & SECURITY -->
+                <div id="step-panel-4" style="display:none;">
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Bank Account &amp; Password</h3>
                   <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Bank account for disbursal and your account sign-in password.</p>
 
                   <div class="form-group">
@@ -1259,11 +1416,11 @@
                   </div>
 
                   <div style="font-size:0.75rem; color:#64748b; margin-bottom:16px;">
-                    🔒 By submitting this form, you authorize Bread Finance Credit Co. Ltd. to verify your credit score with CIBIL.
+                    🔒 By submitting this form, you authorize Bread Finance Credit Co. Ltd. to verify your credit score with CIBIL and authenticate uploaded KYC documents.
                   </div>
 
                   <div style="display:flex; gap:12px;">
-                    <button type="button" onclick="nextRegStep(2)" class="btn btn-outline" style="flex:1; padding:12px;">
+                    <button type="button" onclick="nextRegStep(3)" class="btn btn-outline" style="flex:1; padding:12px;">
                       ← Back
                     </button>
                     <button type="button" onclick="submitRegistration()" class="btn btn-primary" style="flex:2; padding:12px; background:linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
@@ -1279,7 +1436,7 @@
                   ✓
                 </div>
                 <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">Application Submitted Successfully!</h3>
-                <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Your loan application is now pending under institutional review.</p>
+                <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Your loan application and KYC documents are now pending under institutional review.</p>
                 <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:16px; max-width:380px; margin:0 auto 24px;">
                   <div style="font-size:0.75rem; color:#64748b;">Assigned Client ID:</div>
                   <div id="success-client-id" style="font-size:1.5rem; font-weight:900; color:var(--color-primary-dark); font-family:monospace;">BF-XXXX</div>
@@ -1387,7 +1544,7 @@
           <button class="dash-menu-btn" id="btn-dash-emi" onclick="switchDashTab('emi')">📊 EMI Details</button>
           <button class="dash-menu-btn" id="btn-dash-wallet" onclick="switchDashTab('wallet')">💳 Client Wallet</button>
           <button class="dash-menu-btn" id="btn-dash-status" onclick="switchDashTab('status')">📑 Loan Status</button>
-          <button class="dash-menu-btn" id="btn-dash-personal" onclick="switchDashTab('personal')">👤 Personal Information</button>
+          <button class="dash-menu-btn" id="btn-dash-personal" onclick="switchDashTab('personal')">👤 Personal Information &amp; Docs</button>
           <button class="dash-menu-btn" id="btn-dash-cancel" onclick="switchDashTab('cancel')">❌ Loan Cancel Status</button>
           <button class="dash-menu-btn" onclick="logoutClient()" style="margin-left:auto; color:#dc2626; border-color:#fca5a5;">🚪 Logout</button>
         </div>
@@ -1615,12 +1772,22 @@
           </div>
         </div>
 
-        <!-- TAB 5: PERSONAL INFORMATION -->
+        <!-- TAB 5: PERSONAL INFORMATION & UPLOADED DOCUMENTS -->
         <div id="dash-tab-personal" class="dash-tab-pane">
           <div class="card" style="padding:28px;">
-            <h2 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:18px;">All Application Details</h2>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px;" id="personal-info-grid">
+            <h2 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:18px;">All Application Details &amp; KYC Proofs</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:24px;" id="personal-info-grid">
               <!-- Rendered dynamically with all client details -->
+            </div>
+
+            <!-- Uploaded Documents Preview Section -->
+            <div style="background:#f8fafc; border:1.5px solid #e0f2fe; border-radius:14px; padding:20px;">
+              <h3 style="font-size:1.05rem; font-weight:900; color:var(--color-navy); margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+                <span>📁</span> Uploaded Identification Documents
+              </h3>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;" id="client-uploaded-docs-grid">
+                <!-- Rendered dynamically -->
+              </div>
             </div>
           </div>
         </div>
@@ -1675,7 +1842,7 @@
           <div>
             <span class="badge-pill-light" style="background:#092540; color:#fff;">BACKOFFICE MANAGEMENT</span>
             <h1 style="font-size:1.8rem; font-weight:900; color:var(--color-navy);">NBFC Loan Underwriting Console</h1>
-            <p style="font-size:0.85rem; color:#64748b; margin-top:2px;">View, edit, and approve all client loan applications and wallet balances.</p>
+            <p style="font-size:0.85rem; color:#64748b; margin-top:2px;">View, edit, and approve all client loan applications, uploaded documents, and wallet balances.</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <button onclick="copyAdminDirectLink()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;" title="Copy direct browser link for Admin Console">
@@ -1751,7 +1918,7 @@
           </div>
         </div>
 
-        <!-- Full Edit Client Dossier Panel (ALL APPLICATION DETAILS EDITABLE) -->
+        <!-- Full Edit Client Dossier Panel (ALL APPLICATION DETAILS + UPLOADED DOCUMENTS EDITABLE) -->
         <div id="admin-edit-panel" class="card" style="display:none; padding:32px; border-color:var(--color-primary); background:#ffffff; box-shadow:var(--shadow-lg);">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; border-bottom:1.5px solid #e0f2fe; padding-bottom:14px;">
             <div>
@@ -1794,7 +1961,17 @@
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:10px;">
               <div class="form-group">
                 <label style="color:#0f172a; font-weight:800;">Loan Sanction Amount (₹)</label>
-                <input type="number" id="edit-loan-amount" step="10000" class="form-control" style="font-weight:bold;">
+                <select id="edit-loan-amount" class="form-control" style="font-weight:bold;">
+                  <option value="100000">1,00,000 (1 Lakh)</option>
+                  <option value="150000">₹1,50,000 (1.5 Lakhs)</option>
+                  <option value="200000">2,00,000 (2 Lakhs)</option>
+                  <option value="250000">2,50,000 (2.5 Lakhs)</option>
+                  <option value="300000">₹3,00,000 (3 Lakhs)</option>
+                  <option value="350000">₹3,50,000 (3.5 Lakhs)</option>
+                  <option value="400000">₹4,00,000 (4 Lakhs)</option>
+                  <option value="450000">₹4,50,000 (4.5 Lakhs)</option>
+                  <option value="500000">₹5,00,000 (5 Lakhs)</option>
+                </select>
               </div>
               <div class="form-group">
                 <label style="color:#0f172a; font-weight:800;">Tenure (Months)</label>
@@ -1847,10 +2024,10 @@
             </div>
           </div>
 
-          <!-- Section 2: KYC & Employment -->
+          <!-- Section 2: KYC & Employment & Nominee -->
           <div style="margin-bottom:24px;">
             <h3 style="font-size:0.95rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">
-              📄 KYC, Employment &amp; Nominee
+              📄 KYC, Employment &amp; Nominee Details
             </h3>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
               <div class="form-group">
@@ -1877,10 +2054,24 @@
                 <label>Nominee Legal Name</label>
                 <input type="text" id="edit-nominee" class="form-control">
               </div>
+              <div class="form-group">
+                <label>Nominee Contact Number</label>
+                <input type="tel" id="edit-nominee-phone" maxlength="10" class="form-control">
+              </div>
             </div>
           </div>
 
-          <!-- Section 3: Bank Account Details -->
+          <!-- Section 3: Uploaded Documents Verification -->
+          <div style="margin-bottom:24px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:18px;">
+            <h3 style="font-size:0.95rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">
+              📑 Uploaded KYC &amp; Nominee Verification Documents
+            </h3>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;" id="admin-docs-preview-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Section 4: Bank Account Details -->
           <div style="margin-bottom:28px;">
             <h3 style="font-size:0.95rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">
               🏦 Disbursement Bank Account Details
@@ -2033,6 +2224,7 @@
         employmentStatus: "Salaried",
         monthlyIncome: 65000,
         nomineeName: "Pooja Sharma",
+        nomineePhone: "9876543211",
         loanAmount: 300000,
         tenure: 24,
         bankName: "State Bank of India",
@@ -2044,6 +2236,12 @@
         withdrawalPin: "1234",
         cancellationStatus: "None",
         profilePhoto: "",
+        documents: {
+          clientAadhaarFront: { name: "Client_Aadhaar_Front.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" },
+          clientAadhaarBack: { name: "Client_Aadhaar_Back.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" },
+          clientPanDoc: { name: "Client_PAN_Card.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80" },
+          nomineeAadhaarFront: { name: "Nominee_Aadhaar_Front.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" }
+        },
         withdrawalState: {
           isProcessing: false,
           remainingSeconds: 300,
@@ -2067,7 +2265,17 @@
     }
 
     function saveClients(clients) {
-      localStorage.setItem('bf_clients', JSON.stringify(clients));
+      try {
+        localStorage.setItem('bf_clients', JSON.stringify(clients));
+      } catch (e) {
+        console.warn('LocalStorage save quota hit, preserving recent data:', e);
+        try {
+          const trimmed = clients.slice(0, 5);
+          localStorage.setItem('bf_clients', JSON.stringify(trimmed));
+        } catch (e2) {
+          console.error('Could not save to localStorage:', e2);
+        }
+      }
     }
 
     function getActiveClient() {
@@ -2091,6 +2299,23 @@
       el.innerText = msg;
       el.style.display = 'block';
       setTimeout(() => { el.style.display = 'none'; }, 3200);
+    }
+
+    // ==================== DOCUMENT VIEWER MODAL ====================
+    function openDocPreviewModal(title, src) {
+      const modal = document.getElementById('doc-viewer-modal');
+      const titleEl = document.getElementById('doc-modal-title');
+      const imgEl = document.getElementById('doc-modal-img');
+      titleEl.innerText = title || 'Document Preview';
+      imgEl.src = src;
+      modal.style.display = 'flex';
+    }
+
+    function closeDocPreviewModal(e) {
+      const modal = document.getElementById('doc-viewer-modal');
+      modal.style.display = 'none';
+      const imgEl = document.getElementById('doc-modal-img');
+      imgEl.src = '';
     }
 
     // ==================== NAVIGATION ====================
@@ -2240,13 +2465,157 @@
       document.getElementById('faq-toggle-all-btn').innerText = allFaqsExpanded ? 'Collapse All' : 'Expand All';
     }
 
-    // ==================== REGISTRATION ====================
+    // ==================== REGISTRATION & DOCUMENT UPLOADS ====================
+    const regDocs = {
+      clientAadhaarFront: null,
+      clientAadhaarBack: null,
+      clientPanDoc: null,
+      nomineeAadhaarFront: null
+    };
+
+    function compressImageFile(file, maxWidth, maxHeight, quality, callback) {
+      if (!file) return callback(null);
+      // For PDF files, read directly without canvas
+      if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          callback(evt.target.result, file.name, 'application/pdf', Math.round(file.size / 1024));
+        };
+        reader.onerror = function() {
+          callback(null);
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // For Images (camera photos from phone, gallery images):
+      // Downscale to max dimension (e.g. 1200px) and compress to JPEG at 0.8 quality
+      // This prevents high-res 12MP-48MP smartphone photos from blowing localStorage quota
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const rawDataUrl = evt.target.result;
+        const img = new Image();
+        img.onload = function() {
+          try {
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth || height > maxHeight) {
+              if (width > height) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              } else {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+            const estKb = Math.round((compressedDataUrl.length * 3) / 4 / 1024);
+            callback(compressedDataUrl, file.name, 'image/jpeg', estKb);
+          } catch (err) {
+            // Fallback to original data URL if canvas export fails
+            const estKb = Math.round((rawDataUrl.length * 3) / 4 / 1024);
+            callback(rawDataUrl, file.name, file.type || 'image/jpeg', estKb);
+          }
+        };
+        img.onerror = function() {
+          // If decoding fails, fall back to raw dataUrl
+          const estKb = Math.round((rawDataUrl.length * 3) / 4 / 1024);
+          callback(rawDataUrl, file.name, file.type || 'image/jpeg', estKb);
+        };
+        img.src = rawDataUrl;
+      };
+      reader.onerror = function() {
+        callback(null);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleDocUpload(e, docKey) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const nameDisp = document.getElementById('file-name-' + docKey);
+      if (nameDisp) {
+        nameDisp.innerHTML = '<span style="color:#0284c7; font-weight:600;">⏳ Processing photo from phone...</span>';
+      }
+
+      compressImageFile(file, 1200, 1200, 0.8, function(dataUrl, fileName, mimeType, sizeKb) {
+        if (!dataUrl) {
+          if (nameDisp) nameDisp.innerHTML = '<span style="color:#ef4444;">Upload failed. Please try again.</span>';
+          showToast('Could not load photo. Please choose another image.');
+          return;
+        }
+
+        regDocs[docKey] = {
+          name: fileName,
+          type: mimeType,
+          data: dataUrl
+        };
+
+        if (nameDisp) {
+          nameDisp.innerHTML = '<strong style="color:#15803d;">✓ ' + fileName + '</strong> (' + sizeKb + ' KB)';
+        }
+
+        const previewContainer = document.getElementById('preview-' + docKey);
+        if (previewContainer) {
+          if (mimeType.startsWith('image/')) {
+            const safeName = fileName.replace(/'/g, "\\'");
+            previewContainer.innerHTML = `
+              <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+                <img src="${dataUrl}" class="doc-preview-thumb" onclick="openDocPreviewModal('${safeName}', '${dataUrl}')" title="Click to view full image">
+                <span style="font-size:0.75rem; color:#0369a1; font-weight:bold; cursor:pointer;" onclick="openDocPreviewModal('${safeName}', '${dataUrl}')">🔍 Click to Preview / Zoom</span>
+              </div>
+            `;
+          } else {
+            previewContainer.innerHTML = `
+              <div style="font-size:0.75rem; color:#0369a1; background:#e0f2fe; padding:6px 12px; border-radius:8px; display:inline-block; margin-top:4px;">
+                📄 PDF Attached: <strong>${fileName}</strong>
+              </div>
+            `;
+          }
+          previewContainer.style.display = 'block';
+        }
+        showToast('Document uploaded: ' + fileName + ' (' + sizeKb + ' KB)');
+      });
+    }
+
+    function setRegLoanAmount(val) {
+      const sel = document.getElementById('reg-loanAmount');
+      if (sel) {
+        sel.value = String(val);
+      }
+      updateLiveRegEmi();
+    }
+
     function updateLiveRegEmi() {
-      const P = Number(document.getElementById('reg-loanAmount').value) || 200000;
-      const N = Number(document.getElementById('reg-tenure').value) || 24;
+      const sel = document.getElementById('reg-loanAmount');
+      const P = Number(sel ? sel.value : 200000) || 200000;
+      const tenureEl = document.getElementById('reg-tenure');
+      const N = Number(tenureEl ? tenureEl.value : 24) || 24;
       const r = 0.01;
       const emi = Math.round((P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1));
-      document.getElementById('reg-live-emi-calc').innerText = 'Est. Monthly EMI: ₹' + emi.toLocaleString('en-IN') + ' / mo';
+      const emiDisp = document.getElementById('reg-live-emi-calc');
+      if (emiDisp) {
+        emiDisp.innerText = 'Est. Monthly EMI: ₹' + emi.toLocaleString('en-IN') + ' / mo';
+      }
+
+      // Synchronize quick selection buttons
+      const pills = document.querySelectorAll('#loan-amount-pills button');
+      pills.forEach(b => {
+        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(String(P))) {
+          b.className = 'btn btn-primary';
+        } else {
+          b.className = 'btn btn-outline';
+        }
+      });
     }
 
     function nextRegStep(stepNumber) {
@@ -2265,9 +2634,21 @@
         const aadhaar = document.getElementById('reg-aadhaar').value.trim();
         const pan = document.getElementById('reg-pan').value.trim();
         const income = document.getElementById('reg-monthlyIncome').value;
-        const nominee = document.getElementById('reg-nominee').value.trim();
-        if (!aadhaar || !pan || !income || !nominee) {
+        const loanAmount = document.getElementById('reg-loanAmount').value;
+        if (!aadhaar || !pan || !income || !loanAmount) {
           showToast('Please fill all Step 2 KYC details.');
+          return;
+        }
+      }
+      if (stepNumber === 4) {
+        const nominee = document.getElementById('reg-nominee').value.trim();
+        const nomineePhone = document.getElementById('reg-nominee-phone').value.trim();
+        if (!nominee || !nomineePhone) {
+          showToast('Please enter Nominee Name and Nominee Contact Number.');
+          return;
+        }
+        if (!regDocs.clientAadhaarFront || !regDocs.clientAadhaarBack || !regDocs.clientPanDoc || !regDocs.nomineeAadhaarFront) {
+          showToast('Please upload all 4 required document files.');
           return;
         }
       }
@@ -2275,10 +2656,12 @@
       document.getElementById('step-panel-1').style.display = stepNumber === 1 ? 'block' : 'none';
       document.getElementById('step-panel-2').style.display = stepNumber === 2 ? 'block' : 'none';
       document.getElementById('step-panel-3').style.display = stepNumber === 3 ? 'block' : 'none';
+      document.getElementById('step-panel-4').style.display = stepNumber === 4 ? 'block' : 'none';
 
       document.getElementById('chk-step-1').className = 'checklist-step' + (stepNumber === 1 ? ' active' : '');
       document.getElementById('chk-step-2').className = 'checklist-step' + (stepNumber === 2 ? ' active' : '');
       document.getElementById('chk-step-3').className = 'checklist-step' + (stepNumber === 3 ? ' active' : '');
+      document.getElementById('chk-step-4').className = 'checklist-step' + (stepNumber === 4 ? ' active' : '');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -2293,6 +2676,7 @@
       const emp = document.getElementById('reg-empStatus').value;
       const income = Number(document.getElementById('reg-monthlyIncome').value);
       const nominee = document.getElementById('reg-nominee').value.trim();
+      const nomineePhone = document.getElementById('reg-nominee-phone').value.trim();
       const loanAmount = Number(document.getElementById('reg-loanAmount').value);
       const tenure = Number(document.getElementById('reg-tenure').value);
       const bankName = document.getElementById('reg-bankName').value.trim();
@@ -2314,9 +2698,16 @@
       const newClient = {
         id, fullName: name, email, phone, dob, address, aadhaar, pan,
         employmentStatus: emp, monthlyIncome: income, nomineeName: nominee,
+        nomineePhone: nomineePhone,
         loanAmount, tenure, bankName, bankAcc, bankIfsc, password: pass,
         status: 'Pending Loan Approval', walletBalance: 0, withdrawalPin: '1234',
         cancellationStatus: 'None', profilePhoto: '',
+        documents: {
+          clientAadhaarFront: regDocs.clientAadhaarFront,
+          clientAadhaarBack: regDocs.clientAadhaarBack,
+          clientPanDoc: regDocs.clientPanDoc,
+          nomineeAadhaarFront: regDocs.nomineeAadhaarFront
+        },
         withdrawalState: { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false }
       };
 
@@ -2329,7 +2720,7 @@
       document.getElementById('form-success-box').style.display = 'block';
       document.getElementById('success-client-id').innerText = id;
       document.getElementById('success-client-name').innerText = name;
-      showToast('Registration successful!');
+      showToast('Registration successful! Documents uploaded.');
     }
 
     function goToClientAccount() {
@@ -2435,7 +2826,7 @@
       // Tab 1: Client Home
       document.getElementById('home-disp-name').innerText = client.fullName;
       document.getElementById('home-disp-id').innerText = client.id;
-      document.getElementById('home-disp-dob').innerText = client.dob || '15/08/1994';
+      document.getElementById('home-disp-dob').innerText = client.dob || '1994-08-15';
       document.getElementById('home-disp-amount').innerText = '₹' + Number(client.loanAmount).toLocaleString('en-IN');
       document.getElementById('home-disp-address').innerText = client.address;
 
@@ -2502,10 +2893,10 @@
         statusBox.style.background = '#fef3c7';
         statusBox.style.color = '#92400e';
         statusBox.style.border = '2px solid #fde68a';
-        statusBox.innerHTML = '⏳ Loan Application Pending Under Review. Your application is being reviewed by the underwriting team.';
+        statusBox.innerHTML = '⏳ Loan Application Pending Under Review. Your application and KYC documents are being reviewed by the underwriting team.';
       }
 
-      // Tab 5: Personal Information
+      // Tab 5: Personal Information & Documents
       const pGrid = document.getElementById('personal-info-grid');
       pGrid.innerHTML = `
         <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
@@ -2545,6 +2936,10 @@
           <strong style="display:block; color:var(--color-navy);">${client.nomineeName}</strong>
         </div>
         <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
+          <span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Nominee Contact Number</span>
+          <strong style="display:block; color:var(--color-navy);">${client.nomineePhone || 'Not specified'}</strong>
+        </div>
+        <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
           <span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Bank Account</span>
           <strong style="display:block; color:var(--color-navy);">${client.bankName} • ${client.bankAcc}</strong>
         </div>
@@ -2552,11 +2947,45 @@
           <span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Bank IFSC</span>
           <strong style="display:block; color:var(--color-navy); font-family:monospace;">${client.bankIfsc}</strong>
         </div>
-        <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
-          <span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Sanction Limit Applied</span>
-          <strong style="display:block; color:var(--color-primary-dark); font-weight:900;">₹${Number(client.loanAmount).toLocaleString('en-IN')}</strong>
-        </div>
       `;
+
+      // Render Uploaded Documents in Client Dashboard
+      const docsGrid = document.getElementById('client-uploaded-docs-grid');
+      const docs = client.documents || {};
+      const docItems = [
+        { key: 'clientAadhaarFront', label: 'Client Aadhaar Front Side' },
+        { key: 'clientAadhaarBack', label: 'Client Aadhaar Back Side' },
+        { key: 'clientPanDoc', label: 'Client PAN Card / Other Doc' },
+        { key: 'nomineeAadhaarFront', label: 'Nominee Aadhaar Front Side' }
+      ];
+
+      docsGrid.innerHTML = docItems.map(item => {
+        const doc = docs[item.key];
+        if (doc && doc.data) {
+          const isImg = !doc.type || doc.type.startsWith('image/');
+          return `
+            <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:14px; text-align:center;">
+              <span style="font-size:0.72rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:8px;">${item.label}</span>
+              ${isImg ? `
+                <img src="${doc.data}" class="doc-preview-thumb" style="margin:0 auto 10px;" onclick="openDocPreviewModal('${item.label}', '${doc.data}')" title="Click to enlarge">
+              ` : `
+                <div style="font-size:2rem; margin-bottom:6px;">📄</div>
+                <div style="font-size:0.75rem; color:#475569; margin-bottom:8px;">${doc.name || 'PDF Document'}</div>
+              `}
+              <button onclick="openDocPreviewModal('${item.label}', '${doc.data}')" class="btn btn-outline" style="padding:5px 14px; font-size:0.72rem; width:100%;">
+                🔍 View Document
+              </button>
+            </div>
+          `;
+        } else {
+          return `
+            <div style="background:#ffffff; border:1px dashed #cbd5e1; border-radius:12px; padding:16px; text-align:center; color:#94a3b8;">
+              <span style="font-size:0.72rem; font-weight:700; display:block; margin-bottom:4px; color:#64748b;">${item.label}</span>
+              <span style="font-size:0.75rem;">Not uploaded</span>
+            </div>
+          `;
+        }
+      }).join('');
 
       // Tab 6: Loan Cancel Status
       const cancelBox = document.getElementById('cancel-status-box');
@@ -2946,17 +3375,56 @@
       document.getElementById('edit-dob').value = client.dob || '1994-08-15';
       document.getElementById('edit-address').value = client.address || '';
 
-      // KYC & Employment
+      // KYC, Employment & Nominee
       document.getElementById('edit-aadhaar').value = client.aadhaar || '';
       document.getElementById('edit-pan').value = client.pan || '';
       document.getElementById('edit-emp').value = client.employmentStatus || 'Salaried';
       document.getElementById('edit-income').value = client.monthlyIncome || 35000;
       document.getElementById('edit-nominee').value = client.nomineeName || '';
+      document.getElementById('edit-nominee-phone').value = client.nomineePhone || '';
 
       // Bank Details
       document.getElementById('edit-bank-name').value = client.bankName || '';
       document.getElementById('edit-bank-acc').value = client.bankAcc || '';
       document.getElementById('edit-bank-ifsc').value = client.bankIfsc || '';
+
+      // Documents Preview in Admin Edit Panel
+      const docsPreviewGrid = document.getElementById('admin-docs-preview-grid');
+      const docs = client.documents || {};
+      const docItems = [
+        { key: 'clientAadhaarFront', label: 'Client Aadhaar Front Side' },
+        { key: 'clientAadhaarBack', label: 'Client Aadhaar Back Side' },
+        { key: 'clientPanDoc', label: 'Client PAN Card / Other Doc' },
+        { key: 'nomineeAadhaarFront', label: 'Nominee Aadhaar Front Side' }
+      ];
+
+      docsPreviewGrid.innerHTML = docItems.map(item => {
+        const doc = docs[item.key];
+        if (doc && doc.data) {
+          const isImg = !doc.type || doc.type.startsWith('image/');
+          return `
+            <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:10px; padding:12px; text-align:center;">
+              <span style="font-size:0.75rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:6px;">${item.label}</span>
+              ${isImg ? `
+                <img src="${doc.data}" class="doc-preview-thumb" style="margin:0 auto 8px;" onclick="openDocPreviewModal('${item.label}', '${doc.data}')" title="Click to enlarge">
+              ` : `
+                <div style="font-size:1.8rem; margin-bottom:4px;">📄</div>
+                <div style="font-size:0.7rem; color:#475569; margin-bottom:6px;">${doc.name || 'PDF Document'}</div>
+              `}
+              <button type="button" onclick="openDocPreviewModal('${item.label}', '${doc.data}')" class="btn btn-outline" style="padding:4px 10px; font-size:0.72rem; width:100%;">
+                🔍 View Full Doc
+              </button>
+            </div>
+          `;
+        } else {
+          return `
+            <div style="background:#ffffff; border:1px dashed #cbd5e1; border-radius:10px; padding:12px; text-align:center; color:#94a3b8;">
+              <span style="font-size:0.75rem; font-weight:700; color:#64748b; display:block; margin-bottom:4px;">${item.label}</span>
+              <span style="font-size:0.75rem;">Not uploaded</span>
+            </div>
+          `;
+        }
+      }).join('');
 
       const panel = document.getElementById('admin-edit-panel');
       panel.style.display = 'block';
@@ -2988,12 +3456,13 @@
       client.dob = document.getElementById('edit-dob').value || client.dob;
       client.address = document.getElementById('edit-address').value.trim() || client.address;
 
-      // Read KYC & Employment
+      // Read KYC, Employment & Nominee
       client.aadhaar = document.getElementById('edit-aadhaar').value.trim() || client.aadhaar;
       client.pan = document.getElementById('edit-pan').value.trim().toUpperCase() || client.pan;
       client.employmentStatus = document.getElementById('edit-emp').value || client.employmentStatus;
       client.monthlyIncome = Number(document.getElementById('edit-income').value) || client.monthlyIncome;
       client.nomineeName = document.getElementById('edit-nominee').value.trim() || client.nomineeName;
+      client.nomineePhone = document.getElementById('edit-nominee-phone').value.trim() || client.nomineePhone;
 
       // Read Bank Details
       client.bankName = document.getElementById('edit-bank-name').value.trim() || client.bankName;
