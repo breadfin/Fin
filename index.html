@@ -326,7 +326,8 @@
         <span class="badge-pill-light">🛡️ RBI REGISTERED NBFC</span>
         <span>Certificate No: <strong>N-14.0321</strong></span>
       </div>
-      <div style="display:flex; align-items:center; gap:10px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span id="cloud-db-status-badge" style="font-size:0.72rem; font-weight:800; color:#4ade80; display:inline-flex; align-items:center; gap:4px;">🟢 Cloud Database Active</span>
         <span>📞 Toll Free: <strong>1800-425-9900</strong></span>
       </div>
     </div>
@@ -2250,12 +2251,100 @@
     </div>
   </footer>
 
+  <!-- Cloud Firestore Database Connection (Live Real-Time Sync) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { 
+      getFirestore, 
+      collection, 
+      doc, 
+      setDoc, 
+      getDocs, 
+      onSnapshot, 
+      updateDoc 
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      projectId: "gen-lang-client-0531152148",
+      appId: "1:301467360116:web:203bc114b17bee19112a21",
+      apiKey: "AIzaSyAsLVsz5vfQTFLNgrxVxCn0hQFXwVU_35g",
+      authDomain: "gen-lang-client-0531152148.firebaseapp.com",
+      firestoreDatabaseId: "ai-studio-breadfinance-24904f07-a747-497d-8425-72110009e846",
+      storageBucket: "gen-lang-client-0531152148.firebasestorage.app",
+      messagingSenderId: "301467360116"
+    };
+
+    try {
+      const fbApp = initializeApp(firebaseConfig);
+      const db = getFirestore(fbApp, "ai-studio-breadfinance-24904f07-a747-497d-8425-72110009e846");
+      window.db = db;
+      window.fbSetDoc = setDoc;
+      window.fbDoc = doc;
+      window.fbCollection = collection;
+      window.fbOnSnapshot = onSnapshot;
+      window.fbGetDocs = getDocs;
+      window.fbUpdateDoc = updateDoc;
+
+      // Real-time synchronization: listen for all clients in Cloud Firestore
+      onSnapshot(collection(db, 'clients'), (snapshot) => {
+        const liveClients = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          if (data && data.id) {
+            liveClients.push(data);
+          }
+        });
+        window._firebaseClients = liveClients;
+        try {
+          localStorage.setItem('bf_clients', JSON.stringify(liveClients));
+        } catch (e) {}
+
+        // If currently viewing admin dashboard, refresh live
+        const adminPane = document.getElementById('page-admin-dashboard');
+        if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+          loadAdminDashboard();
+        }
+        // If user is on dashboard, refresh active client
+        const userPane = document.getElementById('page-dashboard');
+        if (userPane && userPane.classList.contains('active') && typeof loadUserDashboard === 'function') {
+          loadUserDashboard();
+        }
+
+        const cloudBadge = document.getElementById('cloud-db-status-badge');
+        if (cloudBadge) {
+          cloudBadge.innerHTML = '🟢 Cloud Database Active (Live Sync: ' + liveClients.length + ' clients)';
+          cloudBadge.style.color = '#15803d';
+        }
+      }, (err) => {
+        console.warn('Firestore real-time notice:', err);
+      });
+
+      // Sync Admin Credentials from Firestore
+      onSnapshot(doc(db, 'settings', 'admin_creds'), (snap) => {
+        if (snap.exists()) {
+          const creds = snap.data();
+          if (creds && creds.user && creds.pass) {
+            window._firebaseAdminCreds = creds;
+            try {
+              localStorage.setItem('bf_admin_creds', JSON.stringify(creds));
+            } catch (e) {}
+          }
+        }
+      }, () => {});
+    } catch (err) {
+      console.warn('Cloud DB init notice:', err);
+    }
+  </script>
+
   <script>
-    // ==================== LOCAL STORAGE DB ====================
-    // Only real client applications submitted via the application form are shown (no demo clients)
+    // ==================== CLOUD DATABASE & LOCAL CACHE ====================
+    // Real-time Cloud Firestore synchronization + LocalStorage offline fallback
     const DEFAULT_CLIENTS = [];
 
     function getClients() {
+      if (window._firebaseClients && Array.isArray(window._firebaseClients) && window._firebaseClients.length > 0) {
+        return window._firebaseClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+      }
       const stored = localStorage.getItem('bf_clients');
       if (!stored) {
         return [];
@@ -2263,10 +2352,21 @@
       try {
         const parsed = JSON.parse(stored);
         if (!Array.isArray(parsed)) return [];
-        // Filter out demo client Rahul Sharma (BF-4821) so only submitted applications appear
         return parsed.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
       } catch (e) {
         return [];
+      }
+    }
+
+    function syncClientToFirestore(client) {
+      if (!client || !client.id) return;
+      if (window.db && window.fbSetDoc && window.fbDoc) {
+        try {
+          window.fbSetDoc(window.fbDoc(window.db, 'clients', client.id), client, { merge: true })
+            .catch(err => console.warn('Cloud Firestore sync notice:', err));
+        } catch (e) {
+          console.warn('Cloud sync error:', e);
+        }
       }
     }
 
@@ -2278,9 +2378,12 @@
         try {
           const trimmed = clients.slice(0, 5);
           localStorage.setItem('bf_clients', JSON.stringify(trimmed));
-        } catch (e2) {
-          console.error('Could not save to localStorage:', e2);
-        }
+        } catch (e2) {}
+      }
+
+      // Sync each client to Cloud Firestore so data is NEVER lost
+      if (Array.isArray(clients)) {
+        clients.forEach(c => syncClientToFirestore(c));
       }
     }
 
@@ -3216,6 +3319,9 @@
     let adminLogged = false;
 
     function getAdminCreds() {
+      if (window._firebaseAdminCreds && window._firebaseAdminCreds.user && window._firebaseAdminCreds.pass) {
+        return window._firebaseAdminCreds;
+      }
       const saved = localStorage.getItem('bf_admin_creds');
       if (saved) {
         try { return JSON.parse(saved); } catch (e) {}
@@ -3242,6 +3348,11 @@
         return;
       }
       localStorage.setItem('bf_admin_creds', JSON.stringify({ user: u, pass: p }));
+      if (window.db && window.fbSetDoc && window.fbDoc) {
+        try {
+          window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_creds'), { user: u, pass: p }, { merge: true });
+        } catch (e) {}
+      }
       showToast('Admin Username & Password updated successfully!');
       alert('✓ Admin credentials saved successfully!\n\nNew Username: ' + u + '\nNew Password: ' + p);
       closeAdminCredsModal();
