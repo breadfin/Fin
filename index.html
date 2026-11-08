@@ -1859,18 +1859,15 @@
           <form onsubmit="event.preventDefault(); performAdminLogin();" style="display:block;">
             <div class="form-group">
               <label>Admin Username / Email</label>
-              <input type="text" id="admin-user" class="form-control" placeholder="Enter Admin Username (e.g. ramram12)" autocomplete="off">
+              <input type="text" id="admin-user" class="form-control" placeholder="Enter Admin Username" autocomplete="off">
             </div>
             <div class="form-group">
               <label>Password</label>
-              <input type="password" id="admin-pass" class="form-control" placeholder="Enter Admin Password (e.g. Ram@123)" autocomplete="off">
+              <input type="password" id="admin-pass" class="form-control" placeholder="Enter Admin Password" autocomplete="off">
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; cursor:pointer;">
               Sign In to Admin Portal ➔
             </button>
-            <div style="margin-top:14px; font-size:0.75rem; color:#64748b; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:8px;">
-              Admin Credentials: Username: <strong>ramram12</strong> | Password: <strong>Ram@123</strong>
-            </div>
           </form>
         </div>
       </div>
@@ -2236,7 +2233,6 @@
           <ul class="footer-links">
             <li><button onclick="checkAuthAndNavigate()">Client Portal Login</button></li>
             <li><button onclick="switchPage('register')">New Loan Application</button></li>
-            <li><button onclick="switchPage(adminLogged ? 'admin-dashboard' : 'admin-login')">Executive Admin Portal</button></li>
           </ul>
         </div>
       </div>
