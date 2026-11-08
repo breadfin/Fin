@@ -1865,15 +1865,18 @@
           <form onsubmit="event.preventDefault(); performAdminLogin();" style="display:block;">
             <div class="form-group">
               <label>Admin Username / Email</label>
-              <input type="text" id="admin-user" class="form-control" placeholder="Enter Username (or click Sign In)" autocomplete="off">
+              <input type="text" id="admin-user" class="form-control" placeholder="Enter Admin Username (e.g. ramram12)" autocomplete="off">
             </div>
             <div class="form-group">
               <label>Password</label>
-              <input type="password" id="admin-pass" class="form-control" placeholder="••••••••" autocomplete="off">
+              <input type="password" id="admin-pass" class="form-control" placeholder="Enter Admin Password (e.g. Ram@123)" autocomplete="off">
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; cursor:pointer;">
               Sign In to Admin Portal ➔
             </button>
+            <div style="margin-top:14px; font-size:0.75rem; color:#64748b; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:8px;">
+              Admin Credentials: Username: <strong>ramram12</strong> | Password: <strong>Ram@123</strong>
+            </div>
           </form>
         </div>
       </div>
@@ -2239,6 +2242,7 @@
           <ul class="footer-links">
             <li><button onclick="checkAuthAndNavigate()">Client Portal Login</button></li>
             <li><button onclick="switchPage('register')">New Loan Application</button></li>
+            <li><button onclick="switchPage(adminLogged ? 'admin-dashboard' : 'admin-login')">Executive Admin Portal</button></li>
           </ul>
         </div>
       </div>
@@ -2255,56 +2259,21 @@
 
   <script>
     // ==================== LOCAL STORAGE DB ====================
-    const DEFAULT_CLIENTS = [
-      {
-        id: "BF-4821",
-        fullName: "Rahul Sharma",
-        email: "client@breadfinance.com",
-        phone: "9876543210",
-        dob: "1994-08-15",
-        address: "Flat 402, Green Valley Apartments, Andheri West, Mumbai, Maharashtra - 400053",
-        aadhaar: "482910394821",
-        pan: "ABCPS1234K",
-        employmentStatus: "Salaried",
-        monthlyIncome: 65000,
-        nomineeName: "Pooja Sharma",
-        nomineePhone: "9876543211",
-        loanAmount: 300000,
-        tenure: 24,
-        bankName: "State Bank of India",
-        bankAcc: "30491827401",
-        bankIfsc: "SBIN0001824",
-        password: "password123",
-        status: "Pending Loan Approval",
-        walletBalance: 0,
-        withdrawalPin: "1234",
-        cancellationStatus: "None",
-        profilePhoto: "",
-        documents: {
-          clientAadhaarFront: { name: "Client_Aadhaar_Front.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" },
-          clientAadhaarBack: { name: "Client_Aadhaar_Back.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" },
-          clientPanDoc: { name: "Client_PAN_Card.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80" },
-          nomineeAadhaarFront: { name: "Nominee_Aadhaar_Front.jpg", type: "image/jpeg", data: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" }
-        },
-        withdrawalState: {
-          isProcessing: false,
-          remainingSeconds: 300,
-          isFailed: false,
-          isBlocked: false
-        }
-      }
-    ];
+    // Only real client applications submitted via the application form are shown (no demo clients)
+    const DEFAULT_CLIENTS = [];
 
     function getClients() {
       const stored = localStorage.getItem('bf_clients');
       if (!stored) {
-        localStorage.setItem('bf_clients', JSON.stringify(DEFAULT_CLIENTS));
-        return DEFAULT_CLIENTS;
+        return [];
       }
       try {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed)) return [];
+        // Filter out demo client Rahul Sharma (BF-4821) so only submitted applications appear
+        return parsed.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
       } catch (e) {
-        return DEFAULT_CLIENTS;
+        return [];
       }
     }
 
@@ -3304,31 +3273,32 @@
       const u = (document.getElementById('admin-user').value || '').trim();
       const p = (document.getElementById('admin-pass').value || '').trim();
 
-      // If user typed credentials, check if it matches configured creds or master admin
-      if (u || p) {
-        if (
-          (u.toLowerCase() === creds.user.toLowerCase() && p === creds.pass) ||
-          (u.toLowerCase() === 'ramram12' && p === 'Ram@123') ||
-          (u.toLowerCase() === 'admin' && p === 'admin123')
-        ) {
-          adminLogged = true;
-          switchPage('admin-dashboard');
-          showToast('Welcome to Executive Underwriting Console (ramram12).');
-        } else {
-          alert('Invalid credentials! Please enter your correct Admin Username & Password.');
-        }
-      } else {
-        // Direct click for administrator access
+      if (!u || !p) {
+        alert('Please enter Admin Username & Password to access the Admin Console.');
+        return;
+      }
+
+      if (
+        (u.toLowerCase() === (creds.user || 'ramram12').toLowerCase() && p === (creds.pass || 'Ram@123')) ||
+        (u.toLowerCase() === 'ramram12' && p === 'Ram@123') ||
+        (u.toLowerCase() === 'admin' && p === 'admin123')
+      ) {
         adminLogged = true;
         switchPage('admin-dashboard');
-        showToast('Welcome to Executive Underwriting Console.');
+        showToast('Welcome to Executive Underwriting Console (' + u + ').');
+      } else {
+        alert('Invalid credentials! Please enter your correct Admin Username & Password.');
       }
     }
 
     function logoutAdmin() {
       adminLogged = false;
+      const uInput = document.getElementById('admin-user');
+      const pInput = document.getElementById('admin-pass');
+      if (uInput) uInput.value = '';
+      if (pInput) pInput.value = '';
       showToast('Admin logged out.');
-      switchPage('home');
+      switchPage('admin-login');
     }
 
     function loadAdminDashboard() {
@@ -3337,7 +3307,7 @@
       tbody.innerHTML = '';
 
       if (clients.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="padding:24px; text-align:center; color:#64748b;">No client applications found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="padding:28px; text-align:center; color:#64748b; font-size:0.95rem;">No client applications found. Submitted applications from clients will appear here automatically.</td></tr>';
         return;
       }
 
@@ -3655,8 +3625,11 @@
       const route = hash || pageParam;
 
       if (route === 'admin' || route === 'admin-dashboard' || route === 'underwriter') {
-        adminLogged = true;
-        switchPage('admin-dashboard');
+        if (adminLogged) {
+          switchPage('admin-dashboard');
+        } else {
+          switchPage('admin-login');
+        }
       } else if (route === 'download' || route === 'code' || route === 'export' || route === 'pdf') {
         switchPage('download');
         const box = document.getElementById('source-code-textarea');
