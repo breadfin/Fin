@@ -97,7 +97,6 @@
     .loan-resource-grid summary { font-size: 1.2rem; font-weight: 800; cursor: pointer; }
     .loan-resource-grid p { font-size: .95rem; color: #dae6f0; }
     .loan-trademarks { padding: 24px 20px; font-size: .8rem; color: #64748b; }
-
     @media (max-width: 700px) {
       .loan-split { grid-template-columns: 1fr; gap: 32px; padding-top: 40px; padding-bottom: 40px; }
       .loan-split img { max-height: 350px; }
@@ -202,6 +201,8 @@
       background-color: var(--color-surface); border: 1px solid #e0f2fe;
       border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 26px; transition: all 0.3s ease;
     }
+    .card:hover { box-shadow: var(--shadow-md); border-color: var(--color-border); }
+
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 0.84rem; font-weight: 700; color: var(--color-navy); margin-bottom: 6px; }
     .form-control {
@@ -1346,7 +1347,7 @@
       showToast("Cancellation request submitted for verification.");
     }
 
-    // Fallback error listener for any images
+    // Fallback error listener for all images
     document.querySelectorAll('img').forEach(img => {
       img.onerror = function() {
         this.src = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80';
