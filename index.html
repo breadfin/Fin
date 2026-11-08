@@ -1430,21 +1430,72 @@
                 </div>
               </div>
 
-              <!-- Success Screen -->
-              <div id="form-success-box" style="display:none; text-align:center; padding:30px 10px;">
-                <div style="width:72px; height:72px; background:#dcfce7; color:#15803d; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 16px;">
-                  ✓
+              <!-- Success Screen: Complete Application & Client ID Details -->
+              <div id="form-success-box" style="display:none; padding:10px 4px 30px;">
+                <div style="text-align:center; margin-bottom:20px;">
+                  <div style="width:68px; height:68px; background:#dcfce7; color:#15803d; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 12px; border:2px solid #86efac;">
+                    ✓
+                  </div>
+                  <span class="badge-pill-light" style="background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:800; padding:4px 14px; margin-bottom:8px; display:inline-block;">APPLICATION REGISTERED</span>
+                  <h3 style="font-size:1.6rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Application Submitted Successfully!</h3>
+                  <p style="color:#64748b; font-size:0.85rem;">Complete application details and assigned client credentials below:</p>
                 </div>
-                <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">Application Submitted Successfully!</h3>
-                <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Your loan application and KYC documents are now pending under institutional review.</p>
-                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:16px; max-width:380px; margin:0 auto 24px;">
-                  <div style="font-size:0.75rem; color:#64748b;">Assigned Client ID:</div>
-                  <div id="success-client-id" style="font-size:1.5rem; font-weight:900; color:var(--color-primary-dark); font-family:monospace;">BF-XXXX</div>
-                  <div id="success-client-name" style="font-size:0.9rem; color:#334155; font-weight:bold; margin-top:4px;">-</div>
+
+                <!-- Complete Application Details Card -->
+                <div style="background:#f8fafc; border:1.5px solid #bae6fd; border-radius:16px; padding:20px; max-width:540px; margin:0 auto 24px; box-shadow:0 4px 14px rgba(2,132,199,0.06);">
+                  <div style="background:#092540; color:#fff; padding:14px 18px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <div>
+                      <span style="font-size:0.7rem; color:#7dd3fc; display:block; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">Application Client ID</span>
+                      <strong id="success-client-id" style="font-size:1.4rem; font-family:monospace; color:#38bdf8;">BF-XXXX</strong>
+                    </div>
+                    <span style="background:#fef3c7; color:#b45309; font-size:0.75rem; font-weight:800; padding:5px 12px; border-radius:20px; border:1px solid #fde68a;">⏳ Pending Loan Approval</span>
+                  </div>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.85rem;">
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;">
+                      <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Applicant Full Name</span>
+                      <strong id="success-client-name" style="color:var(--color-navy);">-</strong>
+                    </div>
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;">
+                      <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Registered Email</span>
+                      <strong id="success-client-email" style="color:var(--color-navy); word-break:break-all;">-</strong>
+                    </div>
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;">
+                      <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Mobile Number</span>
+                      <strong id="success-client-phone" style="color:var(--color-navy);">-</strong>
+                    </div>
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;">
+                      <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Applied Loan Amount</span>
+                      <strong id="success-client-amount" style="color:var(--color-primary-dark); font-weight:900;">-</strong>
+                    </div>
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;">
+                      <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Loan Tenure</span>
+                      <strong id="success-client-tenure" style="color:var(--color-navy);">-</strong>
+                    </div>
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;">
+                      <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Nominee Legal Name</span>
+                      <strong id="success-client-nominee" style="color:var(--color-navy);">-</strong>
+                    </div>
+                  </div>
+
+                  <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; margin-top:12px;">
+                    <span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Disbursement Bank Details</span>
+                    <strong id="success-client-bank" style="color:var(--color-navy); font-size:0.85rem;">-</strong>
+                  </div>
+
+                  <div style="margin-top:14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 14px; font-size:0.78rem; color:#15803d; display:flex; align-items:center; gap:8px;">
+                    <span>✓</span>
+                    <span>All 4 KYC &amp; Nominee documents uploaded and attached to application file.</span>
+                  </div>
                 </div>
-                <button onclick="goToClientAccount()" class="btn btn-primary" style="padding:13px 32px;">
-                  Go to Client Dashboard ➔
-                </button>
+
+                <!-- Sign in to client account button -->
+                <div style="text-align:center;">
+                  <button onclick="goToClientSignIn()" class="btn btn-primary" style="padding:14px 38px; font-size:1rem; font-weight:900; border-radius:12px; box-shadow:0 6px 18px rgba(2,132,199,0.3); display:inline-flex; align-items:center; gap:8px;">
+                    <span>Sign In to Client Account ➔</span>
+                  </button>
+                  <p style="font-size:0.8rem; color:#64748b; margin-top:10px;">Click to open Sign In page and login using your registered Email &amp; Password</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1483,24 +1534,17 @@
 
               <div class="form-group">
                 <label>Registered Email</label>
-                <input type="email" id="login-email" class="form-control" placeholder="name@example.com">
+                <input type="email" id="login-email" class="form-control" placeholder="Enter your registered email" value="">
               </div>
               <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="login-password" class="form-control" placeholder="••••••••">
+                <input type="password" id="login-password" class="form-control" placeholder="Enter your password" value="">
               </div>
               <button onclick="performClientLogin()" class="btn btn-primary" style="width:100%; padding:13px; font-size:0.95rem;">
                 Sign In to Client Portal ➔
               </button>
 
-              <div style="border-top:1px solid #e2e8f0; margin-top:20px; padding-top:16px;">
-                <p style="font-size:0.75rem; color:#64748b; margin-bottom:8px; text-align:center;">⚡ Quick Fill Demo Client:</p>
-                <button onclick="quickClientLogin('client@breadfinance.com', 'password123')" class="btn btn-outline" style="padding:8px 14px; font-size:0.78rem; width:100%;">
-                  Rahul Sharma (client@breadfinance.com)
-                </button>
-              </div>
-
-              <div style="text-align:center; margin-top:18px; font-size:0.82rem; color:#64748b;">
+              <div style="text-align:center; margin-top:20px; font-size:0.82rem; color:#64748b;">
                 Don't have an account? <a href="#register" onclick="switchPage('register'); return false;" style="color:var(--color-primary); font-weight:bold; text-decoration:none;">Apply for a loan</a>
               </div>
             </div>
@@ -2349,6 +2393,13 @@
         loadUserDashboard();
       } else if (pageId === 'admin-dashboard') {
         loadAdminDashboard();
+      } else if (pageId === 'login') {
+        const err = document.getElementById('login-error');
+        if (err) err.style.display = 'none';
+        const em = document.getElementById('login-email');
+        const pw = document.getElementById('login-password');
+        if (em) em.value = '';
+        if (pw) pw.value = '';
       }
       updateNavAuthButton();
     }
@@ -2714,18 +2765,49 @@
       const clients = getClients();
       clients.unshift(newClient);
       saveClients(clients);
-      setActiveClient(id);
+
+      // Do NOT auto-login so client clicks 'Sign In to Client Account' and signs in manually
+      setActiveClient(null);
+
+      // Populate complete application & client ID details
+      const idEl = document.getElementById('success-client-id');
+      if (idEl) idEl.innerText = id;
+      const nameEl = document.getElementById('success-client-name');
+      if (nameEl) nameEl.innerText = name;
+      const emailEl = document.getElementById('success-client-email');
+      if (emailEl) emailEl.innerText = email;
+      const phoneEl = document.getElementById('success-client-phone');
+      if (phoneEl) phoneEl.innerText = phone;
+      const amtEl = document.getElementById('success-client-amount');
+      if (amtEl) amtEl.innerText = '₹' + loanAmount.toLocaleString('en-IN');
+      const tenureEl = document.getElementById('success-client-tenure');
+      if (tenureEl) tenureEl.innerText = tenure + ' Months';
+      const nomineeEl = document.getElementById('success-client-nominee');
+      if (nomineeEl) nomineeEl.innerText = nominee + (nomineePhone ? ' (' + nomineePhone + ')' : '');
+      const bankEl = document.getElementById('success-client-bank');
+      if (bankEl) bankEl.innerText = bankName + ' • A/c: ' + bankAcc + ' (IFSC: ' + bankIfsc + ')';
 
       document.getElementById('form-steps-container').style.display = 'none';
       document.getElementById('form-success-box').style.display = 'block';
-      document.getElementById('success-client-id').innerText = id;
-      document.getElementById('success-client-name').innerText = name;
-      showToast('Registration successful! Documents uploaded.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('Registration submitted! Please sign in with your email & password.');
+    }
+
+    function goToClientSignIn() {
+      // Clear inputs to guarantee they are completely blank
+      const emailInput = document.getElementById('login-email');
+      const passInput = document.getElementById('login-password');
+      if (emailInput) emailInput.value = '';
+      if (passInput) passInput.value = '';
+      const err = document.getElementById('login-error');
+      if (err) err.style.display = 'none';
+
+      switchPage('login');
+      showToast('Sign in using your registered Email & Password.');
     }
 
     function goToClientAccount() {
-      switchPage('dashboard');
-      loadUserDashboard();
+      goToClientSignIn();
     }
 
     // ==================== CLIENT LOGIN ====================
