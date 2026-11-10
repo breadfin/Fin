@@ -1526,15 +1526,15 @@
                   <div class="step-bubble">3</div>
                   <div>
                     <div style="font-weight:800; font-size:0.85rem;">Bank Details &amp; Nominee</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">Account, IFSC, Password &amp; Nominee</small>
+                    <small style="color:#bae6fd; font-size:0.7rem;">Account, IFSC &amp; Nominee</small>
                   </div>
                 </div>
 
                 <div class="checklist-step" id="chk-step-4">
                   <div class="step-bubble">4</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">Documents Upload</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Proofs &amp; Nominee Aadhaar</small>
+                    <div style="font-weight:800; font-size:0.85rem;">Documents &amp; Password</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Proofs &amp; Set Password</small>
                   </div>
                 </div>
               </div>
@@ -1673,7 +1673,7 @@
                 <!-- STEP 3: BANK DETAILS & NOMINEE (PAGE 3) -->
                 <div id="step-panel-3" style="display:none;">
                   <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 3: Bank Account &amp; Nominee Details</h3>
-                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Bank account for disbursal, nominee information, and portal password.</p>
+                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Disbursement bank account details and nominee information.</p>
 
                   <!-- Bank Details Box -->
                   <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:18px;">
@@ -1716,38 +1716,20 @@
                     </div>
                   </div>
 
-                  <!-- Account Password Box -->
-                  <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:20px;">
-                    <h4 style="font-size:0.88rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
-                      <span>🔒</span> Portal Login Password
-                    </h4>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                      <div class="form-group" style="margin-bottom:0;">
-                        <label>Create Portal Password *</label>
-                        <input type="password" id="reg-pass" required class="form-control" placeholder="Minimum 6 characters">
-                      </div>
-                      <div class="form-group" style="margin-bottom:0;">
-                        <label>Confirm Portal Password *</label>
-                        <input type="password" id="reg-pass-confirm" required class="form-control" placeholder="Re-type password">
-                      </div>
-                    </div>
-                  </div>
-
                   <div style="display:flex; gap:12px;">
                     <button type="button" onclick="nextRegStep(2)" class="btn btn-outline" style="flex:1; padding:12px;">
                       ← Back
                     </button>
                     <button type="button" onclick="nextRegStep(4)" class="btn btn-primary" style="flex:2; padding:12px;">
-                      Continue to Step 4 (Documents Upload) ➔
+                      Continue to Step 4 (Documents &amp; Password) ➔
                     </button>
                   </div>
                 </div>
 
-                <!-- STEP 4: DOCUMENTS UPLOAD (PAGE 4) -->
+                <!-- STEP 4: DOCUMENTS UPLOAD & PASSWORD (PAGE 4) -->
                 <div id="step-panel-4" style="display:none;">
-                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Documents Upload</h3>
-                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Upload documents from phone gallery or take a photo directly using mobile camera.</p>
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Documents Upload &amp; Set Password</h3>
+                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Upload verification documents and create your secure portal login password.</p>
 
                   <!-- Client Documents Box -->
                   <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:18px;">
@@ -1823,6 +1805,24 @@
                         <span id="file-name-nomineeAadhaarFront" style="font-size:0.82rem; color:#64748b; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">No file chosen</span>
                       </div>
                       <div id="preview-nomineeAadhaarFront" style="display:none; margin-top:8px;"></div>
+                    </div>
+                  </div>
+
+                  <!-- Account Password Box -->
+                  <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:20px;">
+                    <h4 style="font-size:0.88rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                      <span>🔒</span> Portal Login Password
+                    </h4>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Create Portal Password *</label>
+                        <input type="password" id="reg-pass" required class="form-control" placeholder="Minimum 6 characters">
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Confirm Portal Password *</label>
+                        <input type="password" id="reg-pass-confirm" required class="form-control" placeholder="Re-type password">
+                      </div>
                     </div>
                   </div>
 
@@ -3769,8 +3769,6 @@
         const bankName = document.getElementById('reg-bankName').value.trim();
         const bankAcc = document.getElementById('reg-bankAcc').value.trim();
         const bankIfsc = document.getElementById('reg-bankIfsc').value.trim();
-        const pass = document.getElementById('reg-pass').value;
-        const passConfirm = document.getElementById('reg-pass-confirm').value;
         const nominee = document.getElementById('reg-nominee').value.trim();
         const nomineePhone = document.getElementById('reg-nominee-phone').value.trim();
 
@@ -3780,14 +3778,6 @@
         }
         if (!nominee || !nomineePhone) {
           showToast('Please enter Nominee Name and Nominee Contact Number.');
-          return;
-        }
-        if (!pass || pass.length < 6) {
-          showToast('Please create a password (minimum 6 characters).');
-          return;
-        }
-        if (pass !== passConfirm) {
-          showToast('Passwords do not match!');
           return;
         }
       }
@@ -3824,8 +3814,12 @@
       const pass = document.getElementById('reg-pass').value;
       const passConfirm = document.getElementById('reg-pass-confirm').value;
 
-      if (!name || !email || !phone || !bankName || !bankAcc || !bankIfsc || !pass) {
+      if (!name || !email || !phone || !bankName || !bankAcc || !bankIfsc) {
         showToast('Please fill all mandatory fields!');
+        return;
+      }
+      if (!pass || pass.length < 6) {
+        showToast('Please create a portal password (minimum 6 characters).');
         return;
       }
       if (pass !== passConfirm) {
