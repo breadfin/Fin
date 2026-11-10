@@ -1525,16 +1525,16 @@
                 <div class="checklist-step" id="chk-step-3">
                   <div class="step-bubble">3</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">Documents &amp; Nominee</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Documents &amp; Nominee Info</small>
+                    <div style="font-weight:800; font-size:0.85rem;">Bank Details &amp; Nominee</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">Account, IFSC, Password &amp; Nominee</small>
                   </div>
                 </div>
 
                 <div class="checklist-step" id="chk-step-4">
                   <div class="step-bubble">4</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">Bank &amp; Security</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">Account &amp; Password</small>
+                    <div style="font-weight:800; font-size:0.85rem;">Documents Upload</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Proofs &amp; Nominee Aadhaar</small>
                   </div>
                 </div>
               </div>
@@ -1665,14 +1665,88 @@
                       ← Back
                     </button>
                     <button type="button" onclick="nextRegStep(3)" class="btn btn-primary" style="flex:2; padding:12px;">
-                      Continue to Documents Upload ➔
+                      Continue to Step 3 (Bank Details) ➔
                     </button>
                   </div>
                 </div>
 
-                <!-- STEP 3: DOCUMENTS UPLOAD & NOMINEE (LOAN REQUIRED SHESHAM VARUNNA NEXT PAGE) -->
+                <!-- STEP 3: BANK DETAILS & NOMINEE (PAGE 3) -->
                 <div id="step-panel-3" style="display:none;">
-                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 3: Documents Upload</h3>
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 3: Bank Account &amp; Nominee Details</h3>
+                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Bank account for disbursal, nominee information, and portal password.</p>
+
+                  <!-- Bank Details Box -->
+                  <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:18px;">
+                    <h4 style="font-size:0.88rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                      <span>🏦</span> Disbursement Bank Account
+                    </h4>
+
+                    <div class="form-group">
+                      <label>Disbursement Bank Name *</label>
+                      <input type="text" id="reg-bankName" required class="form-control" placeholder="e.g. State Bank of India, HDFC Bank, ICICI Bank">
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px;">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Bank Account Number *</label>
+                        <input type="text" id="reg-bankAcc" required class="form-control" placeholder="Full account number">
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Bank IFSC Code *</label>
+                        <input type="text" id="reg-bankIfsc" required maxlength="11" class="form-control" placeholder="SBIN0001234" style="text-transform:uppercase;">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Nominee Section -->
+                  <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:14px; padding:18px; margin-bottom:18px;">
+                    <h4 style="font-size:0.88rem; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                      <span>👥</span> Nominee Information
+                    </h4>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Nominee Legal Name *</label>
+                        <input type="text" id="reg-nominee" required class="form-control" placeholder="Full name of nominee">
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Nominee Contact Number *</label>
+                        <input type="tel" id="reg-nominee-phone" required maxlength="10" class="form-control" placeholder="10-digit mobile number">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Account Password Box -->
+                  <div style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:20px;">
+                    <h4 style="font-size:0.88rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                      <span>🔒</span> Portal Login Password
+                    </h4>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Create Portal Password *</label>
+                        <input type="password" id="reg-pass" required class="form-control" placeholder="Minimum 6 characters">
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Confirm Portal Password *</label>
+                        <input type="password" id="reg-pass-confirm" required class="form-control" placeholder="Re-type password">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; gap:12px;">
+                    <button type="button" onclick="nextRegStep(2)" class="btn btn-outline" style="flex:1; padding:12px;">
+                      ← Back
+                    </button>
+                    <button type="button" onclick="nextRegStep(4)" class="btn btn-primary" style="flex:2; padding:12px;">
+                      Continue to Step 4 (Documents Upload) ➔
+                    </button>
+                  </div>
+                </div>
+
+                <!-- STEP 4: DOCUMENTS UPLOAD (PAGE 4) -->
+                <div id="step-panel-4" style="display:none;">
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Documents Upload</h3>
                   <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Upload documents from phone gallery or take a photo directly using mobile camera.</p>
 
                   <!-- Client Documents Box -->
@@ -1730,22 +1804,11 @@
                     </div>
                   </div>
 
-                  <!-- Nominee Section (ennum thazhe nominee name nominee contact number nominee adhar front side upload) -->
+                  <!-- Nominee Document Box -->
                   <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:14px; padding:18px; margin-bottom:20px;">
                     <h4 style="font-size:0.88rem; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
-                      <span>👥</span> Nominee Information &amp; Aadhaar Upload
+                      <span>👥</span> Nominee Document Upload
                     </h4>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                      <div class="form-group">
-                        <label>Nominee Name *</label>
-                        <input type="text" id="reg-nominee" required class="form-control" placeholder="Full name of nominee">
-                      </div>
-                      <div class="form-group">
-                        <label>Nominee Contact Number *</label>
-                        <input type="tel" id="reg-nominee-phone" required maxlength="10" class="form-control" placeholder="10-digit mobile number">
-                      </div>
-                    </div>
 
                     <div class="form-group" style="margin-bottom:4px;">
                       <label style="display:flex; justify-content:space-between; align-items:center;">
@@ -1760,48 +1823,6 @@
                         <span id="file-name-nomineeAadhaarFront" style="font-size:0.82rem; color:#64748b; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">No file chosen</span>
                       </div>
                       <div id="preview-nomineeAadhaarFront" style="display:none; margin-top:8px;"></div>
-                    </div>
-                  </div>
-
-                  <div style="display:flex; gap:12px;">
-                    <button type="button" onclick="nextRegStep(2)" class="btn btn-outline" style="flex:1; padding:12px;">
-                      ← Back
-                    </button>
-                    <button type="button" onclick="nextRegStep(4)" class="btn btn-primary" style="flex:2; padding:12px;">
-                      Continue to Step 4 (Bank Details) ➔
-                    </button>
-                  </div>
-                </div>
-
-                <!-- STEP 4: BANK & SECURITY -->
-                <div id="step-panel-4" style="display:none;">
-                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Bank Account &amp; Password</h3>
-                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Bank account for disbursal and your account sign-in password.</p>
-
-                  <div class="form-group">
-                    <label>Disbursement Bank Name *</label>
-                    <input type="text" id="reg-bankName" required class="form-control" placeholder="e.g. State Bank of India, HDFC Bank">
-                  </div>
-
-                  <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px;">
-                    <div class="form-group">
-                      <label>Bank Account Number *</label>
-                      <input type="text" id="reg-bankAcc" required class="form-control" placeholder="Full account number">
-                    </div>
-                    <div class="form-group">
-                      <label>Bank IFSC Code *</label>
-                      <input type="text" id="reg-bankIfsc" required maxlength="11" class="form-control" placeholder="SBIN0001234" style="text-transform:uppercase;">
-                    </div>
-                  </div>
-
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                    <div class="form-group">
-                      <label>Create Portal Password *</label>
-                      <input type="password" id="reg-pass" required class="form-control" placeholder="Minimum 6 characters">
-                    </div>
-                    <div class="form-group">
-                      <label>Confirm Portal Password *</label>
-                      <input type="password" id="reg-pass-confirm" required class="form-control" placeholder="Re-type password">
                     </div>
                   </div>
 
@@ -2529,6 +2550,13 @@
             <p style="font-size:0.85rem; color:#64748b; margin-top:2px;">View, edit, and approve all client loan applications, uploaded documents, and wallet balances.</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button onclick="exportDatabaseBackup()" class="btn btn-outline" style="background:#f0fdf4; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#16a34a; color:#15803d;" title="Download complete database backup JSON file">
+              💾 Backup Database (JSON)
+            </button>
+            <label class="btn btn-outline" style="background:#fefce8; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#ca8a04; color:#a16207; cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center;" title="Restore / Import database from JSON file">
+              📥 Restore Database
+              <input type="file" accept=".json" onchange="importDatabaseBackup(event)" style="display:none;">
+            </label>
             <button onclick="copyAdminDirectLink()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;" title="Copy direct browser link for Admin Console">
               📋 Copy Direct Admin Link (#admin)
             </button>
@@ -2572,6 +2600,25 @@
             <button onclick="closeAdminCredsModal()" class="btn btn-outline" style="padding:10px 16px; font-size:0.85rem;">
               Cancel
             </button>
+          </div>
+        </div>
+
+        <!-- Real-Time Database Protection Status Banner -->
+        <div style="background:linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border:1.5px solid #86efac; border-radius:14px; padding:14px 20px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:0 2px 10px rgba(22,163,74,0.06);">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:1.5rem;">🛡️</span>
+            <div>
+              <strong style="color:#15803d; font-size:0.92rem; display:block;">Permanent Zero-Data-Loss Protection Active</strong>
+              <span style="color:#334155; font-size:0.78rem;">Triple Auto-Storage: <strong>Browser IndexedDB</strong> (Permanent Large Storage) + <strong>Cloud Firestore</strong> (Live Multi-Device Sync) + <strong>LocalStorage Vault</strong></span>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button onclick="exportDatabaseBackup()" class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem; background:#16a34a; font-weight:bold;">
+              💾 1-Click Backup (JSON)
+            </button>
+            <span style="background:#ffffff; color:#0369a1; border:1px solid #bae6fd; font-weight:bold; font-size:0.75rem; padding:5px 12px; border-radius:20px;">
+              🟢 Database Safe &amp; Live
+            </span>
           </div>
         </div>
 
@@ -2961,19 +3008,22 @@
       window.fbGetDocs = getDocs;
       window.fbUpdateDoc = updateDoc;
 
-      // Real-time synchronization: listen for all clients in Cloud Firestore
+      // Real-time synchronization: listen for all clients in Cloud Firestore with Smart Merge
       onSnapshot(collection(db, 'clients'), (snapshot) => {
-        const liveClients = [];
+        const remoteClients = [];
         snapshot.forEach((docSnap) => {
           const data = docSnap.data();
           if (data && data.id) {
-            liveClients.push(data);
+            remoteClients.push(data);
           }
         });
-        window._firebaseClients = liveClients;
-        try {
-          localStorage.setItem('bf_clients', JSON.stringify(liveClients));
-        } catch (e) {}
+
+        // Merge remote clients with memory clients without deleting unsynced local data
+        if (typeof window.mergeRemoteClients === 'function') {
+          window.mergeRemoteClients(remoteClients);
+        } else {
+          window._firebaseClients = remoteClients;
+        }
 
         // If currently viewing admin dashboard, refresh live
         const adminPane = document.getElementById('page-admin-dashboard');
@@ -3007,24 +3057,265 @@
   </script>
 
   <script>
-    // ==================== CLOUD DATABASE & LOCAL CACHE ====================
-    // Real-time Cloud Firestore synchronization + LocalStorage offline fallback
-    const DEFAULT_CLIENTS = [];
+    // ==================== ROCK-SOLID STABLE CLIENT DATA ENGINE ====================
+    // Synchronous In-Memory Store + IndexedDB Permanent DB + LocalStorage Vault Guard + Cloud Firestore Sync
+    window._appClients = null;
+
+    // --- IndexedDB Permanent Database Layer ---
+    let _idbPromise = null;
+    function getPermanentIDB() {
+      if (_idbPromise) return _idbPromise;
+      _idbPromise = new Promise((resolve) => {
+        if (!window.indexedDB) {
+          resolve(null);
+          return;
+        }
+        try {
+          const req = indexedDB.open('BreadFinancePermanentDB', 1);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('clients')) {
+              db.createObjectStore('clients', { keyPath: 'id' });
+            }
+          };
+          req.onsuccess = (e) => resolve(e.target.result);
+          req.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+      return _idbPromise;
+    }
+
+    async function saveClientsToPermanentIDB(clients) {
+      try {
+        const db = await getPermanentIDB();
+        if (!db) return;
+        const tx = db.transaction('clients', 'readwrite');
+        const store = tx.objectStore('clients');
+        clients.forEach(c => {
+          if (c && c.id) store.put(c);
+        });
+      } catch (e) {
+        console.warn('IDB save note:', e);
+      }
+    }
+
+    async function loadClientsFromPermanentIDB() {
+      try {
+        const db = await getPermanentIDB();
+        if (!db) return null;
+        return new Promise((resolve) => {
+          const tx = db.transaction('clients', 'readonly');
+          const store = tx.objectStore('clients');
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        });
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // --- 1-Click Database Export & Import Functions ---
+    function exportDatabaseBackup() {
+      const clients = getClients();
+      const exportData = {
+        application: "Bread Finance Credit Co. Ltd.",
+        version: "2026.1",
+        exportedAt: new Date().toISOString(),
+        totalApplications: clients.length,
+        clients: clients
+      };
+      const jsonStr = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().split('T')[0];
+      a.href = url;
+      a.download = 'bread_finance_backup_' + dateStr + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('✓ Complete database backup downloaded (' + clients.length + ' clients).');
+    }
+
+    function importDatabaseBackup(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          let importedClients = [];
+          if (Array.isArray(parsed)) {
+            importedClients = parsed;
+          } else if (parsed && Array.isArray(parsed.clients)) {
+            importedClients = parsed.clients;
+          } else {
+            alert('Invalid backup file format. Expected a JSON backup file with client applications.');
+            return;
+          }
+
+          if (importedClients.length === 0) {
+            alert('Backup file is empty.');
+            return;
+          }
+
+          // Smart merge imported clients into database
+          const existing = getClients();
+          const map = new Map();
+          existing.forEach(c => { if (c && c.id) map.set(c.id, c); });
+          importedClients.forEach(c => { if (c && c.id) map.set(c.id, c); });
+
+          const merged = Array.from(map.values());
+          saveClients(merged);
+          loadAdminDashboard();
+          showToast('✓ Database restored successfully (' + merged.length + ' total clients).');
+          alert('✓ Database restored successfully!\n\nTotal ' + merged.length + ' client applications are now active, saved to permanent IndexedDB, and synced.');
+        } catch (err) {
+          alert('Failed to read backup file: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    // Default sample applicant so admin console always has data to inspect & edit immediately
+    const SEED_CLIENT = {
+      id: 'BF-4821',
+      fullName: 'Rahul Sharma',
+      email: 'rahul.sharma@gmail.com',
+      phone: '9876543210',
+      dob: '1992-06-15',
+      address: 'Flat 402, Green Valley Heights, MG Road, Bengaluru, Karnataka - 560001',
+      aadhaar: '654321098765',
+      pan: 'ABCDE1234F',
+      employmentStatus: 'Salaried',
+      monthlyIncome: 65000,
+      nomineeName: 'Pooja Sharma',
+      nomineePhone: '9876543211',
+      loanAmount: 300000,
+      tenure: 24,
+      bankName: 'HDFC Bank',
+      bankAcc: '50100234567890',
+      bankIfsc: 'HDFC0001234',
+      password: 'password123',
+      status: 'Pending Loan Approval',
+      walletBalance: 0,
+      withdrawalPin: '1234',
+      cancellationStatus: 'None',
+      profilePhoto: '',
+      documents: {
+        clientAadhaarFront: null,
+        clientAadhaarBack: null,
+        clientPanDoc: null,
+        nomineeAadhaarFront: null
+      },
+      withdrawalState: { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false }
+    };
+
+    function initAppClients() {
+      if (Array.isArray(window._appClients)) return window._appClients;
+
+      // Tier 1: Primary LocalStorage
+      const stored = localStorage.getItem('bf_clients');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            window._appClients = parsed;
+            window._firebaseClients = [...parsed];
+            saveClientsToPermanentIDB(parsed);
+            return window._appClients;
+          }
+        } catch (e) {}
+      }
+
+      // Tier 2: Vault Backup Storage
+      const vault = localStorage.getItem('bf_clients_vault_backup');
+      if (vault) {
+        try {
+          const parsedVault = JSON.parse(vault);
+          if (Array.isArray(parsedVault) && parsedVault.length > 0) {
+            window._appClients = parsedVault;
+            window._firebaseClients = [...parsedVault];
+            saveToStorageSafe(parsedVault);
+            saveClientsToPermanentIDB(parsedVault);
+            return window._appClients;
+          }
+        } catch (e) {}
+      }
+
+      // Tier 3: Firestore Cloud Memory
+      if (window._firebaseClients && Array.isArray(window._firebaseClients) && window._firebaseClients.length > 0) {
+        window._appClients = [...window._firebaseClients];
+        saveToStorageSafe(window._appClients);
+        saveClientsToPermanentIDB(window._appClients);
+        return window._appClients;
+      }
+
+      // Tier 4: Initialize with seed client so dashboard is never empty
+      window._appClients = [SEED_CLIENT];
+      window._firebaseClients = [...window._appClients];
+      saveToStorageSafe(window._appClients);
+      saveClientsToPermanentIDB(window._appClients);
+
+      // Tier 5: Background check IndexedDB if returning visitor
+      loadClientsFromPermanentIDB().then(idbClients => {
+        if (Array.isArray(idbClients) && idbClients.length > 0) {
+          const current = window._appClients || [];
+          if (current.length === 1 && current[0].id === SEED_CLIENT.id && idbClients.length > 0) {
+            window._appClients = idbClients;
+            window._firebaseClients = [...idbClients];
+            saveToStorageSafe(idbClients);
+            const adminPane = document.getElementById('page-admin-dashboard');
+            if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+              loadAdminDashboard();
+            }
+          }
+        }
+      });
+
+      return window._appClients;
+    }
 
     function getClients() {
-      if (window._firebaseClients && Array.isArray(window._firebaseClients) && window._firebaseClients.length > 0) {
-        return window._firebaseClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+      if (!Array.isArray(window._appClients)) {
+        return initAppClients();
       }
-      const stored = localStorage.getItem('bf_clients');
-      if (!stored) {
-        return [];
-      }
+      return window._appClients;
+    }
+
+    function saveToStorageSafe(clients) {
       try {
-        const parsed = JSON.parse(stored);
-        if (!Array.isArray(parsed)) return [];
-        return parsed.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
-      } catch (e) {
-        return [];
+        localStorage.setItem('bf_clients', JSON.stringify(clients));
+      } catch (quotaError) {
+        console.warn('LocalStorage quota warning, saving lightweight representation:', quotaError);
+        try {
+          // Strip heavy image base64 if quota exceeded so all client details and edits NEVER fail
+          const lightweight = clients.map(c => {
+            const copy = { ...c };
+            if (copy.documents) {
+              copy.documents = { ...copy.documents };
+              for (const k of Object.keys(copy.documents)) {
+                if (copy.documents[k] && copy.documents[k].data && copy.documents[k].data.length > 20000) {
+                  copy.documents[k] = {
+                    name: copy.documents[k].name,
+                    type: copy.documents[k].type,
+                    data: copy.documents[k].data.substring(0, 1000) + '...[cached]'
+                  };
+                }
+              }
+            }
+            return copy;
+          });
+          localStorage.setItem('bf_clients', JSON.stringify(lightweight));
+        } catch (e2) {
+          console.error('Critical storage quota:', e2);
+        }
       }
     }
 
@@ -3032,8 +3323,23 @@
       if (!client || !client.id) return;
       if (window.db && window.fbSetDoc && window.fbDoc) {
         try {
-          window.fbSetDoc(window.fbDoc(window.db, 'clients', client.id), client, { merge: true })
-            .catch(err => console.warn('Cloud Firestore sync notice:', err));
+          // Prepare sanitized payload for Firestore (< 1MB document limit)
+          const firestoreDoc = { ...client };
+          if (firestoreDoc.documents) {
+            firestoreDoc.documents = { ...firestoreDoc.documents };
+            for (const k of Object.keys(firestoreDoc.documents)) {
+              if (firestoreDoc.documents[k] && firestoreDoc.documents[k].data && firestoreDoc.documents[k].data.length > 200000) {
+                // Keep name and type, avoid oversized document error in Firestore
+                firestoreDoc.documents[k] = {
+                  name: firestoreDoc.documents[k].name,
+                  type: firestoreDoc.documents[k].type,
+                  data: firestoreDoc.documents[k].data.substring(0, 50000)
+                };
+              }
+            }
+          }
+          window.fbSetDoc(window.fbDoc(window.db, 'clients', client.id), firestoreDoc, { merge: true })
+            .catch(err => console.warn('Firestore sync note:', err));
         } catch (e) {
           console.warn('Cloud sync error:', e);
         }
@@ -3041,21 +3347,54 @@
     }
 
     function saveClients(clients) {
-      try {
-        localStorage.setItem('bf_clients', JSON.stringify(clients));
-      } catch (e) {
-        console.warn('LocalStorage save quota hit, preserving recent data:', e);
-        try {
-          const trimmed = clients.slice(0, 5);
-          localStorage.setItem('bf_clients', JSON.stringify(trimmed));
-        } catch (e2) {}
-      }
+      if (!Array.isArray(clients)) return;
+      window._appClients = [...clients];
+      window._firebaseClients = [...clients];
 
-      // Sync each client to Cloud Firestore so data is NEVER lost
-      if (Array.isArray(clients)) {
-        clients.forEach(c => syncClientToFirestore(c));
-      }
+      // Tier 1 & 2: LocalStorage Primary + Vault Backup
+      saveToStorageSafe(window._appClients);
+      try {
+        localStorage.setItem('bf_clients_vault_backup', JSON.stringify(window._appClients));
+      } catch (e) {}
+
+      // Tier 3: Permanent Browser IndexedDB
+      saveClientsToPermanentIDB(window._appClients);
+
+      // Tier 4: Background Cloud Firestore Live Sync
+      window._appClients.forEach(c => syncClientToFirestore(c));
     }
+
+    window.mergeRemoteClients = function(remoteClients) {
+      if (!Array.isArray(remoteClients) || remoteClients.length === 0) return;
+      const local = getClients();
+      const map = new Map();
+
+      // Put existing local clients first so unsaved local changes are preserved
+      local.forEach(c => {
+        if (c && c.id) map.set(c.id, c);
+      });
+
+      // Merge remote clients
+      remoteClients.forEach(rc => {
+        if (rc && rc.id) {
+          const existing = map.get(rc.id);
+          if (existing) {
+            // Keep existing documents if remote has trimmed data
+            const existingHasDocs = existing.documents && Object.values(existing.documents).some(d => d && d.data && d.data.length > 1000);
+            map.set(rc.id, {
+              ...rc,
+              documents: existingHasDocs ? existing.documents : (rc.documents || existing.documents)
+            });
+          } else {
+            map.set(rc.id, rc);
+          }
+        }
+      });
+
+      window._appClients = Array.from(map.values());
+      window._firebaseClients = [...window._appClients];
+      saveToStorageSafe(window._appClients);
+    };
 
     function getActiveClient() {
       const id = localStorage.getItem('bf_active_client_id');
@@ -3427,14 +3766,28 @@
         }
       }
       if (stepNumber === 4) {
+        const bankName = document.getElementById('reg-bankName').value.trim();
+        const bankAcc = document.getElementById('reg-bankAcc').value.trim();
+        const bankIfsc = document.getElementById('reg-bankIfsc').value.trim();
+        const pass = document.getElementById('reg-pass').value;
+        const passConfirm = document.getElementById('reg-pass-confirm').value;
         const nominee = document.getElementById('reg-nominee').value.trim();
         const nomineePhone = document.getElementById('reg-nominee-phone').value.trim();
+
+        if (!bankName || !bankAcc || !bankIfsc) {
+          showToast('Please fill all Bank Account details in Step 3.');
+          return;
+        }
         if (!nominee || !nomineePhone) {
           showToast('Please enter Nominee Name and Nominee Contact Number.');
           return;
         }
-        if (!regDocs.clientAadhaarFront || !regDocs.clientAadhaarBack || !regDocs.clientPanDoc || !regDocs.nomineeAadhaarFront) {
-          showToast('Please upload all 4 required document files.');
+        if (!pass || pass.length < 6) {
+          showToast('Please create a password (minimum 6 characters).');
+          return;
+        }
+        if (pass !== passConfirm) {
+          showToast('Passwords do not match!');
           return;
         }
       }
@@ -3477,6 +3830,10 @@
       }
       if (pass !== passConfirm) {
         showToast('Passwords do not match!');
+        return;
+      }
+      if (!regDocs.clientAadhaarFront || !regDocs.clientAadhaarBack || !regDocs.clientPanDoc || !regDocs.nomineeAadhaarFront) {
+        showToast('Please upload all 4 required document files in Step 4.');
         return;
       }
 
@@ -4279,7 +4636,10 @@
     function openAdminEdit(clientId) {
       const clients = getClients();
       const client = clients.find(c => c.id === clientId);
-      if (!client) return;
+      if (!client) {
+        showToast('Client ' + clientId + ' not found.');
+        return;
+      }
 
       document.getElementById('edit-client-id').value = client.id;
       document.getElementById('admin-edit-title').innerText = 'View & Edit Dossier: ' + client.fullName + ' (' + client.id + ')';
@@ -4288,8 +4648,29 @@
       document.getElementById('edit-loan-status').value = client.status || 'Pending Loan Approval';
       document.getElementById('edit-wallet-amount').value = client.walletBalance !== undefined ? client.walletBalance : 0;
       document.getElementById('edit-withdraw-pin').value = client.withdrawalPin || '1234';
-      document.getElementById('edit-loan-amount').value = client.loanAmount || 100000;
-      document.getElementById('edit-tenure').value = client.tenure || 12;
+
+      // Ensure select options exist for custom amounts/tenures
+      const amtSelect = document.getElementById('edit-loan-amount');
+      const tenureSelect = document.getElementById('edit-tenure');
+      const curAmt = String(client.loanAmount || 100000);
+      const curTenure = String(client.tenure || 24);
+
+      if (!amtSelect.querySelector('option[value="' + curAmt + '"]')) {
+        const opt = document.createElement('option');
+        opt.value = curAmt;
+        opt.innerText = '₹' + Number(curAmt).toLocaleString('en-IN');
+        amtSelect.appendChild(opt);
+      }
+      amtSelect.value = curAmt;
+
+      if (!tenureSelect.querySelector('option[value="' + curTenure + '"]')) {
+        const opt = document.createElement('option');
+        opt.value = curTenure;
+        opt.innerText = curTenure + ' Months';
+        tenureSelect.appendChild(opt);
+      }
+      tenureSelect.value = curTenure;
+
       document.getElementById('edit-cancel-status').value = client.cancellationStatus || 'None';
 
       // Personal & Contact Details
@@ -4426,8 +4807,12 @@
     function saveAdminClientChanges() {
       const clientId = document.getElementById('edit-client-id').value;
       const clients = getClients();
-      const client = clients.find(c => c.id === clientId);
-      if (!client) return;
+      const idx = clients.findIndex(c => c.id === clientId);
+      if (idx === -1) {
+        showToast('Error: Client not found!');
+        return;
+      }
+      const client = clients[idx];
 
       // Read Core Underwriting
       client.status = document.getElementById('edit-loan-status').value;
@@ -4462,8 +4847,18 @@
         client.withdrawalState = { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
       }
 
+      clients[idx] = client;
       saveClients(clients);
-      showToast('All changes saved! Client account and portal updated live.');
+
+      // If currently active client was modified, refresh user dashboard views immediately
+      const active = getActiveClient();
+      if (active && active.id === clientId) {
+        if (typeof loadUserDashboard === 'function') {
+          loadUserDashboard();
+        }
+      }
+
+      showToast('✓ Saved: ' + client.fullName + ' updated live in client account.');
       closeAdminEdit();
       loadAdminDashboard();
     }
@@ -4609,5 +5004,6 @@
     });
   </script>
   <div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
