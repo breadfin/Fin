@@ -2550,6 +2550,9 @@
             <p style="font-size:0.85rem; color:#64748b; margin-top:2px;">View, edit, and approve all client loan applications, uploaded documents, and wallet balances.</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button onclick="syncWithServerDatabase(true)" class="btn btn-outline" style="background:#f0f9ff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;" title="Sync live client applications with central database">
+              🔄 Live Server Sync
+            </button>
             <button onclick="exportDatabaseBackup()" class="btn btn-outline" style="background:#f0fdf4; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#16a34a; color:#15803d;" title="Download complete database backup JSON file">
               💾 Backup Database (JSON)
             </button>
@@ -3279,7 +3282,35 @@
         }
       });
 
+      // Tier 6: Central Server Database API Sync (/api/clients)
+      syncWithServerDatabase(false);
+
       return window._appClients;
+    }
+
+    // --- Central Server Database API Sync (/api/clients) ---
+    async function syncWithServerDatabase(notify = false) {
+      try {
+        const res = await fetch('/api/clients');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.clients) && data.clients.length > 0) {
+          window.mergeRemoteClients(data.clients);
+          if (notify) {
+            showToast('✓ Central Database Synced: ' + data.clients.length + ' clients loaded.');
+          }
+          const adminPane = document.getElementById('page-admin-dashboard');
+          if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+            loadAdminDashboard();
+          }
+        } else if (notify) {
+          showToast('Central Database connected (0 remote records).');
+        }
+      } catch (err) {
+        if (notify) {
+          showToast('Central server note: using local & permanent database.');
+        }
+      }
     }
 
     function getClients() {
@@ -3362,6 +3393,15 @@
 
       // Tier 4: Background Cloud Firestore Live Sync
       window._appClients.forEach(c => syncClientToFirestore(c));
+
+      // Tier 5: Central Server Database API Sync (/api/clients)
+      try {
+        fetch('/api/clients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clients: window._appClients })
+        }).catch(() => {});
+      } catch (e) {}
     }
 
     window.mergeRemoteClients = function(remoteClients) {
@@ -4473,6 +4513,10 @@
     }
 
     function loadAdminDashboard() {
+      if (!window._lastServerSync || (Date.now() - window._lastServerSync > 4000)) {
+        window._lastServerSync = Date.now();
+        syncWithServerDatabase(false);
+      }
       const allClients = getClients();
       const tbody = document.getElementById('admin-table-body');
       tbody.innerHTML = '';
