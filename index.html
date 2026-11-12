@@ -301,6 +301,85 @@
       transition: transform 0.2s ease;
     }
     .doc-preview-thumb:hover { transform: scale(1.04); }
+    .liveness-modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 24px;
+      padding: 26px 24px 24px;
+      box-shadow: 0 24px 60px rgba(9, 37, 64, 0.28);
+      position: relative;
+      animation: pageFade 0.22s ease;
+    }
+    .liveness-ring-wrap {
+      width: 210px;
+      height: 210px;
+      margin: 20px auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .liveness-ring-ticks {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-conic-gradient(
+        from 0deg,
+        #cbd5e1 0deg 3.5deg,
+        transparent 3.5deg 8deg
+      );
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 13px));
+      mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 13px));
+      transition: background 0.3s ease;
+    }
+    .liveness-ring-ticks.scanning {
+      background: repeating-conic-gradient(
+        from 0deg,
+        #0066ff 0deg 3.5deg,
+        #dbeafe 3.5deg 8deg
+      );
+      animation: livenessSpin 10s linear infinite;
+    }
+    .liveness-ring-ticks.verified {
+      background: repeating-conic-gradient(
+        from 0deg,
+        #16a34a 0deg 3.5deg,
+        transparent 3.5deg 8deg
+      );
+    }
+    .liveness-inner-circle {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      background: #eef1f5;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #ffffff;
+      box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.08);
+    }
+    .liveness-scan-line {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(0,102,255,0.2), #0066ff 50%, rgba(0,102,255,0.2));
+      box-shadow: 0 0 12px rgba(0, 102, 255, 0.65);
+      animation: livenessScanMove 2.2s ease-in-out infinite;
+      z-index: 4;
+    }
+    @keyframes livenessScanMove {
+      0%, 100% { top: 26%; }
+      50% { top: 70%; }
+    }
+    @keyframes livenessSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -315,6 +394,115 @@
       </div>
       <div id="doc-modal-body" style="min-height:200px; display:flex; align-items:center; justify-content:center;">
         <img id="doc-modal-img" src="" alt="Document" style="max-height:70vh; max-width:100%; border-radius:8px; box-shadow:var(--shadow-md);">
+        <video id="doc-modal-video" controls autoplay loop playsinline style="display:none; max-height:70vh; max-width:100%; border-radius:10px; background:#0f172a; box-shadow:var(--shadow-md);"></video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Face Verification (Liveness Check) Modal -->
+  <div id="liveness-modal" class="modal-overlay" onclick="closeLivenessModal()">
+    <div class="liveness-modal-card" onclick="event.stopPropagation()">
+      <!-- Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h2 style="font-size:1.4rem; font-weight:800; color:#0f172a; margin:0; letter-spacing:-0.01em;">Liveness Check</h2>
+        <button type="button" onclick="closeLivenessModal()" aria-label="Close Liveness Check" style="background:none; border:none; font-size:1.5rem; line-height:1; color:#94a3b8; cursor:pointer; padding:4px 6px;">✕</button>
+      </div>
+
+      <!-- Phase 1: Instructions (Matching Reference Screenshot) -->
+      <div id="liveness-phase-intro">
+        <p style="font-size:0.95rem; color:#1e293b; line-height:1.5; margin-bottom:8px;">
+          Please position your face within the frame and follow the on-screen instructions. Ensure that you personally complete this process.
+        </p>
+
+        <!-- Circular Dashed Scanner Graphic -->
+        <div class="liveness-ring-wrap">
+          <div class="liveness-ring-ticks"></div>
+          <div class="liveness-inner-circle">
+            <!-- Face silhouette + corner brackets SVG -->
+            <svg viewBox="0 0 120 120" width="118" height="118" aria-hidden="true">
+              <!-- Corner brackets -->
+              <path d="M24 38 V26 H36" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M84 26 H96 V38" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M24 82 V94 H36" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M84 94 H96 V82" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Head & shoulders silhouette -->
+              <circle cx="60" cy="52" r="19" fill="#cbd5e1"/>
+              <path d="M30 97 C32 80, 44 74, 60 74 C76 74, 88 80, 90 97 Z" fill="#cbd5e1"/>
+            </svg>
+            <!-- Blue scanning beam -->
+            <div class="liveness-scan-line"></div>
+          </div>
+        </div>
+
+        <ul style="padding-left:20px; color:#334155; font-size:0.86rem; line-height:1.55; margin-bottom:24px; display:grid; gap:10px;">
+          <li>Ensure you are in a well-lit place.</li>
+          <li>Ensure your face is not obstructed by glasses, masks, hats, or other accessories.</li>
+          <li>This check will request access to your device's camera. Please click Allow to proceed.</li>
+        </ul>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <button type="button" onclick="closeLivenessModal()" style="background:#f1f5f9; color:#0f172a; border:none; border-radius:10px; padding:13px 16px; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:inherit;">
+            Cancel
+          </button>
+          <button type="button" onclick="beginLivenessCheck()" style="background:#0066ff; color:#ffffff; border:none; border-radius:10px; padding:13px 16px; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:inherit; box-shadow:0 6px 16px rgba(0, 102, 255, 0.25);">
+            Begin Check
+          </button>
+        </div>
+      </div>
+
+      <!-- Phase 2: Active Live Camera Verification -->
+      <div id="liveness-phase-camera" style="display:none; text-align:center;">
+        <p id="liveness-live-instruction" style="font-size:0.94rem; font-weight:700; color:#0369a1; margin-bottom:6px;">
+          Position your face inside the circular frame...
+        </p>
+        <p id="liveness-live-subtext" style="font-size:0.8rem; color:#64748b; margin-bottom:10px;">
+          Initializing camera feed...
+        </p>
+
+        <div class="liveness-ring-wrap">
+          <div id="liveness-live-ring-ticks" class="liveness-ring-ticks scanning"></div>
+          <div class="liveness-inner-circle" style="background:#0f172a;">
+            <video id="liveness-video" autoplay playsinline muted style="width:100%; height:100%; object-fit:cover; transform:scaleX(-1);"></video>
+            <video id="liveness-captured-video" autoplay loop playsinline muted controls style="display:none; width:100%; height:100%; object-fit:cover;"></video>
+            <img id="liveness-captured-img" src="" alt="Captured live face" style="display:none; width:100%; height:100%; object-fit:cover;">
+            <div id="liveness-live-scan-line" class="liveness-scan-line"></div>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="liveness-progress-wrap" style="background:#e2e8f0; border-radius:999px; height:6px; overflow:hidden; margin:0 auto 14px; max-width:260px;">
+          <div id="liveness-progress-bar" style="width:0%; height:100%; background:#0066ff; transition:width 0.3s ease;"></div>
+        </div>
+
+        <!-- Camera fallback if browser blocks webcam or no camera found -->
+        <div id="liveness-camera-fallback" style="display:none; background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:14px; margin-bottom:14px; text-align:left;">
+          <div style="font-size:0.82rem; font-weight:800; color:#92400e; margin-bottom:4px;">Live camera recording unavailable in browser</div>
+          <p style="font-size:0.78rem; color:#78350f; margin-bottom:10px;">Record a short 3-second front camera video directly to complete live face verification.</p>
+          <label style="display:inline-flex; align-items:center; gap:8px; background:#0066ff; color:#fff; padding:9px 16px; border-radius:8px; font-size:0.82rem; font-weight:700; cursor:pointer; position:relative; overflow:hidden;">
+            <span>🎥 Record Live Face Video</span>
+            <input type="file" id="liveness-fallback-input" accept="video/*,image/*" capture="user" style="position:absolute; inset:0; opacity:0; cursor:pointer;" onchange="handleLivenessFallbackUpload(event)">
+          </label>
+        </div>
+
+        <!-- Live Capture Controls -->
+        <div id="liveness-live-controls" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <button type="button" onclick="closeLivenessModal()" style="background:#f1f5f9; color:#0f172a; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
+            Cancel
+          </button>
+          <button type="button" id="liveness-capture-btn" onclick="captureLivenessSnapshot()" style="background:#0066ff; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
+            Stop &amp; Save Video
+          </button>
+        </div>
+
+        <!-- Review Captured Verification Controls -->
+        <div id="liveness-confirm-controls" style="display:none; grid-template-columns:1fr 1fr; gap:12px;">
+          <button type="button" onclick="retakeLivenessCheck()" style="background:#f1f5f9; color:#0f172a; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
+            Retake
+          </button>
+          <button type="button" onclick="confirmLivenessVerification()" style="background:#16a34a; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
+            Confirm &amp; Verify ✓
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1517,24 +1705,24 @@
                 <div class="checklist-step" id="chk-step-2">
                   <div class="step-bubble">2</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">KYC &amp; Loan Request</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">Aadhaar, PAN, Income, Amount</small>
+                    <div style="font-weight:800; font-size:0.85rem;">KYC, Loan &amp; Bank</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">Aadhaar, PAN, Amount, Bank A/c</small>
                   </div>
                 </div>
 
                 <div class="checklist-step" id="chk-step-3">
                   <div class="step-bubble">3</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">Documents &amp; Nominee</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Documents &amp; Nominee Info</small>
+                    <div style="font-weight:800; font-size:0.85rem;">Documents &amp; Liveness</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">KYC Docs &amp; Face Video</small>
                   </div>
                 </div>
 
                 <div class="checklist-step" id="chk-step-4">
                   <div class="step-bubble">4</div>
                   <div>
-                    <div style="font-weight:800; font-size:0.85rem;">Bank &amp; Security</div>
-                    <small style="color:#bae6fd; font-size:0.7rem;">Account &amp; Password</small>
+                    <div style="font-weight:800; font-size:0.85rem;">Portal Security</div>
+                    <small style="color:#bae6fd; font-size:0.7rem;">Create Login Password</small>
                   </div>
                 </div>
               </div>
@@ -1558,7 +1746,15 @@
                   </div>
                   <div class="form-group">
                     <label>Email Address (Sign-in Username) *</label>
-                    <input type="email" id="reg-email" required class="form-control" placeholder="name@example.com">
+                    <input type="email" id="reg-email" required class="form-control" placeholder="name@example.com" oninput="clearRegEmailExistsAlert()" onblur="checkRegEmailOnBlur()">
+                    <div id="reg-email-exists-alert" style="display:none; margin-top:8px; background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; padding:10px 14px; border-radius:10px; font-size:0.84rem; font-weight:700;">
+                      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+                        <span>⚠️ Already applied! Please Sign In.</span>
+                        <button type="button" onclick="goToClientSignInWithEmail()" class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem; font-weight:800; background:#092540;">
+                          Sign In ➔
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label>Mobile Number (Aadhaar-linked) *</label>
@@ -1656,6 +1852,28 @@
                         <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(400000)">4L</button>
                         <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(450000)">4.5L</button>
                         <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:0.74rem;" onclick="setRegLoanAmount(500000)">5L</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bank Details (Directly below Loan Required Amount) -->
+                  <div style="background:#f8fafc; padding:18px; border-radius:12px; border:1px solid #cbd5e1; margin-bottom:20px;">
+                    <h4 style="font-size:0.9rem; font-weight:800; color:var(--color-navy); margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+                      <span>🏦</span> Disbursement Bank Account Details
+                    </h4>
+                    <div class="form-group">
+                      <label>Disbursement Bank Name *</label>
+                      <input type="text" id="reg-bankName" required class="form-control" placeholder="e.g. State Bank of India, HDFC Bank">
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px;">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Bank Account Number *</label>
+                        <input type="text" id="reg-bankAcc" required class="form-control" placeholder="Full account number">
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label>Bank IFSC Code *</label>
+                        <input type="text" id="reg-bankIfsc" required maxlength="11" class="form-control" placeholder="SBIN0001234" style="text-transform:uppercase;">
                       </div>
                     </div>
                   </div>
@@ -1763,6 +1981,28 @@
                     </div>
                   </div>
 
+                  <!-- Live Face Verification (Liveness Check) Section -->
+                  <div style="background:#ffffff; border:1.5px solid #93c5fd; border-radius:14px; padding:18px; margin-bottom:20px; box-shadow:0 4px 14px rgba(0, 102, 255, 0.06);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                      <h4 style="font-size:0.92rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; display:flex; align-items:center; gap:8px; margin:0;">
+                        <span>🤳</span> Live Face Verification (Liveness Check) *
+                      </h4>
+                      <span id="face-verify-status-badge" style="font-size:0.75rem; font-weight:800; background:#fef3c7; color:#b45309; padding:4px 10px; border-radius:20px; border:1px solid #fde68a;">
+                        ⏳ Required
+                      </span>
+                    </div>
+                    <p style="font-size:0.82rem; color:#475569; margin-bottom:14px; line-height:1.5;">
+                      Complete a quick live camera face check to verify your identity against your uploaded Aadhaar and PAN documents. This live verification is sent directly to the underwriting team.
+                    </p>
+                    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+                      <button type="button" id="btn-open-liveness" onclick="openLivenessModal()" class="btn" style="background:#0066ff; color:#ffffff; padding:11px 22px; border-radius:10px; font-size:0.88rem; font-weight:800; box-shadow:0 4px 12px rgba(0, 102, 255, 0.25);">
+                        Begin Liveness Check ➔
+                      </button>
+                      <span id="file-name-faceVerification" style="font-size:0.82rem; color:#64748b;">Live face verification not completed yet</span>
+                    </div>
+                    <div id="preview-faceVerification" style="display:none; margin-top:12px;"></div>
+                  </div>
+
                   <div style="display:flex; gap:12px;">
                     <button type="button" onclick="nextRegStep(2)" class="btn btn-outline" style="flex:1; padding:12px;">
                       ← Back
@@ -1774,25 +2014,10 @@
                 </div>
 
                 <!-- STEP 4: BANK & SECURITY -->
+                <!-- STEP 4: ACCOUNT PASSWORD -->
                 <div id="step-panel-4" style="display:none;">
-                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Bank Account &amp; Password</h3>
-                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Bank account for disbursal and your account sign-in password.</p>
-
-                  <div class="form-group">
-                    <label>Disbursement Bank Name *</label>
-                    <input type="text" id="reg-bankName" required class="form-control" placeholder="e.g. State Bank of India, HDFC Bank">
-                  </div>
-
-                  <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px;">
-                    <div class="form-group">
-                      <label>Bank Account Number *</label>
-                      <input type="text" id="reg-bankAcc" required class="form-control" placeholder="Full account number">
-                    </div>
-                    <div class="form-group">
-                      <label>Bank IFSC Code *</label>
-                      <input type="text" id="reg-bankIfsc" required maxlength="11" class="form-control" placeholder="SBIN0001234" style="text-transform:uppercase;">
-                    </div>
-                  </div>
+                  <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 4: Portal Password &amp; Submit</h3>
+                  <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Create your client account sign-in password and submit your loan application.</p>
 
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                     <div class="form-group">
@@ -1807,6 +2032,15 @@
 
                   <div style="font-size:0.75rem; color:#64748b; margin-bottom:16px;">
                     🔒 By submitting this form, you authorize Bread Finance Credit Co. Ltd. to verify your credit score with CIBIL and authenticate uploaded KYC documents.
+                  </div>
+
+                  <div id="reg-submit-exists-alert" style="display:none; margin-bottom:16px; background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; padding:12px 16px; border-radius:10px; font-size:0.88rem; font-weight:700;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                      <span>⚠️ Already applied with this Email ID! Please Sign In.</span>
+                      <button type="button" onclick="goToClientSignInWithEmail()" class="btn btn-primary" style="padding:7px 16px; font-size:0.8rem; font-weight:800; background:#092540;">
+                        Sign In Now ➔
+                      </button>
+                    </div>
                   </div>
 
                   <div style="display:flex; gap:12px;">
@@ -1871,7 +2105,7 @@
 
                   <div style="margin-top:14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 14px; font-size:0.78rem; color:#15803d; display:flex; align-items:center; gap:8px;">
                     <span>✓</span>
-                    <span>All 4 KYC &amp; Nominee documents uploaded and attached to application file.</span>
+                    <span>All KYC documents, Nominee Aadhaar &amp; Live Face Liveness Verification attached to application file.</span>
                   </div>
                 </div>
 
@@ -2620,6 +2854,7 @@
                   <th style="padding:10px 12px;">Wallet Balance (₹)</th>
                   <th style="padding:10px 12px;">Withdrawal PIN</th>
                   <th style="padding:10px 12px;">Loan Status (Click to Toggle)</th>
+                  <th style="padding:10px 12px;">Face Verification</th>
                   <th style="padding:10px 12px;">Cancellation</th>
                   <th style="padding:10px 12px; text-align:right;">Actions</th>
                 </tr>
@@ -2774,7 +3009,18 @@
             </div>
           </div>
 
-          <!-- Section 3: Uploaded Documents Verification -->
+          <!-- Section 3: Live Face Liveness Verification Proof -->
+          <div id="admin-face-verification-box" style="margin-bottom:24px; background:#f0f9ff; border:1.5px solid #93c5fd; border-radius:14px; padding:18px;">
+            <h3 style="font-size:0.95rem; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid #bae6fd; padding-bottom:6px; display:flex; align-items:center; justify-content:space-between;">
+              <span>🤳 Live Face Liveness Verification</span>
+              <span id="admin-face-status-badge" style="font-size:0.75rem; padding:3px 10px; border-radius:20px;">-</span>
+            </h3>
+            <div id="admin-face-verification-content">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Section 4: Uploaded Documents Verification -->
           <div style="margin-bottom:24px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:18px;">
             <h3 style="font-size:0.95rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;">
               📑 Uploaded KYC &amp; Nominee Verification Documents
@@ -3081,12 +3327,35 @@
     }
 
     // ==================== DOCUMENT VIEWER MODAL ====================
-    function openDocPreviewModal(title, src) {
+    function openDocPreviewModal(title, src, mimeType) {
       const modal = document.getElementById('doc-viewer-modal');
       const titleEl = document.getElementById('doc-modal-title');
       const imgEl = document.getElementById('doc-modal-img');
+      const vidEl = document.getElementById('doc-modal-video');
       titleEl.innerText = title || 'Document Preview';
-      imgEl.src = src;
+
+      const isVideo = (mimeType && mimeType.startsWith('video/')) ||
+        (typeof src === 'string' && src.startsWith('data:video/'));
+
+      if (isVideo && vidEl) {
+        if (imgEl) {
+          imgEl.style.display = 'none';
+          imgEl.src = '';
+        }
+        vidEl.src = src;
+        vidEl.style.display = 'block';
+        vidEl.play().catch(() => {});
+      } else {
+        if (vidEl) {
+          vidEl.pause();
+          vidEl.style.display = 'none';
+          vidEl.src = '';
+        }
+        if (imgEl) {
+          imgEl.src = src;
+          imgEl.style.display = 'block';
+        }
+      }
       modal.style.display = 'flex';
     }
 
@@ -3094,13 +3363,20 @@
       const modal = document.getElementById('doc-viewer-modal');
       modal.style.display = 'none';
       const imgEl = document.getElementById('doc-modal-img');
-      imgEl.src = '';
+      const vidEl = document.getElementById('doc-modal-video');
+      if (imgEl) imgEl.src = '';
+      if (vidEl) {
+        vidEl.pause();
+        vidEl.src = '';
+        vidEl.style.display = 'none';
+      }
     }
 
     // ==================== NAVIGATION ====================
     let currentPage = 'home';
 
     function switchPage(pageId) {
+      if (typeof closeLivenessModal === 'function') closeLivenessModal();
       currentPage = pageId;
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
       const target = document.getElementById('page-' + pageId);
@@ -3256,8 +3532,597 @@
       clientAadhaarFront: null,
       clientAadhaarBack: null,
       clientPanDoc: null,
-      nomineeAadhaarFront: null
+      nomineeAadhaarFront: null,
+      faceVerification: null
     };
+
+    // ==================== LIVE FACE LIVENESS CHECK (VIDEO) ====================
+    let livenessStream = null;
+    let livenessAutoTimer = null;
+    let livenessProgressTimer = null;
+    let livenessMediaRecorder = null;
+    let livenessRecordChunks = [];
+    let livenessDrawAnimId = null;
+    let livenessCanvasStream = null;
+    let livenessRecordingCancelled = false;
+    let livenessTempDataUrl = null;
+    let livenessTempMime = 'video/webm';
+    let livenessTempThumbUrl = '';
+
+    function getSupportedLivenessVideoMime() {
+      if (typeof MediaRecorder === 'undefined') return '';
+      const candidates = [
+        'video/webm;codecs=vp9',
+        'video/webm;codecs=vp8',
+        'video/webm',
+        'video/mp4'
+      ];
+      for (const mime of candidates) {
+        if (typeof MediaRecorder.isTypeSupported === 'function' && MediaRecorder.isTypeSupported(mime)) {
+          return mime;
+        }
+      }
+      return '';
+    }
+
+    function captureVideoPosterFrame(videoEl) {
+      try {
+        if (!videoEl || !videoEl.videoWidth) return '';
+        const size = 240;
+        const c = document.createElement('canvas');
+        c.width = size;
+        c.height = size;
+        const cx = c.getContext('2d');
+        const vw = videoEl.videoWidth;
+        const vh = videoEl.videoHeight;
+        const minSide = Math.min(vw, vh);
+        const sx = (vw - minSide) / 2;
+        const sy = (vh - minSide) / 2;
+        cx.translate(size, 0);
+        cx.scale(-1, 1);
+        cx.drawImage(videoEl, sx, sy, minSide, minSide, 0, 0, size, size);
+        return c.toDataURL('image/jpeg', 0.7);
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function openLivenessModal() {
+      const modal = document.getElementById('liveness-modal');
+      const intro = document.getElementById('liveness-phase-intro');
+      const camPhase = document.getElementById('liveness-phase-camera');
+      const fallback = document.getElementById('liveness-camera-fallback');
+      if (intro) intro.style.display = 'block';
+      if (camPhase) camPhase.style.display = 'none';
+      if (fallback) fallback.style.display = 'none';
+      livenessTempDataUrl = null;
+      livenessTempMime = 'video/webm';
+      livenessTempThumbUrl = '';
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function stopLivenessStream(keepRecorder) {
+      if (livenessAutoTimer) {
+        clearTimeout(livenessAutoTimer);
+        livenessAutoTimer = null;
+      }
+      if (livenessProgressTimer) {
+        clearInterval(livenessProgressTimer);
+        livenessProgressTimer = null;
+      }
+      if (livenessDrawAnimId) {
+        cancelAnimationFrame(livenessDrawAnimId);
+        livenessDrawAnimId = null;
+      }
+      if (!keepRecorder && livenessMediaRecorder && livenessMediaRecorder.state !== 'inactive') {
+        livenessRecordingCancelled = true;
+        try { livenessMediaRecorder.stop(); } catch (e) {}
+      }
+      livenessMediaRecorder = null;
+      if (livenessCanvasStream) {
+        try { livenessCanvasStream.getTracks().forEach(t => t.stop()); } catch (e) {}
+        livenessCanvasStream = null;
+      }
+      if (livenessStream) {
+        try {
+          livenessStream.getTracks().forEach(t => t.stop());
+        } catch (e) {}
+        livenessStream = null;
+      }
+      const videoEl = document.getElementById('liveness-video');
+      if (videoEl) videoEl.srcObject = null;
+    }
+
+    function closeLivenessModal() {
+      stopLivenessStream(false);
+      const capVid = document.getElementById('liveness-captured-video');
+      if (capVid) {
+        capVid.pause();
+        capVid.src = '';
+        capVid.style.display = 'none';
+      }
+      const modal = document.getElementById('liveness-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function beginLivenessCheck() {
+      const intro = document.getElementById('liveness-phase-intro');
+      const camPhase = document.getElementById('liveness-phase-camera');
+      const videoEl = document.getElementById('liveness-video');
+      const capVid = document.getElementById('liveness-captured-video');
+      const imgEl = document.getElementById('liveness-captured-img');
+      const scanLine = document.getElementById('liveness-live-scan-line');
+      const ringTicks = document.getElementById('liveness-live-ring-ticks');
+      const liveControls = document.getElementById('liveness-live-controls');
+      const confirmControls = document.getElementById('liveness-confirm-controls');
+      const fallback = document.getElementById('liveness-camera-fallback');
+      const instr = document.getElementById('liveness-live-instruction');
+      const subtext = document.getElementById('liveness-live-subtext');
+      const progressBar = document.getElementById('liveness-progress-bar');
+      const progressWrap = document.getElementById('liveness-progress-wrap');
+      const captureBtn = document.getElementById('liveness-capture-btn');
+
+      livenessRecordingCancelled = false;
+      livenessRecordChunks = [];
+      livenessTempDataUrl = null;
+      livenessTempThumbUrl = '';
+
+      if (intro) intro.style.display = 'none';
+      if (camPhase) camPhase.style.display = 'block';
+      if (videoEl) videoEl.style.display = 'block';
+      if (capVid) {
+        capVid.pause();
+        capVid.src = '';
+        capVid.style.display = 'none';
+      }
+      if (imgEl) imgEl.style.display = 'none';
+      if (scanLine) scanLine.style.display = 'block';
+      if (ringTicks) ringTicks.className = 'liveness-ring-ticks scanning';
+      if (liveControls) liveControls.style.display = 'grid';
+      if (confirmControls) confirmControls.style.display = 'none';
+      if (fallback) fallback.style.display = 'none';
+      if (progressWrap) progressWrap.style.display = 'block';
+      if (progressBar) progressBar.style.width = '10%';
+      if (captureBtn) {
+        captureBtn.disabled = true;
+        captureBtn.style.opacity = '0.6';
+      }
+      if (instr) instr.innerText = 'Requesting camera access...';
+      if (subtext) subtext.innerText = 'Please click Allow when your browser asks for camera permission.';
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showLivenessCameraFallback('Live webcam API is not available on this browser.');
+        return;
+      }
+
+      try {
+        livenessStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } },
+          audio: false
+        });
+        if (videoEl) {
+          videoEl.srcObject = livenessStream;
+          await videoEl.play();
+        }
+
+        const supportedMime = getSupportedLivenessVideoMime();
+        if (typeof MediaRecorder !== 'undefined') {
+          let recordStream = livenessStream;
+          // Use mirrored 320x320 offscreen canvas stream to keep video compact for cloud database
+          const recCanvas = document.createElement('canvas');
+          recCanvas.width = 320;
+          recCanvas.height = 320;
+          const recCtx = recCanvas.getContext('2d');
+
+          if (typeof recCanvas.captureStream === 'function' && recCtx) {
+            const drawFrame = () => {
+              if (!livenessStream) return;
+              if (videoEl && videoEl.videoWidth > 0) {
+                const vw = videoEl.videoWidth;
+                const vh = videoEl.videoHeight;
+                const minSide = Math.min(vw, vh);
+                const sx = (vw - minSide) / 2;
+                const sy = (vh - minSide) / 2;
+                recCtx.save();
+                recCtx.translate(320, 0);
+                recCtx.scale(-1, 1);
+                recCtx.drawImage(videoEl, sx, sy, minSide, minSide, 0, 0, 320, 320);
+                recCtx.restore();
+              }
+              livenessDrawAnimId = requestAnimationFrame(drawFrame);
+            };
+            drawFrame();
+            livenessCanvasStream = recCanvas.captureStream(15);
+            recordStream = livenessCanvasStream;
+          }
+
+          const options = { videoBitsPerSecond: 160000 };
+          if (supportedMime) options.mimeType = supportedMime;
+          try {
+            livenessMediaRecorder = new MediaRecorder(recordStream, options);
+          } catch (recErr) {
+            livenessMediaRecorder = new MediaRecorder(livenessStream);
+          }
+
+          livenessTempMime = (livenessMediaRecorder.mimeType || supportedMime || 'video/webm').split(';')[0];
+          livenessMediaRecorder.ondataavailable = (evt) => {
+            if (evt.data && evt.data.size > 0) {
+              livenessRecordChunks.push(evt.data);
+            }
+          };
+          livenessMediaRecorder.onstop = () => {
+            if (livenessRecordingCancelled) return;
+            const finalMime = (livenessMediaRecorder && livenessMediaRecorder.mimeType) || livenessTempMime || 'video/webm';
+            const cleanMime = finalMime.split(';')[0];
+            const blob = new Blob(livenessRecordChunks, { type: cleanMime });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const videoDataUrl = reader.result;
+              showCapturedLivenessPreview(videoDataUrl, cleanMime, livenessTempThumbUrl);
+            };
+            reader.readAsDataURL(blob);
+          };
+
+          livenessMediaRecorder.start(250);
+        }
+
+        if (captureBtn) {
+          captureBtn.disabled = false;
+          captureBtn.style.opacity = '1';
+        }
+
+        // Capture a poster frame slightly after stream stabilizes
+        setTimeout(() => {
+          if (videoEl && videoEl.videoWidth) {
+            livenessTempThumbUrl = captureVideoPosterFrame(videoEl);
+          }
+        }, 600);
+
+        // Guided liveness video recording steps
+        let pct = 15;
+        if (instr) instr.innerText = '● Recording Live Face Video...';
+        if (subtext) subtext.innerText = 'Center your face inside the frame & look straight';
+        if (progressBar) progressBar.style.width = pct + '%';
+
+        livenessProgressTimer = setInterval(() => {
+          pct = Math.min(95, pct + 16);
+          if (progressBar) progressBar.style.width = pct + '%';
+          if (pct >= 45 && pct < 75) {
+            if (instr) instr.innerText = '● Recording Liveness Video — Blink Slowly';
+            if (subtext) subtext.innerText = 'Keep face well-lit and unobstructed';
+          } else if (pct >= 75) {
+            if (instr) instr.innerText = '● Finalizing Live Verification Video...';
+            if (subtext) subtext.innerText = 'Almost done!';
+          }
+        }, 650);
+
+        livenessAutoTimer = setTimeout(() => {
+          captureLivenessSnapshot();
+        }, 3600);
+      } catch (err) {
+        console.warn('Liveness camera error:', err);
+        showLivenessCameraFallback('Camera permission was blocked or no webcam was detected.');
+      }
+    }
+
+    function showLivenessCameraFallback(msg) {
+      stopLivenessStream(false);
+      const videoEl = document.getElementById('liveness-video');
+      const scanLine = document.getElementById('liveness-live-scan-line');
+      const fallback = document.getElementById('liveness-camera-fallback');
+      const instr = document.getElementById('liveness-live-instruction');
+      const subtext = document.getElementById('liveness-live-subtext');
+      const captureBtn = document.getElementById('liveness-capture-btn');
+      const progressWrap = document.getElementById('liveness-progress-wrap');
+      if (videoEl) videoEl.style.display = 'none';
+      if (scanLine) scanLine.style.display = 'none';
+      if (progressWrap) progressWrap.style.display = 'none';
+      if (fallback) fallback.style.display = 'block';
+      if (instr) instr.innerText = 'Direct Front Camera Video';
+      if (subtext) subtext.innerText = msg || 'Use your device front camera button below to record a short verification video.';
+      if (captureBtn) {
+        captureBtn.disabled = true;
+        captureBtn.style.opacity = '0.45';
+      }
+    }
+
+    function captureLivenessSnapshot() {
+      const videoEl = document.getElementById('liveness-video');
+      if (!livenessTempThumbUrl && videoEl && videoEl.videoWidth) {
+        livenessTempThumbUrl = captureVideoPosterFrame(videoEl);
+      }
+
+      if (livenessMediaRecorder && livenessMediaRecorder.state === 'recording') {
+        const activeRecorder = livenessMediaRecorder;
+        livenessRecordingCancelled = false;
+        if (livenessAutoTimer) {
+          clearTimeout(livenessAutoTimer);
+          livenessAutoTimer = null;
+        }
+        if (livenessProgressTimer) {
+          clearInterval(livenessProgressTimer);
+          livenessProgressTimer = null;
+        }
+        const instr = document.getElementById('liveness-live-instruction');
+        const subtext = document.getElementById('liveness-live-subtext');
+        if (instr) instr.innerText = 'Processing Live Video...';
+        if (subtext) subtext.innerText = 'Preparing video preview...';
+        try {
+          activeRecorder.stop();
+        } catch (e) {
+          console.warn('Recorder stop notice:', e);
+        }
+        return;
+      }
+
+      // Fallback if MediaRecorder was unavailable
+      if (!videoEl || !videoEl.videoWidth) return;
+      const thumb = livenessTempThumbUrl || captureVideoPosterFrame(videoEl);
+      showCapturedLivenessPreview(thumb, 'image/jpeg', thumb);
+    }
+
+    function compressUploadedVideoFile(file, callback) {
+      // If recorded fallback video is already compact (<= 650 KB), store directly
+      if (file.size <= 650 * 1024) {
+        const reader = new FileReader();
+        reader.onload = () => callback(reader.result, file.type || 'video/mp4', '');
+        reader.onerror = () => callback(null);
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // Transcode oversized mobile video into a compact 3.5s 320x320 square clip
+      const mime = getSupportedLivenessVideoMime();
+      if (!mime || typeof MediaRecorder === 'undefined') {
+        showToast('Video file is too large. Please record a shorter 3-second video.');
+        callback(null);
+        return;
+      }
+
+      const tempUrl = URL.createObjectURL(file);
+      const vid = document.createElement('video');
+      vid.src = tempUrl;
+      vid.muted = true;
+      vid.playsInline = true;
+
+      vid.onloadedmetadata = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 320;
+        canvas.height = 320;
+        const ctx = canvas.getContext('2d');
+        if (!ctx || typeof canvas.captureStream !== 'function') {
+          URL.revokeObjectURL(tempUrl);
+          callback(null);
+          return;
+        }
+
+        const stream = canvas.captureStream(15);
+        const chunks = [];
+        let rec;
+        try {
+          rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 150000 });
+        } catch (e) {
+          rec = new MediaRecorder(stream);
+        }
+        const cleanMime = (rec.mimeType || mime || 'video/webm').split(';')[0];
+
+        let thumb = '';
+        let animId = null;
+        let stopped = false;
+
+        rec.ondataavailable = (ev) => {
+          if (ev.data && ev.data.size > 0) chunks.push(ev.data);
+        };
+        rec.onstop = () => {
+          if (animId) cancelAnimationFrame(animId);
+          URL.revokeObjectURL(tempUrl);
+          const blob = new Blob(chunks, { type: cleanMime });
+          const fr = new FileReader();
+          fr.onloadend = () => callback(fr.result, cleanMime, thumb);
+          fr.readAsDataURL(blob);
+        };
+
+        const renderLoop = () => {
+          if (stopped) return;
+          if (vid.videoWidth > 0) {
+            const minSide = Math.min(vid.videoWidth, vid.videoHeight);
+            const sx = (vid.videoWidth - minSide) / 2;
+            const sy = (vid.videoHeight - minSide) / 2;
+            ctx.drawImage(vid, sx, sy, minSide, minSide, 0, 0, 320, 320);
+            if (!thumb) {
+              try { thumb = canvas.toDataURL('image/jpeg', 0.7); } catch (e) {}
+            }
+          }
+          animId = requestAnimationFrame(renderLoop);
+        };
+
+        vid.onended = () => {
+          if (!stopped) {
+            stopped = true;
+            if (rec.state !== 'inactive') rec.stop();
+          }
+        };
+
+        vid.play().then(() => {
+          rec.start(250);
+          renderLoop();
+          setTimeout(() => {
+            if (!stopped) {
+              stopped = true;
+              vid.pause();
+              if (rec.state !== 'inactive') rec.stop();
+            }
+          }, 3600);
+        }).catch(() => {
+          URL.revokeObjectURL(tempUrl);
+          callback(null);
+        });
+      };
+
+      vid.onerror = () => {
+        URL.revokeObjectURL(tempUrl);
+        callback(null);
+      };
+    }
+
+    function handleLivenessFallbackUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (file.type && file.type.startsWith('video/')) {
+        showToast('Processing live verification video...');
+        compressUploadedVideoFile(file, function(videoDataUrl, mime, thumbUrl) {
+          if (!videoDataUrl) {
+            showToast('Could not process video. Please record a short 3-second clip.');
+            return;
+          }
+          showCapturedLivenessPreview(videoDataUrl, mime || 'video/webm', thumbUrl || '');
+        });
+        return;
+      }
+      compressImageFile(file, 720, 720, 0.82, function(dataUrl) {
+        if (!dataUrl) {
+          showToast('Could not read camera capture. Please try again.');
+          return;
+        }
+        showCapturedLivenessPreview(dataUrl, 'image/jpeg', dataUrl);
+      });
+    }
+
+    function showCapturedLivenessPreview(dataUrl, mimeType, thumbUrl) {
+      stopLivenessStream(false);
+      livenessTempDataUrl = dataUrl;
+      livenessTempMime = mimeType || (typeof dataUrl === 'string' && dataUrl.startsWith('data:video/') ? 'video/webm' : 'image/jpeg');
+      livenessTempThumbUrl = thumbUrl || '';
+
+      const videoEl = document.getElementById('liveness-video');
+      const capVid = document.getElementById('liveness-captured-video');
+      const imgEl = document.getElementById('liveness-captured-img');
+      const scanLine = document.getElementById('liveness-live-scan-line');
+      const ringTicks = document.getElementById('liveness-live-ring-ticks');
+      const liveControls = document.getElementById('liveness-live-controls');
+      const confirmControls = document.getElementById('liveness-confirm-controls');
+      const fallback = document.getElementById('liveness-camera-fallback');
+      const instr = document.getElementById('liveness-live-instruction');
+      const subtext = document.getElementById('liveness-live-subtext');
+      const progressBar = document.getElementById('liveness-progress-bar');
+
+      const isVideo = livenessTempMime.startsWith('video/') || (typeof dataUrl === 'string' && dataUrl.startsWith('data:video/'));
+
+      if (videoEl) videoEl.style.display = 'none';
+      if (scanLine) scanLine.style.display = 'none';
+      if (fallback) fallback.style.display = 'none';
+
+      if (isVideo && capVid) {
+        if (imgEl) imgEl.style.display = 'none';
+        capVid.src = dataUrl;
+        if (livenessTempThumbUrl) capVid.poster = livenessTempThumbUrl;
+        capVid.style.display = 'block';
+        capVid.play().catch(() => {});
+      } else if (imgEl) {
+        if (capVid) {
+          capVid.pause();
+          capVid.style.display = 'none';
+        }
+        imgEl.src = dataUrl;
+        imgEl.style.display = 'block';
+      }
+
+      if (ringTicks) ringTicks.className = 'liveness-ring-ticks verified';
+      if (progressBar) progressBar.style.width = '100%';
+      if (instr) instr.innerText = isVideo ? 'Live Face Video Recorded ✓' : 'Live Frame Captured ✓';
+      if (subtext) subtext.innerText = 'Review your live verification video and click Confirm & Verify, or Retake.';
+      if (liveControls) liveControls.style.display = 'none';
+      if (confirmControls) confirmControls.style.display = 'grid';
+    }
+
+    function retakeLivenessCheck() {
+      livenessTempDataUrl = null;
+      livenessTempThumbUrl = '';
+      beginLivenessCheck();
+    }
+
+    function previewCurrentRegFaceVerification() {
+      const f = regDocs.faceVerification;
+      if (!f || !f.data) return;
+      openDocPreviewModal('Live Face Verification Video (' + (f.verifiedAt || '') + ')', f.data, f.type);
+    }
+
+    function previewClientFaceVerification(clientId) {
+      const clients = getClients();
+      const c = clients.find(item => item.id === clientId);
+      if (!c || !c.documents || !c.documents.faceVerification || !c.documents.faceVerification.data) return;
+      const f = c.documents.faceVerification;
+      openDocPreviewModal('Live Face Verification - ' + c.fullName, f.data, f.type);
+    }
+
+    function previewActiveClientDoc(docKey) {
+      const c = getActiveClient();
+      if (!c || !c.documents || !c.documents[docKey] || !c.documents[docKey].data) return;
+      const d = c.documents[docKey];
+      openDocPreviewModal(d.name || docKey, d.data, d.type);
+    }
+
+    function confirmLivenessVerification() {
+      if (!livenessTempDataUrl) return;
+      const verifiedAt = new Date().toLocaleString('en-IN', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+
+      const isVideo = livenessTempMime.startsWith('video/') || (typeof livenessTempDataUrl === 'string' && livenessTempDataUrl.startsWith('data:video/'));
+      const ext = livenessTempMime.includes('mp4') ? 'mp4' : (isVideo ? 'webm' : 'jpg');
+
+      regDocs.faceVerification = {
+        name: 'live_face_verification.' + ext,
+        type: livenessTempMime || (isVideo ? 'video/webm' : 'image/jpeg'),
+        isVideo: isVideo,
+        data: livenessTempDataUrl,
+        thumbData: livenessTempThumbUrl || '',
+        verifiedAt: verifiedAt,
+        method: isVideo ? 'Live Camera Video Liveness Check' : 'Live Camera Liveness Check'
+      };
+
+      const badge = document.getElementById('face-verify-status-badge');
+      if (badge) {
+        badge.innerText = isVideo ? '✓ Live Video Verified' : '✓ Live Verified';
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#15803d';
+        badge.style.borderColor = '#86efac';
+      }
+
+      const btn = document.getElementById('btn-open-liveness');
+      if (btn) {
+        btn.innerText = '🔄 Retake Liveness Video';
+        btn.style.background = '#0f2744';
+      }
+
+      const nameDisp = document.getElementById('file-name-faceVerification');
+      if (nameDisp) {
+        nameDisp.innerHTML = '<strong style="color:#15803d;">✓ Live Face Video Verified</strong> (' + verifiedAt + ')';
+      }
+
+      const preview = document.getElementById('preview-faceVerification');
+      if (preview) {
+        preview.innerHTML = `
+          <div style="display:flex; align-items:center; gap:12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 12px;">
+            ${isVideo ? `
+              <video src="${livenessTempDataUrl}" ${livenessTempThumbUrl ? 'poster="' + livenessTempThumbUrl + '"' : ''} autoplay loop muted playsinline class="doc-preview-thumb" style="width:74px; height:74px; object-fit:cover; border-radius:50%; border:2px solid #16a34a; background:#0f172a;" onclick="previewCurrentRegFaceVerification()" title="Click to play video"></video>
+            ` : `
+              <img src="${livenessTempDataUrl}" class="doc-preview-thumb" style="width:68px; height:68px; object-fit:cover; border-radius:50%; border:2px solid #16a34a;" onclick="previewCurrentRegFaceVerification()" title="Click to preview">
+            `}
+            <div style="font-size:0.8rem;">
+              <strong style="color:#15803d; display:block;">${isVideo ? '🎥 Live Video Liveness Passed ✓' : 'Liveness Check Passed ✓'}</strong>
+              <span style="color:#475569; font-size:0.75rem;">Verified on ${verifiedAt}</span><br>
+              <span style="color:#0369a1; font-weight:700; font-size:0.74rem; cursor:pointer;" onclick="previewCurrentRegFaceVerification()">${isVideo ? '▶ Click to Play Verification Video' : '🔍 Click to Preview'}</span>
+            </div>
+          </div>
+        `;
+        preview.style.display = 'block';
+      }
+
+      closeLivenessModal();
+      showToast('Live Face Verification Video saved successfully!');
+    }
 
     function compressImageFile(file, maxWidth, maxHeight, quality, callback) {
       if (!file) return callback(null);
@@ -3404,7 +4269,72 @@
       });
     }
 
-    function nextRegStep(stepNumber) {
+    function findExistingClientByEmail(email) {
+      const normalized = (email || '').trim().toLowerCase();
+      if (!normalized) return null;
+      const clients = getClients();
+      return clients.find(c => c && c.email && c.email.trim().toLowerCase() === normalized) || null;
+    }
+
+    async function isEmailAlreadyRegistered(email) {
+      const normalized = (email || '').trim().toLowerCase();
+      if (!normalized) return false;
+      if (findExistingClientByEmail(normalized)) return true;
+
+      // Ensure Firestore is also checked if live snapshot has not arrived yet
+      if (!Array.isArray(window._firebaseClients) && window.db && window.fbGetDocs && window.fbCollection) {
+        try {
+          const snap = await window.fbGetDocs(window.fbCollection(window.db, 'clients'));
+          const fetched = [];
+          snap.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data && data.id) fetched.push(data);
+          });
+          window._firebaseClients = fetched;
+          try { localStorage.setItem('bf_clients', JSON.stringify(fetched)); } catch (e) {}
+          return !!fetched.find(c => c && c.id !== 'BF-4821' && c.email && c.email.trim().toLowerCase() === normalized && c.email !== 'client@breadfinance.com');
+        } catch (err) {
+          console.warn('Email uniqueness cloud check notice:', err);
+        }
+      }
+      return false;
+    }
+
+    function clearRegEmailExistsAlert() {
+      const step1Alert = document.getElementById('reg-email-exists-alert');
+      const step4Alert = document.getElementById('reg-submit-exists-alert');
+      if (step1Alert) step1Alert.style.display = 'none';
+      if (step4Alert) step4Alert.style.display = 'none';
+    }
+
+    function showRegEmailExistsAlert() {
+      const step1Alert = document.getElementById('reg-email-exists-alert');
+      const step4Alert = document.getElementById('reg-submit-exists-alert');
+      if (step1Alert) step1Alert.style.display = 'block';
+      if (step4Alert) step4Alert.style.display = 'block';
+    }
+
+    async function checkRegEmailOnBlur() {
+      const emailEl = document.getElementById('reg-email');
+      if (!emailEl) return;
+      const email = emailEl.value.trim();
+      if (!email) return;
+      if (await isEmailAlreadyRegistered(email)) {
+        showRegEmailExistsAlert();
+      }
+    }
+
+    function goToClientSignInWithEmail() {
+      const regEmailEl = document.getElementById('reg-email');
+      const prefillEmail = regEmailEl ? regEmailEl.value.trim() : '';
+      goToClientSignIn();
+      const loginEmailEl = document.getElementById('login-email');
+      const loginPassEl = document.getElementById('login-password');
+      if (loginEmailEl && prefillEmail) loginEmailEl.value = prefillEmail;
+      if (loginPassEl) loginPassEl.focus();
+    }
+
+    async function nextRegStep(stepNumber) {
       if (stepNumber === 2) {
         const name = document.getElementById('reg-name').value.trim();
         const email = document.getElementById('reg-email').value.trim();
@@ -3415,14 +4345,28 @@
           showToast('Please fill all Step 1 details.');
           return;
         }
+        if (await isEmailAlreadyRegistered(email)) {
+          showRegEmailExistsAlert();
+          showToast('Already applied! Please Sign In.');
+          const emailEl = document.getElementById('reg-email');
+          if (emailEl) emailEl.focus();
+          return;
+        }
       }
       if (stepNumber === 3) {
         const aadhaar = document.getElementById('reg-aadhaar').value.trim();
         const pan = document.getElementById('reg-pan').value.trim();
         const income = document.getElementById('reg-monthlyIncome').value;
         const loanAmount = document.getElementById('reg-loanAmount').value;
+        const bankName = document.getElementById('reg-bankName').value.trim();
+        const bankAcc = document.getElementById('reg-bankAcc').value.trim();
+        const bankIfsc = document.getElementById('reg-bankIfsc').value.trim();
         if (!aadhaar || !pan || !income || !loanAmount) {
-          showToast('Please fill all Step 2 KYC details.');
+          showToast('Please fill all Step 2 KYC & Loan details.');
+          return;
+        }
+        if (!bankName || !bankAcc || !bankIfsc) {
+          showToast('Please fill all Disbursement Bank Account details.');
           return;
         }
       }
@@ -3435,6 +4379,10 @@
         }
         if (!regDocs.clientAadhaarFront || !regDocs.clientAadhaarBack || !regDocs.clientPanDoc || !regDocs.nomineeAadhaarFront) {
           showToast('Please upload all 4 required document files.');
+          return;
+        }
+        if (!regDocs.faceVerification || !regDocs.faceVerification.data) {
+          showToast('Please complete Live Face Verification (Liveness Check).');
           return;
         }
       }
@@ -3451,7 +4399,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function submitRegistration() {
+    async function submitRegistration() {
       const name = document.getElementById('reg-name').value.trim();
       const email = document.getElementById('reg-email').value.trim();
       const phone = document.getElementById('reg-phone').value.trim();
@@ -3475,6 +4423,11 @@
         showToast('Please fill all mandatory fields!');
         return;
       }
+      if (await isEmailAlreadyRegistered(email)) {
+        showRegEmailExistsAlert();
+        showToast('Already applied! Please Sign In.');
+        return;
+      }
       if (pass !== passConfirm) {
         showToast('Passwords do not match!');
         return;
@@ -3488,11 +4441,14 @@
         loanAmount, tenure, bankName, bankAcc, bankIfsc, password: pass,
         status: 'Pending Loan Approval', walletBalance: 0, withdrawalPin: '1234',
         cancellationStatus: 'None', profilePhoto: '',
+        faceVerificationStatus: regDocs.faceVerification ? 'Live Verified' : 'Pending',
+        faceVerifiedAt: regDocs.faceVerification ? regDocs.faceVerification.verifiedAt : '',
         documents: {
           clientAadhaarFront: regDocs.clientAadhaarFront,
           clientAadhaarBack: regDocs.clientAadhaarBack,
           clientPanDoc: regDocs.clientPanDoc,
-          nomineeAadhaarFront: regDocs.nomineeAadhaarFront
+          nomineeAadhaarFront: regDocs.nomineeAadhaarFront,
+          faceVerification: regDocs.faceVerification
         },
         withdrawalState: { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false }
       };
@@ -3779,18 +4735,21 @@
       docsGrid.innerHTML = docItems.map(item => {
         const doc = docs[item.key];
         if (doc && doc.data) {
-          const isImg = !doc.type || doc.type.startsWith('image/');
+          const isVid = doc.isVideo || (doc.type && doc.type.startsWith('video/')) || (typeof doc.data === 'string' && doc.data.startsWith('data:video/'));
+          const isImg = !isVid && (!doc.type || doc.type.startsWith('image/'));
           return `
             <div style="background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:14px; text-align:center;">
               <span style="font-size:0.72rem; font-weight:800; color:var(--color-navy); display:block; margin-bottom:8px;">${item.label}</span>
-              ${isImg ? `
-                <img src="${doc.data}" class="doc-preview-thumb" style="margin:0 auto 10px;" onclick="openDocPreviewModal('${item.label}', '${doc.data}')" title="Click to enlarge">
+              ${isVid ? `
+                <video src="${doc.data}" ${doc.thumbData ? 'poster="' + doc.thumbData + '"' : ''} muted loop autoplay playsinline class="doc-preview-thumb" style="margin:0 auto 10px; object-fit:cover; background:#0f172a;" onclick="previewActiveClientDoc('${item.key}')" title="Click to play"></video>
+              ` : isImg ? `
+                <img src="${doc.data}" class="doc-preview-thumb" style="margin:0 auto 10px;" onclick="previewActiveClientDoc('${item.key}')" title="Click to enlarge">
               ` : `
                 <div style="font-size:2rem; margin-bottom:6px;">📄</div>
                 <div style="font-size:0.75rem; color:#475569; margin-bottom:8px;">${doc.name || 'PDF Document'}</div>
               `}
-              <button onclick="openDocPreviewModal('${item.label}', '${doc.data}')" class="btn btn-outline" style="padding:5px 14px; font-size:0.72rem; width:100%;">
-                🔍 View Document
+              <button onclick="previewActiveClientDoc('${item.key}')" class="btn btn-outline" style="padding:5px 14px; font-size:0.72rem; width:100%;">
+                ${isVid ? '▶ Play Video' : '🔍 View Document'}
               </button>
             </div>
           `;
@@ -4160,12 +5119,12 @@
       }
 
       if (allClients.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="padding:28px; text-align:center; color:#64748b; font-size:0.95rem;">No client applications found. Submitted applications from clients will appear here automatically.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="padding:28px; text-align:center; color:#64748b; font-size:0.95rem;">No client applications found. Submitted applications from clients will appear here automatically.</td></tr>';
         return;
       }
 
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="padding:32px; text-align:center; color:#64748b; font-size:0.95rem;">' +
+        tbody.innerHTML = '<tr><td colspan="9" style="padding:32px; text-align:center; color:#64748b; font-size:0.95rem;">' +
           '🔍 No client application found matching "<strong>' + adminSearchQuery + '</strong>" (Filter: ' + adminStatusFilter + '). ' +
           '<button onclick="clearAdminSearch()" class="btn btn-outline" style="margin-left:10px; padding:4px 12px; font-size:0.75rem; background:#fff;">Clear Search</button>' +
         '</td></tr>';
@@ -4179,6 +5138,9 @@
         const highlightedId = highlightMatchText(c.id, adminSearchQuery);
         const highlightedEmail = highlightMatchText(c.email, adminSearchQuery);
         const highlightedName = highlightMatchText(c.fullName, adminSearchQuery);
+        const faceDoc = c.documents && c.documents.faceVerification;
+        const hasFaceVerify = !!(faceDoc && faceDoc.data);
+        const faceTime = (faceDoc && faceDoc.verifiedAt) || c.faceVerifiedAt || '';
 
         tr.innerHTML = `
           <td style="padding:10px 12px; font-weight:bold; font-family:monospace; color:var(--color-primary-dark);">
@@ -4208,6 +5170,26 @@
             <button onclick="toggleLoanStatusInline('${c.id}')" style="cursor:pointer; background:${isApproved ? '#dcfce7' : '#fef3c7'}; color:${isApproved ? '#15803d' : '#b45309'}; border:1px solid ${isApproved ? '#86efac' : '#fde68a'}; padding:5px 12px; border-radius:20px; font-size:0.75rem; font-weight:800; display:inline-flex; align-items:center; gap:5px;" title="Click to Toggle Approval">
               ${isApproved ? '✓ Loan Approved' : '⏳ Pending Loan Approval'}
             </button>
+          </td>
+          <td style="padding:10px 12px;">
+            ${hasFaceVerify ? (() => {
+              const isFaceVid = faceDoc.isVideo || (faceDoc.type && faceDoc.type.startsWith('video/')) || (typeof faceDoc.data === 'string' && faceDoc.data.startsWith('data:video/'));
+              return `
+                <div style="display:flex; align-items:center; gap:8px; cursor:pointer;" onclick="previewClientFaceVerification('${c.id}')" title="Click to play live face verification ${isFaceVid ? 'video' : 'photo'}">
+                  ${isFaceVid ? `
+                    <video src="${faceDoc.data}" ${faceDoc.thumbData ? 'poster="' + faceDoc.thumbData + '"' : ''} muted autoplay loop playsinline style="width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid #16a34a; background:#0f172a; flex-shrink:0;"></video>
+                  ` : `
+                    <img src="${faceDoc.data}" alt="Live face" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #16a34a;">
+                  `}
+                  <div>
+                    <span style="display:inline-block; background:#dcfce7; color:#15803d; font-size:0.7rem; font-weight:800; padding:2px 8px; border-radius:20px; border:1px solid #86efac;">${isFaceVid ? '🎥 Live Video Verified' : '✓ Live Verified'}</span>
+                    ${faceTime ? `<div style="font-size:0.65rem; color:#64748b; margin-top:2px;">${faceTime}</div>` : ''}
+                  </div>
+                </div>
+              `;
+            })() : `
+              <span style="font-size:0.72rem; font-weight:700; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:20px;">Not Verified</span>
+            `}
           </td>
           <td style="padding:10px 12px;">
             <span style="font-size:0.75rem; font-weight:bold; color:${c.cancellationStatus === 'Loan cancellation successful' ? '#15803d' : c.cancellationStatus === 'Requested' ? '#b45309' : '#64748b'};">
@@ -4312,9 +5294,61 @@
       document.getElementById('edit-bank-acc').value = client.bankAcc || '';
       document.getElementById('edit-bank-ifsc').value = client.bankIfsc || '';
 
+      // Live Face Verification Preview in Admin Edit Panel
+      const docs = client.documents || {};
+      const faceDoc = docs.faceVerification;
+      const faceBadgeEl = document.getElementById('admin-face-status-badge');
+      const faceContentEl = document.getElementById('admin-face-verification-content');
+      if (faceDoc && faceDoc.data) {
+        const verifiedAt = faceDoc.verifiedAt || client.faceVerifiedAt || 'Verified during application';
+        const isFaceVid = faceDoc.isVideo || (faceDoc.type && faceDoc.type.startsWith('video/')) || (typeof faceDoc.data === 'string' && faceDoc.data.startsWith('data:video/'));
+        if (faceBadgeEl) {
+          faceBadgeEl.innerText = isFaceVid ? '🎥 Live Video Liveness Verified' : '✓ Live Face Liveness Verified';
+          faceBadgeEl.style.background = '#dcfce7';
+          faceBadgeEl.style.color = '#15803d';
+          faceBadgeEl.style.border = '1px solid #86efac';
+        }
+        if (faceContentEl) {
+          faceContentEl.innerHTML = `
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; background:#ffffff; border:1px solid #bae6fd; border-radius:12px; padding:16px;">
+              ${isFaceVid ? `
+                <video src="${faceDoc.data}" ${faceDoc.thumbData ? 'poster="' + faceDoc.thumbData + '"' : ''} controls autoplay loop playsinline style="width:200px; max-width:100%; height:170px; object-fit:cover; border-radius:12px; border:3px solid #16a34a; background:#0f172a;"></video>
+              ` : `
+                <img src="${faceDoc.data}" alt="Live Face Verification" class="doc-preview-thumb" style="width:110px; height:110px; object-fit:cover; border-radius:50%; border:3px solid #16a34a;" onclick="previewClientFaceVerification('${client.id}')">
+              `}
+              <div style="flex:1; min-width:220px;">
+                <div style="font-size:1rem; font-weight:900; color:#15803d; margin-bottom:4px;">${isFaceVid ? 'Live Video Liveness Check Completed ✓' : 'Live Liveness Check Completed ✓'}</div>
+                <div style="font-size:0.84rem; color:#334155; margin-bottom:4px;"><strong>Media Type:</strong> ${isFaceVid ? 'Video (' + (faceDoc.type || 'video/webm') + ')' : 'Photo'}</div>
+                <div style="font-size:0.84rem; color:#334155; margin-bottom:4px;"><strong>Method:</strong> ${faceDoc.method || 'Live Camera Video Liveness Check'}</div>
+                <div style="font-size:0.84rem; color:#334155; margin-bottom:12px;"><strong>Verified At:</strong> ${verifiedAt}</div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button type="button" onclick="previewClientFaceVerification('${client.id}')" class="btn btn-outline" style="padding:6px 14px; font-size:0.78rem;">
+                    ${isFaceVid ? '▶ Fullscreen Video' : '🔍 View Full Live Selfie'}
+                  </button>
+                  ${isFaceVid ? `
+                    <a href="${faceDoc.data}" download="${faceDoc.name || ('live_face_' + client.id + '.webm')}" class="btn btn-outline" style="padding:6px 14px; font-size:0.78rem; text-decoration:none;">
+                      ⬇️ Download Video
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        if (faceBadgeEl) {
+          faceBadgeEl.innerText = '⏳ Not Verified';
+          faceBadgeEl.style.background = '#fef3c7';
+          faceBadgeEl.style.color = '#b45309';
+          faceBadgeEl.style.border = '1px solid #fde68a';
+        }
+        if (faceContentEl) {
+          faceContentEl.innerHTML = '<div style="font-size:0.85rem; color:#64748b; padding:8px 0;">Live face verification was not completed for this application.</div>';
+        }
+      }
+
       // Documents Preview in Admin Edit Panel
       const docsPreviewGrid = document.getElementById('admin-docs-preview-grid');
-      const docs = client.documents || {};
       const docItems = [
         { key: 'clientAadhaarFront', label: 'Client Aadhaar Front Side' },
         { key: 'clientAadhaarBack', label: 'Client Aadhaar Back Side' },
