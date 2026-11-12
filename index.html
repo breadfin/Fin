@@ -2769,6 +2769,13 @@
             <button onclick="openAdminCredsModal()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;">
               🔑 Change Admin ID &amp; Password
             </button>
+            <button onclick="exportClientsBackup()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 14px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;" title="Download full database backup (.json)">
+              💾 Backup DB
+            </button>
+            <label class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 14px; font-size:0.8rem; border-color:#7c3aed; color:#6d28d9; cursor:pointer; position:relative; overflow:hidden; margin:0;" title="Restore client database from a .json backup file">
+              📥 Restore DB
+              <input type="file" accept=".json,application/json" style="position:absolute; inset:0; opacity:0; cursor:pointer;" onchange="importClientsBackup(event)">
+            </label>
             <button onclick="downloadCodeFile()" class="btn btn-primary" style="font-weight:bold; padding:8px 16px; font-size:0.8rem;" title="Download complete clean standalone HTML file">
               📥 Download HTML
             </button>
@@ -3180,7 +3187,10 @@
       doc, 
       setDoc, 
       deleteDoc,
+      getDoc,
       getDocs, 
+      query,
+      where,
       onSnapshot, 
       updateDoc 
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
@@ -3202,69 +3212,220 @@
       window.fbSetDoc = setDoc;
       window.fbDoc = doc;
       window.fbDeleteDoc = deleteDoc;
+      window.fbGetDoc = getDoc;
       window.fbCollection = collection;
       window.fbOnSnapshot = onSnapshot;
       window.fbGetDocs = getDocs;
+      window.fbQuery = query;
+      window.fbWhere = where;
       window.fbUpdateDoc = updateDoc;
 
-      // Real-time synchronization: listen for all clients in Cloud Firestore
-      onSnapshot(collection(db, 'clients'), (snapshot) => {
-        const liveClients = [];
-        snapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          if (data && data.id) {
-            liveClients.push(data);
-          }
-        });
-        window._firebaseClients = liveClients;
+      // Lazy Cloud Sync: Only read full collection when Admin opens console
+      // (prevents homepage visitors from burning daily Firestore read quota)
+      window._adminUnsub = null;
+      window._clientUnsub = null;
+      window._clientUnsubId = null;
+      window._adminCredsFetched = false;
+
+      window.startAdminCloudSync = function() {
+        if (window._adminUnsub) return;
         try {
-          localStorage.setItem('bf_clients', JSON.stringify(liveClients));
-        } catch (e) {}
+          window._adminUnsub = onSnapshot(collection(db, 'clients'), (snapshot) => {
+            window._firebaseReadError = null;
+            const liveMap = new Map();
+            snapshot.forEach((docSnap) => {
+              const data = docSnap.data();
+              if (data && data.id) {
+                liveMap.set(data.id, data);
+              }
+            });
 
-        // If currently viewing admin dashboard, refresh live
-        const adminPane = document.getElementById('page-admin-dashboard');
-        if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
-          loadAdminDashboard();
-        }
-        // If user is on dashboard, refresh active client
-        const userPane = document.getElementById('page-dashboard');
-        if (userPane && userPane.classList.contains('active') && typeof loadUserDashboard === 'function') {
-          loadUserDashboard();
-        }
-      }, (err) => {
-        console.warn('Firestore real-time notice:', err);
-      });
+            // Preserve any locally queued unsynced clients so nothing is ever lost
+            const pendingIds = typeof window.getPendingSyncIds === 'function' ? window.getPendingSyncIds() : [];
+            if (pendingIds.length > 0 && typeof window.getLocalCachedClients === 'function') {
+              const localList = window.getLocalCachedClients();
+              localList.forEach(lc => {
+                if (lc && lc.id && pendingIds.includes(lc.id) && !liveMap.has(lc.id)) {
+                  liveMap.set(lc.id, lc);
+                }
+              });
+            }
 
-      // Sync Admin Credentials from Firestore
-      onSnapshot(doc(db, 'settings', 'admin_creds'), (snap) => {
-        if (snap.exists()) {
-          const creds = snap.data();
-          if (creds && creds.user && creds.pass) {
-            window._firebaseAdminCreds = creds;
+            const mergedClients = Array.from(liveMap.values());
+            window._firebaseClients = mergedClients;
+            window._idbClients = mergedClients;
+            if (typeof window.idbSaveClients === 'function') {
+              window.idbSaveClients(mergedClients);
+            }
             try {
-              localStorage.setItem('bf_admin_creds', JSON.stringify(creds));
+              localStorage.setItem('bf_clients', JSON.stringify(mergedClients));
             } catch (e) {}
-          }
+
+            if (typeof window.flushPendingSyncQueue === 'function') {
+              window.flushPendingSyncQueue();
+            }
+
+            const adminPane = document.getElementById('page-admin-dashboard');
+            if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+              loadAdminDashboard();
+            }
+          }, (err) => {
+            window._firebaseReadError = (err && (err.code || err.message)) || 'Firestore connection error';
+            console.warn('Firestore real-time notice:', err);
+            const adminPane = document.getElementById('page-admin-dashboard');
+            if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+              loadAdminDashboard();
+            }
+          });
+        } catch (e) {
+          console.warn('Admin sync start notice:', e);
         }
-      }, () => {});
+      };
+
+      window.stopAdminCloudSync = function() {
+        if (window._adminUnsub) {
+          try { window._adminUnsub(); } catch (e) {}
+          window._adminUnsub = null;
+        }
+      };
+
+      // Single-document real-time sync for logged-in client (uses 1 read instead of entire DB!)
+      window.startClientCloudSync = function(clientId) {
+        if (!clientId) return;
+        if (window._clientUnsub && window._clientUnsubId === clientId) return;
+        if (window._clientUnsub) {
+          try { window._clientUnsub(); } catch (e) {}
+          window._clientUnsub = null;
+        }
+        window._clientUnsubId = clientId;
+        try {
+          window._clientUnsub = onSnapshot(doc(db, 'clients', clientId), (docSnap) => {
+            if (!docSnap.exists()) return;
+            const data = docSnap.data();
+            if (!data || !data.id) return;
+            if (typeof window.upsertLocalClient === 'function') {
+              window.upsertLocalClient(data);
+            }
+            const userPane = document.getElementById('page-dashboard');
+            if (userPane && userPane.classList.contains('active') && typeof loadUserDashboard === 'function') {
+              loadUserDashboard();
+            }
+          }, (err) => {
+            console.warn('Client sync notice:', err);
+          });
+        } catch (e) {}
+      };
+
+      window.stopClientCloudSync = function() {
+        if (window._clientUnsub) {
+          try { window._clientUnsub(); } catch (e) {}
+          window._clientUnsub = null;
+          window._clientUnsubId = null;
+        }
+      };
+
+      // Fetch single client by email without scanning entire database
+      window.fetchClientByEmailFromCloud = async function(rawEmail) {
+        const clean = (rawEmail || '').trim();
+        const lower = clean.toLowerCase();
+        if (!clean) return null;
+        try {
+          const tries = clean === lower ? [lower] : [lower, clean];
+          for (const candidate of tries) {
+            const q = query(collection(db, 'clients'), where('email', '==', candidate));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+              let matched = null;
+              snap.forEach((docSnap) => {
+                const d = docSnap.data();
+                if (d && d.id && !matched) matched = d;
+              });
+              if (matched && typeof window.upsertLocalClient === 'function') {
+                window.upsertLocalClient(matched);
+              }
+              return matched;
+            }
+          }
+        } catch (err) {
+          console.warn('Cloud email lookup notice:', err);
+        }
+        return null;
+      };
+
+      window.fetchAdminCredsOnce = async function() {
+        if (window._adminCredsFetched) return;
+        window._adminCredsFetched = true;
+        try {
+          const snap = await getDoc(doc(db, 'settings', 'admin_creds'));
+          if (snap.exists()) {
+            const creds = snap.data();
+            if (creds && creds.user && creds.pass) {
+              window._firebaseAdminCreds = creds;
+              try { localStorage.setItem('bf_admin_creds', JSON.stringify(creds)); } catch (e) {}
+            }
+          }
+        } catch (e) {}
+      };
     } catch (err) {
       console.warn('Cloud DB init notice:', err);
     }
   </script>
 
   <script>
-    // ==================== CLOUD DATABASE & LOCAL CACHE ====================
-    // Real-time Cloud Firestore synchronization + LocalStorage offline fallback
+    // ==================== CLOUD DATABASE & INDEXEDDB + LOCAL CACHE ====================
+    // Real-time Cloud Firestore synchronization + High-capacity IndexedDB & LocalStorage cache
     const DEFAULT_CLIENTS = [];
 
-    function getClients() {
-      if (window._firebaseClients && Array.isArray(window._firebaseClients) && window._firebaseClients.length > 0) {
-        return window._firebaseClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+    function openBfIdb() {
+      return new Promise((resolve, reject) => {
+        if (typeof indexedDB === 'undefined') return reject(new Error('No IndexedDB'));
+        const req = indexedDB.open('bf_offline_cache', 1);
+        req.onupgradeneeded = (e) => {
+          const idb = e.target.result;
+          if (!idb.objectStoreNames.contains('store')) {
+            idb.createObjectStore('store');
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    function idbSaveClients(clients) {
+      openBfIdb().then(idb => {
+        const tx = idb.transaction('store', 'readwrite');
+        tx.objectStore('store').put(clients, 'clients');
+      }).catch(() => {});
+    }
+    window.idbSaveClients = idbSaveClients;
+
+    function idbLoadClients() {
+      openBfIdb().then(idb => {
+        const tx = idb.transaction('store', 'readonly');
+        const req = tx.objectStore('store').get('clients');
+        req.onsuccess = () => {
+          if (Array.isArray(req.result) && req.result.length > 0) {
+            window._idbClients = req.result;
+            const adminPane = document.getElementById('page-admin-dashboard');
+            if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+              loadAdminDashboard();
+            }
+            const userPane = document.getElementById('page-dashboard');
+            if (userPane && userPane.classList.contains('active') && typeof loadUserDashboard === 'function') {
+              loadUserDashboard();
+            }
+          }
+        };
+      }).catch(() => {});
+    }
+    idbLoadClients();
+
+    function getLocalCachedClients() {
+      if (window._idbClients && Array.isArray(window._idbClients) && window._idbClients.length > 0) {
+        return window._idbClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
       }
       const stored = localStorage.getItem('bf_clients');
-      if (!stored) {
-        return [];
-      }
+      if (!stored) return [];
       try {
         const parsed = JSON.parse(stored);
         if (!Array.isArray(parsed)) return [];
@@ -3273,20 +3434,92 @@
         return [];
       }
     }
+    window.getLocalCachedClients = getLocalCachedClients;
+
+    function getPendingSyncIds() {
+      try {
+        const raw = localStorage.getItem('bf_pending_sync');
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    window.getPendingSyncIds = getPendingSyncIds;
+
+    function markPendingSyncId(clientId, isPending) {
+      if (!clientId) return;
+      let ids = getPendingSyncIds();
+      if (isPending) {
+        if (!ids.includes(clientId)) ids.push(clientId);
+      } else {
+        ids = ids.filter(id => id !== clientId);
+      }
+      try { localStorage.setItem('bf_pending_sync', JSON.stringify(ids)); } catch (e) {}
+    }
+
+    function upsertLocalClient(client) {
+      if (!client || !client.id) return;
+      const list = getClients().slice();
+      const idx = list.findIndex(c => c && c.id === client.id);
+      if (idx !== -1) {
+        list[idx] = client;
+      } else {
+        list.unshift(client);
+      }
+      window._idbClients = list;
+      if (Array.isArray(window._firebaseClients)) {
+        window._firebaseClients = list;
+      }
+      idbSaveClients(list);
+      try { localStorage.setItem('bf_clients', JSON.stringify(list)); } catch (e) {}
+    }
+    window.upsertLocalClient = upsertLocalClient;
+
+    function getClients() {
+      if (window._firebaseClients && Array.isArray(window._firebaseClients) && window._firebaseClients.length > 0) {
+        return window._firebaseClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+      }
+      return getLocalCachedClients();
+    }
 
     function syncClientToFirestore(client) {
       if (!client || !client.id) return;
+      markPendingSyncId(client.id, true);
       if (window.db && window.fbSetDoc && window.fbDoc) {
         try {
           window.fbSetDoc(window.fbDoc(window.db, 'clients', client.id), client, { merge: true })
-            .catch(err => console.warn('Cloud Firestore sync notice:', err));
+            .then(() => {
+              markPendingSyncId(client.id, false);
+            })
+            .catch(err => {
+              console.warn('Cloud Firestore sync queued offline:', err);
+            });
         } catch (e) {
-          console.warn('Cloud sync error:', e);
+          console.warn('Cloud sync queued:', e);
         }
       }
     }
 
-    function saveClients(clients) {
+    function flushPendingSyncQueue() {
+      const pendingIds = getPendingSyncIds();
+      if (pendingIds.length === 0) return;
+      const all = getClients();
+      pendingIds.forEach(id => {
+        const c = all.find(item => item && item.id === id);
+        if (c) syncClientToFirestore(c);
+      });
+    }
+    window.flushPendingSyncQueue = flushPendingSyncQueue;
+    window.addEventListener('online', () => { flushPendingSyncQueue(); });
+
+    function saveClients(clients, targetClient) {
+      window._idbClients = clients;
+      if (Array.isArray(window._firebaseClients)) {
+        window._firebaseClients = clients;
+      }
+      idbSaveClients(clients);
+
       try {
         localStorage.setItem('bf_clients', JSON.stringify(clients));
       } catch (e) {
@@ -3297,10 +3530,64 @@
         } catch (e2) {}
       }
 
-      // Sync each client to Cloud Firestore so data is NEVER lost
-      if (Array.isArray(clients)) {
+      // Sync only the changed client to Cloud Firestore to conserve quota
+      if (targetClient && targetClient.id) {
+        syncClientToFirestore(targetClient);
+      } else if (Array.isArray(clients)) {
         clients.forEach(c => syncClientToFirestore(c));
       }
+    }
+
+    function exportClientsBackup() {
+      const clients = getClients();
+      if (!clients || clients.length === 0) {
+        showToast('No client records available to back up yet.');
+        return;
+      }
+      const payload = {
+        app: 'Bread Finance Database Backup',
+        exportedAt: new Date().toISOString(),
+        count: clients.length,
+        clients: clients
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bread_finance_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('✓ Backed up ' + clients.length + ' client records safely!');
+    }
+
+    function importClientsBackup(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          const imported = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.clients) ? parsed.clients : null);
+          if (!imported) {
+            alert('Invalid backup file format.');
+            return;
+          }
+          const existing = getClients();
+          const mergedMap = new Map();
+          existing.forEach(c => { if (c && c.id) mergedMap.set(c.id, c); });
+          imported.forEach(c => { if (c && c.id) mergedMap.set(c.id, c); });
+          const merged = Array.from(mergedMap.values());
+          saveClients(merged);
+          loadAdminDashboard();
+          showToast('✓ Restored ' + imported.length + ' client records into Database!');
+        } catch (err) {
+          alert('Could not read backup JSON file.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
     }
 
     function getActiveClient() {
@@ -3401,8 +3688,19 @@
       }
 
       if (pageId === 'dashboard') {
+        const activeId = localStorage.getItem('bf_active_client_id');
+        if (activeId && typeof window.startClientCloudSync === 'function') {
+          window.startClientCloudSync(activeId);
+        }
         loadUserDashboard();
+      } else if (pageId === 'admin-login') {
+        if (typeof window.fetchAdminCredsOnce === 'function') {
+          window.fetchAdminCredsOnce();
+        }
       } else if (pageId === 'admin-dashboard') {
+        if (typeof window.startAdminCloudSync === 'function') {
+          window.startAdminCloudSync();
+        }
         loadAdminDashboard();
       } else if (pageId === 'login') {
         const err = document.getElementById('login-error');
@@ -4281,20 +4579,11 @@
       if (!normalized) return false;
       if (findExistingClientByEmail(normalized)) return true;
 
-      // Ensure Firestore is also checked if live snapshot has not arrived yet
-      if (!Array.isArray(window._firebaseClients) && window.db && window.fbGetDocs && window.fbCollection) {
-        try {
-          const snap = await window.fbGetDocs(window.fbCollection(window.db, 'clients'));
-          const fetched = [];
-          snap.forEach((docSnap) => {
-            const data = docSnap.data();
-            if (data && data.id) fetched.push(data);
-          });
-          window._firebaseClients = fetched;
-          try { localStorage.setItem('bf_clients', JSON.stringify(fetched)); } catch (e) {}
-          return !!fetched.find(c => c && c.id !== 'BF-4821' && c.email && c.email.trim().toLowerCase() === normalized && c.email !== 'client@breadfinance.com');
-        } catch (err) {
-          console.warn('Email uniqueness cloud check notice:', err);
+      // Efficient 1-doc query by email instead of downloading entire collection
+      if (typeof window.fetchClientByEmailFromCloud === 'function') {
+        const cloudMatch = await window.fetchClientByEmailFromCloud(email);
+        if (cloudMatch && cloudMatch.id !== 'BF-4821' && cloudMatch.email !== 'client@breadfinance.com') {
+          return true;
         }
       }
       return false;
@@ -4455,7 +4744,7 @@
 
       const clients = getClients();
       clients.unshift(newClient);
-      saveClients(clients);
+      saveClients(clients, newClient);
 
       // Do NOT auto-login so client clicks 'Sign In to Client Account' and signs in manually
       setActiveClient(null);
@@ -4502,11 +4791,19 @@
     }
 
     // ==================== CLIENT LOGIN ====================
-    function performClientLogin() {
+    async function performClientLogin() {
       const email = document.getElementById('login-email').value.trim().toLowerCase();
       const pass = document.getElementById('login-password').value;
       const clients = getClients();
-      const found = clients.find(c => c.email.toLowerCase() === email && c.password === pass);
+      let found = clients.find(c => c.email && c.email.toLowerCase() === email && c.password === pass);
+
+      // If logging in on a new browser/device, query just this single client by email
+      if (!found && email && typeof window.fetchClientByEmailFromCloud === 'function') {
+        const cloudClient = await window.fetchClientByEmailFromCloud(email);
+        if (cloudClient && cloudClient.password === pass) {
+          found = cloudClient;
+        }
+      }
 
       if (!found) {
         const err = document.getElementById('login-error');
@@ -4515,6 +4812,9 @@
         return;
       }
       setActiveClient(found.id);
+      if (typeof window.startClientCloudSync === 'function') {
+        window.startClientCloudSync(found.id);
+      }
       showToast('Logged in as ' + found.fullName);
       switchPage('dashboard');
       loadUserDashboard();
@@ -4527,6 +4827,9 @@
     }
 
     function logoutClient() {
+      if (typeof window.stopClientCloudSync === 'function') {
+        window.stopClientCloudSync();
+      }
       setActiveClient(null);
       showToast('Logged out.');
       switchPage('home');
@@ -4554,7 +4857,7 @@
         const idx = clients.findIndex(c => c.id === client.id);
         if (idx !== -1) {
           clients[idx] = client;
-          saveClients(clients);
+          saveClients(clients, client);
           renderDashboardAvatar(client);
           showToast('Profile photo updated!');
         }
@@ -4850,7 +5153,7 @@
       const idx = clients.findIndex(c => c.id === client.id);
       if (idx !== -1) {
         clients[idx] = client;
-        saveClients(clients);
+        saveClients(clients, client);
       }
 
       document.getElementById('wallet-balance-disp').innerText = '₹0';
@@ -4893,7 +5196,7 @@
             const idx = clients.findIndex(c => c.id === client.id);
             if (idx !== -1) {
               clients[idx] = client;
-              saveClients(clients);
+              saveClients(clients, client);
             }
             renderWalletState(client);
           }
@@ -4914,7 +5217,7 @@
     }
 
     // ==================== LOAN CANCELLATION SUBMISSION ====================
-    function handleLoanCancellationSubmit(e) {
+    async function handleLoanCancellationSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('cancel-name').value.trim();
       const id = document.getElementById('cancel-id').value.trim().toUpperCase();
@@ -4922,8 +5225,22 @@
       const pan = document.getElementById('cancel-pan').value.trim().toUpperCase();
       const reason = document.getElementById('cancel-reason').value.trim();
 
-      const clients = getClients();
-      const client = clients.find(c => c.id.toUpperCase() === id);
+      let clients = getClients();
+      let client = clients.find(c => c.id.toUpperCase() === id);
+
+      if (!client && window.db && window.fbGetDoc && window.fbDoc) {
+        try {
+          const snap = await window.fbGetDoc(window.fbDoc(window.db, 'clients', id));
+          if (snap.exists()) {
+            const d = snap.data();
+            if (d && d.id) {
+              upsertLocalClient(d);
+              clients = getClients();
+              client = clients.find(c => c.id.toUpperCase() === id);
+            }
+          }
+        } catch (err) {}
+      }
 
       if (!client) {
         showToast('Client ID not found! Please check ID.');
@@ -4932,7 +5249,7 @@
 
       client.cancellationStatus = 'Requested';
       client.cancellationReason = reason;
-      saveClients(clients);
+      saveClients(clients, client);
 
       showToast('Loan cancellation submitted. Under review by Admin.');
       alert('Your loan cancellation request has been submitted successfully.\n\nApplication ID: ' + id + '\nUnder Review by Administrative Officer.');
@@ -5028,6 +5345,9 @@
 
     function logoutAdmin() {
       adminLogged = false;
+      if (typeof window.stopAdminCloudSync === 'function') {
+        window.stopAdminCloudSync();
+      }
       const uInput = document.getElementById('admin-user');
       const pInput = document.getElementById('admin-pass');
       if (uInput) uInput.value = '';
@@ -5119,7 +5439,13 @@
       }
 
       if (allClients.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="padding:28px; text-align:center; color:#64748b; font-size:0.95rem;">No client applications found. Submitted applications from clients will appear here automatically.</td></tr>';
+        if (window._firebaseReadError && String(window._firebaseReadError).toLowerCase().includes('quota')) {
+          tbody.innerHTML = '<tr><td colspan="9" style="padding:28px; text-align:center; background:#fffbeb; color:#92400e; font-size:0.92rem; border-radius:8px;">⚠️ <strong>Cloud Database Daily Free Read Quota Reached.</strong><br><span style="font-size:0.84rem; color:#78350f;">Your existing client applications are safe in Cloud Firestore and will reload automatically once the daily quota resets (midnight PT).</span></td></tr>';
+        } else if (window._firebaseReadError) {
+          tbody.innerHTML = '<tr><td colspan="9" style="padding:28px; text-align:center; background:#fffbeb; color:#92400e; font-size:0.92rem;">⚠️ <strong>Cloud Sync Temporarily Unavailable:</strong> ' + String(window._firebaseReadError) + '<br><span style="font-size:0.82rem; color:#78350f;">Existing cloud records are safe and will reload automatically once connection/quota restores.</span></td></tr>';
+        } else {
+          tbody.innerHTML = '<tr><td colspan="9" style="padding:28px; text-align:center; color:#64748b; font-size:0.95rem;">No client applications found. Submitted applications from clients will appear here automatically.</td></tr>';
+        }
         return;
       }
 
@@ -5224,7 +5550,7 @@
           c.walletBalance = Number(c.loanAmount) || 100000;
         }
       }
-      saveClients(clients);
+      saveClients(clients, c);
       showToast('Status updated to: ' + c.status + ' (Updated in Client Account)');
       loadAdminDashboard();
     }
@@ -5240,7 +5566,7 @@
       if (val > 0 && c.withdrawalState && c.withdrawalState.isBlocked) {
         c.withdrawalState = { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
       }
-      saveClients(clients);
+      saveClients(clients, c);
       showToast('Wallet balance updated to ₹' + val.toLocaleString('en-IN') + ' for ' + c.fullName);
       loadAdminDashboard();
     }
@@ -5253,7 +5579,7 @@
       const c = clients.find(item => item.id === clientId);
       if (!c) return;
       c.withdrawalPin = val;
-      saveClients(clients);
+      saveClients(clients, c);
       showToast('Withdrawal PIN updated to ' + val + ' for ' + c.fullName);
       loadAdminDashboard();
     }
@@ -5422,6 +5748,8 @@
       // Remove from clients list and persist locally
       const updatedClients = clients.filter(c => c.id !== clientId);
       window._firebaseClients = updatedClients;
+      window._idbClients = updatedClients;
+      idbSaveClients(updatedClients);
       try {
         localStorage.setItem('bf_clients', JSON.stringify(updatedClients));
       } catch (e) {
@@ -5496,7 +5824,7 @@
         client.withdrawalState = { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
       }
 
-      saveClients(clients);
+      saveClients(clients, client);
       showToast('All changes saved! Client account and portal updated live.');
       closeAdminEdit();
       loadAdminDashboard();
