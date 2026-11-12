@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="wiodth=device-width, initial-scale=1.0">
   <title>Bread Finance | Personal Loans, Business Loans & Insurance</title>
   <meta name="description" content="Instant digital paperless loans and insurance coverage with Bread Finance Credit Co. Ltd. RBI Registered NBFC.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4382,7 +4382,7 @@
 
       const badge = document.getElementById('face-verify-status-badge');
       if (badge) {
-        badge.innerText = isVideo ? '✓ Live Video Verified' : '✓ Live Verified';
+        badge.innerText = '✓ Live verification completed';
         badge.style.background = '#dcfce7';
         badge.style.color = '#15803d';
         badge.style.borderColor = '#86efac';
@@ -4390,28 +4390,25 @@
 
       const btn = document.getElementById('btn-open-liveness');
       if (btn) {
-        btn.innerText = '🔄 Retake Liveness Video';
+        btn.innerText = '🔄 Retake Liveness Check';
         btn.style.background = '#0f2744';
       }
 
       const nameDisp = document.getElementById('file-name-faceVerification');
       if (nameDisp) {
-        nameDisp.innerHTML = '<strong style="color:#15803d;">✓ Live Face Video Verified</strong> (' + verifiedAt + ')';
+        nameDisp.innerHTML = '<strong style="color:#15803d;">✓ Live verification completed</strong> (' + verifiedAt + ')';
       }
 
       const preview = document.getElementById('preview-faceVerification');
       if (preview) {
         preview.innerHTML = `
-          <div style="display:flex; align-items:center; gap:12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 12px;">
-            ${isVideo ? `
-              <video src="${livenessTempDataUrl}" ${livenessTempThumbUrl ? 'poster="' + livenessTempThumbUrl + '"' : ''} autoplay loop muted playsinline class="doc-preview-thumb" style="width:74px; height:74px; object-fit:cover; border-radius:50%; border:2px solid #16a34a; background:#0f172a;" onclick="previewCurrentRegFaceVerification()" title="Click to play video"></video>
-            ` : `
-              <img src="${livenessTempDataUrl}" class="doc-preview-thumb" style="width:68px; height:68px; object-fit:cover; border-radius:50%; border:2px solid #16a34a;" onclick="previewCurrentRegFaceVerification()" title="Click to preview">
-            `}
-            <div style="font-size:0.8rem;">
-              <strong style="color:#15803d; display:block;">${isVideo ? '🎥 Live Video Liveness Passed ✓' : 'Liveness Check Passed ✓'}</strong>
-              <span style="color:#475569; font-size:0.75rem;">Verified on ${verifiedAt}</span><br>
-              <span style="color:#0369a1; font-weight:700; font-size:0.74rem; cursor:pointer;" onclick="previewCurrentRegFaceVerification()">${isVideo ? '▶ Click to Play Verification Video' : '🔍 Click to Preview'}</span>
+          <div style="display:flex; align-items:center; gap:12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 14px;">
+            <div style="width:36px; height:36px; border-radius:50%; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; flex-shrink:0; border:1px solid #86efac;">
+              ✓
+            </div>
+            <div style="font-size:0.84rem;">
+              <strong style="color:#15803d; display:block; font-size:0.9rem;">Live verification completed</strong>
+              <span style="color:#475569; font-size:0.76rem;">Verified on ${verifiedAt}</span>
             </div>
           </div>
         `;
@@ -4419,7 +4416,7 @@
       }
 
       closeLivenessModal();
-      showToast('Live Face Verification Video saved successfully!');
+      showToast('Live verification completed!');
     }
 
     function compressImageFile(file, maxWidth, maxHeight, quality, callback) {
@@ -5971,5 +5968,6 @@
     });
   </script>
   <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
