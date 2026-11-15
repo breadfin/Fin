@@ -421,7 +421,7 @@
       <div style="display:flex; gap:12px; justify-content:flex-end;">
         <button type="button" onclick="closeConfirmDeleteModal()" class="btn btn-outline" style="padding:10px 18px; font-size:0.85rem;">
           Cancel
-9        </button>
+        </button>
         <button type="button" id="confirm-delete-exec-btn" onclick="executePermanentClientDelete()" class="btn" style="background:#dc2626; color:#ffffff; padding:10px 20px; font-size:0.85rem; font-weight:800;">
           🗑️ Yes, Delete Permanently
         </button>
@@ -1806,7 +1806,7 @@
           </div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <button onclick="toggleAdminSecurityPanel()" id="btn-admin-security" class="btn btn-outline" style="background:#fff; font-weight:800; padding:8px 16px; font-size:0.8rem; border-color:#0f172a; color:#0f172a; position:relative;">
-              🛡️ Login &amp; Device Alerts
+              🛡️ Devices &amp; Trusted Security
               <span id="admin-security-badge" style="display:none; background:#dc2626; color:#fff; font-size:0.7rem; font-weight:900; padding:2px 7px; border-radius:999px; margin-left:4px;">0</span>
             </button>
             <button onclick="copyAdminDirectLink()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 16px; font-size:0.8rem; border-color:#0284c7; color:#0369a1;">📋 Copy Direct Admin Link (#admin)</button>
@@ -1821,13 +1821,15 @@
           </div>
         </div>
 
+        <div id="admin-delete-error-banner" style="display:none; background:#fef2f2; border:2px solid #ef4444; color:#991b1b; border-radius:12px; padding:14px 18px; margin-bottom:18px; font-size:0.86rem; font-weight:700;"></div>
+
         <!-- Admin Login & Device Activity Monitor Panel -->
         <div id="admin-security-panel" class="card" style="display:none; padding:24px; margin-bottom:24px; background:#ffffff; border:2px solid #092540; box-shadow:var(--shadow-lg);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; margin-bottom:16px; border-bottom:1px solid #e2e8f0; padding-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; margin-bottom:18px; border-bottom:1px solid #e2e8f0; padding-bottom:14px;">
             <div>
-              <span class="badge-pill-light" style="background:#092540; color:#38bdf8; margin-bottom:4px; display:inline-block;">REAL-TIME MULTI-DEVICE MONITOR</span>
-              <h2 style="font-size:1.3rem; font-weight:900; color:var(--color-navy);">🛡️ Admin Login &amp; Device Activity</h2>
-              <p style="font-size:0.82rem; color:#64748b; margin-top:2px;">Every login (and failed attempt) from any device or browser is tracked here. Current Device ID: <strong id="current-admin-device-id" style="font-family:monospace; color:#0369a1;">-</strong></p>
+              <span class="badge-pill-light" style="background:#092540; color:#38bdf8; margin-bottom:4px; display:inline-block;">REAL-TIME MULTI-DEVICE MONITOR &amp; TRUSTED SECURITY</span>
+              <h2 style="font-size:1.3rem; font-weight:900; color:var(--color-navy);">🛡️ Admin Devices, Remote Logout &amp; Trusted Password Update</h2>
+              <p style="font-size:0.82rem; color:#64748b; margin-top:2px;">Remove any logged-in device to immediately log out that device. Mark devices as Trusted to update Admin Password.</p>
             </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
               <button type="button" onclick="forceLogoutOtherDevices()" class="btn" style="background:#dc2626; color:#fff; padding:7px 14px; font-size:0.78rem; font-weight:800;">🚪 Logout All Other Devices</button>
@@ -1837,7 +1839,58 @@
             </div>
           </div>
 
-          <div style="overflow-x:auto; max-height:360px; overflow-y:auto;">
+          <!-- Current Device Trust & Password Update Section -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); gap:16px; margin-bottom:22px;">
+            <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:14px; padding:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
+                <span style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#475569;">Current Device Trust Status</span>
+                <span id="current-device-trust-badge" style="font-size:0.74rem; font-weight:800; padding:3px 10px; border-radius:999px; background:#fef3c7; color:#b45309; border:1px solid #fde68a;">Checking...</span>
+              </div>
+              <div style="font-size:0.92rem; font-weight:800; color:var(--color-navy);" id="current-admin-device-label">-</div>
+              <div style="font-size:0.75rem; color:#0369a1; font-family:monospace; margin:4px 0 12px;">Device ID: <strong id="current-admin-device-id">-</strong></div>
+              <button type="button" id="btn-toggle-current-trust" onclick="toggleCurrentDeviceTrust()" class="btn btn-primary" style="width:100%; padding:9px 14px; font-size:0.82rem; font-weight:800;">🛡️ Trust This Device</button>
+              <p style="font-size:0.74rem; color:#64748b; margin-top:8px; line-height:1.45;">Only a <strong>Trusted Device</strong> can update the Admin Password. You can also trust or remove other devices below.</p>
+            </div>
+
+            <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:14px; padding:16px;">
+              <div style="font-size:0.82rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">🔐 Update Password (Trusted Device)</div>
+              <div id="trusted-pwd-status-banner" style="font-size:0.76rem; font-weight:700; padding:7px 10px; border-radius:8px; margin-bottom:10px; background:#fef3c7; color:#92400e; border:1px solid #fde68a;">Trust this device to enable password updates.</div>
+              <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+                <input type="text" id="trusted-update-user" class="form-control" placeholder="Admin Username" style="font-size:0.82rem; padding:8px 10px; font-weight:700;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                  <input type="password" id="trusted-update-pass" class="form-control" placeholder="New Password" style="font-size:0.82rem; padding:8px 10px;">
+                  <input type="password" id="trusted-update-pass-confirm" class="form-control" placeholder="Confirm Password" style="font-size:0.82rem; padding:8px 10px;">
+                </div>
+                <button type="button" id="btn-trusted-update-pwd" onclick="updatePasswordFromTrustedDevice()" class="btn btn-primary" style="padding:9px 14px; font-size:0.82rem; font-weight:800;">🔐 Update Password</button>
+                <div id="trusted-pwd-feedback" style="display:none; font-size:0.76rem; font-weight:800; padding:6px 10px; border-radius:6px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logged-In Devices Table (With Remove & Remote Logout) -->
+          <div style="margin-bottom:22px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+              <h3 style="font-size:1rem; font-weight:900; color:var(--color-navy); margin:0;">📱 Logged-In Devices (Remove to Force Logout)</h3>
+              <span id="admin-active-devices-count" style="font-size:0.76rem; font-weight:800; color:#0369a1; background:#e0f2fe; padding:3px 10px; border-radius:999px;">0 Devices</span>
+            </div>
+            <div style="overflow-x:auto; border:1px solid #e2e8f0; border-radius:10px;">
+              <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+                <thead>
+                  <tr style="background:#f1f5f9; text-align:left; border-bottom:1px solid #cbd5e1;">
+                    <th style="padding:10px 12px;">Device &amp; ID</th>
+                    <th style="padding:10px 12px;">Session</th>
+                    <th style="padding:10px 12px;">Trust Status</th>
+                    <th style="padding:10px 12px;">IP, Location &amp; Last Login</th>
+                    <th style="padding:10px 12px; text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-devices-list-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3 style="font-size:0.95rem; font-weight:900; color:var(--color-navy); margin:0 0 8px;">📜 Recent Admin Login &amp; Attempt History</h3>
+          <div style="overflow-x:auto; max-height:300px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:10px;">
             <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
               <thead>
                 <tr style="background:#f1f5f9; text-align:left; border-bottom:1px solid #cbd5e1;">
@@ -1860,13 +1913,15 @@
             <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy);">🔑 Change Admin Username &amp; Password</h3>
             <button onclick="closeAdminCredsModal()" class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;">✕ Close</button>
           </div>
-          <p style="font-size:0.82rem; color:#475569; margin-bottom:16px;">Enter the new Username and Password you want to use for Admin Portal login:</p>
+          <div id="modal-trust-status-note" style="font-size:0.8rem; font-weight:700; padding:10px 12px; border-radius:8px; margin-bottom:14px;"></div>
+          <p style="font-size:0.82rem; color:#475569; margin-bottom:16px;">Enter the new Username and Password you want to use for Admin Portal login (requires a Trusted Device):</p>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
             <div class="form-group"><label style="font-weight:bold; font-size:0.8rem; color:var(--color-navy);">New Admin Username / Email</label><input type="text" id="new-admin-user" class="form-control" placeholder="e.g. admin or myname" style="font-weight:bold;"></div>
             <div class="form-group"><label style="font-weight:bold; font-size:0.8rem; color:var(--color-navy);">New Admin Password</label><input type="text" id="new-admin-pass" class="form-control" placeholder="e.g. mysecret123" style="font-weight:bold;"></div>
           </div>
-          <div style="display:flex; gap:10px;">
-            <button onclick="saveAdminCredentials()" class="btn btn-primary" style="padding:10px 22px; font-size:0.85rem; font-weight:bold;">💾 Save New Credentials ✓</button>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="btn-save-admin-creds-modal" onclick="saveAdminCredentials()" class="btn btn-primary" style="padding:10px 22px; font-size:0.85rem; font-weight:bold;">💾 Save New Credentials ✓</button>
+            <button type="button" id="btn-modal-trust-device" onclick="toggleCurrentDeviceTrust()" class="btn btn-outline" style="display:none; padding:10px 16px; font-size:0.85rem; font-weight:800; border-color:#0284c7; color:#0369a1; background:#fff;">🛡️ Trust This Device</button>
             <button onclick="closeAdminCredsModal()" class="btn btn-outline" style="padding:10px 16px; font-size:0.85rem;">Cancel</button>
           </div>
         </div>
@@ -2121,7 +2176,7 @@
   <!-- Cloud Firestore Database Connection (Live Real-Time Sync) -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, collection, doc, setDoc, deleteDoc, getDoc, getDocs, query, where, onSnapshot, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { getFirestore, collection, doc, setDoc, deleteDoc, getDoc, getDocs, query, where, onSnapshot, updateDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
     const firebaseConfig = {
       projectId: "gen-lang-client-0531152148",
@@ -2147,12 +2202,14 @@
       window.fbQuery = query;
       window.fbWhere = where;
       window.fbUpdateDoc = updateDoc;
+      window.fbDeleteField = deleteField;
 
       window._adminUnsub = null;
       window._adminSecurityUnsub = null;
       window._clientUnsub = null;
       window._clientUnsubId = null;
       window._adminCredsFetched = false;
+      window._clientDocIdMap = new Map();
 
       window.startAdminCloudSync = function() {
         if (!window._adminUnsub) {
@@ -2160,18 +2217,33 @@
             window._adminUnsub = onSnapshot(collection(db, 'clients'), (snapshot) => {
               window._firebaseReadError = null;
               const liveMap = new Map();
+              const docIdMap = new Map();
+              const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
+
               snapshot.forEach((docSnap) => {
-                const data = docSnap.data();
-                if (data && data.id) {
-                  liveMap.set(data.id, data);
+                const raw = docSnap.data();
+                if (!raw) return;
+                const cid = raw.id || docSnap.id;
+                if (!cid) return;
+                if (!docIdMap.has(cid)) docIdMap.set(cid, new Set());
+                docIdMap.get(cid).add(docSnap.id);
+
+                // If a document is in local deleted tombstones, clean it up in Firestore & hide from UI
+                if (deletedSet.has(cid)) {
+                  try { deleteDoc(doc(db, 'clients', docSnap.id)); } catch (e) {}
+                  return;
                 }
+                const normalized = raw.id ? raw : Object.assign({}, raw, { id: cid });
+                liveMap.set(cid, normalized);
               });
+
+              window._clientDocIdMap = docIdMap;
 
               const pendingIds = typeof window.getPendingSyncIds === 'function' ? window.getPendingSyncIds() : [];
               if (pendingIds.length > 0 && typeof window.getLocalCachedClients === 'function') {
                 const localList = window.getLocalCachedClients();
                 localList.forEach(lc => {
-                  if (lc && lc.id && pendingIds.includes(lc.id) && !liveMap.has(lc.id)) {
+                  if (lc && lc.id && pendingIds.includes(lc.id) && !deletedSet.has(lc.id) && !liveMap.has(lc.id)) {
                     liveMap.set(lc.id, lc);
                   }
                 });
@@ -2199,7 +2271,7 @@
           } catch (e) {}
         }
 
-        // Listen to Admin Login & Device Security Activity in real time
+        // Listen to Admin Login, Devices, Trusted Devices & Revocations in real time
         if (!window._adminSecurityUnsub) {
           try {
             window._adminSecurityUnsub = onSnapshot(doc(db, 'settings', 'admin_security'), (docSnap) => {
@@ -2208,6 +2280,21 @@
               if (Array.isArray(secData.logs)) {
                 window._firebaseAdminSecurityLogs = secData.logs;
                 try { localStorage.setItem('bf_admin_security_logs', JSON.stringify(secData.logs)); } catch (e) {}
+              }
+              if (secData.devices && typeof secData.devices === 'object') {
+                window._firebaseAdminDevices = secData.devices;
+                try { localStorage.setItem('bf_admin_devices', JSON.stringify(secData.devices)); } catch (e) {}
+              }
+              if (secData.trustedDevices && typeof secData.trustedDevices === 'object') {
+                window._firebaseAdminTrustedDevices = secData.trustedDevices;
+                try { localStorage.setItem('bf_admin_trusted_devices', JSON.stringify(secData.trustedDevices)); } catch (e) {}
+              }
+              if (secData.revokedDevices && typeof secData.revokedDevices === 'object') {
+                window._firebaseAdminRevokedDevices = secData.revokedDevices;
+                const myDevId = typeof getAdminDeviceId === 'function' ? getAdminDeviceId() : null;
+                if (myDevId && secData.revokedDevices[myDevId] && typeof window.checkSpecificDeviceRevoked === 'function') {
+                  window.checkSpecificDeviceRevoked(secData.revokedDevices[myDevId]);
+                }
               }
               if (secData.forceLogoutAt && typeof window.checkForceLogoutFromOtherDevice === 'function') {
                 window.checkForceLogoutFromOtherDevice(secData.forceLogoutAt, secData.triggeredByDeviceId);
@@ -2286,8 +2373,8 @@
         return null;
       };
 
-      window.fetchAdminCredsOnce = async function() {
-        if (window._adminCredsFetched) return;
+      window.fetchAdminCredsOnce = async function(force) {
+        if (window._adminCredsFetched && !force) return;
         window._adminCredsFetched = true;
         try {
           const snap = await getDoc(doc(db, 'settings', 'admin_creds'));
@@ -2321,11 +2408,37 @@
       });
     }
 
+    function getDeletedClientIds() {
+      try {
+        const raw = localStorage.getItem('bf_deleted_ids');
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    window.getDeletedClientIds = getDeletedClientIds;
+
+    function markDeletedClientId(clientId, isDeleted = true) {
+      if (!clientId) return;
+      let ids = getDeletedClientIds();
+      if (isDeleted) {
+        if (!ids.includes(clientId)) ids = [clientId, ...ids].slice(0, 200);
+      } else {
+        ids = ids.filter(id => id !== clientId);
+      }
+      try { localStorage.setItem('bf_deleted_ids', JSON.stringify(ids)); } catch (e) {}
+    }
+
     function idbSaveClients(clients) {
-      openBfIdb().then(idb => {
-        const tx = idb.transaction('store', 'readwrite');
-        tx.objectStore('store').put(clients, 'clients');
-      }).catch(() => {});
+      return openBfIdb().then(idb => new Promise((resolve) => {
+        try {
+          const tx = idb.transaction('store', 'readwrite');
+          tx.objectStore('store').put(clients, 'clients');
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) { resolve(); }
+      })).catch(() => {});
     }
     window.idbSaveClients = idbSaveClients;
 
@@ -2335,7 +2448,9 @@
         const req = tx.objectStore('store').get('clients');
         req.onsuccess = () => {
           if (Array.isArray(req.result) && req.result.length > 0) {
-            window._idbClients = req.result;
+            const deletedSet = new Set(getDeletedClientIds());
+            window._idbClients = req.result.filter(c => c && c.id && !deletedSet.has(c.id));
+            if (Array.isArray(window._firebaseClients)) return;
             const adminPane = document.getElementById('page-admin-dashboard');
             if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
               loadAdminDashboard();
@@ -2351,15 +2466,16 @@
     idbLoadClients();
 
     function getLocalCachedClients() {
+      const deletedSet = new Set(getDeletedClientIds());
       if (window._idbClients && Array.isArray(window._idbClients) && window._idbClients.length > 0) {
-        return window._idbClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+        return window._idbClients.filter(c => c && c.id && !deletedSet.has(c.id) && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
       }
       const stored = localStorage.getItem('bf_clients');
       if (!stored) return [];
       try {
         const parsed = JSON.parse(stored);
         if (!Array.isArray(parsed)) return [];
-        return parsed.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+        return parsed.filter(c => c && c.id && !deletedSet.has(c.id) && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
       } catch (e) {
         return [];
       }
@@ -2390,6 +2506,7 @@
 
     function upsertLocalClient(client) {
       if (!client || !client.id) return;
+      if (getDeletedClientIds().includes(client.id)) return;
       const list = getClients().slice();
       const idx = list.findIndex(c => c && c.id === client.id);
       if (idx !== -1) {
@@ -2407,8 +2524,9 @@
     window.upsertLocalClient = upsertLocalClient;
 
     function getClients() {
+      const deletedSet = new Set(getDeletedClientIds());
       if (window._firebaseClients && Array.isArray(window._firebaseClients)) {
-        return window._firebaseClients.filter(c => c && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
+        return window._firebaseClients.filter(c => c && c.id && !deletedSet.has(c.id) && c.id !== 'BF-4821' && c.email !== 'client@breadfinance.com');
       }
       return getLocalCachedClients();
     }
@@ -3195,7 +3313,15 @@
       if (await isEmailAlreadyRegistered(email)) { showRegEmailExistsAlert(); showToast('Already applied! Please Sign In.'); return; }
       if (pass !== passConfirm) { showToast('Passwords do not match!'); return; }
 
-      const id = 'BF-' + Math.floor(1000 + Math.random() * 9000);
+      const existingIds = new Set(getClients().map(c => c && c.id).filter(Boolean));
+      const deletedSet = new Set(getDeletedClientIds());
+      let id = 'BF-' + Math.floor(1000 + Math.random() * 9000);
+      let attempts = 0;
+      while ((existingIds.has(id) || deletedSet.has(id)) && attempts < 20) {
+        id = 'BF-' + Math.floor(1000 + Math.random() * 9000);
+        attempts++;
+      }
+      markDeletedClientId(id, false);
       const appliedIso = new Date().toISOString();
       const newClient = {
         id, fullName: name, email, phone, dob, address, aadhaar, pan,
@@ -3549,9 +3675,34 @@
       } catch (e) { return []; }
     }
 
+    function getAdminDevicesMap() {
+      if (window._firebaseAdminDevices && typeof window._firebaseAdminDevices === 'object') return window._firebaseAdminDevices;
+      try {
+        const raw = localStorage.getItem('bf_admin_devices');
+        const parsed = raw ? JSON.parse(raw) : {};
+        return (parsed && typeof parsed === 'object') ? parsed : {};
+      } catch (e) { return {}; }
+    }
+
+    function getAdminTrustedDevicesMap() {
+      if (window._firebaseAdminTrustedDevices && typeof window._firebaseAdminTrustedDevices === 'object') return window._firebaseAdminTrustedDevices;
+      try {
+        const raw = localStorage.getItem('bf_admin_trusted_devices');
+        const parsed = raw ? JSON.parse(raw) : {};
+        return (parsed && typeof parsed === 'object') ? parsed : {};
+      } catch (e) { return {}; }
+    }
+
+    function isDeviceTrusted(deviceId) {
+      if (!deviceId) return false;
+      const trusted = getAdminTrustedDevicesMap();
+      return Boolean(trusted && trusted[deviceId]);
+    }
+
     async function recordAdminLoginEvent(username, status) {
       const info = getAdminDeviceDetails();
       const net = await fetchPublicIpInfo();
+      const nowIso = new Date().toISOString();
       const entry = {
         id: 'LOG-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
         username: username || '(empty)',
@@ -3564,15 +3715,18 @@
         timezone: info.timezone,
         ip: net.ip,
         location: net.location,
-        loginAt: new Date().toISOString()
+        loginAt: nowIso
       };
 
       let existing = getAdminSecurityLogs();
       if (window.db && window.fbGetDoc && window.fbDoc) {
         try {
           const snap = await window.fbGetDoc(window.fbDoc(window.db, 'settings', 'admin_security'));
-          if (snap.exists() && Array.isArray(snap.data()?.logs)) {
-            existing = snap.data().logs;
+          if (snap.exists()) {
+            const d = snap.data() || {};
+            if (Array.isArray(d.logs)) existing = d.logs;
+            if (d.devices && typeof d.devices === 'object') window._firebaseAdminDevices = d.devices;
+            if (d.trustedDevices && typeof d.trustedDevices === 'object') window._firebaseAdminTrustedDevices = d.trustedDevices;
           }
         } catch (e) {}
       }
@@ -3581,9 +3735,34 @@
       window._firebaseAdminSecurityLogs = updated;
       try { localStorage.setItem('bf_admin_security_logs', JSON.stringify(updated)); } catch (e) {}
 
+      const payload = { logs: updated };
+      if (status === 'Success') {
+        const devRecord = {
+          deviceId: info.deviceId,
+          deviceLabel: info.deviceLabel,
+          os: info.os,
+          browser: info.browser,
+          screen: info.screen,
+          timezone: info.timezone,
+          ip: net.ip,
+          location: net.location,
+          username: username || 'admin',
+          lastLoginAt: nowIso,
+          isActive: true
+        };
+        const devMap = Object.assign({}, getAdminDevicesMap());
+        devMap[info.deviceId] = devRecord;
+        window._firebaseAdminDevices = devMap;
+        try { localStorage.setItem('bf_admin_devices', JSON.stringify(devMap)); } catch (e) {}
+        payload.devices = { [info.deviceId]: devRecord };
+        if (window.fbDeleteField) {
+          payload.revokedDevices = { [info.deviceId]: window.fbDeleteField() };
+        }
+      }
+
       if (window.db && window.fbSetDoc && window.fbDoc) {
         try {
-          await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), { logs: updated }, { merge: true });
+          await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), payload, { merge: true });
         } catch (e) {
           console.warn('Could not save admin security log to cloud:', e);
         }
@@ -3591,10 +3770,176 @@
       updateAdminSecurityUI();
     }
 
-    function updateAdminSecurityUI() {
+    async function toggleDeviceTrust(targetDeviceId) {
+      if (!targetDeviceId) return;
+      const trustedMap = Object.assign({}, getAdminTrustedDevicesMap());
+      const devMap = getAdminDevicesMap();
+      const myInfo = getAdminDeviceDetails();
+      const devMeta = devMap[targetDeviceId] || (targetDeviceId === myInfo.deviceId ? myInfo : null);
+      const currentlyTrusted = Boolean(trustedMap[targetDeviceId]);
+
+      let firestoreTrustedPatch;
+      if (currentlyTrusted) {
+        delete trustedMap[targetDeviceId];
+        firestoreTrustedPatch = window.fbDeleteField ? { [targetDeviceId]: window.fbDeleteField() } : trustedMap;
+      } else {
+        const trustRecord = {
+          deviceId: targetDeviceId,
+          deviceLabel: (devMeta && devMeta.deviceLabel) || 'Admin Device',
+          os: (devMeta && devMeta.os) || '',
+          browser: (devMeta && devMeta.browser) || '',
+          addedAt: new Date().toISOString(),
+          addedByDeviceId: myInfo.deviceId
+        };
+        trustedMap[targetDeviceId] = trustRecord;
+        firestoreTrustedPatch = { [targetDeviceId]: trustRecord };
+      }
+
+      window._firebaseAdminTrustedDevices = trustedMap;
+      try { localStorage.setItem('bf_admin_trusted_devices', JSON.stringify(trustedMap)); } catch (e) {}
+
+      if (window.db && window.fbSetDoc && window.fbDoc) {
+        try {
+          if (currentlyTrusted && !window.fbDeleteField) {
+            await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), { trustedDevices: trustedMap }, { merge: true });
+          } else {
+            await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), { trustedDevices: firestoreTrustedPatch }, { merge: true });
+          }
+        } catch (e) {
+          console.warn('Trusted device cloud sync notice:', e);
+        }
+      }
+
+      updateAdminSecurityUI();
+      refreshCredsModalTrustState();
+      showToast(currentlyTrusted ? 'Device removed from Trusted Devices.' : '🛡️ Device marked as Trusted! You can now update password from it.');
+    }
+
+    function toggleCurrentDeviceTrust() {
+      toggleDeviceTrust(getAdminDeviceId());
+    }
+
+    async function removeAdminDevice(targetDeviceId) {
+      if (!targetDeviceId) return;
       const myDevId = getAdminDeviceId();
+      const nowIso = new Date().toISOString();
+
+      // Remove from active devices map, trusted devices map, and login logs for this device
+      const devMap = Object.assign({}, getAdminDevicesMap());
+      const removedLabel = (devMap[targetDeviceId] && devMap[targetDeviceId].deviceLabel) || targetDeviceId;
+      delete devMap[targetDeviceId];
+      window._firebaseAdminDevices = devMap;
+      try { localStorage.setItem('bf_admin_devices', JSON.stringify(devMap)); } catch (e) {}
+
+      const trustedMap = Object.assign({}, getAdminTrustedDevicesMap());
+      delete trustedMap[targetDeviceId];
+      window._firebaseAdminTrustedDevices = trustedMap;
+      try { localStorage.setItem('bf_admin_trusted_devices', JSON.stringify(trustedMap)); } catch (e) {}
+
+      const filteredLogs = getAdminSecurityLogs().filter(l => l && l.deviceId !== targetDeviceId);
+      window._firebaseAdminSecurityLogs = filteredLogs;
+      try { localStorage.setItem('bf_admin_security_logs', JSON.stringify(filteredLogs)); } catch (e) {}
+
+      const revokedMap = Object.assign({}, window._firebaseAdminRevokedDevices || {});
+      revokedMap[targetDeviceId] = nowIso;
+      window._firebaseAdminRevokedDevices = revokedMap;
+
+      if (window.db && window.fbSetDoc && window.fbDoc) {
+        try {
+          const patch = {
+            logs: filteredLogs,
+            revokedDevices: { [targetDeviceId]: nowIso }
+          };
+          if (window.fbDeleteField) {
+            patch.devices = { [targetDeviceId]: window.fbDeleteField() };
+            patch.trustedDevices = { [targetDeviceId]: window.fbDeleteField() };
+          }
+          await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), patch, { merge: true });
+        } catch (e) {
+          console.warn('Device removal cloud sync notice:', e);
+        }
+      }
+
+      if (targetDeviceId === myDevId) {
+        logoutAdmin('⚠️ This device was removed from the Admin Panel and has been logged out.');
+        return;
+      }
+
+      updateAdminSecurityUI();
+      showToast('✓ Removed ' + removedLabel + ' — that device has been logged out of the Admin Panel!');
+    }
+
+    function updateAdminSecurityUI() {
+      const myInfo = getAdminDeviceDetails();
+      const myDevId = myInfo.deviceId;
       const devIdEl = document.getElementById('current-admin-device-id');
       if (devIdEl) devIdEl.innerText = myDevId;
+      const devLabelEl = document.getElementById('current-admin-device-label');
+      if (devLabelEl) devLabelEl.innerText = myInfo.deviceLabel + ' (' + myInfo.screen + ')';
+
+      const myTrusted = isDeviceTrusted(myDevId);
+      const trustBadge = document.getElementById('current-device-trust-badge');
+      const trustBtn = document.getElementById('btn-toggle-current-trust');
+      const pwdBanner = document.getElementById('trusted-pwd-status-banner');
+      const pwdBtn = document.getElementById('btn-trusted-update-pwd');
+      const uField = document.getElementById('trusted-update-user');
+      const pField = document.getElementById('trusted-update-pass');
+      const pConfField = document.getElementById('trusted-update-pass-confirm');
+
+      if (uField && !uField.value) {
+        const creds = getAdminCreds();
+        uField.value = creds.user || 'ramram12';
+      }
+
+      if (trustBadge) {
+        if (myTrusted) {
+          trustBadge.innerText = '🛡️ Trusted Device';
+          trustBadge.style.background = '#dcfce7';
+          trustBadge.style.color = '#15803d';
+          trustBadge.style.border = '1px solid #86efac';
+        } else {
+          trustBadge.innerText = '⚠️ Not Trusted';
+          trustBadge.style.background = '#fef3c7';
+          trustBadge.style.color = '#b45309';
+          trustBadge.style.border = '1px solid #fde68a';
+        }
+      }
+      if (trustBtn) {
+        if (myTrusted) {
+          trustBtn.innerText = '✕ Remove Trust From This Device';
+          trustBtn.style.background = '#fee2e2';
+          trustBtn.style.color = '#dc2626';
+          trustBtn.style.border = '1px solid #fca5a5';
+        } else {
+          trustBtn.innerText = '🛡️ Trust This Device';
+          trustBtn.style.background = '';
+          trustBtn.style.color = '';
+          trustBtn.style.border = '';
+        }
+      }
+      if (pwdBanner && pwdBtn) {
+        if (myTrusted) {
+          pwdBanner.innerText = '✓ Trusted Device verified. You can update the Admin Password below.';
+          pwdBanner.style.background = '#dcfce7';
+          pwdBanner.style.color = '#15803d';
+          pwdBanner.style.border = '1px solid #86efac';
+          pwdBtn.disabled = false;
+          pwdBtn.style.opacity = '1';
+          if (uField) uField.disabled = false;
+          if (pField) pField.disabled = false;
+          if (pConfField) pConfField.disabled = false;
+        } else {
+          pwdBanner.innerText = '🔒 Password update is only allowed on a Trusted Device. Click "Trust This Device" first.';
+          pwdBanner.style.background = '#fef3c7';
+          pwdBanner.style.color = '#92400e';
+          pwdBanner.style.border = '1px solid #fde68a';
+          pwdBtn.disabled = true;
+          pwdBtn.style.opacity = '0.55';
+          if (uField) uField.disabled = true;
+          if (pField) pField.disabled = true;
+          if (pConfField) pConfField.disabled = true;
+        }
+      }
 
       const logs = getAdminSecurityLogs();
       const seenAtStr = localStorage.getItem('bf_admin_logs_seen_at') || '';
@@ -3630,6 +3975,87 @@
           banner.style.display = 'block';
         } else {
           banner.style.display = 'none';
+        }
+      }
+
+      // Render Logged-In & Known Devices Table (combine devices map + active device if logged in)
+      const devicesMap = Object.assign({}, getAdminDevicesMap());
+      logs.forEach(l => {
+        if (l && l.status === 'Success' && l.deviceId && !devicesMap[l.deviceId]) {
+          // Only backfill from logs if not explicitly revoked after login
+          const revAt = (window._firebaseAdminRevokedDevices || {})[l.deviceId];
+          const revTs = revAt ? new Date(revAt).getTime() : 0;
+          const logTs = l.loginAt ? new Date(l.loginAt).getTime() : 0;
+          if (!revTs || logTs > revTs) {
+            devicesMap[l.deviceId] = {
+              deviceId: l.deviceId,
+              deviceLabel: l.deviceLabel,
+              os: l.os,
+              browser: l.browser,
+              screen: l.screen,
+              ip: l.ip,
+              location: l.location,
+              username: l.username,
+              lastLoginAt: l.loginAt,
+              isActive: true
+            };
+          }
+        }
+      });
+
+      const deviceList = Object.values(devicesMap).filter(Boolean).sort((a, b) => {
+        if (a.deviceId === myDevId) return -1;
+        if (b.deviceId === myDevId) return 1;
+        return new Date(b.lastLoginAt || 0).getTime() - new Date(a.lastLoginAt || 0).getTime();
+      });
+
+      const devCountEl = document.getElementById('admin-active-devices-count');
+      if (devCountEl) devCountEl.innerText = deviceList.length + (deviceList.length === 1 ? ' Device' : ' Devices');
+
+      const devBody = document.getElementById('admin-devices-list-body');
+      if (devBody) {
+        if (deviceList.length === 0) {
+          devBody.innerHTML = '<tr><td colspan="5" style="padding:18px; text-align:center; color:#64748b;">No active logged-in devices recorded yet.</td></tr>';
+        } else {
+          devBody.innerHTML = deviceList.map(d => {
+            const isThis = d.deviceId === myDevId;
+            const devTrusted = isDeviceTrusted(d.deviceId);
+            const dt = d.lastLoginAt ? new Date(d.lastLoginAt) : null;
+            const dtStr = (dt && !isNaN(dt.getTime())) ? dt.toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : '-';
+            const activeBadge = d.isActive === false
+              ? '<span style="background:#f1f5f9; color:#475569; padding:2px 8px; border-radius:999px; font-size:0.7rem; font-weight:800;">⚪ Signed Out</span>'
+              : '<span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:999px; font-size:0.7rem; font-weight:800;">🟢 Logged In</span>';
+            const trustPill = devTrusted
+              ? '<span style="background:#dbeafe; color:#1d4ed8; border:1px solid #93c5fd; padding:3px 8px; border-radius:999px; font-size:0.7rem; font-weight:800;">🛡️ Trusted</span>'
+              : '<span style="background:#fef3c7; color:#b45309; border:1px solid #fde68a; padding:3px 8px; border-radius:999px; font-size:0.7rem; font-weight:700;">⚠️ Untrusted</span>';
+            return `
+              <tr style="border-bottom:1px solid #e2e8f0; background:${isThis ? '#f0f9ff' : '#ffffff'};">
+                <td style="padding:10px 12px;">
+                  <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <strong style="color:#0f172a;">${d.deviceLabel || 'Admin Device'}</strong>
+                    ${isThis ? '<span style="background:#dcfce7; color:#15803d; padding:2px 7px; border-radius:999px; font-size:0.68rem; font-weight:800;">This Device</span>' : '<span style="background:#fee2e2; color:#dc2626; padding:2px 7px; border-radius:999px; font-size:0.68rem; font-weight:800;">Other Device</span>'}
+                  </div>
+                  <div style="font-size:0.7rem; color:#64748b; font-family:monospace; margin-top:2px;">${d.deviceId} • User: ${d.username || '-'}</div>
+                </td>
+                <td style="padding:10px 12px;">${activeBadge}</td>
+                <td style="padding:10px 12px;">${trustPill}</td>
+                <td style="padding:10px 12px;">
+                  <div style="font-family:monospace; color:#0369a1; font-weight:700;">${d.ip || '-'} ${d.location ? '• ' + d.location : ''}</div>
+                  <div style="font-size:0.7rem; color:#64748b;">Last login: ${dtStr}</div>
+                </td>
+                <td style="padding:10px 12px; text-align:right; white-space:nowrap;">
+                  <div style="display:inline-flex; gap:6px; align-items:center;">
+                    <button type="button" onclick="toggleDeviceTrust('${d.deviceId}')" class="btn btn-outline" style="padding:5px 10px; font-size:0.72rem; font-weight:800; background:#fff; border-color:${devTrusted ? '#94a3b8' : '#0284c7'}; color:${devTrusted ? '#475569' : '#0369a1'};">
+                      ${devTrusted ? '✕ Untrust' : '🛡️ Trust'}
+                    </button>
+                    <button type="button" onclick="removeAdminDevice('${d.deviceId}')" class="btn" style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; padding:5px 10px; font-size:0.72rem; font-weight:800; cursor:pointer;" title="Remove this device &amp; log out its Admin Panel">
+                      🗑️ Remove &amp; Logout
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
         }
       }
 
@@ -3704,12 +4130,21 @@
     async function forceLogoutOtherDevices() {
       const myDevId = getAdminDeviceId();
       const nowIso = new Date().toISOString();
+      const devMap = Object.assign({}, getAdminDevicesMap());
+      Object.keys(devMap).forEach(id => {
+        if (id !== myDevId && devMap[id]) devMap[id] = Object.assign({}, devMap[id], { isActive: false });
+      });
+      window._firebaseAdminDevices = devMap;
+      try { localStorage.setItem('bf_admin_devices', JSON.stringify(devMap)); } catch (e) {}
+
       if (window.db && window.fbSetDoc && window.fbDoc) {
         try {
           await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), {
             forceLogoutAt: nowIso,
-            triggeredByDeviceId: myDevId
+            triggeredByDeviceId: myDevId,
+            devices: devMap
           }, { merge: true });
+          updateAdminSecurityUI();
           showToast('✓ All other logged-in Admin devices have been signed out!');
         } catch (e) {
           showToast('Could not send remote logout signal.');
@@ -3724,11 +4159,23 @@
       const sessionStarted = localStorage.getItem('bf_admin_session_started');
       if (!sessionStarted) return;
       if (new Date(forceLogoutAt).getTime() > new Date(sessionStarted).getTime()) {
-        logoutAdmin();
-        showToast('⚠️ Admin session ended remotely from another authorized device.');
+        logoutAdmin('⚠️ Admin session ended remotely from another authorized device.');
       }
     }
+
+    function checkSpecificDeviceRevoked(revokedAt) {
+      if (!adminLogged || !revokedAt) return;
+      const revTs = new Date(revokedAt).getTime();
+      if (isNaN(revTs)) return;
+      const sessionStarted = localStorage.getItem('bf_admin_session_started');
+      const sesTs = sessionStarted ? new Date(sessionStarted).getTime() : 0;
+      if (!sesTs || revTs >= sesTs) {
+        logoutAdmin('⚠️ This device was removed from the Admin Panel and has been logged out.');
+      }
+    }
+
     window.checkForceLogoutFromOtherDevice = checkForceLogoutFromOtherDevice;
+    window.checkSpecificDeviceRevoked = checkSpecificDeviceRevoked;
     window.updateAdminSecurityUI = updateAdminSecurityUI;
 
     async function clearAdminLoginHistory() {
@@ -3753,23 +4200,108 @@
       return { user: 'ramram12', pass: 'Ram@123' };
     }
 
+    function refreshCredsModalTrustState() {
+      const note = document.getElementById('modal-trust-status-note');
+      const saveBtn = document.getElementById('btn-save-admin-creds-modal');
+      const trustBtn = document.getElementById('btn-modal-trust-device');
+      const uIn = document.getElementById('new-admin-user');
+      const pIn = document.getElementById('new-admin-pass');
+      if (!note) return;
+
+      const trusted = isDeviceTrusted(getAdminDeviceId());
+      if (trusted) {
+        note.innerText = '🛡️ Trusted Device Verified: You can update the Admin Username & Password below.';
+        note.style.background = '#dcfce7';
+        note.style.color = '#15803d';
+        note.style.border = '1px solid #86efac';
+        if (saveBtn) { saveBtn.disabled = false; saveBtn.style.opacity = '1'; }
+        if (trustBtn) trustBtn.style.display = 'none';
+        if (uIn) uIn.disabled = false;
+        if (pIn) pIn.disabled = false;
+      } else {
+        note.innerText = '⚠️ This device is NOT marked as a Trusted Device yet. Click "Trust This Device" first to update the password.';
+        note.style.background = '#fef3c7';
+        note.style.color = '#92400e';
+        note.style.border = '1px solid #fde68a';
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.style.opacity = '0.55'; }
+        if (trustBtn) trustBtn.style.display = 'inline-flex';
+        if (uIn) uIn.disabled = true;
+        if (pIn) pIn.disabled = true;
+      }
+    }
+
     function openAdminCredsModal() {
       const creds = getAdminCreds();
       document.getElementById('new-admin-user').value = creds.user || 'ramram12';
       document.getElementById('new-admin-pass').value = creds.pass || 'Ram@123';
+      refreshCredsModalTrustState();
       document.getElementById('admin-creds-modal').style.display = 'block';
     }
     function closeAdminCredsModal() { document.getElementById('admin-creds-modal').style.display = 'none'; }
 
-    function saveAdminCredentials() {
-      const u = document.getElementById('new-admin-user').value.trim();
-      const p = document.getElementById('new-admin-pass').value.trim();
-      if (!u || !p) { showToast('Username and Password cannot be empty!'); return; }
+    async function applyNewAdminCredentials(u, p) {
       localStorage.setItem('bf_admin_creds', JSON.stringify({ user: u, pass: p }));
       window._firebaseAdminCreds = { user: u, pass: p };
       if (window.db && window.fbSetDoc && window.fbDoc) {
-        try { window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_creds'), { user: u, pass: p }, { merge: true }); } catch (e) {}
+        await window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_creds'), {
+          user: u,
+          pass: p,
+          updatedAt: new Date().toISOString(),
+          updatedFromDeviceId: getAdminDeviceId()
+        }, { merge: true });
       }
+      const tu = document.getElementById('trusted-update-user');
+      if (tu) tu.value = u;
+    }
+
+    async function updatePasswordFromTrustedDevice() {
+      const fb = document.getElementById('trusted-pwd-feedback');
+      const showFb = (msg, ok) => {
+        if (!fb) return;
+        fb.innerText = msg;
+        fb.style.display = 'block';
+        fb.style.background = ok ? '#dcfce7' : '#fee2e2';
+        fb.style.color = ok ? '#15803d' : '#dc2626';
+        fb.style.border = ok ? '1px solid #86efac' : '1px solid #fca5a5';
+      };
+
+      if (!isDeviceTrusted(getAdminDeviceId())) {
+        showFb('Trust this device first before updating the password.', false);
+        showToast('Trust this device first to update password.');
+        return;
+      }
+
+      const creds = getAdminCreds();
+      const u = ((document.getElementById('trusted-update-user')?.value) || creds.user || 'ramram12').trim();
+      const p1 = (document.getElementById('trusted-update-pass')?.value || '').trim();
+      const p2 = (document.getElementById('trusted-update-pass-confirm')?.value || '').trim();
+
+      if (!u || !p1) { showFb('Username and New Password cannot be empty.', false); return; }
+      if (p1 !== p2) { showFb('New Password and Confirm Password do not match!', false); return; }
+
+      try {
+        await applyNewAdminCredentials(u, p1);
+        document.getElementById('trusted-update-pass').value = '';
+        document.getElementById('trusted-update-pass-confirm').value = '';
+        showFb('✓ Admin password updated successfully from this Trusted Device!', true);
+        showToast('✓ Admin Password updated on Trusted Device!');
+      } catch (e) {
+        showFb('Password saved locally; cloud sync error: ' + (e && e.message ? e.message : 'Unknown error'), false);
+      }
+    }
+
+    async function saveAdminCredentials() {
+      if (!isDeviceTrusted(getAdminDeviceId())) {
+        showToast('⚠️ Please mark this device as a Trusted Device first to update the password.');
+        refreshCredsModalTrustState();
+        return;
+      }
+      const u = document.getElementById('new-admin-user').value.trim();
+      const p = document.getElementById('new-admin-pass').value.trim();
+      if (!u || !p) { showToast('Username and Password cannot be empty!'); return; }
+      try {
+        await applyNewAdminCredentials(u, p);
+      } catch (e) {}
       showToast('✓ Admin credentials saved (' + u + ')!');
       closeAdminCredsModal();
     }
@@ -3784,6 +4316,9 @@
     }
 
     async function performAdminLogin() {
+      if (typeof window.fetchAdminCredsOnce === 'function') {
+        try { await window.fetchAdminCredsOnce(true); } catch (e) {}
+      }
       const creds = getAdminCreds();
       const u = (document.getElementById('admin-user').value || '').trim();
       const p = (document.getElementById('admin-pass').value || '').trim();
@@ -3812,15 +4347,36 @@
       }
     }
 
-    function logoutAdmin() {
+    function logoutAdmin(remoteReason) {
+      const isRemote = typeof remoteReason === 'string' && remoteReason.length > 0;
+      const myDevId = getAdminDeviceId();
+
+      if (!isRemote && window.db && window.fbSetDoc && window.fbDoc) {
+        const devMap = getAdminDevicesMap();
+        if (devMap[myDevId]) {
+          const updatedDev = Object.assign({}, devMap[myDevId], { isActive: false, lastLogoutAt: new Date().toISOString() });
+          try {
+            window.fbSetDoc(window.fbDoc(window.db, 'settings', 'admin_security'), { devices: { [myDevId]: updatedDev } }, { merge: true });
+          } catch (e) {}
+        }
+      }
+
       adminLogged = false;
       try { localStorage.removeItem('bf_admin_session_started'); } catch (e) {}
       if (typeof window.stopAdminCloudSync === 'function') window.stopAdminCloudSync();
       const uInput = document.getElementById('admin-user'), pInput = document.getElementById('admin-pass');
       if (uInput) uInput.value = '';
       if (pInput) pInput.value = '';
-      showToast('Admin logged out.');
       switchPage('admin-login');
+      const errBox = document.getElementById('admin-login-error');
+      if (isRemote && errBox) {
+        errBox.innerText = remoteReason;
+        errBox.style.display = 'block';
+        showToast(remoteReason);
+      } else {
+        if (errBox) errBox.style.display = 'none';
+        showToast('Admin logged out.');
+      }
     }
 
     // ==================== ADMIN SEARCH & FILTER LOGIC ====================
@@ -4103,19 +4659,43 @@
       btn.disabled = true;
       btn.innerText = '⏳ Deleting from Database...';
 
-      // 1. Delete directly from Cloud Firestore Database
+      const errBanner = document.getElementById('admin-delete-error-banner');
+      if (errBanner) errBanner.style.display = 'none';
+
+      // 1. Mark tombstone & clear pending sync FIRST so background listeners/queues cannot resurrect it
+      markPendingSyncId(clientId, false);
+      markDeletedClientId(clientId, true);
+
+      // 2. Delete ALL matching Firestore documents (direct doc ID, tracked doc IDs, and query sweep)
       let firestoreFailed = false;
+      let firestoreErrMsg = '';
       if (window.db && window.fbDeleteDoc && window.fbDoc) {
+        const docIdsToDelete = new Set([clientId]);
+        if (window._clientDocIdMap && window._clientDocIdMap.has(clientId)) {
+          window._clientDocIdMap.get(clientId).forEach(did => { if (did) docIdsToDelete.add(did); });
+        }
         try {
-          await window.fbDeleteDoc(window.fbDoc(window.db, 'clients', clientId));
+          if (window.fbGetDocs && window.fbQuery && window.fbCollection && window.fbWhere) {
+            const qSnap = await window.fbGetDocs(
+              window.fbQuery(window.fbCollection(window.db, 'clients'), window.fbWhere('id', '==', clientId))
+            );
+            qSnap.forEach(d => { if (d && d.id) docIdsToDelete.add(d.id); });
+          }
+        } catch (qErr) {
+          console.warn('Firestore query sweep notice:', qErr);
+        }
+
+        try {
+          await Promise.all(
+            Array.from(docIdsToDelete).map(did => window.fbDeleteDoc(window.fbDoc(window.db, 'clients', did)))
+          );
+          if (window._clientDocIdMap) window._clientDocIdMap.delete(clientId);
         } catch (err) {
           firestoreFailed = true;
+          firestoreErrMsg = (err && (err.code || err.message)) || 'Firestore delete permission/connection error';
           console.error('Firestore delete error:', err);
         }
       }
-
-      // 2. Remove from pending sync queue so it can never re-upload
-      markPendingSyncId(clientId, false);
 
       // 3. Invalidate client login session if active
       if (localStorage.getItem('bf_active_client_id') === clientId) {
@@ -4123,12 +4703,12 @@
         updateNavAuthButton();
       }
 
-      // 4. Remove from in-memory cache, LocalStorage, and IndexedDB
+      // 4. Remove from in-memory cache, LocalStorage, and await IndexedDB update
       const updatedClients = getClients().filter(c => c && c.id !== clientId);
       window._firebaseClients = updatedClients;
       window._idbClients = updatedClients;
-      idbSaveClients(updatedClients);
       try { localStorage.setItem('bf_clients', JSON.stringify(updatedClients)); } catch (e) {}
+      await idbSaveClients(updatedClients);
 
       // 5. Close edit panel if open for this deleted client
       const editIdInput = document.getElementById('edit-client-id');
@@ -4138,7 +4718,11 @@
       loadAdminDashboard();
 
       if (firestoreFailed) {
-        showToast('⚠️ Deleted from Admin Panel; check Cloud Database permissions/connection.');
+        if (errBanner) {
+          errBanner.innerText = '⚠️ Database Delete Error for ' + clientLabel + ': ' + firestoreErrMsg + '. Please check Firestore rules allow delete on /clients.';
+          errBanner.style.display = 'block';
+        }
+        showToast('⚠️ Deleted from Admin Panel; Database error: ' + firestoreErrMsg);
       } else {
         showToast('✓ Permanently deleted ' + clientLabel + ' from Admin Panel & Database.');
       }
