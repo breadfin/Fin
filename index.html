@@ -345,6 +345,21 @@
       );
       animation: livenessSpin 10s linear infinite;
     }
+    .liveness-ring-ticks.face-locked {
+      background: repeating-conic-gradient(
+        from 0deg,
+        #0284c7 0deg 3.5deg,
+        #38bdf8 3.5deg 8deg
+      );
+      animation: livenessSpin 5s linear infinite;
+    }
+    .liveness-ring-ticks.warn {
+      background: repeating-conic-gradient(
+        from 0deg,
+        #dc2626 0deg 3.5deg,
+        #fee2e2 3.5deg 8deg
+      );
+    }
     .liveness-ring-ticks.verified {
       background: repeating-conic-gradient(
         from 0deg,
@@ -478,7 +493,7 @@
           Position your face inside the circular frame...
         </p>
         <p id="liveness-live-subtext" style="font-size:0.8rem; color:#64748b; margin-bottom:10px;">
-          Initializing camera feed...
+          Initializing camera &amp; AI face verification...
         </p>
 
         <div class="liveness-ring-wrap">
@@ -491,25 +506,27 @@
           </div>
         </div>
 
+        <div id="liveness-face-alert" style="display:none; margin:0 auto 12px; max-width:340px; padding:8px 12px; border-radius:10px; font-size:0.8rem; font-weight:700; border:1px solid #fecaca; background:#fef2f2; color:#b91c1c;">
+          ❌ No face detected — Look directly into the camera
+        </div>
+
         <div id="liveness-progress-wrap" style="background:#e2e8f0; border-radius:999px; height:6px; overflow:hidden; margin:0 auto 14px; max-width:260px;">
           <div id="liveness-progress-bar" style="width:0%; height:100%; background:#0066ff; transition:width 0.3s ease;"></div>
         </div>
 
-        <div id="liveness-camera-fallback" style="display:none; background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:14px; margin-bottom:14px; text-align:left;">
-          <div style="font-size:0.82rem; font-weight:800; color:#92400e; margin-bottom:4px;">Live camera recording unavailable in browser</div>
-          <p style="font-size:0.78rem; color:#78350f; margin-bottom:10px;">Record a short 3-second front camera video directly to complete live face verification.</p>
-          <label style="display:inline-flex; align-items:center; gap:8px; background:#0066ff; color:#fff; padding:9px 16px; border-radius:8px; font-size:0.82rem; font-weight:700; cursor:pointer; position:relative; overflow:hidden;">
-            <span>🎥 Record Live Face Video</span>
-            <input type="file" id="liveness-fallback-input" accept="video/*,image/*" capture="user" style="position:absolute; inset:0; opacity:0; cursor:pointer;" onchange="handleLivenessFallbackUpload(event)">
-          </label>
+        <div id="liveness-camera-fallback" style="display:none; background:#fef2f2; border:1px solid #fca5a5; border-radius:12px; padding:14px; margin-bottom:14px; text-align:left;">
+          <div style="font-size:0.84rem; font-weight:800; color:#b91c1c; margin-bottom:4px;">📷 Live Camera Access Required</div>
+          <p style="font-size:0.78rem; color:#7f1d1d; margin-bottom:10px;">Uploading recorded videos or gallery photos is disabled. You must allow camera access and show your live face to proceed to the next step.</p>
+          <div id="liveness-fallback-error" style="display:none; background:#ffffff; border:1px solid #fca5a5; color:#b91c1c; border-radius:8px; padding:8px 10px; font-size:0.76rem; font-weight:700; margin-bottom:10px;"></div>
+          <button type="button" onclick="beginLivenessCheck()" style="width:100%; background:#0066ff; color:#ffffff; border:none; padding:10px 14px; border-radius:8px; font-size:0.84rem; font-weight:700; cursor:pointer; font-family:inherit;">🔄 Retry Live Camera</button>
         </div>
 
         <div id="liveness-live-controls" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <button type="button" onclick="closeLivenessModal()" style="background:#f1f5f9; color:#0f172a; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
             Cancel
           </button>
-          <button type="button" id="liveness-capture-btn" onclick="captureLivenessSnapshot()" style="background:#0066ff; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
-            Stop &amp; Save Video
+          <button type="button" id="liveness-capture-btn" onclick="captureLivenessSnapshot()" disabled style="background:#0066ff; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit; opacity:0.5;">
+            Waiting for Face...
           </button>
         </div>
 
@@ -517,7 +534,7 @@
           <button type="button" onclick="retakeLivenessCheck()" style="background:#f1f5f9; color:#0f172a; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
             Retake
           </button>
-          <button type="button" onclick="confirmLivenessVerification()" style="background:#16a34a; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
+          <button type="button" id="liveness-confirm-btn" onclick="confirmLivenessVerification()" style="background:#16a34a; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
             Confirm &amp; Verify ✓
           </button>
         </div>
@@ -1335,10 +1352,13 @@
                   <div class="form-group"><label>Full Legal Name (as in Aadhaar) *</label><input type="text" id="reg-name" required class="form-control" placeholder="e.g. Rahul Sharma"></div>
                   <div class="form-group">
                     <label>Email Address (Sign-in Username) *</label>
-                    <input type="email" id="reg-email" required class="form-control" placeholder="name@example.com" oninput="clearRegEmailExistsAlert()" onblur="checkRegEmailOnBlur()">
+                    <input type="email" id="reg-email" required class="form-control" placeholder="e.g. name@gmail.com" oninput="clearRegEmailExistsAlert()" onblur="checkRegEmailOnBlur()">
+                    <div id="reg-email-invalid-alert" style="display:none; margin-top:8px; background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; padding:10px 14px; border-radius:10px; font-size:0.83rem; font-weight:700;">
+                      ❌ Please enter a valid Email ID (e.g. name@gmail.com). Invalid format cannot proceed.
+                    </div>
                     <div id="reg-email-exists-alert" style="display:none; margin-top:8px; background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; padding:10px 14px; border-radius:10px; font-size:0.84rem; font-weight:700;">
                       <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-                        <span>⚠️ Already applied! Please Sign In.</span>
+                        <span>⚠️ Only 1 application per Email ID! Already applied — Please Sign In.</span>
                         <button type="button" onclick="goToClientSignInWithEmail()" class="btn btn-primary" style="padding:6px 14px; font-size:0.78rem; font-weight:800; background:#092540;">Sign In ➔</button>
                       </div>
                     </div>
@@ -1346,7 +1366,7 @@
                   <div class="form-group"><label>Mobile Number (Aadhaar-linked) *</label><input type="tel" id="reg-phone" required maxlength="10" class="form-control" placeholder="9876543210"></div>
                   <div class="form-group"><label>Date of Birth *</label><input type="date" id="reg-dob" required class="form-control"></div>
                   <div class="form-group"><label>Residential Address &amp; Place *</label><textarea id="reg-address" required class="form-control" placeholder="Door No, Street, City, State, PIN" style="min-height:70px;"></textarea></div>
-                  <button type="button" onclick="nextRegStep(2)" class="btn btn-primary" style="width:100%; padding:13px; margin-top:8px;">Continue to Step 2 ➔</button>
+                  <button type="button" id="btn-step1-next" onclick="nextRegStep(2)" class="btn btn-primary" style="width:100%; padding:13px; margin-top:8px;">Continue to Step 2 ➔</button>
                 </div>
 
                 <div id="step-panel-2" style="display:none;">
@@ -1489,17 +1509,18 @@
                     </div>
                   </div>
 
-                  <div style="background:#ffffff; border:1.5px solid #93c5fd; border-radius:14px; padding:18px; margin-bottom:20px; box-shadow:0 4px 14px rgba(0, 102, 255, 0.06);">
+                  <div id="face-verify-card" style="background:#ffffff; border:1.5px solid #93c5fd; border-radius:14px; padding:18px; margin-bottom:20px; box-shadow:0 4px 14px rgba(0, 102, 255, 0.06);">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
                       <h4 style="font-size:0.92rem; font-weight:800; color:var(--color-navy); text-transform:uppercase; display:flex; align-items:center; gap:8px; margin:0;"><span>🤳</span> Live Face Verification (Liveness Check) *</h4>
                       <span id="face-verify-status-badge" style="font-size:0.75rem; font-weight:800; background:#fef3c7; color:#b45309; padding:4px 10px; border-radius:20px; border:1px solid #fde68a;">⏳ Required</span>
                     </div>
-                    <p style="font-size:0.82rem; color:#475569; margin-bottom:14px; line-height:1.5;">Complete a quick live camera face check to verify your identity against your uploaded Aadhaar and PAN documents. This live verification is sent directly to the underwriting team.</p>
+                    <p style="font-size:0.82rem; color:#475569; margin-bottom:14px; line-height:1.5;">Complete a quick live camera face check showing your real face clearly. Only verified human face recordings allow continuing to Step 4.</p>
                     <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
                       <button type="button" id="btn-open-liveness" onclick="openLivenessModal()" class="btn" style="background:#0066ff; color:#ffffff; padding:11px 22px; border-radius:10px; font-size:0.88rem; font-weight:800; box-shadow:0 4px 12px rgba(0, 102, 255, 0.25);">Begin Liveness Check ➔</button>
                       <span id="file-name-faceVerification" style="font-size:0.82rem; color:#64748b;">Live face verification not completed yet</span>
                     </div>
                     <div id="preview-faceVerification" style="display:none; margin-top:12px;"></div>
+                    <div id="face-verify-required-alert" style="display:none; margin-top:10px; background:#fef2f2; border:1px solid #fca5a5; color:#b91c1c; padding:9px 12px; border-radius:8px; font-size:0.8rem; font-weight:700;">❌ Live Face Verification is required! Please show your face clearly inside the camera circle before continuing.</div>
                   </div>
 
                   <div style="display:flex; gap:12px;">
@@ -2395,6 +2416,7 @@
         const clean = (rawEmail || '').trim();
         const lower = clean.toLowerCase();
         if (!clean) return null;
+        const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
         try {
           const tries = clean === lower ? [lower] : [lower, clean];
           for (const candidate of tries) {
@@ -2404,11 +2426,26 @@
               let matched = null;
               snap.forEach((docSnap) => {
                 const d = docSnap.data();
-                if (d && d.id && d._deleted !== true && !matched) matched = d;
+                if (d && d.id && d._deleted !== true && !deletedSet.has(d.id) && !matched) matched = d;
               });
-              if (matched && typeof window.upsertLocalClient === 'function') window.upsertLocalClient(matched);
-              return matched;
+              if (matched) {
+                if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(matched);
+                return matched;
+              }
             }
+          }
+          const allSnap = await getDocs(collection(db, 'clients'));
+          let caseMatched = null;
+          allSnap.forEach((docSnap) => {
+            if (caseMatched) return;
+            const d = docSnap.data();
+            if (d && d.id && d._deleted !== true && !deletedSet.has(d.id) && typeof d.email === 'string' && d.email.trim().toLowerCase() === lower) {
+              caseMatched = d;
+            }
+          });
+          if (caseMatched) {
+            if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(caseMatched);
+            return caseMatched;
           }
         } catch (err) {}
         return null;
@@ -2884,9 +2921,142 @@
 
     // ==================== REGISTRATION & DOCUMENT UPLOADS ====================
     const regDocs = { clientAadhaarFront: null, clientAadhaarBack: null, clientPanDoc: null, nomineeAadhaarFront: null, faceVerification: null };
-    let livenessStream = null, livenessAutoTimer = null, livenessProgressTimer = null, livenessMediaRecorder = null;
+    let livenessStream = null, livenessAutoTimer = null, livenessProgressTimer = null, livenessDetectTimer = null, livenessMediaRecorder = null;
     let livenessRecordChunks = [], livenessDrawAnimId = null, livenessCanvasStream = null, livenessRecordingCancelled = false;
     let livenessTempDataUrl = null, livenessTempMime = 'video/webm', livenessTempThumbUrl = '';
+    let livenessFaceVerified = false, livenessFaceFrames = 0, livenessBestConfidence = 0, livenessSessionId = 0;
+    let bfMediaPipeFaceDetector = null, bfNativeFaceDetector = null, bfFaceEnginePromise = null, bfFaceEngineType = 'none';
+    const TARGET_FACE_FRAMES = 10;
+
+    async function initFaceDetectionEngine() {
+      if (bfFaceEngineType !== 'none') return bfFaceEngineType;
+      if (bfFaceEnginePromise) return bfFaceEnginePromise;
+      bfFaceEnginePromise = (async () => {
+        try {
+          const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs');
+          const { FaceDetector, FilesetResolver } = vision;
+          const filesetResolver = await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm');
+          const modelUrl = 'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite';
+          try {
+            bfMediaPipeFaceDetector = await FaceDetector.createFromOptions(filesetResolver, {
+              baseOptions: { modelAssetPath: modelUrl, delegate: 'GPU' },
+              runningMode: 'IMAGE',
+              minDetectionConfidence: 0.62
+            });
+          } catch (gpuErr) {
+            bfMediaPipeFaceDetector = await FaceDetector.createFromOptions(filesetResolver, {
+              baseOptions: { modelAssetPath: modelUrl, delegate: 'CPU' },
+              runningMode: 'IMAGE',
+              minDetectionConfidence: 0.62
+            });
+          }
+          bfFaceEngineType = 'mediapipe';
+          return bfFaceEngineType;
+        } catch (mpErr) {
+          if (typeof window.FaceDetector === 'function') {
+            try {
+              bfNativeFaceDetector = new window.FaceDetector({ fastMode: true, maxDetectedFaces: 3 });
+              bfFaceEngineType = 'native';
+              return bfFaceEngineType;
+            } catch (natErr) {}
+          }
+          bfFaceEngineType = 'unavailable';
+          return bfFaceEngineType;
+        }
+      })();
+      const res = await bfFaceEnginePromise;
+      if (res === 'unavailable') bfFaceEnginePromise = null;
+      return res;
+    }
+
+    function analyzeCanvasBrightness(canvas) {
+      try {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const w = canvas.width, h = canvas.height;
+        const data = ctx.getImageData(0, 0, w, h).data;
+        let sum = 0, sumSq = 0, count = 0;
+        for (let i = 0; i < data.length; i += 16) {
+          const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          sum += lum; sumSq += lum * lum; count++;
+        }
+        const mean = sum / Math.max(1, count);
+        const std = Math.sqrt(Math.max(0, (sumSq / Math.max(1, count)) - (mean * mean)));
+        return { mean, std };
+      } catch (e) {
+        return { mean: 120, std: 30 };
+      }
+    }
+
+    async function detectValidHumanFace(canvas) {
+      if (!canvas || !canvas.width || !canvas.height) return { ok: false, reason: 'invalid_frame', message: 'Camera frame unavailable.' };
+      const engine = await initFaceDetectionEngine();
+      if (engine === 'unavailable') {
+        return { ok: false, reason: 'engine_unavailable', message: 'Face verification model failed to load. Check internet connection & retry.' };
+      }
+
+      const luma = analyzeCanvasBrightness(canvas);
+      if (luma.mean < 28) return { ok: false, reason: 'too_dark', message: '💡 Too dark — Move to a well-lit area so your face is visible.' };
+      if (luma.mean > 248 || luma.std < 11) return { ok: false, reason: 'blank_frame', message: '❌ No clear face visible — Show your face directly in front of the camera.' };
+
+      const W = canvas.width, H = canvas.height;
+      try {
+        if (engine === 'mediapipe' && bfMediaPipeFaceDetector) {
+          const result = bfMediaPipeFaceDetector.detect(canvas);
+          const detections = (result && Array.isArray(result.detections)) ? result.detections : [];
+          if (detections.length === 0) return { ok: false, reason: 'no_face', message: '❌ No face detected — Center your face clearly inside the circle.' };
+          if (detections.length > 1) return { ok: false, reason: 'multiple_faces', message: '⚠️ Multiple faces detected — Only the applicant should appear.' };
+
+          const det = detections[0];
+          const score = (det.categories && det.categories[0] && typeof det.categories[0].score === 'number') ? det.categories[0].score : 0.7;
+          if (score < 0.62) return { ok: false, reason: 'low_conf', message: '🔍 Face unclear — Look straight at the camera in good light.' };
+
+          const box = det.boundingBox;
+          if (!box) return { ok: false, reason: 'no_box', message: '❌ Center your face inside the frame.' };
+          const wRatio = box.width / W, hRatio = box.height / H;
+          const cx = (box.originX + box.width / 2) / W, cy = (box.originY + box.height / 2) / H;
+          if (wRatio < 0.18 || hRatio < 0.18) return { ok: false, reason: 'too_far', message: '🔎 Move closer to the camera so your face fills the circle.' };
+          if (cx < 0.16 || cx > 0.84 || cy < 0.14 || cy > 0.86) return { ok: false, reason: 'off_center', message: '🎯 Center your face inside the circular frame.' };
+
+          const kps = Array.isArray(det.keypoints) ? det.keypoints : [];
+          if (kps.length >= 4) {
+            const visibleKps = kps.filter(p => p && p.x >= 0.03 && p.x <= 0.97 && p.y >= 0.03 && p.y <= 0.97);
+            if (visibleKps.length < 3) return { ok: false, reason: 'partial_face', message: '👀 Keep your full face (eyes & nose) clearly visible.' };
+          }
+          return { ok: true, score };
+        }
+
+        if (engine === 'native' && bfNativeFaceDetector) {
+          const faces = await bfNativeFaceDetector.detect(canvas);
+          if (!faces || faces.length === 0) return { ok: false, reason: 'no_face', message: '❌ No face detected — Center your face clearly inside the circle.' };
+          if (faces.length > 1) return { ok: false, reason: 'multiple_faces', message: '⚠️ Multiple faces detected — Only the applicant should appear.' };
+          const box = faces[0].boundingBox;
+          if (!box) return { ok: false, reason: 'no_box', message: '❌ Center your face inside the frame.' };
+          const wRatio = box.width / W, hRatio = box.height / H;
+          const cx = (box.x + box.width / 2) / W, cy = (box.y + box.height / 2) / H;
+          if (wRatio < 0.18 || hRatio < 0.18) return { ok: false, reason: 'too_far', message: '🔎 Move closer to the camera so your face fills the circle.' };
+          if (cx < 0.16 || cx > 0.84 || cy < 0.14 || cy > 0.86) return { ok: false, reason: 'off_center', message: '🎯 Center your face inside the circular frame.' };
+          return { ok: true, score: 0.82 };
+        }
+      } catch (err) {
+        return { ok: false, reason: 'detect_err', message: 'Face verification check failed. Please try again.' };
+      }
+      return { ok: false, reason: 'no_face', message: '❌ No face detected.' };
+    }
+
+    function setLivenessFaceAlert(msg, state) {
+      const alertEl = document.getElementById('liveness-face-alert');
+      if (!alertEl) return;
+      if (!msg) { alertEl.style.display = 'none'; return; }
+      alertEl.style.display = 'block';
+      alertEl.innerText = msg;
+      if (state === 'ok') {
+        alertEl.style.background = '#f0fdf4'; alertEl.style.borderColor = '#86efac'; alertEl.style.color = '#15803d';
+      } else if (state === 'info') {
+        alertEl.style.background = '#f0f9ff'; alertEl.style.borderColor = '#bae6fd'; alertEl.style.color = '#0369a1';
+      } else {
+        alertEl.style.background = '#fef2f2'; alertEl.style.borderColor = '#fca5a5'; alertEl.style.color = '#b91c1c';
+      }
+    }
 
     function getSupportedLivenessVideoMime() {
       if (typeof MediaRecorder === 'undefined') return '';
@@ -2905,7 +3075,7 @@
         const minSide = Math.min(vw, vh), sx = (vw - minSide) / 2, sy = (vh - minSide) / 2;
         cx.translate(size, 0); cx.scale(-1, 1);
         cx.drawImage(videoEl, sx, sy, minSide, minSide, 0, 0, size, size);
-        return c.toDataURL('image/jpeg', 0.7);
+        return c.toDataURL('image/jpeg', 0.72);
       } catch (e) { return ''; }
     }
 
@@ -2913,23 +3083,31 @@
       document.getElementById('liveness-phase-intro').style.display = 'block';
       document.getElementById('liveness-phase-camera').style.display = 'none';
       document.getElementById('liveness-camera-fallback').style.display = 'none';
+      const fbErr = document.getElementById('liveness-fallback-error');
+      if (fbErr) fbErr.style.display = 'none';
       livenessTempDataUrl = null; livenessTempMime = 'video/webm'; livenessTempThumbUrl = '';
+      livenessFaceVerified = false; livenessFaceFrames = 0; livenessBestConfidence = 0;
       document.getElementById('liveness-modal').style.display = 'flex';
+      initFaceDetectionEngine().catch(() => {});
     }
 
     function stopLivenessStream(keepRecorder) {
       if (livenessAutoTimer) { clearTimeout(livenessAutoTimer); livenessAutoTimer = null; }
       if (livenessProgressTimer) { clearInterval(livenessProgressTimer); livenessProgressTimer = null; }
+      if (livenessDetectTimer) { clearInterval(livenessDetectTimer); livenessDetectTimer = null; }
       if (livenessDrawAnimId) { cancelAnimationFrame(livenessDrawAnimId); livenessDrawAnimId = null; }
-      if (!keepRecorder && livenessMediaRecorder && livenessMediaRecorder.state !== 'inactive') {
-        livenessRecordingCancelled = true;
-        try { livenessMediaRecorder.stop(); } catch (e) {}
+      if (!keepRecorder) {
+        livenessSessionId++;
+        if (livenessMediaRecorder && livenessMediaRecorder.state !== 'inactive') {
+          livenessRecordingCancelled = true;
+          try { livenessMediaRecorder.stop(); } catch (e) {}
+        }
+        livenessMediaRecorder = null;
+        if (livenessCanvasStream) { try { livenessCanvasStream.getTracks().forEach(t => t.stop()); } catch (e) {} livenessCanvasStream = null; }
+        if (livenessStream) { try { livenessStream.getTracks().forEach(t => t.stop()); } catch (e) {} livenessStream = null; }
+        const videoEl = document.getElementById('liveness-video');
+        if (videoEl) videoEl.srcObject = null;
       }
-      livenessMediaRecorder = null;
-      if (livenessCanvasStream) { try { livenessCanvasStream.getTracks().forEach(t => t.stop()); } catch (e) {} livenessCanvasStream = null; }
-      if (livenessStream) { try { livenessStream.getTracks().forEach(t => t.stop()); } catch (e) {} livenessStream = null; }
-      const videoEl = document.getElementById('liveness-video');
-      if (videoEl) videoEl.srcObject = null;
     }
 
     function closeLivenessModal() {
@@ -2941,6 +3119,7 @@
     }
 
     async function beginLivenessCheck() {
+      stopLivenessStream(false);
       const intro = document.getElementById('liveness-phase-intro');
       const camPhase = document.getElementById('liveness-phase-camera');
       const videoEl = document.getElementById('liveness-video');
@@ -2951,21 +3130,28 @@
       const liveControls = document.getElementById('liveness-live-controls');
       const confirmControls = document.getElementById('liveness-confirm-controls');
       const fallback = document.getElementById('liveness-camera-fallback');
+      const fbErr = document.getElementById('liveness-fallback-error');
       const instr = document.getElementById('liveness-live-instruction');
       const subtext = document.getElementById('liveness-live-subtext');
       const progressBar = document.getElementById('liveness-progress-bar');
       const progressWrap = document.getElementById('liveness-progress-wrap');
       const captureBtn = document.getElementById('liveness-capture-btn');
 
-      livenessRecordingCancelled = false; livenessRecordChunks = []; livenessTempDataUrl = null; livenessTempThumbUrl = '';
+      livenessRecordingCancelled = false; livenessRecordChunks = [];
+      livenessTempDataUrl = null; livenessTempThumbUrl = '';
+      livenessFaceVerified = false; livenessFaceFrames = 0; livenessBestConfidence = 0;
+      const activeRunSession = ++livenessSessionId;
+
       intro.style.display = 'none'; camPhase.style.display = 'block'; videoEl.style.display = 'block';
       capVid.pause(); capVid.src = ''; capVid.style.display = 'none'; imgEl.style.display = 'none';
       scanLine.style.display = 'block'; ringTicks.className = 'liveness-ring-ticks scanning';
       liveControls.style.display = 'grid'; confirmControls.style.display = 'none';
-      fallback.style.display = 'none'; progressWrap.style.display = 'block'; progressBar.style.width = '10%';
-      captureBtn.disabled = true; captureBtn.style.opacity = '0.6';
-      instr.innerText = 'Requesting camera access...';
-      subtext.innerText = 'Please click Allow when your browser asks for camera permission.';
+      fallback.style.display = 'none'; if (fbErr) fbErr.style.display = 'none';
+      progressWrap.style.display = 'block'; progressBar.style.width = '0%';
+      captureBtn.disabled = true; captureBtn.style.opacity = '0.5'; captureBtn.innerText = 'Waiting for Face...';
+      instr.innerText = 'Initializing AI Face Detection...';
+      subtext.innerText = 'Please click Allow if your browser asks for camera permission.';
+      setLivenessFaceAlert('⏳ Loading Face Verification Engine...', 'info');
 
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         showLivenessCameraFallback('Live webcam API is not available on this browser.');
@@ -2973,39 +3159,58 @@
       }
 
       try {
-        livenessStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } }, audio: false });
+        const camPromise = navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } }, audio: false });
+        const enginePromise = initFaceDetectionEngine();
+        livenessStream = await camPromise;
+        if (activeRunSession !== livenessSessionId) {
+          try { livenessStream.getTracks().forEach(t => t.stop()); } catch (e) {}
+          livenessStream = null;
+          return;
+        }
         videoEl.srcObject = livenessStream;
         await videoEl.play();
+        const engineStatus = await enginePromise;
+        if (activeRunSession !== livenessSessionId) return;
+        if (engineStatus === 'unavailable') {
+          showLivenessCameraFallback('AI face detection model could not load over this network. Please check your internet connection and retry.');
+          return;
+        }
+
+        const recCanvas = document.createElement('canvas');
+        recCanvas.width = 320; recCanvas.height = 320;
+        const recCtx = recCanvas.getContext('2d', { willReadFrequently: true });
+        const drawFrame = () => {
+          if (!livenessStream || activeRunSession !== livenessSessionId) return;
+          if (videoEl && videoEl.videoWidth > 0 && recCtx) {
+            const vw = videoEl.videoWidth, vh = videoEl.videoHeight, minSide = Math.min(vw, vh);
+            recCtx.save(); recCtx.translate(320, 0); recCtx.scale(-1, 1);
+            recCtx.drawImage(videoEl, (vw - minSide) / 2, (vh - minSide) / 2, minSide, minSide, 0, 0, 320, 320);
+            recCtx.restore();
+          }
+          livenessDrawAnimId = requestAnimationFrame(drawFrame);
+        };
+        drawFrame();
 
         const supportedMime = getSupportedLivenessVideoMime();
-        if (typeof MediaRecorder !== 'undefined') {
+        const startFaceSegmentRecorder = () => {
+          if (typeof MediaRecorder === 'undefined' || !livenessStream) return;
+          if (livenessMediaRecorder && livenessMediaRecorder.state !== 'inactive') return;
+          livenessRecordChunks = [];
+          livenessRecordingCancelled = false;
           let recordStream = livenessStream;
-          const recCanvas = document.createElement('canvas');
-          recCanvas.width = 320; recCanvas.height = 320;
-          const recCtx = recCanvas.getContext('2d');
-          if (typeof recCanvas.captureStream === 'function' && recCtx) {
-            const drawFrame = () => {
-              if (!livenessStream) return;
-              if (videoEl && videoEl.videoWidth > 0) {
-                const vw = videoEl.videoWidth, vh = videoEl.videoHeight, minSide = Math.min(vw, vh);
-                recCtx.save(); recCtx.translate(320, 0); recCtx.scale(-1, 1);
-                recCtx.drawImage(videoEl, (vw - minSide) / 2, (vh - minSide) / 2, minSide, minSide, 0, 0, 320, 320);
-                recCtx.restore();
-              }
-              livenessDrawAnimId = requestAnimationFrame(drawFrame);
-            };
-            drawFrame();
-            livenessCanvasStream = recCanvas.captureStream(15);
+          if (typeof recCanvas.captureStream === 'function') {
+            if (!livenessCanvasStream) livenessCanvasStream = recCanvas.captureStream(15);
             recordStream = livenessCanvasStream;
           }
           const options = { videoBitsPerSecond: 160000 };
           if (supportedMime) options.mimeType = supportedMime;
           try { livenessMediaRecorder = new MediaRecorder(recordStream, options); }
           catch (recErr) { livenessMediaRecorder = new MediaRecorder(livenessStream); }
+          const segSessionId = livenessSessionId;
           livenessTempMime = (livenessMediaRecorder.mimeType || supportedMime || 'video/webm').split(';')[0];
           livenessMediaRecorder.ondataavailable = (evt) => { if (evt.data && evt.data.size > 0) livenessRecordChunks.push(evt.data); };
           livenessMediaRecorder.onstop = () => {
-            if (livenessRecordingCancelled) return;
+            if (livenessRecordingCancelled || segSessionId !== livenessSessionId) return;
             const cleanMime = ((livenessMediaRecorder && livenessMediaRecorder.mimeType) || livenessTempMime || 'video/webm').split(';')[0];
             const blob = new Blob(livenessRecordChunks, { type: cleanMime });
             const reader = new FileReader();
@@ -3013,22 +3218,74 @@
             reader.readAsDataURL(blob);
           };
           livenessMediaRecorder.start(250);
-        }
+        };
 
-        captureBtn.disabled = false; captureBtn.style.opacity = '1';
-        setTimeout(() => { if (videoEl && videoEl.videoWidth) livenessTempThumbUrl = captureVideoPosterFrame(videoEl); }, 600);
+        const discardFaceSegmentRecorder = () => {
+          if (livenessMediaRecorder && livenessMediaRecorder.state !== 'inactive') {
+            livenessRecordingCancelled = true;
+            try { livenessMediaRecorder.stop(); } catch (e) {}
+          }
+          livenessMediaRecorder = null;
+          livenessRecordChunks = [];
+        };
 
-        let pct = 15;
-        instr.innerText = '● Recording Live Face Video...';
-        subtext.innerText = 'Center your face inside the frame & look straight';
-        progressBar.style.width = pct + '%';
-        livenessProgressTimer = setInterval(() => {
-          pct = Math.min(95, pct + 16);
-          progressBar.style.width = pct + '%';
-          if (pct >= 45 && pct < 75) { instr.innerText = '● Recording Liveness Video — Blink Slowly'; subtext.innerText = 'Keep face well-lit and unobstructed'; }
-          else if (pct >= 75) { instr.innerText = '● Finalizing Live Verification Video...'; subtext.innerText = 'Almost done!'; }
-        }, 650);
-        livenessAutoTimer = setTimeout(() => captureLivenessSnapshot(), 3600);
+        instr.innerText = 'Show Your Face Inside the Circle';
+        subtext.innerText = 'Recording starts automatically only when a real human face is detected';
+        setLivenessFaceAlert('🔍 Looking for your face — Center your face inside the circle', 'info');
+
+        let missedTicks = 0, detectBusy = false;
+        livenessDetectTimer = setInterval(async () => {
+          if (detectBusy || !livenessStream || activeRunSession !== livenessSessionId) return;
+          if (!videoEl || videoEl.readyState < 2 || !videoEl.videoWidth) return;
+          detectBusy = true;
+          try {
+            const check = await detectValidHumanFace(recCanvas);
+            if (!livenessStream || activeRunSession !== livenessSessionId) return;
+
+            if (check.ok) {
+              missedTicks = 0;
+              livenessFaceFrames++;
+              livenessBestConfidence = Math.max(livenessBestConfidence, check.score || 0.75);
+              if (!livenessTempThumbUrl) livenessTempThumbUrl = captureVideoPosterFrame(videoEl);
+              if (!livenessMediaRecorder || livenessMediaRecorder.state === 'inactive') {
+                startFaceSegmentRecorder();
+              }
+              const pct = Math.min(100, Math.round((livenessFaceFrames / TARGET_FACE_FRAMES) * 100));
+              progressBar.style.width = pct + '%';
+              ringTicks.className = 'liveness-ring-ticks face-locked';
+              instr.innerText = '● Face Detected — Recording Liveness (' + pct + '%)';
+              subtext.innerText = 'Keep looking straight & blink naturally until 100%';
+              setLivenessFaceAlert('✅ Human face locked (' + Math.round((check.score || 0.8) * 100) + '% match) — Hold steady', 'ok');
+
+              if (livenessFaceFrames >= 8) {
+                captureBtn.disabled = false; captureBtn.style.opacity = '1';
+                captureBtn.innerText = 'Finish & Review ✓';
+              }
+              if (livenessFaceFrames >= TARGET_FACE_FRAMES) {
+                livenessFaceVerified = true;
+                captureLivenessSnapshot();
+              }
+            } else {
+              missedTicks++;
+              ringTicks.className = 'liveness-ring-ticks warn';
+              setLivenessFaceAlert(check.message || '❌ No face detected — Look directly into the camera', 'err');
+              if (missedTicks >= 4 && livenessFaceFrames > 0) {
+                livenessFaceFrames = 0; livenessFaceVerified = false; livenessTempThumbUrl = '';
+                progressBar.style.width = '0%';
+                captureBtn.disabled = true; captureBtn.style.opacity = '0.5';
+                captureBtn.innerText = 'Waiting for Face...';
+                instr.innerText = 'Face Lost — Please Reposition';
+                subtext.innerText = 'Recording reset. Keep your face clearly inside the circle.';
+                discardFaceSegmentRecorder();
+              } else if (livenessFaceFrames === 0) {
+                instr.innerText = 'Waiting for Valid Face...';
+                subtext.innerText = 'Camera will only verify when a clear human face is visible';
+              }
+            }
+          } finally {
+            detectBusy = false;
+          }
+        }, 250);
       } catch (err) {
         showLivenessCameraFallback('Camera permission was blocked or no webcam was detected.');
       }
@@ -3039,14 +3296,26 @@
       document.getElementById('liveness-video').style.display = 'none';
       document.getElementById('liveness-live-scan-line').style.display = 'none';
       document.getElementById('liveness-progress-wrap').style.display = 'none';
+      setLivenessFaceAlert('', '');
       document.getElementById('liveness-camera-fallback').style.display = 'block';
-      document.getElementById('liveness-live-instruction').innerText = 'Direct Front Camera Video';
-      document.getElementById('liveness-live-subtext').innerText = msg || 'Use your device front camera button below to record a short verification video.';
+      const fbErr = document.getElementById('liveness-fallback-error');
+      if (fbErr) {
+        if (msg) { fbErr.innerText = msg; fbErr.style.display = 'block'; }
+        else { fbErr.style.display = 'none'; }
+      }
+      document.getElementById('liveness-live-instruction').innerText = 'Camera Permission Needed';
+      document.getElementById('liveness-live-subtext').innerText = 'Allow front camera access to continue. Video uploads are not allowed.';
       const btn = document.getElementById('liveness-capture-btn');
-      btn.disabled = true; btn.style.opacity = '0.45';
+      btn.disabled = true; btn.style.opacity = '0.45'; btn.innerText = 'Waiting for Face...';
     }
 
     function captureLivenessSnapshot() {
+      if (livenessFaceFrames < 8) {
+        setLivenessFaceAlert('❌ Cannot verify! Please show your face clearly inside the circle first.', 'err');
+        showToast('No face detected! Please show your face in the camera.');
+        return;
+      }
+      livenessFaceVerified = true;
       const videoEl = document.getElementById('liveness-video');
       if (!livenessTempThumbUrl && videoEl && videoEl.videoWidth) livenessTempThumbUrl = captureVideoPosterFrame(videoEl);
       if (livenessMediaRecorder && livenessMediaRecorder.state === 'recording') {
@@ -3054,7 +3323,8 @@
         livenessRecordingCancelled = false;
         if (livenessAutoTimer) { clearTimeout(livenessAutoTimer); livenessAutoTimer = null; }
         if (livenessProgressTimer) { clearInterval(livenessProgressTimer); livenessProgressTimer = null; }
-        document.getElementById('liveness-live-instruction').innerText = 'Processing Live Video...';
+        if (livenessDetectTimer) { clearInterval(livenessDetectTimer); livenessDetectTimer = null; }
+        document.getElementById('liveness-live-instruction').innerText = 'Processing Verified Face Video...';
         document.getElementById('liveness-live-subtext').innerText = 'Preparing video preview...';
         try { activeRecorder.stop(); } catch (e) {}
         return;
@@ -3064,77 +3334,11 @@
       showCapturedLivenessPreview(thumb, 'image/jpeg', thumb);
     }
 
-    function compressUploadedVideoFile(file, callback) {
-      if (file.size <= 650 * 1024) {
-        const reader = new FileReader();
-        reader.onload = () => callback(reader.result, file.type || 'video/mp4', '');
-        reader.onerror = () => callback(null);
-        reader.readAsDataURL(file);
-        return;
-      }
-      const mime = getSupportedLivenessVideoMime();
-      if (!mime || typeof MediaRecorder === 'undefined') {
-        showToast('Video file is too large. Please record a shorter 3-second video.');
-        callback(null);
-        return;
-      }
-      const tempUrl = URL.createObjectURL(file), vid = document.createElement('video');
-      vid.src = tempUrl; vid.muted = true; vid.playsInline = true;
-      vid.onloadedmetadata = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 320; canvas.height = 320;
-        const ctx = canvas.getContext('2d');
-        if (!ctx || typeof canvas.captureStream !== 'function') { URL.revokeObjectURL(tempUrl); callback(null); return; }
-        const stream = canvas.captureStream(15), chunks = [];
-        let rec;
-        try { rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 150000 }); }
-        catch (e) { rec = new MediaRecorder(stream); }
-        const cleanMime = (rec.mimeType || mime || 'video/webm').split(';')[0];
-        let thumb = '', animId = null, stopped = false;
-        rec.ondataavailable = (ev) => { if (ev.data && ev.data.size > 0) chunks.push(ev.data); };
-        rec.onstop = () => {
-          if (animId) cancelAnimationFrame(animId);
-          URL.revokeObjectURL(tempUrl);
-          const fr = new FileReader();
-          fr.onloadend = () => callback(fr.result, cleanMime, thumb);
-          fr.readAsDataURL(new Blob(chunks, { type: cleanMime }));
-        };
-        const renderLoop = () => {
-          if (stopped) return;
-          if (vid.videoWidth > 0) {
-            const minSide = Math.min(vid.videoWidth, vid.videoHeight);
-            ctx.drawImage(vid, (vid.videoWidth - minSide) / 2, (vid.videoHeight - minSide) / 2, minSide, minSide, 0, 0, 320, 320);
-            if (!thumb) { try { thumb = canvas.toDataURL('image/jpeg', 0.7); } catch (e) {} }
-          }
-          animId = requestAnimationFrame(renderLoop);
-        };
-        vid.onended = () => { if (!stopped) { stopped = true; if (rec.state !== 'inactive') rec.stop(); } };
-        vid.play().then(() => {
-          rec.start(250); renderLoop();
-          setTimeout(() => { if (!stopped) { stopped = true; vid.pause(); if (rec.state !== 'inactive') rec.stop(); } }, 3600);
-        }).catch(() => { URL.revokeObjectURL(tempUrl); callback(null); });
-      };
-      vid.onerror = () => { URL.revokeObjectURL(tempUrl); callback(null); };
-    }
-
-    function handleLivenessFallbackUpload(e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      if (file.type && file.type.startsWith('video/')) {
-        showToast('Processing live verification video...');
-        compressUploadedVideoFile(file, (videoDataUrl, mime, thumbUrl) => {
-          if (!videoDataUrl) { showToast('Could not process video. Please record a short 3-second clip.'); return; }
-          showCapturedLivenessPreview(videoDataUrl, mime || 'video/webm', thumbUrl || '');
-        });
-        return;
-      }
-      compressImageFile(file, 720, 720, 0.82, (dataUrl) => {
-        if (!dataUrl) { showToast('Could not read camera capture. Please try again.'); return; }
-        showCapturedLivenessPreview(dataUrl, 'image/jpeg', dataUrl);
-      });
-    }
-
     function showCapturedLivenessPreview(dataUrl, mimeType, thumbUrl) {
+      if (!livenessFaceVerified) {
+        showToast('❌ Face verification required before preview.');
+        return;
+      }
       stopLivenessStream(false);
       livenessTempDataUrl = dataUrl;
       livenessTempMime = mimeType || (typeof dataUrl === 'string' && dataUrl.startsWith('data:video/') ? 'video/webm' : 'image/jpeg');
@@ -3144,6 +3348,7 @@
       videoEl.style.display = 'none';
       document.getElementById('liveness-live-scan-line').style.display = 'none';
       document.getElementById('liveness-camera-fallback').style.display = 'none';
+      setLivenessFaceAlert('✅ Human face verified! Ready to confirm.', 'ok');
       if (isVideo && capVid) {
         imgEl.style.display = 'none'; capVid.src = dataUrl;
         if (livenessTempThumbUrl) capVid.poster = livenessTempThumbUrl;
@@ -3153,13 +3358,17 @@
       }
       document.getElementById('liveness-live-ring-ticks').className = 'liveness-ring-ticks verified';
       document.getElementById('liveness-progress-bar').style.width = '100%';
-      document.getElementById('liveness-live-instruction').innerText = isVideo ? 'Live Face Video Recorded ✓' : 'Live Frame Captured ✓';
-      document.getElementById('liveness-live-subtext').innerText = 'Review your live verification video and click Confirm & Verify, or Retake.';
+      document.getElementById('liveness-live-instruction').innerText = isVideo ? 'Live Face Video Verified ✓' : 'Live Face Frame Verified ✓';
+      document.getElementById('liveness-live-subtext').innerText = 'Face verified! Click Confirm & Verify to continue to the next step.';
       document.getElementById('liveness-live-controls').style.display = 'none';
       document.getElementById('liveness-confirm-controls').style.display = 'grid';
     }
 
-    function retakeLivenessCheck() { livenessTempDataUrl = null; livenessTempThumbUrl = ''; beginLivenessCheck(); }
+    function retakeLivenessCheck() {
+      livenessTempDataUrl = null; livenessTempThumbUrl = '';
+      livenessFaceVerified = false; livenessFaceFrames = 0; livenessBestConfidence = 0;
+      beginLivenessCheck();
+    }
     function previewClientFaceVerification(clientId) {
       const c = getClients().find(item => item.id === clientId);
       if (!c || !c.documents || !c.documents.faceVerification || !c.documents.faceVerification.data) return;
@@ -3174,7 +3383,10 @@
     }
 
     function confirmLivenessVerification() {
-      if (!livenessTempDataUrl) return;
+      if (!livenessTempDataUrl || !livenessFaceVerified) {
+        showToast('❌ Face not verified! Please show your face clearly in the camera.');
+        return;
+      }
       const verifiedAt = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
       const isVideo = livenessTempMime.startsWith('video/') || (typeof livenessTempDataUrl === 'string' && livenessTempDataUrl.startsWith('data:video/'));
       const ext = livenessTempMime.includes('mp4') ? 'mp4' : (isVideo ? 'webm' : 'jpg');
@@ -3182,18 +3394,25 @@
         name: 'live_face_verification.' + ext,
         type: livenessTempMime || (isVideo ? 'video/webm' : 'image/jpeg'),
         isVideo, data: livenessTempDataUrl, thumbData: livenessTempThumbUrl || '',
-        verifiedAt, method: isVideo ? 'Live Camera Video Liveness Check' : 'Live Camera Liveness Check'
+        faceVerified: true,
+        faceScore: Math.round((livenessBestConfidence || 0.8) * 100),
+        verifiedFrames: livenessFaceFrames || 1,
+        verifiedAt, method: isVideo ? 'AI Face-Verified Live Camera Video' : 'AI Face-Verified Live Camera Frame'
       };
       const badge = document.getElementById('face-verify-status-badge');
-      badge.innerText = '✓ Live verification completed'; badge.style.background = '#dcfce7'; badge.style.color = '#15803d'; badge.style.borderColor = '#86efac';
+      badge.innerText = '✓ Face Verified'; badge.style.background = '#dcfce7'; badge.style.color = '#15803d'; badge.style.borderColor = '#86efac';
+      const reqAlert = document.getElementById('face-verify-required-alert');
+      if (reqAlert) reqAlert.style.display = 'none';
+      const cardEl = document.getElementById('face-verify-card');
+      if (cardEl) cardEl.style.borderColor = '#86efac';
       const btn = document.getElementById('btn-open-liveness');
       btn.innerText = '🔄 Retake Liveness Check'; btn.style.background = '#0f2744';
-      document.getElementById('file-name-faceVerification').innerHTML = '<strong style="color:#15803d;">✓ Live verification completed</strong> (' + verifiedAt + ')';
+      document.getElementById('file-name-faceVerification').innerHTML = '<strong style="color:#15803d;">✓ Human face verified</strong> (' + verifiedAt + ')';
       const preview = document.getElementById('preview-faceVerification');
-      preview.innerHTML = `<div style="display:flex; align-items:center; gap:12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 14px;"><div style="width:36px; height:36px; border-radius:50%; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; flex-shrink:0; border:1px solid #86efac;">✓</div><div style="font-size:0.84rem;"><strong style="color:#15803d; display:block; font-size:0.9rem;">Live verification completed</strong><span style="color:#475569; font-size:0.76rem;">Verified on ${verifiedAt}</span></div></div>`;
+      preview.innerHTML = `<div style="display:flex; align-items:center; gap:12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 14px;"><div style="width:36px; height:36px; border-radius:50%; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; flex-shrink:0; border:1px solid #86efac;">✓</div><div style="font-size:0.84rem;"><strong style="color:#15803d; display:block; font-size:0.9rem;">Live face verification completed</strong><span style="color:#475569; font-size:0.76rem;">Face verified on ${verifiedAt}</span></div></div>`;
       preview.style.display = 'block';
       closeLivenessModal();
-      showToast('Live verification completed!');
+      showToast('✓ Face verified! You can now continue to Step 4.');
     }
 
     function compressImageFile(file, maxWidth, maxHeight, quality, callback) {
@@ -3276,6 +3495,13 @@
       });
     }
 
+    function isValidEmailAddress(rawEmail) {
+      const email = (rawEmail || '').trim();
+      if (!email || email.length > 200 || email.includes('..')) return false;
+      const pattern = /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]{0,62}[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+      return pattern.test(email);
+    }
+
     function findExistingClientByEmail(email) {
       const normalized = (email || '').trim().toLowerCase();
       if (!normalized) return null;
@@ -3287,26 +3513,43 @@
       if (!normalized) return false;
       if (findExistingClientByEmail(normalized)) return true;
       if (typeof window.fetchClientByEmailFromCloud === 'function') {
-        const cloudMatch = await window.fetchClientByEmailFromCloud(email);
-        if (cloudMatch && cloudMatch.id !== 'BF-4821' && cloudMatch.email !== 'client@breadfinance.com') return true;
+        const cloudMatch = await window.fetchClientByEmailFromCloud(normalized);
+        if (cloudMatch && cloudMatch.id !== 'BF-4821' && (cloudMatch.email || '').trim().toLowerCase() !== 'client@breadfinance.com') return true;
       }
       return false;
     }
 
     function clearRegEmailExistsAlert() {
+      const el = document.getElementById('reg-email');
+      if (el) el.style.borderColor = '';
+      const inv = document.getElementById('reg-email-invalid-alert');
+      if (inv) inv.style.display = 'none';
       document.getElementById('reg-email-exists-alert').style.display = 'none';
       document.getElementById('reg-submit-exists-alert').style.display = 'none';
     }
+    function showRegEmailInvalidAlert() {
+      const el = document.getElementById('reg-email');
+      if (el) el.style.borderColor = '#ef4444';
+      const inv = document.getElementById('reg-email-invalid-alert');
+      if (inv) inv.style.display = 'block';
+      document.getElementById('reg-email-exists-alert').style.display = 'none';
+    }
     function showRegEmailExistsAlert() {
+      const el = document.getElementById('reg-email');
+      if (el) el.style.borderColor = '#ef4444';
+      const inv = document.getElementById('reg-email-invalid-alert');
+      if (inv) inv.style.display = 'none';
       document.getElementById('reg-email-exists-alert').style.display = 'block';
       document.getElementById('reg-submit-exists-alert').style.display = 'block';
     }
     async function checkRegEmailOnBlur() {
       const email = (document.getElementById('reg-email')?.value || '').trim();
-      if (email && await isEmailAlreadyRegistered(email)) showRegEmailExistsAlert();
+      if (!email) return;
+      if (!isValidEmailAddress(email)) { showRegEmailInvalidAlert(); return; }
+      if (await isEmailAlreadyRegistered(email)) showRegEmailExistsAlert();
     }
     function goToClientSignInWithEmail() {
-      const prefillEmail = (document.getElementById('reg-email')?.value || '').trim();
+      const prefillEmail = (document.getElementById('reg-email')?.value || '').trim().toLowerCase();
       goToClientSignIn();
       if (prefillEmail) document.getElementById('login-email').value = prefillEmail;
       document.getElementById('login-password').focus();
@@ -3315,15 +3558,29 @@
     async function nextRegStep(stepNumber) {
       if (stepNumber === 2) {
         const name = document.getElementById('reg-name').value.trim();
-        const email = document.getElementById('reg-email').value.trim();
+        const emailRaw = document.getElementById('reg-email').value.trim();
+        const email = emailRaw.toLowerCase();
         const phone = document.getElementById('reg-phone').value.trim();
         const dob = document.getElementById('reg-dob').value;
         const address = document.getElementById('reg-address').value.trim();
-        if (!name || !email || !phone || !dob || !address) { showToast('Please fill all Step 1 details.'); return; }
-        if (await isEmailAlreadyRegistered(email)) {
-          showRegEmailExistsAlert(); showToast('Already applied! Please Sign In.');
+        if (!name || !emailRaw || !phone || !dob || !address) { showToast('Please fill all Step 1 details.'); return; }
+        if (!isValidEmailAddress(emailRaw)) {
+          showRegEmailInvalidAlert();
+          showToast('❌ Invalid Email ID! Enter a valid email like name@gmail.com');
           document.getElementById('reg-email').focus();
           return;
+        }
+        const nextBtn = document.getElementById('btn-step1-next');
+        if (nextBtn) { nextBtn.disabled = true; nextBtn.innerText = '⏳ Verifying Email ID...'; }
+        try {
+          if (await isEmailAlreadyRegistered(email)) {
+            showRegEmailExistsAlert();
+            showToast('⚠️ One application per Email ID! Already applied — Please Sign In.');
+            document.getElementById('reg-email').focus();
+            return;
+          }
+        } finally {
+          if (nextBtn) { nextBtn.disabled = false; nextBtn.innerText = 'Continue to Step 2 ➔'; }
         }
       }
       if (stepNumber === 3) {
@@ -3344,8 +3601,13 @@
         if (!regDocs.clientAadhaarFront || !regDocs.clientAadhaarBack || !regDocs.clientPanDoc || !regDocs.nomineeAadhaarFront) {
           showToast('Please upload all 4 required document files.'); return;
         }
-        if (!regDocs.faceVerification || !regDocs.faceVerification.data) {
-          showToast('Please complete Live Face Verification (Liveness Check).'); return;
+        if (!regDocs.faceVerification || !regDocs.faceVerification.data || regDocs.faceVerification.faceVerified !== true) {
+          const reqAlert = document.getElementById('face-verify-required-alert');
+          const cardEl = document.getElementById('face-verify-card');
+          if (reqAlert) reqAlert.style.display = 'block';
+          if (cardEl) { cardEl.style.borderColor = '#ef4444'; cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+          showToast('❌ Live Face Verification required! Show your real face to verify and continue.');
+          return;
         }
       }
       [1, 2, 3, 4].forEach(n => {
@@ -3357,7 +3619,8 @@
 
     async function submitRegistration() {
       const name = document.getElementById('reg-name').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
+      const emailRaw = document.getElementById('reg-email').value.trim();
+      const email = emailRaw.toLowerCase();
       const phone = document.getElementById('reg-phone').value.trim();
       const dob = document.getElementById('reg-dob').value;
       const address = document.getElementById('reg-address').value.trim();
@@ -3375,8 +3638,20 @@
       const pass = document.getElementById('reg-pass').value;
       const passConfirm = document.getElementById('reg-pass-confirm').value;
 
-      if (!name || !email || !phone || !bankName || !bankAcc || !bankIfsc || !pass) { showToast('Please fill all mandatory fields!'); return; }
-      if (await isEmailAlreadyRegistered(email)) { showRegEmailExistsAlert(); showToast('Already applied! Please Sign In.'); return; }
+      if (!name || !emailRaw || !phone || !bankName || !bankAcc || !bankIfsc || !pass) { showToast('Please fill all mandatory fields!'); return; }
+      if (!isValidEmailAddress(emailRaw)) {
+        showRegEmailInvalidAlert();
+        showToast('❌ Invalid Email ID! Enter a valid email like name@gmail.com');
+        nextRegStep(1);
+        document.getElementById('reg-email').focus();
+        return;
+      }
+      if (!regDocs.faceVerification || !regDocs.faceVerification.data || regDocs.faceVerification.faceVerified !== true) {
+        showToast('❌ Live Face Verification is required before submitting!');
+        nextRegStep(3);
+        return;
+      }
+      if (await isEmailAlreadyRegistered(email)) { showRegEmailExistsAlert(); showToast('⚠️ Only 1 application per Email ID! Already applied — Please Sign In.'); return; }
       if (pass !== passConfirm) { showToast('Passwords do not match!'); return; }
 
       const existingIds = new Set(getClients().map(c => c && c.id).filter(Boolean));
