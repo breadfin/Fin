@@ -1731,7 +1731,7 @@
                   </div>
                   <div style="display:flex; gap:12px;">
                     <button type="button" onclick="nextRegStep(3)" class="btn btn-outline" style="flex:1; padding:12px;">← Back</button>
-                    <button type="button" onclick="submitRegistration()" class="btn btn-primary" style="flex:2; padding:12px; background:linear-gradient(135deg, #16a34a 0%, #15803d 100%);">Submit &amp; Create Client Account ✓</button>
+                    <button type="button" id="btn-submit-registration" onclick="submitRegistration()" class="btn btn-primary" style="flex:2; padding:12px; background:linear-gradient(135deg, #16a34a 0%, #15803d 100%);">Submit &amp; Create Client Account ✓</button>
                   </div>
                 </div>
               </div>
@@ -1757,7 +1757,7 @@
                     <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;"><span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Loan Tenure</span><strong id="success-client-tenure" style="color:var(--color-navy);">-</strong></div>
                     <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px;"><span style="font-size:0.72rem; color:#64748b; display:block; font-weight:bold;">Nominee Legal Name</span><strong id="success-client-nominee" style="color:var(--color-navy);">-</strong></div>
                   </div>
-                  <div style="margin-top:14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 14px; font-size:0.78rem; color:#15803d; display:flex; align-items:center; gap:8px;">
+                  <div id="success-cloud-sync-status" style="margin-top:14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 14px; font-size:0.78rem; color:#15803d; display:flex; align-items:center; gap:8px;">
                     <span>✓</span><span>All KYC documents, Nominee Aadhaar &amp; Live Face Liveness Verification attached to application file.</span>
                   </div>
                 </div>
@@ -2223,6 +2223,7 @@
               <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                 <button type="button" onclick="clearAdminSearch()" id="admin-search-clear-btn" class="btn btn-outline" style="padding:9px 14px; font-size:0.82rem; display:none; background:#ffffff;">✕ Clear Search</button>
                 <button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="padding:8px 12px; font-size:0.78rem; background:#ffffff; border-color:#38bdf8; color:#0369a1;">🔄 Sync Cloud</button>
+                <button type="button" id="btn-sync-old-aviva" onclick="window.migrateLegacyAvivaClients && window.migrateLegacyAvivaClients(true)" class="btn btn-outline" style="padding:8px 12px; font-size:0.78rem; background:#fffbeb; border-color:#f59e0b; color:#92400e;">📥 Sync Old Aviva DB</button>
                 <span id="admin-search-count-badge" style="font-size:0.82rem; font-weight:800; color:#0369a1; background:#e0f2fe; padding:8px 14px; border-radius:20px; white-space:nowrap; border:1px solid #bae6fd;">Loading applications...</span>
               </div>
             </div>
@@ -2474,24 +2475,40 @@
   </footer>
 
   <!-- Cloud Firestore Database Connection (Live Real-Time Sync) -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, collection, doc, setDoc, deleteDoc, getDoc, getDocFromServer, getDocs, query, where, onSnapshot, updateDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  <script id="bf-cloud-firestore-loader">
+    window._cloudReadyPromise = (async function initCloudFirestore() {
+      try {
+        const [{ initializeApp }, { getFirestore, collection, doc, setDoc, deleteDoc, getDoc, getDocFromServer, getDocs, query, where, onSnapshot, updateDoc, deleteField }] = await Promise.all([
+          import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js'),
+          import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js')
+        ]);
 
-    const firebaseConfig = {
-      projectId: "avivacapitalfin-a1c57",
-      appId: "1:230095587897:web:4affc2230f2f1f26f79be8",
-      apiKey: "AIzaSyBVLRqoYgqWQc16Wlvnz006gKJ5obhni3U",
-      authDomain: "avivacapitalfin-a1c57.firebaseapp.com",
-      firestoreDatabaseId: "ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a",
-      storageBucket: "avivacapitalfin-a1c57.firebasestorage.app",
-      messagingSenderId: "230095587897"
-    };
+        const firebaseConfig = {
+          projectId: "bamboo-method-15gvv",
+          appId: "1:811128209871:web:98df81f7df2fefb13252ba",
+          apiKey: "AIzaSyCrvDu0SbPdYwsjp4qYBYaFcGNDczOQgrw",
+          authDomain: "bamboo-method-15gvv.firebaseapp.com",
+          firestoreDatabaseId: "ai-studio-fixinstall-38c8112e-fde8-43ce-8f81-1222e0edc453",
+          storageBucket: "bamboo-method-15gvv.firebasestorage.app",
+          messagingSenderId: "811128209871"
+        };
 
-    try {
-      const fbApp = initializeApp(firebaseConfig);
-      const db = getFirestore(fbApp, "ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a");
+        const legacyFirebaseConfig = {
+          projectId: "avivacapitalfin-a1c57",
+          appId: "1:230095587897:web:4affc2230f2f1f26f79be8",
+          apiKey: "AIzaSyBVLRqoYgqWQc16Wlvnz006gKJ5obhni3U",
+          authDomain: "avivacapitalfin-a1c57.firebaseapp.com",
+          firestoreDatabaseId: "ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a",
+          storageBucket: "avivacapitalfin-a1c57.firebasestorage.app",
+          messagingSenderId: "230095587897"
+        };
+
+        const fbApp = initializeApp(firebaseConfig);
+      const db = getFirestore(fbApp, "ai-studio-fixinstall-38c8112e-fde8-43ce-8f81-1222e0edc453");
+      const legacyApp = initializeApp(legacyFirebaseConfig, "legacyAviva");
+      const legacyDb = getFirestore(legacyApp, "ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a");
       window.db = db;
+      window.legacyDb = legacyDb;
       window.fbSetDoc = setDoc;
       window.fbDoc = doc;
       window.fbDeleteDoc = deleteDoc;
@@ -2512,16 +2529,6 @@
         };
         console.error('Firestore Error:', JSON.stringify(errInfo));
       };
-
-      (async function testFirestoreConnection() {
-        try {
-          await getDocFromServer(doc(db, 'test', 'connection'));
-        } catch (error) {
-          if (error instanceof Error && error.message.includes('the client is offline')) {
-            console.error('Please check your Firebase configuration.');
-          }
-        }
-      })();
 
       window._adminUnsub = null;
       window._adminSecurityUnsub = null;
@@ -2577,11 +2584,14 @@
               if (typeof window.idbSaveClients === 'function') window.idbSaveClients(mergedClients);
               try { localStorage.setItem('bf_clients', JSON.stringify(mergedClients)); } catch (e) {}
 
-              if (typeof window.flushPendingSyncQueue === 'function') window.flushPendingSyncQueue();
-
               const adminPane = document.getElementById('page-admin-dashboard');
               if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
                 loadAdminDashboard();
+              }
+
+              if (!window._autoLegacyMigrationTried && localStorage.getItem('bf_aviva_migrated_v1') !== 'done' && typeof window.migrateLegacyAvivaClients === 'function') {
+                window._autoLegacyMigrationTried = true;
+                window.migrateLegacyAvivaClients(false);
               }
             }, (err) => {
               window._firebaseReadError = (err && (err.code || err.message)) || 'Firestore connection error';
@@ -2705,8 +2715,8 @@
           return cached.client;
         }
         const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
+        const tries = clean === lower ? [lower] : [lower, clean];
         try {
-          const tries = clean === lower ? [lower] : [lower, clean];
           for (const candidate of tries) {
             const q = query(collection(db, 'clients'), where('email', '==', candidate));
             const snap = await getDocs(q);
@@ -2723,12 +2733,36 @@
               }
             }
           }
-          window._emailLookupCache.set(lower, { ts: Date.now(), client: null });
         } catch (err) {
           if (err && (err.code === 'resource-exhausted' || String(err.message || '').toLowerCase().includes('quota'))) {
             window._firebaseReadError = err.message || 'Quota limit exceeded';
           }
         }
+
+        // Legacy Aviva fallback lookup + auto-migrate matched client to primary DB
+        try {
+          if (legacyDb) {
+            for (const candidate of tries) {
+              const lq = query(collection(legacyDb, 'clients'), where('email', '==', candidate));
+              const lsnap = await getDocs(lq);
+              if (!lsnap.empty) {
+                let matched = null;
+                lsnap.forEach((docSnap) => {
+                  const d = docSnap.data();
+                  if (d && d.id && d._deleted !== true && !deletedSet.has(d.id) && !matched) matched = d;
+                });
+                if (matched) {
+                  try { await setDoc(doc(db, 'clients', String(matched.id)), matched, { merge: true }); } catch (e) {}
+                  if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(matched);
+                  window._emailLookupCache.set(lower, { ts: Date.now(), client: matched });
+                  return matched;
+                }
+              }
+            }
+          }
+        } catch (legacyErr) {}
+
+        window._emailLookupCache.set(lower, { ts: Date.now(), client: null });
         return null;
       };
 
@@ -2742,13 +2776,118 @@
             if (creds && creds.user && creds.pass) {
               window._firebaseAdminCreds = creds;
               try { localStorage.setItem('bf_admin_creds', JSON.stringify(creds)); } catch (e) {}
+              return;
+            }
+          }
+        } catch (e) {}
+        try {
+          if (legacyDb) {
+            const lsnap = await getDoc(doc(legacyDb, 'settings', 'admin_creds'));
+            if (lsnap.exists()) {
+              const creds = lsnap.data();
+              if (creds && creds.user && creds.pass) {
+                window._firebaseAdminCreds = creds;
+                try { localStorage.setItem('bf_admin_creds', JSON.stringify(creds)); } catch (e) {}
+                try { await setDoc(doc(db, 'settings', 'admin_creds'), creds, { merge: true }); } catch (e) {}
+              }
             }
           }
         } catch (e) {}
       };
-    } catch (err) {
-      console.warn('Cloud DB init notice:', err);
-    }
+
+      window._legacyMigrationStatus = localStorage.getItem('bf_aviva_migrated_v1') === 'done' ? 'done' : 'idle';
+      window._legacyMigrationMessage = '';
+      window.migrateLegacyAvivaClients = async function(manual) {
+        if (window._legacyMigrationStatus === 'syncing') return;
+        const btn = document.getElementById('btn-sync-old-aviva');
+        window._legacyMigrationStatus = 'syncing';
+        if (btn) { btn.disabled = true; btn.innerText = '⏳ Syncing Old Aviva...'; }
+        if (manual && typeof showToast === 'function') showToast('Checking old Aviva DB for unmigrated clients...');
+        try {
+          const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
+          try {
+            const secSnap = await getDoc(doc(legacyDb, 'settings', 'admin_security'));
+            if (secSnap.exists()) {
+              const sec = secSnap.data() || {};
+              if (sec.deletedClientIds && typeof sec.deletedClientIds === 'object') {
+                Object.keys(sec.deletedClientIds).forEach(cid => deletedSet.add(cid));
+                try { await setDoc(doc(db, 'settings', 'admin_security'), { deletedClientIds: sec.deletedClientIds }, { merge: true }); } catch (e) {}
+              }
+            }
+          } catch (e) {}
+
+          const snap = await getDocs(collection(legacyDb, 'clients'));
+          const existingIds = new Set((Array.isArray(window._firebaseClients) ? window._firebaseClients : []).map(c => c && c.id).filter(Boolean));
+          let importedCount = 0;
+          const legacyRecords = [];
+          snap.forEach((docSnap) => {
+            const raw = docSnap.data();
+            if (!raw) return;
+            const cid = String(raw.id || docSnap.id || '');
+            if (!cid || raw._deleted === true || deletedSet.has(cid) || cid === 'BF-4821') return;
+            const normalized = raw.id ? raw : Object.assign({}, raw, { id: cid });
+            legacyRecords.push(normalized);
+          });
+
+          for (const rec of legacyRecords) {
+            if (existingIds.has(rec.id)) continue;
+            const safeRec = typeof window.fitClientForFirestore === 'function'
+              ? window.fitClientForFirestore(Object.assign({}, rec, {
+                  id: String(rec.id),
+                  walletBalance: Number(rec.walletBalance) || 0,
+                  loanAmount: Number(rec.loanAmount) || 0,
+                  tenure: Number(rec.tenure) || 12
+                }))
+              : rec;
+            await setDoc(doc(db, 'clients', String(rec.id)), safeRec, { merge: true });
+            importedCount++;
+          }
+
+          localStorage.setItem('bf_aviva_migrated_v1', 'done');
+          window._legacyMigrationStatus = 'done';
+          window._legacyMigrationMessage = 'Imported ' + importedCount + ' Aviva records into new Cloud DB.';
+          if (typeof showToast === 'function') {
+            showToast(importedCount > 0 ? ('✓ Imported ' + importedCount + ' old/today Aviva clients!') : '✓ All Aviva clients are already synced!');
+          }
+        } catch (err) {
+          const msg = (err && (err.code || err.message)) || String(err || '');
+          const isQuota = msg.toLowerCase().includes('quota') || msg.toLowerCase().includes('resource-exhausted') || msg.includes('429');
+          window._legacyMigrationStatus = isQuota ? 'quota' : 'error';
+          window._legacyMigrationMessage = isQuota
+            ? 'Old Aviva DB is still in Google daily quota cooldown. New applications are already saving live to the new DB; click "📥 Sync Old Aviva DB" after Aviva resets to pull old records.'
+            : ('Old Aviva DB notice: ' + msg);
+          if (manual && typeof showToast === 'function') {
+            showToast(isQuota ? '⏳ Old Aviva DB quota still cooling down. Retry later!' : ('⚠️ ' + msg));
+          }
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.innerText = window._legacyMigrationStatus === 'done' ? '✓ Aviva Synced' : '📥 Sync Old Aviva DB';
+          }
+          const adminPane = document.getElementById('page-admin-dashboard');
+          if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+            loadAdminDashboard();
+          }
+        }
+      };
+      } catch (err) {
+        console.warn('Cloud DB init notice:', err);
+      }
+    })();
+    window._cloudReadyPromise.then(() => {
+      if (window.location && /admin/i.test(window.location.hash || '')) {
+        if (typeof window.fetchAdminCredsOnce === 'function') window.fetchAdminCredsOnce();
+      }
+      const adminPane = document.getElementById('page-admin-dashboard');
+      if (adminPane && adminPane.classList.contains('active') && typeof window.startAdminCloudSync === 'function') {
+        window.startAdminCloudSync();
+      }
+      const dashPane = document.getElementById('page-dashboard');
+      const activeId = localStorage.getItem('bf_active_client_id');
+      if (dashPane && dashPane.classList.contains('active') && activeId && typeof window.startClientCloudSync === 'function') {
+        window.startClientCloudSync(activeId);
+      }
+    });
   </script>
   <script>
     // ==================== CLOUD DATABASE & INDEXEDDB + LOCAL CACHE ====================
@@ -2900,7 +3039,7 @@
     function fitClientForFirestore(clientObj) {
       try {
         const copy = JSON.parse(JSON.stringify(clientObj));
-        const maxSafeBytes = 880000;
+        const maxSafeBytes = 820000;
         if (JSON.stringify(copy).length <= maxSafeBytes) return copy;
         if (copy.documents && copy.documents.faceVerification && copy.documents.faceVerification.thumbData) {
           copy.documents.faceVerification = Object.assign({}, copy.documents.faceVerification, {
@@ -2914,9 +3053,57 @@
         return clientObj;
       }
     }
+    window.fitClientForFirestore = fitClientForFirestore;
+
+    function downscaleDataUrl(dataUrl, maxDim, quality) {
+      return new Promise((resolve) => {
+        if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
+          return resolve(dataUrl);
+        }
+        const img = new Image();
+        img.onload = () => {
+          try {
+            let w = img.width || maxDim;
+            let h = img.height || maxDim;
+            if (w > maxDim || h > maxDim) {
+              if (w >= h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+              else { w = Math.round((w * maxDim) / h); h = maxDim; }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.max(1, w);
+            canvas.height = Math.max(1, h);
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          } catch (e) { resolve(dataUrl); }
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+      });
+    }
+
+    async function ensurePayloadFitsFirestore(clientObj) {
+      let copy = fitClientForFirestore(clientObj);
+      const maxSafeBytes = 820000;
+      if (JSON.stringify(copy).length <= maxSafeBytes || !copy.documents) return copy;
+      const docKeys = ['clientAadhaarFront', 'clientAadhaarBack', 'clientPanDoc', 'nomineeAadhaarFront', 'faceVerification'];
+      for (const [maxDim, quality] of [[600, 0.50], [440, 0.42]]) {
+        for (const k of docKeys) {
+          const item = copy.documents[k];
+          if (item && item.data && typeof item.data === 'string' && item.data.startsWith('data:image/')) {
+            item.data = await downscaleDataUrl(item.data, maxDim, quality);
+            item.type = 'image/jpeg';
+          }
+          if (item && item.thumbData && typeof item.thumbData === 'string' && item.thumbData.startsWith('data:image/')) {
+            item.thumbData = await downscaleDataUrl(item.thumbData, 320, 0.45);
+          }
+        }
+        if (JSON.stringify(copy).length <= maxSafeBytes) return copy;
+      }
+      return copy;
+    }
 
     function syncClientToFirestore(client) {
-      if (!client || !client.id) return;
+      if (!client || !client.id) return Promise.resolve({ ok: false, error: 'Missing client id' });
       const cleanClient = fitClientForFirestore(Object.assign({}, client, {
         id: String(client.id),
         walletBalance: Number(client.walletBalance) || 0,
@@ -2926,31 +3113,46 @@
       markPendingSyncId(cleanClient.id, true);
       if (window.db && window.fbSetDoc && window.fbDoc) {
         try {
-          window.fbSetDoc(window.fbDoc(window.db, 'clients', cleanClient.id), cleanClient, { merge: true })
+          return window.fbSetDoc(window.fbDoc(window.db, 'clients', cleanClient.id), cleanClient, { merge: true })
             .then(() => {
               window._firebaseWriteError = null;
               markPendingSyncId(cleanClient.id, false);
+              return { ok: true };
             })
             .catch(err => {
-              window._firebaseWriteError = (err && (err.code || err.message)) || 'Firestore write failed';
+              const errText = (err && (err.code || err.message)) || 'Firestore write failed';
+              window._firebaseWriteError = errText;
               if (typeof window.handleFirestoreError === 'function') window.handleFirestoreError(err, 'write', 'clients/' + cleanClient.id);
               console.warn('Cloud Firestore sync queued offline:', err);
+              return { ok: false, error: errText };
             });
-        } catch (e) {}
+        } catch (e) {
+          return Promise.resolve({ ok: false, error: e && e.message ? e.message : 'Write exception' });
+        }
       }
+      return Promise.resolve({ ok: false, error: 'Database unavailable offline' });
     }
 
-    function flushPendingSyncQueue() {
+    window._lastQueueFlushTs = 0;
+    window._isFlushingQueue = false;
+    function flushPendingSyncQueue(force) {
+      const now = Date.now();
+      if (window._isFlushingQueue) return;
+      if (!force && (now - window._lastQueueFlushTs) < 60000) return;
       const pendingIds = getPendingSyncIds();
       if (pendingIds.length === 0) return;
+      window._lastQueueFlushTs = now;
+      window._isFlushingQueue = true;
       const all = getClients();
-      pendingIds.forEach(id => {
+      Promise.all(pendingIds.map(id => {
         const c = all.find(item => item && item.id === id);
-        if (c) syncClientToFirestore(c);
+        return c ? syncClientToFirestore(c) : Promise.resolve();
+      })).finally(() => {
+        window._isFlushingQueue = false;
       });
     }
     window.flushPendingSyncQueue = flushPendingSyncQueue;
-    window.addEventListener('online', () => { flushPendingSyncQueue(); });
+    window.addEventListener('online', () => { flushPendingSyncQueue(true); });
 
     function saveClients(clients, targetClient) {
       window._idbClients = clients;
@@ -3756,7 +3958,7 @@
       if (!file) return;
       const nameDisp = document.getElementById('file-name-' + docKey);
       if (nameDisp) nameDisp.innerHTML = '<span style="color:#0284c7; font-weight:600;">⏳ Processing photo from phone...</span>';
-      compressImageFile(file, 900, 900, 0.68, (dataUrl, fileName, mimeType, sizeKb) => {
+      compressImageFile(file, 760, 760, 0.56, (dataUrl, fileName, mimeType, sizeKb) => {
         if (!dataUrl) {
           if (nameDisp) nameDisp.innerHTML = '<span style="color:#ef4444;">Upload failed. Please try again.</span>';
           showToast('Could not load photo. Please choose another image.');
@@ -3984,23 +4186,68 @@
         withdrawalState: { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false }
       };
 
-      const clients = getClients();
-      clients.unshift(newClient);
-      saveClients(clients, newClient);
-      setActiveClient(null);
+      const submitBtn = document.getElementById('btn-submit-registration');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = '⏳ Saving Application to Cloud...';
+      }
 
-      document.getElementById('success-client-id').innerText = id;
-      document.getElementById('success-client-name').innerText = name;
-      document.getElementById('success-client-email').innerText = email;
-      document.getElementById('success-client-phone').innerText = phone;
-      document.getElementById('success-client-amount').innerText = '₹' + loanAmount.toLocaleString('en-IN');
-      document.getElementById('success-client-tenure').innerText = tenure + ' Months';
-      document.getElementById('success-client-nominee').innerText = nominee + (nomineePhone ? ' (' + nomineePhone + ')' : '');
+      try {
+        const fittedClient = await ensurePayloadFitsFirestore(newClient);
+        const clients = getClients();
+        clients.unshift(fittedClient);
+        window._idbClients = clients;
+        if (Array.isArray(window._firebaseClients)) {
+          window._firebaseClients = clients;
+        }
+        idbSaveClients(clients);
+        try { localStorage.setItem('bf_clients', JSON.stringify(clients)); } catch (e) {}
 
-      document.getElementById('form-steps-container').style.display = 'none';
-      document.getElementById('form-success-box').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      showToast('Registration submitted! Please sign in with your email & password.');
+        const syncPromise = syncClientToFirestore(fittedClient);
+        const cloudResult = await Promise.race([
+          syncPromise,
+          new Promise(resolve => setTimeout(() => resolve({ ok: 'pending' }), 6000))
+        ]);
+        setActiveClient(null);
+
+        document.getElementById('success-client-id').innerText = id;
+        document.getElementById('success-client-name').innerText = name;
+        document.getElementById('success-client-email').innerText = email;
+        document.getElementById('success-client-phone').innerText = phone;
+        document.getElementById('success-client-amount').innerText = '₹' + loanAmount.toLocaleString('en-IN');
+        document.getElementById('success-client-tenure').innerText = tenure + ' Months';
+        document.getElementById('success-client-nominee').innerText = nominee + (nomineePhone ? ' (' + nomineePhone + ')' : '');
+
+        const statusBox = document.getElementById('success-cloud-sync-status');
+        if (statusBox) {
+          if (cloudResult && cloudResult.ok === true) {
+            statusBox.style.background = '#f0fdf4';
+            statusBox.style.borderColor = '#bbf7d0';
+            statusBox.style.color = '#15803d';
+            statusBox.innerHTML = '<span>✓</span><span>All KYC documents, Nominee Aadhaar &amp; Live Face Verification synced securely to Cloud Database.</span>';
+          } else if (cloudResult && cloudResult.ok === 'pending') {
+            statusBox.style.background = '#fffbeb';
+            statusBox.style.borderColor = '#fde68a';
+            statusBox.style.color = '#92400e';
+            statusBox.innerHTML = '<span>⏳</span><span>Application registered on this device; Cloud Database sync is continuing in background.</span>';
+          } else {
+            statusBox.style.background = '#fef2f2';
+            statusBox.style.borderColor = '#fecaca';
+            statusBox.style.color = '#991b1b';
+            statusBox.innerHTML = '<span>⚠️</span><span>Application saved on this device, but Cloud Database sync reported: <strong>' + String((cloudResult && cloudResult.error) || 'Network/Quota Error') + '</strong></span>';
+          }
+        }
+
+        document.getElementById('form-steps-container').style.display = 'none';
+        document.getElementById('form-success-box').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        showToast(cloudResult && cloudResult.ok === true ? 'Registration submitted & synced to Cloud!' : 'Registration saved! Sign in using your email & password.');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Submit & Create Client Account ✓';
+        }
+      }
     }
 
     function goToClientSignIn() {
@@ -5077,10 +5324,12 @@
 
     function retryAdminCloudSync() {
       window._firebaseReadError = null;
+      window._firebaseWriteError = null;
+      if (typeof window.flushPendingSyncQueue === 'function') window.flushPendingSyncQueue(true);
       if (typeof window.stopAdminCloudSync === 'function') window.stopAdminCloudSync();
       if (typeof window.startAdminCloudSync === 'function') window.startAdminCloudSync();
       showToast('Refreshing Cloud Firestore connection...');
-      setTimeout(() => { if (typeof loadAdminDashboard === 'function') loadAdminDashboard(); }, 400);
+      setTimeout(() => { if (typeof loadAdminDashboard === 'function') loadAdminDashboard(); }, 500);
     }
 
     function loadAdminDashboard() {
@@ -5097,9 +5346,18 @@
         const errMsg = window._firebaseReadError || window._firebaseWriteError;
         if (errMsg) {
           const isQuota = String(errMsg).toLowerCase().includes('quota') || String(errMsg).toLowerCase().includes('resource-exhausted');
+          syncAlert.style.background = '#fffbeb';
+          syncAlert.style.borderColor = '#f59e0b';
+          syncAlert.style.color = '#92400e';
           syncAlert.innerHTML = isQuota
-            ? '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;"><div><strong>⚠️ Cloud Database Daily Free Read Quota Reached:</strong> New client applications submitted on other phones cannot sync until Firebase daily quota resets (midnight PT / 1:30 PM IST) or Firebase Billing is enabled.</div><button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="background:#fff; padding:6px 12px; font-size:0.78rem; border-color:#d97706; color:#92400e;">🔄 Retry Cloud Sync</button></div>'
+            ? '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;"><div><strong>⚠️ Cloud Database Free Read Quota Reached (429):</strong> Please retry in a few moments or click Sync Cloud.</div><button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="background:#fff; padding:6px 12px; font-size:0.78rem; border-color:#d97706; color:#92400e;">🔄 Retry Cloud Sync</button></div>'
             : '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;"><div><strong>⚠️ Cloud Sync Notice:</strong> ' + String(errMsg) + '</div><button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="background:#fff; padding:6px 12px; font-size:0.78rem; border-color:#d97706; color:#92400e;">🔄 Retry Cloud Sync</button></div>';
+          syncAlert.style.display = 'block';
+        } else if (window._legacyMigrationStatus === 'quota' || window._legacyMigrationStatus === 'error') {
+          syncAlert.style.background = '#f0f9ff';
+          syncAlert.style.borderColor = '#7dd3fc';
+          syncAlert.style.color = '#0c4a6e';
+          syncAlert.innerHTML = '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;"><div><strong>✅ Live Cloud DB Connected (New Clients Active Now):</strong> ' + String(window._legacyMigrationMessage || 'Old Aviva DB sync pending daily quota reset.') + '</div><button type="button" onclick="window.migrateLegacyAvivaClients && window.migrateLegacyAvivaClients(true)" class="btn btn-outline" style="background:#fff; padding:6px 12px; font-size:0.78rem; border-color:#0284c7; color:#0369a1;">📥 Retry Old Aviva Sync</button></div>';
           syncAlert.style.display = 'block';
         } else {
           syncAlert.style.display = 'none';
@@ -5446,7 +5704,7 @@
         showToast('✓ Permanently deleted ' + clientLabel + ' from Admin Panel & Cloud Database.');
       } else {
         if (errBanner) {
-          errBanner.innerHTML = '⚠️ Database Delete Error for <strong>' + clientLabel + '</strong>: <code>' + firestoreErrMsg + '</code>. Please allow <code>delete</code> on <code>/clients/{docId}</code> in your <a href="https://console.firebase.google.com/project/avivacapitalfin-a1c57/firestore/databases/ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a/rules" target="_blank" rel="noopener" style="color:#dc2626; text-decoration:underline;">Firebase Firestore Rules Console</a>.';
+          errBanner.innerHTML = '⚠️ Database Delete Error for <strong>' + clientLabel + '</strong>: <code>' + firestoreErrMsg + '</code>. Please check <a href="https://console.firebase.google.com/project/bamboo-method-15gvv/firestore/databases/ai-studio-fixinstall-38c8112e-fde8-43ce-8f81-1222e0edc453/rules" target="_blank" rel="noopener" style="color:#dc2626; text-decoration:underline;">Firebase Firestore Rules Console</a>.';
           errBanner.style.display = 'block';
         }
         showToast('⚠️ Deleted locally; Cloud Firestore blocked delete (' + firestoreErrMsg + ').');
@@ -5551,7 +5809,7 @@
     // ==================== DOWNLOAD & ROUTING ====================
     function getCleanSourceCode() {
       const clone = document.documentElement.cloneNode(true);
-      clone.querySelectorAll('script[src*="_aistudio-iframe"], script[src*="/src/main.tsx"], script[src*="/@vite/client"], script[src*="virtual:pwa-register"], script[src*="/registerSW.js"], script[src*="/assets/index-"], script[id^="vite-plugin-pwa"], link[href*="/assets/index-"]').forEach(el => el.remove());
+      clone.querySelectorAll('script[src*="_aistudio-iframe"], script[src*="/src/main.tsx"], script[src*="/@vite/client"], script[src*="html-proxy"], script[src*="virtual:pwa-register"], script[src*="/registerSW.js"], script[src*="/assets/index-"], script[id^="vite-plugin-pwa"], link[href*="/assets/index-"]').forEach(el => el.remove());
       const rootEl = clone.querySelector('#root');
       if (rootEl) rootEl.remove();
       ['pwa-header-install-slot', 'pwa-mobile-install-slot', 'pwa-dashboard-install-slot', 'pwa-login-install-slot'].forEach(id => {
@@ -5625,7 +5883,7 @@
 
     function downloadStandaloneSW() {
       const swCode = [
-        "const CACHE_NAME = 'bread-finance-v3';",
+        "const CACHE_NAME = 'bread-finance-v4';",
         "const PRECACHE_URLS = ['./', './index.html', './manifest.webmanifest', './pwa-192x192.png', './pwa-512x512.png', './apple-touch-icon.png', './client-portal-hero.jpg'];",
         "self.addEventListener('install', (event) => {",
         "  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => self.skipWaiting()));",
