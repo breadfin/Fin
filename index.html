@@ -8,6 +8,13 @@
   <meta property="og:title" content="Bread Finance | Personal Loans, Business Loans &amp; Insurance">
   <meta property="og:description" content="Instant digital paperless loans and insurance coverage with Bread Finance Credit Co. Ltd. RBI Registered NBFC.">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0284c7">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="BreadFinance">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -620,6 +627,7 @@
       </nav>
 
       <div class="header-actions">
+        <span id="pwa-header-install-slot" style="display:inline-flex; align-items:center;"></span>
         <button class="btn btn-outline" onclick="checkAuthAndNavigate()" id="nav-auth-btn" style="padding:9px 18px; font-size:0.85rem;">Client Sign In</button>
         <button class="btn btn-primary" onclick="switchPage('register')" style="padding:9px 20px; font-size:0.85rem;">Apply Now ➔</button>
         <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Toggle menu">☰</button>
@@ -637,6 +645,7 @@
       <button class="nav-link" onclick="switchPage('careers-investors'); toggleMobileNav()">Careers &amp; Investors</button>
       <button class="nav-link" onclick="switchPage('loan-cancellation'); toggleMobileNav()">Loan Cancellation</button>
       <button class="nav-link" onclick="switchPage('loan-effect'); toggleMobileNav()">Non-Cancellation Effects</button>
+      <div id="pwa-mobile-install-slot"></div>
       <button class="btn btn-primary" onclick="switchPage('register'); toggleMobileNav()" style="margin-top:8px;">Apply for Loan Now ➔</button>
     </div>
   </header>
