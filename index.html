@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bread Finance | Personal Loans, Business Loans &amp; Insurance</title>
@@ -27,8 +25,8 @@
   </script>
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --color-primary: #0284c7;
@@ -321,21 +319,28 @@
     }
     .bf-login-left {
       position: relative;
-      min-height: 540px;
-      background: linear-gradient(155deg, #06182c 0%, #092540 52%, #0369a1 100%);
+      background: linear-gradient(180deg, #092540 0%, #0b3158 100%);
       color: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
     }
+    .bf-login-media {
+      position: relative;
+      height: 245px;
+      width: 100%;
+      overflow: hidden;
+      background: #06182c;
+      flex-shrink: 0;
+    }
     .bf-login-hero-bg {
-      position: absolute;
-      inset: 0;
+      position: relative;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
+      object-position: center 38%;
+      display: block;
       z-index: 1;
     }
     .bf-login-svg-fallback {
@@ -348,20 +353,23 @@
     }
     .bf-login-scrim {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(6, 24, 44, 0.86) 0%, rgba(9, 37, 64, 0.34) 44%, rgba(6, 24, 44, 0.93) 100%);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 54px;
+      background: linear-gradient(180deg, rgba(9, 37, 64, 0) 0%, #092540 100%);
       z-index: 2;
       pointer-events: none;
     }
     .bf-login-content {
       position: relative;
       z-index: 3;
-      height: 100%;
-      padding: 36px;
+      flex: 1;
+      padding: 20px 32px 30px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 24px;
+      gap: 20px;
     }
     .bf-login-right {
       padding: 42px 38px;
@@ -413,21 +421,21 @@
       .bf-resp-2col { grid-template-columns: minmax(0, 1fr) !important; gap: 20px !important; }
       .bf-resp-2col-img { min-height: 200px !important; height: 220px !important; }
       .bf-login-card { grid-template-columns: minmax(0, 1fr) !important; gap: 0 !important; }
-      .bf-login-left { min-height: 300px !important; }
-      .bf-login-content { padding: 26px 22px !important; gap: 18px !important; }
-      .bf-login-right { padding: 28px 22px !important; }
+      .bf-login-media { height: 210px !important; }
+      .bf-login-content { padding: 18px 22px 24px !important; gap: 16px !important; }
+      .bf-login-right { padding: 26px 22px !important; }
     }
     @media (max-width: 640px) {
-      .container { padding: 0 14px; }
-      .top-utility-inner { padding: 6px 14px; font-size: 0.7rem; gap: 6px; }
-      .nav-main-container { padding: 10px 14px; gap: 8px; }
-      .brand-group { gap: 8px; min-width: 0; }
-      .brand-logo-icon { width: 36px; height: 36px; font-size: 1rem; border-radius: 10px; flex-shrink: 0; }
-      .brand-title { font-size: 1.05rem; white-space: nowrap; }
+      .container { padding: 0 12px; }
+      .top-utility-inner { padding: 6px 12px; font-size: 0.7rem; gap: 6px; }
+      .nav-main-container { padding: 10px 12px; gap: 8px; }
+      .brand-group { gap: 7px; min-width: 0; flex: 1 1 auto; }
+      .brand-logo-icon { width: 34px; height: 34px; font-size: 0.92rem; border-radius: 9px; flex-shrink: 0; }
+      .brand-title { font-size: 0.96rem; line-height: 1.08; white-space: normal; }
       .brand-subtitle { display: none; }
-      .header-actions { gap: 6px; }
-      .header-actions .btn { padding: 6px 10px !important; font-size: 0.72rem !important; }
-      .mobile-menu-btn { padding: 6px 10px; font-size: 1.15rem; }
+      .header-actions { gap: 5px; flex-shrink: 0; }
+      .header-actions .btn { padding: 6px 9px !important; font-size: 0.7rem !important; white-space: nowrap; }
+      .mobile-menu-btn { padding: 5px 9px; font-size: 1.1rem; flex-shrink: 0; }
       .card:not(.bf-card-flush) { padding: 18px !important; border-radius: 18px; }
       .bf-hero-section { padding: 28px 0 36px !important; }
       .bf-hero-media-img { height: 260px !important; }
@@ -435,9 +443,9 @@
       .bf-hero-float-bottom { bottom: 10px !important; left: 10px !important; padding: 6px 10px !important; }
       .bf-emi-card { padding: 20px 16px !important; gap: 20px !important; }
       .bf-cta-box { padding: 28px 20px !important; }
-      .bf-login-left { min-height: 270px !important; }
-      .bf-login-content { padding: 22px 18px !important; }
-      .bf-login-right { padding: 24px 18px !important; }
+      .bf-login-media { height: 185px !important; }
+      .bf-login-content { padding: 16px 18px 20px !important; gap: 14px !important; }
+      .bf-login-right { padding: 22px 18px !important; }
       .dash-hero-card { padding: 20px 16px !important; }
       .bf-wallet-banner { flex-direction: column; align-items: flex-start !important; gap: 12px; }
       .bf-auto-grid { grid-template-columns: minmax(0, 1fr) !important; }
@@ -564,350 +572,12 @@
       to { transform: rotate(360deg); }
     }
   </style>
-<link rel="manifest" href="./manifest.webmanifest"><script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@2.0.4"></script><style>.aistudio-hover-highlight { box-shadow: inset 0 0 0 0.5px white, inset 0 0 0 1.5px rgba(128,128,128,0.6) !important; }.aistudio-active-highlight { outline: 2px solid #87a9ff !important; outline-offset: -2px !important; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.3), inset 0 0 0 0.5px rgba(0,0,0,0.3) !important; }.aistudio-generating-blur { filter: blur(5px) grayscale(100%) brightness(28%) !important; transition: filter 0.3s ease; }#aistudio-focus-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: #87a9ff; border-radius: 12px; z-index: 10000; padding: 8px; color: #32302c; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }#aistudio-hover-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: rgba(128,128,128,0.6); border-radius: 12px; z-index: 10000; padding: 8px; color: white; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }.aistudio-img-icon { display: none; vertical-align: middle; pointer-events: auto; cursor: pointer; }.aistudio-img-icon.visible { display: inline-flex; }#aistudio-focus-mode-tag .aistudio-img-icon { position: relative; width: 26px; height: 26px; background: #32302c; border-radius: 6px; margin: -4px -4px -4px 0; }#aistudio-focus-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-hover-mode-tag .aistudio-img-icon { position: relative; width: 18px; height: 18px; margin-left: 4px; }#aistudio-hover-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 0; left: 0; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-focus-mode-tag .aistudio-img-icon:hover, #aistudio-hover-mode-tag .aistudio-img-icon:hover { background: #424242 !important; }#aistudio-focus-mode-tag .aistudio-img-icon:active, #aistudio-hover-mode-tag .aistudio-img-icon:active { background: #393f51 !important; }</style><style type="text/css" data-vite-dev-id="/app/applet/src/index.css">/*! tailwindcss v4.3.5 | MIT License | https://tailwindcss.com */
-@layer properties;
-@layer theme, base, components, utilities;
-@layer theme {
-  :root, :host {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-      "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
-    --radius-sm: 0.25rem;
-    --radius-md: 0.375rem;
-    --radius-lg: 0.5rem;
-    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-    --default-transition-duration: 150ms;
-    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    --default-font-family: var(--font-sans);
-    --default-mono-font-family: var(--font-mono);
-  }
-}
-@layer base {
-  *, ::after, ::before, ::backdrop, ::file-selector-button {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border: 0 solid;
-  }
-  html, :host {
-    line-height: 1.5;
-    -webkit-text-size-adjust: 100%;
-    tab-size: 4;
-    font-family: var(--default-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
-    font-feature-settings: var(--default-font-feature-settings, normal);
-    font-variation-settings: var(--default-font-variation-settings, normal);
-    -webkit-tap-highlight-color: transparent;
-  }
-  hr {
-    height: 0;
-    color: inherit;
-    border-top-width: 1px;
-  }
-  abbr:where([title]) {
-    -webkit-text-decoration: underline dotted;
-    text-decoration: underline dotted;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-size: inherit;
-    font-weight: inherit;
-  }
-  a {
-    color: inherit;
-    -webkit-text-decoration: inherit;
-    text-decoration: inherit;
-  }
-  b, strong {
-    font-weight: bolder;
-  }
-  code, kbd, samp, pre {
-    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-    font-feature-settings: var(--default-mono-font-feature-settings, normal);
-    font-variation-settings: var(--default-mono-font-variation-settings, normal);
-    font-size: 1em;
-  }
-  small {
-    font-size: 80%;
-  }
-  sub, sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-  }
-  sub {
-    bottom: -0.25em;
-  }
-  sup {
-    top: -0.5em;
-  }
-  table {
-    text-indent: 0;
-    border-color: inherit;
-    border-collapse: collapse;
-  }
-  :-moz-focusring:where(:not(iframe)) {
-    outline: auto;
-  }
-  progress {
-    vertical-align: baseline;
-  }
-  summary {
-    display: list-item;
-  }
-  ol, ul, menu {
-    list-style: none;
-  }
-  img, svg, video, canvas, audio, iframe, embed, object {
-    display: block;
-    vertical-align: middle;
-  }
-  img, video {
-    max-width: 100%;
-    height: auto;
-  }
-  button, input, select, optgroup, textarea, ::file-selector-button {
-    font: inherit;
-    font-feature-settings: inherit;
-    font-variation-settings: inherit;
-    letter-spacing: inherit;
-    color: inherit;
-    border-radius: 0;
-    background-color: transparent;
-    opacity: 1;
-  }
-  :where(select:is([multiple], [size])) optgroup {
-    font-weight: bolder;
-  }
-  :where(select:is([multiple], [size])) optgroup option {
-    padding-inline-start: 20px;
-  }
-  ::file-selector-button {
-    margin-inline-end: 4px;
-  }
-  ::placeholder {
-    opacity: 1;
-  }
-  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
-    ::placeholder {
-      color: currentcolor;
-      @supports (color: color-mix(in lab, red, red)) {
-        color: color-mix(in oklab, currentcolor 50%, transparent);
-      }
-    }
-  }
-  textarea {
-    resize: vertical;
-  }
-  ::-webkit-search-decoration {
-    -webkit-appearance: none;
-  }
-  ::-webkit-date-and-time-value {
-    min-height: 1lh;
-    text-align: inherit;
-  }
-  ::-webkit-datetime-edit {
-    display: inline-flex;
-  }
-  ::-webkit-datetime-edit-fields-wrapper {
-    padding: 0;
-  }
-  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
-    padding-block: 0;
-  }
-  ::-webkit-calendar-picker-indicator {
-    line-height: 1;
-  }
-  :-moz-ui-invalid {
-    box-shadow: none;
-  }
-  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
-    appearance: button;
-  }
-  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-    height: auto;
-  }
-  [hidden]:where(:not([hidden="until-found"])) {
-    display: none !important;
-  }
-}
-@layer utilities {
-  .visible {
-    visibility: visible;
-  }
-  .fixed {
-    position: fixed;
-  }
-  .container {
-    width: 100%;
-    @media (width >= 40rem) {
-      max-width: 40rem;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem;
-    }
-    @media (width >= 96rem) {
-      max-width: 96rem;
-    }
-  }
-  .block {
-    display: block;
-  }
-  .flex {
-    display: flex;
-  }
-  .grid {
-    display: grid;
-  }
-  .hidden {
-    display: none;
-  }
-  .inline-block {
-    display: inline-block;
-  }
-  .inline-flex {
-    display: inline-flex;
-  }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
-  .transform {
-    transform: var(--tw-rotate-x, ) var(--tw-rotate-y, ) var(--tw-rotate-z, ) var(--tw-skew-x, ) var(--tw-skew-y, );
-  }
-  .flex-wrap {
-    flex-wrap: wrap;
-  }
-  .border {
-    border-style: var(--tw-border-style);
-    border-width: 1px;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
-  .backdrop-filter {
-    -webkit-backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
-    backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
-  }
-  .transition {
-    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
-    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-    transition-duration: var(--tw-duration, var(--default-transition-duration));
-  }
-  .ease-in-out {
-    --tw-ease: var(--ease-in-out);
-    transition-timing-function: var(--ease-in-out);
-  }
-}
-@property --tw-rotate-x {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-rotate-y {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-rotate-z {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-skew-x {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-skew-y {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-border-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
-@property --tw-backdrop-blur {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-brightness {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-contrast {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-grayscale {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-hue-rotate {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-invert {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-opacity {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-saturate {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-backdrop-sepia {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-ease {
-  syntax: "*";
-  inherits: false;
-}
-@layer properties {
-  @supports ((-webkit-hyphens: none) and (not (margin-trim: block))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
-    *, ::before, ::after, ::backdrop {
-      --tw-rotate-x: initial;
-      --tw-rotate-y: initial;
-      --tw-rotate-z: initial;
-      --tw-skew-x: initial;
-      --tw-skew-y: initial;
-      --tw-border-style: solid;
-      --tw-outline-style: solid;
-      --tw-backdrop-blur: initial;
-      --tw-backdrop-brightness: initial;
-      --tw-backdrop-contrast: initial;
-      --tw-backdrop-grayscale: initial;
-      --tw-backdrop-hue-rotate: initial;
-      --tw-backdrop-invert: initial;
-      --tw-backdrop-opacity: initial;
-      --tw-backdrop-saturate: initial;
-      --tw-backdrop-sepia: initial;
-      --tw-ease: initial;
-    }
-  }
-}
-</style></head>
+</head>
 <body>
   <div id="toast-msg">Notification</div>
 
   <!-- Document Full View Modal -->
-  <div id="doc-viewer-modal" class="modal-overlay" onclick="closeDocPreviewModal(event)" style="display: none;">
+  <div id="doc-viewer-modal" class="modal-overlay" onclick="closeDocPreviewModal(event)">
     <div class="modal-content" style="max-width:700px; text-align:center; position:relative;" onclick="event.stopPropagation()">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
         <strong id="doc-modal-title" style="color:var(--color-navy); font-size:1.05rem;">Document Preview</strong>
@@ -915,13 +585,13 @@
       </div>
       <div id="doc-modal-body" style="min-height:200px; display:flex; align-items:center; justify-content:center;">
         <img id="doc-modal-img" src="" alt="Document" style="max-height:70vh; max-width:100%; border-radius:8px; box-shadow:var(--shadow-md);">
-        <video id="doc-modal-video" controls="" autoplay="" loop="" playsinline="" style="display:none; max-height:70vh; max-width:100%; border-radius:10px; background:#0f172a; box-shadow:var(--shadow-md);"></video>
+        <video id="doc-modal-video" controls autoplay loop playsinline style="display:none; max-height:70vh; max-width:100%; border-radius:10px; background:#0f172a; box-shadow:var(--shadow-md);"></video>
       </div>
     </div>
   </div>
 
   <!-- In-App Permanent Delete Confirmation Modal (Works reliably inside iframes & mobile without browser confirm()) -->
-  <div id="confirm-delete-modal" class="modal-overlay" onclick="closeConfirmDeleteModal()" style="display: none;">
+  <div id="confirm-delete-modal" class="modal-overlay" onclick="closeConfirmDeleteModal()">
     <div class="modal-content" style="max-width:460px; padding:28px; border:2px solid #fca5a5;" onclick="event.stopPropagation()">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
         <div style="width:44px; height:44px; border-radius:12px; background:#fee2e2; color:#dc2626; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
@@ -947,7 +617,7 @@
   </div>
 
   <!-- Live Face Verification (Liveness Check) Modal -->
-  <div id="liveness-modal" class="modal-overlay" onclick="closeLivenessModal()" style="display: none;">
+  <div id="liveness-modal" class="modal-overlay" onclick="closeLivenessModal()">
     <div class="liveness-modal-card" onclick="event.stopPropagation()">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
         <h2 style="font-size:1.4rem; font-weight:800; color:#0f172a; margin:0; letter-spacing:-0.01em;">Liveness Check</h2>
@@ -963,12 +633,12 @@
           <div class="liveness-ring-ticks"></div>
           <div class="liveness-inner-circle">
             <svg viewBox="0 0 120 120" width="118" height="118" aria-hidden="true">
-              <path d="M24 38 V26 H36" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
-              <path d="M84 26 H96 V38" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
-              <path d="M24 82 V94 H36" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
-              <path d="M84 94 H96 V82" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
-              <circle cx="60" cy="52" r="19" fill="#cbd5e1"></circle>
-              <path d="M30 97 C32 80, 44 74, 60 74 C76 74, 88 80, 90 97 Z" fill="#cbd5e1"></path>
+              <path d="M24 38 V26 H36" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M84 26 H96 V38" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M24 82 V94 H36" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M84 94 H96 V82" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="60" cy="52" r="19" fill="#cbd5e1"/>
+              <path d="M30 97 C32 80, 44 74, 60 74 C76 74, 88 80, 90 97 Z" fill="#cbd5e1"/>
             </svg>
             <div class="liveness-scan-line"></div>
           </div>
@@ -1001,8 +671,8 @@
         <div class="liveness-ring-wrap">
           <div id="liveness-live-ring-ticks" class="liveness-ring-ticks scanning"></div>
           <div class="liveness-inner-circle" style="background:#0f172a;">
-            <video id="liveness-video" autoplay="" playsinline="" muted="" style="width:100%; height:100%; object-fit:cover; transform:scaleX(-1);"></video>
-            <video id="liveness-captured-video" autoplay="" loop="" playsinline="" muted="" controls="" style="display:none; width:100%; height:100%; object-fit:cover;" src=""></video>
+            <video id="liveness-video" autoplay playsinline muted style="width:100%; height:100%; object-fit:cover; transform:scaleX(-1);"></video>
+            <video id="liveness-captured-video" autoplay loop playsinline muted controls style="display:none; width:100%; height:100%; object-fit:cover;"></video>
             <img id="liveness-captured-img" src="" alt="Captured live face" style="display:none; width:100%; height:100%; object-fit:cover;">
             <div id="liveness-live-scan-line" class="liveness-scan-line"></div>
           </div>
@@ -1027,7 +697,7 @@
           <button type="button" onclick="closeLivenessModal()" style="background:#f1f5f9; color:#0f172a; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit;">
             Cancel
           </button>
-          <button type="button" id="liveness-capture-btn" onclick="captureLivenessSnapshot()" disabled="" style="background:#0066ff; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit; opacity:0.5;">
+          <button type="button" id="liveness-capture-btn" onclick="captureLivenessSnapshot()" disabled style="background:#0066ff; color:#ffffff; border:none; border-radius:10px; padding:12px 16px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:inherit; opacity:0.5;">
             Waiting for Face...
           </button>
         </div>
@@ -1175,8 +845,8 @@
             </div>
           </div>
           <div style="position:relative;">
-            <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1.5px solid rgb(186, 230, 253); position: relative; background: linear-gradient(135deg, rgb(2, 132, 199) 0%, rgb(9, 37, 64) 100%);">
-              <img class="bf-hero-media-img" src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Bread Finance Digital Loans" style="width: 100%; height: 400px; object-fit: cover; display: none;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1.5px solid #bae6fd; position:relative;">
+              <img class="bf-hero-media-img" src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=800&q=80" alt="Bread Finance Digital Loans" style="width:100%; height:400px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
               <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(9,37,64,0.65) 100%);"></div>
               <div style="position:absolute; bottom:18px; left:18px; right:18px; color:#ffffff; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
                 <div>
@@ -1271,15 +941,15 @@
             <div style="background:linear-gradient(145deg, #0f2744 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-md); padding:26px; display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="font-size:0.75rem; color:#bae6fd; font-weight:800;">ESTIMATED MONTHLY EMI</div>
-                <div id="home-emi-result" style="font-size:2.2rem; font-weight:900; margin:6px 0 14px;">₹14,122 / mo</div>
+                <div id="home-emi-result" style="font-size:2.2rem; font-weight:900; margin:6px 0 14px;">₹14,108</div>
                 <div style="border-top:1px solid rgba(255,255,255,0.18); padding-top:10px; font-size:0.85rem;">
                   <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                     <span style="color:#e0f2fe;">Total Payable:</span>
-                    <strong id="home-total-payable">₹3,38,928</strong>
+                    <strong id="home-total-payable">₹3,38,592</strong>
                   </div>
                   <div style="display:flex; justify-content:space-between;">
                     <span style="color:#e0f2fe;">Interest:</span>
-                    <strong id="home-interest-payable">₹38,928</strong>
+                    <strong id="home-interest-payable">₹38,592</strong>
                   </div>
                 </div>
               </div>
@@ -1303,7 +973,7 @@
             <div class="card bf-card-flush" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="height:210px; overflow:hidden; position:relative;">
-                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Personal Loans" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Personal Loans" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
                   <div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.9); color:#38bdf8; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">PERSONAL CREDIT</div>
                   <div style="position:absolute; bottom:12px; right:12px; background:#15803d; color:#ffffff; font-size:0.75rem; font-weight:900; padding:4px 12px; border-radius:20px;">Up to ₹40 Lakhs</div>
                 </div>
@@ -1327,7 +997,7 @@
             <div class="card bf-card-flush" style="padding:0; overflow:hidden; border-color:#fde68a; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="height:210px; overflow:hidden; position:relative;">
-                  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Business Loans" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=700&q=80" alt="Business Loans" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
                   <div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.9); color:#facc15; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">SME &amp; COMMERCIAL</div>
                   <div style="position:absolute; bottom:12px; right:12px; background:#b45309; color:#ffffff; font-size:0.75rem; font-weight:900; padding:4px 12px; border-radius:20px;">Up to ₹1 Crore</div>
                 </div>
@@ -1351,7 +1021,7 @@
             <div class="card bf-card-flush" style="padding:0; overflow:hidden; border-color:#bbf7d0; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="height:210px; overflow:hidden; position:relative;">
-                  <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Insurance Protection" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                  <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=700&q=80" alt="Insurance Protection" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
                   <div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.9); color:#4ade80; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">FAMILY &amp; ASSETS</div>
                   <div style="position:absolute; bottom:12px; right:12px; background:#15803d; color:#ffffff; font-size:0.75rem; font-weight:900; padding:4px 12px; border-radius:20px;">10,000+ Hospitals</div>
                 </div>
@@ -1432,7 +1102,7 @@
             </div>
             <div style="background:linear-gradient(145deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-lg); padding:32px; box-shadow:var(--shadow-lg);">
               <div style="height:220px; border-radius:14px; overflow:hidden; margin-bottom:20px; border:1px solid rgba(255,255,255,0.2);">
-                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Financial Freedom" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=700&q=80" alt="Financial Freedom" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
               </div>
               <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.72rem; margin-bottom:8px; display:inline-block;">TRANSPARENCY GUARANTEE</span>
               <h3 style="font-size:1.4rem; font-weight:900; margin-bottom:8px;">Zero Hidden Fees. Ever.</h3>
@@ -1501,7 +1171,7 @@
               </div>
             </div>
             <div style="border-radius:18px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.25); border:1.5px solid rgba(255,255,255,0.25); max-height:280px;">
-              <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Instant Disbursal Success" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+              <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=700&q=80" alt="Instant Disbursal Success" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
             </div>
           </div>
         </div>
@@ -1522,7 +1192,7 @@
             </div>
           </div>
           <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1px solid #bae6fd;">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Personal Loan" style="width:100%; height:340px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Personal Loan" style="width:100%; height:340px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1542,7 +1212,7 @@
         <div class="container">
           <div class="bf-resp-2col bf-cta-box" style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:24px; padding:36px; display:grid; grid-template-columns:1fr 1.2fr; gap:30px; align-items:center;">
             <div style="border-radius:16px; overflow:hidden; height:240px;">
-              <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Pay Over Time" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+              <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=600&q=80" alt="Pay Over Time" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
             </div>
             <div>
               <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.72rem; margin-bottom:8px; display:inline-block;">BREAD PAY® SOLUTIONS</span>
@@ -1560,9 +1230,9 @@
             <p style="color:#64748b; font-size:0.9rem;">Smart financial habits for borrowing responsibly and boosting your credit score.</p>
           </div>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
-            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Smarter Spending" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Smarter Spending</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Compare the total cost of borrowing, including interest rates and tenure length, to choose an EMI you can comfortably service.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Understanding Credit" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Understanding Credit</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Review your CIBIL score regularly and maintain timely repayments. Every on-time EMI enhances your financial reputation across banks.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Responsible Saving" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Responsible Saving</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Build a 3-month contingency reserve before undertaking fresh credit liabilities to ensure lifelong debt stability.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80" alt="Smarter Spending" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Smarter Spending</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Compare the total cost of borrowing, including interest rates and tenure length, to choose an EMI you can comfortably service.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80" alt="Understanding Credit" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Understanding Credit</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Review your CIBIL score regularly and maintain timely repayments. Every on-time EMI enhances your financial reputation across banks.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Responsible Saving" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Responsible Saving</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Build a 3-month contingency reserve before undertaking fresh credit liabilities to ensure lifelong debt stability.</p></div></div>
           </div>
         </div>
       </section>
@@ -1603,10 +1273,10 @@
       <section style="padding:50px 0; background:#ffffff;">
         <div class="container">
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(270px, 1fr)); gap:24px;">
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Working Capital" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#b45309;">01 / WORKING CAPITAL</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Keep Everyday Business Moving</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Bridge the cash flow gap between vendor payables and customer receipts with revolving overdraft lines.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#bbf7d0;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Inventory Funding" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#15803d;">02 / INVENTORY FUNDING</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Be Ready for Peak Seasons</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Stock up on raw materials and fast-moving inventory before festival seasons with customized trade lines.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Machinery &amp; Equipment" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#0369a1;">03 / MACHINERY &amp; EQUIPMENT</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Invest in Modern Technology</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Acquire modern diagnostic tools, industrial hardware, or commercial vehicles with structured 3 to 7 year tenures.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#e2e8f0;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Expansion" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#475569;">04 / STORE EXPANSION</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">New Branches &amp; Fit-Outs</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Fund commercial shop renovations, lease security deposits, and multi-city expansion with quick disbursals.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Working Capital" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#b45309;">01 / WORKING CAPITAL</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Keep Everyday Business Moving</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Bridge the cash flow gap between vendor payables and customer receipts with revolving overdraft lines.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#bbf7d0;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=800&q=80" alt="Inventory Funding" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#15803d;">02 / INVENTORY FUNDING</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Be Ready for Peak Seasons</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Stock up on raw materials and fast-moving inventory before festival seasons with customized trade lines.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Machinery & Equipment" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#0369a1;">03 / MACHINERY &amp; EQUIPMENT</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Invest in Modern Technology</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Acquire modern diagnostic tools, industrial hardware, or commercial vehicles with structured 3 to 7 year tenures.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#e2e8f0;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Expansion" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#475569;">04 / STORE EXPANSION</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">New Branches &amp; Fit-Outs</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Fund commercial shop renovations, lease security deposits, and multi-city expansion with quick disbursals.</p></div></div>
           </div>
         </div>
       </section>
@@ -1624,7 +1294,7 @@
       <section style="padding:50px 0; background:#ffffff;">
         <div class="container" style="display:flex; flex-direction:column; gap:30px;">
           <div class="card bf-resp-2col bf-card-flush" style="padding:0; overflow:hidden; display:grid; grid-template-columns:400px 1fr; align-items:center; border-color:#bbf7d0;">
-            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Life Insurance" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80" alt="Life Insurance" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
             <div style="padding:32px;">
               <span style="font-size:0.75rem; font-weight:800; color:#15803d; letter-spacing:0.05em;">01 / TERM LIFE INSURANCE</span>
               <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin:6px 0 12px;">Care That Looks Ahead</h2>
@@ -1645,10 +1315,10 @@
                 <li>Annual free preventive full-body checkups for all family members.</li>
               </ul>
             </div>
-            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Health Insurance" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="Health Insurance" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
           </div>
           <div class="card bf-resp-2col bf-card-flush" style="padding:0; overflow:hidden; display:grid; grid-template-columns:400px 1fr; align-items:center; border-color:#bae6fd;">
-            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Asset Protection" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80" alt="Asset Protection" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
             <div style="padding:32px;">
               <span style="font-size:0.75rem; font-weight:800; color:#0369a1; letter-spacing:0.05em;">03 / ASSET &amp; BUSINESS PROTECTION</span>
               <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin:6px 0 12px;">Protect What You Have Built</h2>
@@ -1676,7 +1346,7 @@
             </div>
           </div>
           <div style="border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md);">
-            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Financial Insights" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" alt="Financial Insights" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1723,7 +1393,7 @@
             <div style="font-size:0.82rem; color:var(--color-navy); font-weight:bold; background:#e0f2fe; padding:10px 14px; border-radius:10px; display:inline-block;">🏛️ Registered NBFC • Head Office: Bandra Kurla Complex, Mumbai</div>
           </div>
           <div style="border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md);">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Bread Finance Team" style="width:100%; height:280px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Bread Finance Team" style="width:100%; height:280px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1743,7 +1413,7 @@
       <section style="padding:50px 0; background:#f8fafc;">
         <div class="container">
           <div class="bf-resp-2col bf-cta-box" style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:24px; padding:36px; display:grid; grid-template-columns:320px 1fr; gap:30px; align-items:center;">
-            <div style="border-radius:16px; overflow:hidden; height:200px;"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Workspace" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div style="border-radius:16px; overflow:hidden; height:200px;"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80" alt="Workspace" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
             <div>
               <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:10px;">A Clearer Path to Your Next Chapter</h2>
               <p style="color:#e0f2fe; font-size:0.92rem; line-height:1.6; margin-bottom:18px;">Whether you need emergency hospital funds, equipment for your shop, or tuition fees for your children, Bread Finance delivers rapid sanction with institutional trust.</p>
@@ -1768,7 +1438,7 @@
             </div>
           </div>
           <div style="border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md);">
-            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Office" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80" alt="Office" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1797,9 +1467,9 @@
       <section style="padding:50px 0; background:#ffffff;">
         <div class="container">
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); gap:24px; margin-bottom:36px;">
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Unwanted EMI" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 1</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Unwanted EMI &amp; Interest Debits</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Active loans trigger scheduled monthly automated EMI deductions. Compounding interest accumulates, increasing your total debt burden unnecessarily.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">❌ Result: Non-refundable interest outflows and NACH bank penalties.</div></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="CIBIL Drop" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:4px;">IMPACT 2</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Severe CIBIL Score Degradation</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Unserviced active loans are reported straight to RBI-licensed credit bureaus (CIBIL, Experian), causing rapid credit score drops of 80 to 150 points.</p><div style="background:#fef3c7; color:#92400e; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">⚠️ Result: Future rejections for home loans, vehicle loans, and credit cards.</div></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="Legal Notices" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 3</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">NBFC Recovery &amp; Legal Notices</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Failing to service active loan mandates generates formal registered legal notices, collection agency proceedings, and Section 138/25 reminders.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">🚨 Result: Official collection notices and administrative disputes.</div></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" alt="Unwanted EMI" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 1</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Unwanted EMI &amp; Interest Debits</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Active loans trigger scheduled monthly automated EMI deductions. Compounding interest accumulates, increasing your total debt burden unnecessarily.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">❌ Result: Non-refundable interest outflows and NACH bank penalties.</div></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80" alt="CIBIL Drop" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:4px;">IMPACT 2</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Severe CIBIL Score Degradation</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Unserviced active loans are reported straight to RBI-licensed credit bureaus (CIBIL, Experian), causing rapid credit score drops of 80 to 150 points.</p><div style="background:#fef3c7; color:#92400e; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">⚠️ Result: Future rejections for home loans, vehicle loans, and credit cards.</div></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Legal Notices" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 3</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">NBFC Recovery &amp; Legal Notices</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Failing to service active loan mandates generates formal registered legal notices, collection agency proceedings, and Section 138/25 reminders.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">🚨 Result: Official collection notices and administrative disputes.</div></div></div>
           </div>
           <div style="text-align:center;"><button onclick="switchPage('loan-cancellation')" class="btn" style="background:#dc2626; color:#fff; font-weight:900; padding:14px 36px; font-size:1rem;">Proceed to Cancel Loan Request Now ➔</button></div>
         </div>
@@ -1817,13 +1487,13 @@
           <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin-bottom:8px;">Cancel Loan Application</h2>
           <p style="color:#64748b; font-size:0.88rem; margin-bottom:24px;">Please enter your registered details to submit an official loan cancellation request.</p>
           <form onsubmit="handleLoanCancellationSubmit(event)">
-            <div class="form-group"><label>Client Full Name *</label><input type="text" id="cancel-name" required="" class="form-control" placeholder="Full name as registered in application"></div>
-            <div class="form-group"><label>Client ID *</label><input type="text" id="cancel-id" required="" class="form-control" placeholder="e.g. BF-4821" style="text-transform:uppercase;"></div>
+            <div class="form-group"><label>Client Full Name *</label><input type="text" id="cancel-name" required class="form-control" placeholder="Full name as registered in application"></div>
+            <div class="form-group"><label>Client ID *</label><input type="text" id="cancel-id" required class="form-control" placeholder="e.g. BF-4821" style="text-transform:uppercase;"></div>
             <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-              <div class="form-group"><label>Aadhaar Number *</label><input type="text" id="cancel-aadhaar" required="" maxlength="12" class="form-control" placeholder="12-digit Aadhaar"></div>
-              <div class="form-group"><label>PAN Card Number *</label><input type="text" id="cancel-pan" required="" maxlength="10" class="form-control" placeholder="10-digit PAN" style="text-transform:uppercase;"></div>
+              <div class="form-group"><label>Aadhaar Number *</label><input type="text" id="cancel-aadhaar" required maxlength="12" class="form-control" placeholder="12-digit Aadhaar"></div>
+              <div class="form-group"><label>PAN Card Number *</label><input type="text" id="cancel-pan" required maxlength="10" class="form-control" placeholder="10-digit PAN" style="text-transform:uppercase;"></div>
             </div>
-            <div class="form-group"><label>Reason for Cancellation *</label><textarea id="cancel-reason" required="" class="form-control" style="min-height:90px;" placeholder="Please specify why you wish to cancel this loan application..."></textarea></div>
+            <div class="form-group"><label>Reason for Cancellation *</label><textarea id="cancel-reason" required class="form-control" style="min-height:90px;" placeholder="Please specify why you wish to cancel this loan application..."></textarea></div>
             <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; background:#dc2626; font-size:0.95rem;">Submit Official Cancellation Request ✕</button>
           </form>
         </div>
@@ -1853,10 +1523,10 @@
                 <div id="step-panel-1">
                   <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 1: Contact &amp; Identity</h3>
                   <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Please provide legal contact and address details as on your Aadhaar card.</p>
-                  <div class="form-group"><label>Full Legal Name (as in Aadhaar) *</label><input type="text" id="reg-name" required="" class="form-control" placeholder="e.g. Rahul Sharma"></div>
+                  <div class="form-group"><label>Full Legal Name (as in Aadhaar) *</label><input type="text" id="reg-name" required class="form-control" placeholder="e.g. Rahul Sharma"></div>
                   <div class="form-group">
                     <label>Email Address (Sign-in Username) *</label>
-                    <input type="email" id="reg-email" required="" class="form-control" placeholder="e.g. name@gmail.com" oninput="clearRegEmailExistsAlert()" onblur="checkRegEmailOnBlur()">
+                    <input type="email" id="reg-email" required class="form-control" placeholder="e.g. name@gmail.com" oninput="clearRegEmailExistsAlert()" onblur="checkRegEmailOnBlur()">
                     <div id="reg-email-invalid-alert" style="display:none; margin-top:8px; background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; padding:10px 14px; border-radius:10px; font-size:0.83rem; font-weight:700;">
                       ❌ Please enter a valid Email ID (e.g. name@gmail.com). Invalid format cannot proceed.
                     </div>
@@ -1867,9 +1537,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group"><label>Mobile Number (Aadhaar-linked) *</label><input type="tel" id="reg-phone" required="" maxlength="10" class="form-control" placeholder="9876543210"></div>
-                  <div class="form-group"><label>Date of Birth *</label><input type="date" id="reg-dob" required="" class="form-control"></div>
-                  <div class="form-group"><label>Residential Address &amp; Place *</label><textarea id="reg-address" required="" class="form-control" placeholder="Door No, Street, City, State, PIN" style="min-height:70px;"></textarea></div>
+                  <div class="form-group"><label>Mobile Number (Aadhaar-linked) *</label><input type="tel" id="reg-phone" required maxlength="10" class="form-control" placeholder="9876543210"></div>
+                  <div class="form-group"><label>Date of Birth *</label><input type="date" id="reg-dob" required class="form-control"></div>
+                  <div class="form-group"><label>Residential Address &amp; Place *</label><textarea id="reg-address" required class="form-control" placeholder="Door No, Street, City, State, PIN" style="min-height:70px;"></textarea></div>
                   <button type="button" id="btn-step1-next" onclick="nextRegStep(2)" class="btn btn-primary" style="width:100%; padding:13px; margin-top:8px;">Continue to Step 2 ➔</button>
                 </div>
 
@@ -1877,8 +1547,8 @@
                   <h3 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Step 2: KYC &amp; Loan Request</h3>
                   <p style="color:#64748b; font-size:0.85rem; margin-bottom:22px;">Enter your tax IDs and select your desired loan amount and tenure.</p>
                   <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                    <div class="form-group"><label>Aadhaar Number (12 digits) *</label><input type="text" id="reg-aadhaar" required="" maxlength="12" class="form-control" placeholder="12-digit number"></div>
-                    <div class="form-group"><label>PAN Card Number *</label><input type="text" id="reg-pan" required="" maxlength="10" class="form-control" placeholder="ABCDE1234F" style="text-transform:uppercase;"></div>
+                    <div class="form-group"><label>Aadhaar Number (12 digits) *</label><input type="text" id="reg-aadhaar" required maxlength="12" class="form-control" placeholder="12-digit number"></div>
+                    <div class="form-group"><label>PAN Card Number *</label><input type="text" id="reg-pan" required maxlength="10" class="form-control" placeholder="ABCDE1234F" style="text-transform:uppercase;"></div>
                   </div>
                   <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                     <div class="form-group">
@@ -1889,7 +1559,7 @@
                         <option value="Professional">Doctor / CA / Consultant</option>
                       </select>
                     </div>
-                    <div class="form-group"><label>Monthly Take-Home Income (₹) *</label><input type="number" id="reg-monthlyIncome" required="" min="10000" class="form-control" placeholder="e.g. 45000"></div>
+                    <div class="form-group"><label>Monthly Take-Home Income (₹) *</label><input type="number" id="reg-monthlyIncome" required min="10000" class="form-control" placeholder="e.g. 45000"></div>
                   </div>
                   <div style="background:#f0f9ff; padding:18px; border-radius:12px; border:1px solid #bae6fd; margin-bottom:20px;">
                     <div class="bf-resp-2col" style="display:grid; grid-template-columns:1.2fr 1fr; gap:16px;">
@@ -1898,7 +1568,7 @@
                         <select id="reg-loanAmount" class="form-control" onchange="updateLiveRegEmi()" style="font-weight:bold; font-size:0.95rem; color:var(--color-navy); padding:11px 14px;">
                           <option value="100000">1,00,000 (1 Lakh)</option>
                           <option value="150000">₹1,50,000 (1.5 Lakhs)</option>
-                          <option value="200000" selected="">2,00,000 (2 Lakhs)</option>
+                          <option value="200000" selected>2,00,000 (2 Lakhs)</option>
                           <option value="250000">2,50,000 (2.5 Lakhs)</option>
                           <option value="300000">₹3,00,000 (3 Lakhs)</option>
                           <option value="350000">₹3,50,000 (3.5 Lakhs)</option>
@@ -1913,7 +1583,7 @@
                         <select id="reg-tenure" class="form-control" onchange="updateLiveRegEmi()" style="font-weight:bold; font-size:0.95rem; padding:11px 14px;">
                           <option value="9">9 Months (1% monthly / 11.9% p.a.)</option>
                           <option value="12">12 Months (1% monthly / 11.9% p.a.)</option>
-                          <option value="24" selected="">24 Months (1% monthly / 11.9% p.a.)</option>
+                          <option value="24" selected>24 Months (1% monthly / 11.9% p.a.)</option>
                           <option value="36">36 Months (1% monthly / 11.9% p.a.)</option>
                           <option value="42">42 Months (1% monthly / 11.9% p.a.)</option>
                           <option value="48">48 Months (1% monthly / 11.9% p.a.)</option>
@@ -1938,10 +1608,10 @@
                   </div>
                   <div style="background:#f8fafc; padding:18px; border-radius:12px; border:1px solid #cbd5e1; margin-bottom:20px;">
                     <h4 style="font-size:0.9rem; font-weight:800; color:var(--color-navy); margin-bottom:12px; display:flex; align-items:center; gap:6px;"><span>🏦</span> Disbursement Bank Account Details</h4>
-                    <div class="form-group"><label>Disbursement Bank Name *</label><input type="text" id="reg-bankName" required="" class="form-control" placeholder="e.g. State Bank of India, HDFC Bank"></div>
+                    <div class="form-group"><label>Disbursement Bank Name *</label><input type="text" id="reg-bankName" required class="form-control" placeholder="e.g. State Bank of India, HDFC Bank"></div>
                     <div class="bf-resp-2col" style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px;">
-                      <div class="form-group" style="margin-bottom:0;"><label>Bank Account Number *</label><input type="text" id="reg-bankAcc" required="" class="form-control" placeholder="Full account number"></div>
-                      <div class="form-group" style="margin-bottom:0;"><label>Bank IFSC Code *</label><input type="text" id="reg-bankIfsc" required="" maxlength="11" class="form-control" placeholder="SBIN0001234" style="text-transform:uppercase;"></div>
+                      <div class="form-group" style="margin-bottom:0;"><label>Bank Account Number *</label><input type="text" id="reg-bankAcc" required class="form-control" placeholder="Full account number"></div>
+                      <div class="form-group" style="margin-bottom:0;"><label>Bank IFSC Code *</label><input type="text" id="reg-bankIfsc" required maxlength="11" class="form-control" placeholder="SBIN0001234" style="text-transform:uppercase;"></div>
                     </div>
                   </div>
                   <div style="display:flex; gap:12px;">
@@ -1997,8 +1667,8 @@
                   <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:14px; padding:18px; margin-bottom:20px;">
                     <h4 style="font-size:0.88rem; font-weight:800; color:#0369a1; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px;"><span>👥</span> Nominee Information &amp; Aadhaar Upload</h4>
                     <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                      <div class="form-group"><label>Nominee Name *</label><input type="text" id="reg-nominee" required="" class="form-control" placeholder="Full name of nominee"></div>
-                      <div class="form-group"><label>Nominee Contact Number *</label><input type="tel" id="reg-nominee-phone" required="" maxlength="10" class="form-control" placeholder="10-digit mobile number"></div>
+                      <div class="form-group"><label>Nominee Name *</label><input type="text" id="reg-nominee" required class="form-control" placeholder="Full name of nominee"></div>
+                      <div class="form-group"><label>Nominee Contact Number *</label><input type="tel" id="reg-nominee-phone" required maxlength="10" class="form-control" placeholder="10-digit mobile number"></div>
                     </div>
                     <div class="form-group" style="margin-bottom:4px;">
                       <label style="display:flex; justify-content:space-between; align-items:center;"><span>Nominee Aadhaar Front Side Upload *</span><span style="font-size:0.72rem; color:#64748b; font-weight:normal;">Take Photo / Choose File</span></label>
@@ -2040,14 +1710,14 @@
                     <div class="form-group">
                       <label>Create Portal Password *</label>
                       <div class="bf-login-pass-wrap">
-                        <input type="password" id="reg-pass" required="" class="form-control" placeholder="Minimum 6 characters">
+                        <input type="password" id="reg-pass" required class="form-control" placeholder="Minimum 6 characters">
                         <button type="button" class="bf-login-eye-btn" onclick="togglePasswordField('reg-pass', this)">👁 Show</button>
                       </div>
                     </div>
                     <div class="form-group">
                       <label>Confirm Portal Password *</label>
                       <div class="bf-login-pass-wrap">
-                        <input type="password" id="reg-pass-confirm" required="" class="form-control" placeholder="Re-type password">
+                        <input type="password" id="reg-pass-confirm" required class="form-control" placeholder="Re-type password">
                         <button type="button" class="bf-login-eye-btn" onclick="togglePasswordField('reg-pass-confirm', this)">👁 Show</button>
                       </div>
                     </div>
@@ -2107,9 +1777,9 @@
               <p style="color:#64748b; font-size:0.92rem; max-width:620px; margin:0 auto;">100% paperless institutional process with automated underwriting and same-day wallet credit.</p>
             </div>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:36px;">
-              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Instant Aadhaar &amp; KYC Application" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 01</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">📱 Instant Digital e-KYC</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Fill your basic Aadhaar, PAN, and address details. Upload documents seamlessly from your smartphone camera or photo gallery.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ 3-minute form completion • Zero physical branch visit</div></div></div>
-              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Automated Underwriting" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 02</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">⚖️ Transparent Credit Sanction</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Underwriting review validates your eligible limit up to ₹40 Lakhs at a steady 1% monthly / 11.9% p.a. reducing balance rate without hidden processing fees.</p><div style="font-size:0.76rem; font-weight:700; color:#15803d;">✓ 100% upfront clear APR • No balloon penalties</div></div></div>
-              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height: 190px; overflow: hidden; position: relative; background: linear-gradient(135deg, rgb(2, 132, 199) 0%, rgb(9, 37, 64) 100%);"><img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Direct Wallet Disbursal" style="width: 100%; height: 100%; object-fit: cover; display: none;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 03</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">💳 Wallet Credit &amp; Withdrawal</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Approved funds reflect immediately in your Client Clearing Wallet. Enter your security PIN code to initiate instant bank transfer directly to your savings account.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ Same-day bank clearing • 24/7 client portal tracking</div></div></div>
+              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80" alt="Instant Aadhaar & KYC Application" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 01</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">📱 Instant Digital e-KYC</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Fill your basic Aadhaar, PAN, and address details. Upload documents seamlessly from your smartphone camera or photo gallery.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ 3-minute form completion • Zero physical branch visit</div></div></div>
+              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80" alt="Automated Underwriting" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 02</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">⚖️ Transparent Credit Sanction</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Underwriting review validates your eligible limit up to ₹40 Lakhs at a steady 1% monthly / 11.9% p.a. reducing balance rate without hidden processing fees.</p><div style="font-size:0.76rem; font-weight:700; color:#15803d;">✓ 100% upfront clear APR • No balloon penalties</div></div></div>
+              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=700&q=80" alt="Direct Wallet Disbursal" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 03</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">💳 Wallet Credit &amp; Withdrawal</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Approved funds reflect immediately in your Client Clearing Wallet. Enter your security PIN code to initiate instant bank transfer directly to your savings account.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ Same-day bank clearing • 24/7 client portal tracking</div></div></div>
             </div>
           </div>
         </div>
@@ -2122,57 +1792,52 @@
         <div class="container" style="max-width:980px;">
           <div class="card bf-card-flush bf-login-card">
             <div class="bf-login-left">
-              <svg class="bf-login-svg-fallback" viewBox="0 0 600 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <defs>
-                  <linearGradient id="bfLoginBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#06182c"></stop>
-                    <stop offset="55%" stop-color="#0b3158"></stop>
-                    <stop offset="100%" stop-color="#0284c7"></stop>
-                  </linearGradient>
-                  <radialGradient id="bfLoginGlow" cx="72%" cy="28%" r="55%">
-                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.38"></stop>
-                    <stop offset="100%" stop-color="#06182c" stop-opacity="0"></stop>
-                  </radialGradient>
-                </defs>
-                <rect width="600" height="760" fill="url(#bfLoginBgGrad)"></rect>
-                <rect width="600" height="760" fill="url(#bfLoginGlow)"></rect>
-                <g stroke="rgba(186,230,253,0.14)" stroke-width="1" fill="none">
-                  <path d="M0 160 H600 M0 320 H600 M0 480 H600 M0 640 H600"></path>
-                  <path d="M120 0 V760 M240 0 V760 M360 0 V760 M480 0 V760"></path>
-                  <circle cx="420" cy="260" r="150"></circle>
-                  <circle cx="420" cy="260" r="220"></circle>
-                </g>
-                <g fill="rgba(56,189,248,0.12)" stroke="rgba(186,230,253,0.28)" stroke-width="1.5">
-                  <rect x="330" y="340" width="210" height="140" rx="16"></rect>
-                  <line x1="355" y1="382" x2="470" y2="382"></line>
-                  <line x1="355" y1="412" x2="510" y2="412"></line>
-                  <rect x="355" y="436" width="84" height="22" rx="6" fill="rgba(56,189,248,0.32)"></rect>
-                </g>
-              </svg>
-              <img src="/client-portal-hero.jpg" alt="Bread Finance Private Client Lounge" class="bf-login-hero-bg" referrerpolicy="no-referrer" onerror="this.style.display='none';">
-              <div class="bf-login-scrim"></div>
+              <div class="bf-login-media">
+                <svg class="bf-login-svg-fallback" viewBox="0 0 600 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="bfLoginBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#06182c"/>
+                      <stop offset="55%" stop-color="#0b3158"/>
+                      <stop offset="100%" stop-color="#0284c7"/>
+                    </linearGradient>
+                    <radialGradient id="bfLoginGlow" cx="72%" cy="35%" r="55%">
+                      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.42"/>
+                      <stop offset="100%" stop-color="#06182c" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="600" height="340" fill="url(#bfLoginBgGrad)"/>
+                  <rect width="600" height="340" fill="url(#bfLoginGlow)"/>
+                  <g stroke="rgba(186,230,253,0.16)" stroke-width="1" fill="none">
+                    <path d="M0 90 H600 M0 180 H600 M0 270 H600"/>
+                    <path d="M120 0 V340 M240 0 V340 M360 0 V340 M480 0 V340"/>
+                    <circle cx="430" cy="140" r="95"/>
+                  </g>
+                </svg>
+                <img src="./client-portal-hero.jpg" alt="Bread Finance Private Client Lounge" class="bf-login-hero-bg" referrerpolicy="no-referrer" onerror="if(!this.dataset.retried){this.dataset.retried='1';var self=this;setTimeout(function(){self.src='./client-portal-hero.jpg?r='+Date.now();},600);}else{this.style.display='none';}">
+                <div class="bf-login-scrim"></div>
+                <div style="position:absolute; top:14px; left:16px; z-index:4; background:rgba(6, 24, 44, 0.82); backdrop-filter:blur(8px); border:1px solid rgba(186, 230, 253, 0.28); border-radius:8px; padding:5px 10px; display:inline-flex; align-items:center; gap:6px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <span style="font-size:0.66rem; font-weight:800; letter-spacing:0.1em; color:#e0f2fe; text-transform:uppercase;">256-Bit SSL Client Access</span>
+                </div>
+              </div>
               <div class="bf-login-content">
                 <div>
-                  <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <span style="font-size:0.7rem; font-weight:800; letter-spacing:0.12em; color:#7dd3fc; text-transform:uppercase;">256-Bit SSL Client Access</span>
-                  </div>
-                  <h2 style="font-size:clamp(1.65rem, 2.6vw, 2.15rem); font-weight:900; line-height:1.18; letter-spacing:-0.02em; margin-bottom:10px; color:#ffffff;">Client Portal Sign In</h2>
-                  <p style="color:#e0f2fe; font-size:0.88rem; line-height:1.58; max-width:380px;">Access your live sanction progress, complete monthly EMI schedule, loan cancellation ledger, and direct clearing wallet.</p>
+                  <h2 style="font-size:clamp(1.55rem, 2.5vw, 2rem); font-weight:900; line-height:1.18; letter-spacing:-0.02em; margin-bottom:8px; color:#ffffff;">Client Portal Sign In</h2>
+                  <p style="color:#bae6fd; font-size:0.86rem; line-height:1.55;">Access your live sanction progress, complete monthly EMI schedule, loan cancellation ledger, and direct clearing wallet.</p>
                 </div>
 
                 <div>
-                  <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin-bottom:16px;">
-                    <div style="background:rgba(6, 24, 44, 0.72); border:1px solid rgba(186, 230, 253, 0.22); border-radius:12px; padding:11px 13px; backdrop-filter:blur(8px);">
-                      <div style="font-size:0.68rem; font-weight:800; color:#7dd3fc; letter-spacing:0.06em; text-transform:uppercase;">01 • Wallet</div>
-                      <div style="font-size:0.86rem; font-weight:800; color:#ffffff; margin-top:2px;">Same-Day Clearing</div>
+                  <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin-bottom:14px;">
+                    <div style="background:rgba(255, 255, 255, 0.08); border:1px solid rgba(186, 230, 253, 0.22); border-radius:12px; padding:10px 12px;">
+                      <div style="font-size:0.66rem; font-weight:800; color:#7dd3fc; letter-spacing:0.06em; text-transform:uppercase;">01 • Wallet</div>
+                      <div style="font-size:0.84rem; font-weight:800; color:#ffffff; margin-top:2px;">Same-Day Clearing</div>
                     </div>
-                    <div style="background:rgba(6, 24, 44, 0.72); border:1px solid rgba(186, 230, 253, 0.22); border-radius:12px; padding:11px 13px; backdrop-filter:blur(8px);">
-                      <div style="font-size:0.68rem; font-weight:800; color:#7dd3fc; letter-spacing:0.06em; text-transform:uppercase;">02 • Ledger</div>
-                      <div style="font-size:0.86rem; font-weight:800; color:#ffffff; margin-top:2px;">Live EMI &amp; Status</div>
+                    <div style="background:rgba(255, 255, 255, 0.08); border:1px solid rgba(186, 230, 253, 0.22); border-radius:12px; padding:10px 12px;">
+                      <div style="font-size:0.66rem; font-weight:800; color:#7dd3fc; letter-spacing:0.06em; text-transform:uppercase;">02 • Ledger</div>
+                      <div style="font-size:0.84rem; font-weight:800; color:#ffffff; margin-top:2px;">Live EMI &amp; Status</div>
                     </div>
                   </div>
-                  <div style="border-top:1px solid rgba(255,255,255,0.2); padding-top:12px; font-size:0.75rem; color:#bae6fd; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <div style="border-top:1px solid rgba(255,255,255,0.18); padding-top:10px; font-size:0.74rem; color:#93c5fd; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
                     <span>RBI Reg. NBFC: N-14.0321</span>
                     <span>Bread Finance Credit Co. Ltd.</span>
                   </div>
@@ -2262,7 +1927,7 @@
               <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold; display:block;">Residential Address &amp; Place</span><p id="home-disp-address" style="font-size:0.9rem; color:#334155; margin-top:4px; font-weight:500;">-</p></div>
             </div>
             <div style="background:linear-gradient(145deg, #0f2744 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-lg); overflow:hidden; display:flex; flex-direction:column; justify-content:space-between;">
-              <div style="height:190px; overflow:hidden;"><img src="/client-portal-hero.jpg" alt="Bread Finance Direct Wallet Disbursal" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+              <div style="height:190px; overflow:hidden;"><img src="./client-portal-hero.jpg" alt="Bread Finance Direct Wallet Disbursal" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
               <div style="padding:24px;">
                 <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.7rem; margin-bottom:6px;">INSTITUTIONAL DISBURSAL</span>
                 <h3 style="font-size:1.3rem; font-weight:900; margin-bottom:6px;">Direct Wallet Disbursal</h3>
@@ -2731,7 +2396,7 @@
               <button onclick="downloadCodeFile()" class="btn btn-primary" style="width:100%; padding:12px; font-weight:800; margin-top:12px;">📥 Download index.html</button>
             </div>
             <div style="background:#eff6ff; border:2px solid #93c5fd; border-radius:16px; padding:20px; text-align:center;">
-              <img src="/client-portal-hero.jpg" alt="Login Hero Preview" style="width:100%; height:76px; object-fit:cover; border-radius:10px; margin-bottom:8px; border:1px solid #bfdbfe;">
+              <img src="./client-portal-hero.jpg" alt="Login Hero Preview" style="width:100%; height:76px; object-fit:cover; border-radius:10px; margin-bottom:8px; border:1px solid #bfdbfe;">
               <h3 style="font-size:1.1rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Client Login Image</h3>
               <button onclick="downloadPublicAsset('client-portal-hero.jpg')" class="btn btn-primary" style="width:100%; padding:11px; font-size:0.84rem; font-weight:800; margin-top:8px;">🖼️ Download client-portal-hero.jpg</button>
             </div>
@@ -2757,7 +2422,7 @@
             </div>
           </div>
           <div>
-            <textarea id="source-code-textarea" readonly="" style="width:100%; height:280px; font-family:monospace; font-size:0.75rem; background:#092540; color:#7dd3fc; border-radius:12px; padding:16px; border:1px solid #1e4a7a; resize:vertical; outline:none;"></textarea>
+            <textarea id="source-code-textarea" readonly style="width:100%; height:280px; font-family:monospace; font-size:0.75rem; background:#092540; color:#7dd3fc; border-radius:12px; padding:16px; border:1px solid #1e4a7a; resize:vertical; outline:none;"></textarea>
           </div>
         </div>
       </div>
@@ -2806,7 +2471,280 @@
   </footer>
 
   <!-- Cloud Firestore Database Connection (Live Real-Time Sync) -->
-  <script type="module" src="/index.html?html-proxy&amp;index=0.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, collection, doc, setDoc, deleteDoc, getDoc, getDocFromServer, getDocs, query, where, onSnapshot, updateDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      projectId: "avivacapitalfin-a1c57",
+      appId: "1:230095587897:web:4affc2230f2f1f26f79be8",
+      apiKey: "AIzaSyBVLRqoYgqWQc16Wlvnz006gKJ5obhni3U",
+      authDomain: "avivacapitalfin-a1c57.firebaseapp.com",
+      firestoreDatabaseId: "ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a",
+      storageBucket: "avivacapitalfin-a1c57.firebasestorage.app",
+      messagingSenderId: "230095587897"
+    };
+
+    try {
+      const fbApp = initializeApp(firebaseConfig);
+      const db = getFirestore(fbApp, "ai-studio-admintrackpro-f5e3e89a-4ee1-4f1b-8f03-7e22ea3a561a");
+      window.db = db;
+      window.fbSetDoc = setDoc;
+      window.fbDoc = doc;
+      window.fbDeleteDoc = deleteDoc;
+      window.fbGetDoc = getDoc;
+      window.fbCollection = collection;
+      window.fbOnSnapshot = onSnapshot;
+      window.fbGetDocs = getDocs;
+      window.fbQuery = query;
+      window.fbWhere = where;
+      window.fbUpdateDoc = updateDoc;
+      window.fbDeleteField = deleteField;
+
+      window.handleFirestoreError = function(error, operationType, path) {
+        const errInfo = {
+          error: error instanceof Error ? error.message : String(error),
+          operationType,
+          path
+        };
+        console.error('Firestore Error:', JSON.stringify(errInfo));
+      };
+
+      (async function testFirestoreConnection() {
+        try {
+          await getDocFromServer(doc(db, 'test', 'connection'));
+        } catch (error) {
+          if (error instanceof Error && error.message.includes('the client is offline')) {
+            console.error('Please check your Firebase configuration.');
+          }
+        }
+      })();
+
+      window._adminUnsub = null;
+      window._adminSecurityUnsub = null;
+      window._clientUnsub = null;
+      window._clientUnsubId = null;
+      window._adminCredsFetched = false;
+      window._clientDocIdMap = new Map();
+
+      window.startAdminCloudSync = function() {
+        if (!window._adminUnsub) {
+          try {
+            window._adminUnsub = onSnapshot(collection(db, 'clients'), (snapshot) => {
+              window._firebaseReadError = null;
+              const liveMap = new Map();
+              const docIdMap = new Map();
+              const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
+              if (window._cloudDeletedClientIds && typeof window._cloudDeletedClientIds === 'object') {
+                Object.keys(window._cloudDeletedClientIds).forEach(k => deletedSet.add(k));
+              }
+
+              snapshot.forEach((docSnap) => {
+                const raw = docSnap.data();
+                if (!raw) return;
+                const cid = raw.id || docSnap.id;
+                if (!cid) return;
+                if (!docIdMap.has(cid)) docIdMap.set(cid, new Set());
+                docIdMap.get(cid).add(docSnap.id);
+
+                // Skip deleted documents (cloud _deleted flag or tombstones)
+                if (raw._deleted === true || deletedSet.has(cid)) {
+                  if (typeof window.markDeletedClientId === 'function') window.markDeletedClientId(cid, true);
+                  return;
+                }
+                const normalized = raw.id ? raw : Object.assign({}, raw, { id: cid });
+                liveMap.set(cid, normalized);
+              });
+
+              window._clientDocIdMap = docIdMap;
+
+              const pendingIds = typeof window.getPendingSyncIds === 'function' ? window.getPendingSyncIds() : [];
+              if (pendingIds.length > 0 && typeof window.getLocalCachedClients === 'function') {
+                const localList = window.getLocalCachedClients();
+                localList.forEach(lc => {
+                  if (lc && lc.id && pendingIds.includes(lc.id) && !lc._deleted && !deletedSet.has(lc.id) && !liveMap.has(lc.id)) {
+                    liveMap.set(lc.id, lc);
+                  }
+                });
+              }
+
+              const mergedClients = Array.from(liveMap.values());
+              window._firebaseClients = mergedClients;
+              window._idbClients = mergedClients;
+              if (typeof window.idbSaveClients === 'function') window.idbSaveClients(mergedClients);
+              try { localStorage.setItem('bf_clients', JSON.stringify(mergedClients)); } catch (e) {}
+
+              if (typeof window.flushPendingSyncQueue === 'function') window.flushPendingSyncQueue();
+
+              const adminPane = document.getElementById('page-admin-dashboard');
+              if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+                loadAdminDashboard();
+              }
+            }, (err) => {
+              window._firebaseReadError = (err && (err.code || err.message)) || 'Firestore connection error';
+              const adminPane = document.getElementById('page-admin-dashboard');
+              if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+                loadAdminDashboard();
+              }
+            });
+          } catch (e) {}
+        }
+
+        // Listen to Admin Login, Devices, Trusted Devices, Revocations & Cloud Deleted Client IDs in real time
+        if (!window._adminSecurityUnsub) {
+          try {
+            window._adminSecurityUnsub = onSnapshot(doc(db, 'settings', 'admin_security'), (docSnap) => {
+              if (!docSnap.exists()) return;
+              const secData = docSnap.data() || {};
+              if (secData.deletedClientIds && typeof secData.deletedClientIds === 'object') {
+                window._cloudDeletedClientIds = secData.deletedClientIds;
+                if (typeof window.markDeletedClientId === 'function') {
+                  Object.keys(secData.deletedClientIds).forEach(cid => window.markDeletedClientId(cid, true));
+                }
+                if (Array.isArray(window._firebaseClients)) {
+                  const delKeys = new Set(Object.keys(secData.deletedClientIds));
+                  window._firebaseClients = window._firebaseClients.filter(c => c && !c._deleted && !delKeys.has(c.id));
+                }
+                const adminPane = document.getElementById('page-admin-dashboard');
+                if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
+                  loadAdminDashboard();
+                }
+              }
+              if (Array.isArray(secData.logs)) {
+                window._firebaseAdminSecurityLogs = secData.logs;
+                try { localStorage.setItem('bf_admin_security_logs', JSON.stringify(secData.logs)); } catch (e) {}
+              }
+              if (secData.devices && typeof secData.devices === 'object') {
+                window._firebaseAdminDevices = secData.devices;
+                try { localStorage.setItem('bf_admin_devices', JSON.stringify(secData.devices)); } catch (e) {}
+              }
+              if (secData.trustedDevices && typeof secData.trustedDevices === 'object') {
+                window._firebaseAdminTrustedDevices = secData.trustedDevices;
+                try { localStorage.setItem('bf_admin_trusted_devices', JSON.stringify(secData.trustedDevices)); } catch (e) {}
+              }
+              if (secData.revokedDevices && typeof secData.revokedDevices === 'object') {
+                window._firebaseAdminRevokedDevices = secData.revokedDevices;
+                const myDevId = typeof getAdminDeviceId === 'function' ? getAdminDeviceId() : null;
+                if (myDevId && secData.revokedDevices[myDevId] && typeof window.checkSpecificDeviceRevoked === 'function') {
+                  window.checkSpecificDeviceRevoked(secData.revokedDevices[myDevId]);
+                }
+              }
+              if (secData.forceLogoutAt && typeof window.checkForceLogoutFromOtherDevice === 'function') {
+                window.checkForceLogoutFromOtherDevice(secData.forceLogoutAt, secData.triggeredByDeviceId);
+              }
+              if (typeof window.updateAdminSecurityUI === 'function') {
+                window.updateAdminSecurityUI();
+              }
+            }, (err) => {
+              console.warn('Admin security listener notice:', err);
+            });
+          } catch (e) {}
+        }
+      };
+
+      window.stopAdminCloudSync = function() {
+        if (window._adminUnsub) {
+          try { window._adminUnsub(); } catch (e) {}
+          window._adminUnsub = null;
+        }
+        if (window._adminSecurityUnsub) {
+          try { window._adminSecurityUnsub(); } catch (e) {}
+          window._adminSecurityUnsub = null;
+        }
+      };
+
+      window.startClientCloudSync = function(clientId) {
+        if (!clientId) return;
+        if (window._clientUnsub && window._clientUnsubId === clientId) return;
+        if (window._clientUnsub) {
+          try { window._clientUnsub(); } catch (e) {}
+          window._clientUnsub = null;
+        }
+        window._clientUnsubId = clientId;
+        try {
+          window._clientUnsub = onSnapshot(doc(db, 'clients', clientId), (docSnap) => {
+            const data = docSnap.exists() ? docSnap.data() : null;
+            if (!docSnap.exists() || !data || !data.id || data._deleted === true) {
+              if (typeof window.markDeletedClientId === 'function') window.markDeletedClientId(clientId, true);
+              if (localStorage.getItem('bf_active_client_id') === clientId && typeof logoutClient === 'function') {
+                logoutClient();
+              }
+              return;
+            }
+            if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(data);
+            const userPane = document.getElementById('page-dashboard');
+            if (userPane && userPane.classList.contains('active') && typeof loadUserDashboard === 'function') {
+              loadUserDashboard();
+            }
+          });
+        } catch (e) {}
+      };
+
+      window.stopClientCloudSync = function() {
+        if (window._clientUnsub) {
+          try { window._clientUnsub(); } catch (e) {}
+          window._clientUnsub = null;
+          window._clientUnsubId = null;
+        }
+      };
+
+      window.fetchClientByEmailFromCloud = async function(rawEmail) {
+        const clean = (rawEmail || '').trim();
+        const lower = clean.toLowerCase();
+        if (!clean) return null;
+        const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
+        try {
+          const tries = clean === lower ? [lower] : [lower, clean];
+          for (const candidate of tries) {
+            const q = query(collection(db, 'clients'), where('email', '==', candidate));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+              let matched = null;
+              snap.forEach((docSnap) => {
+                const d = docSnap.data();
+                if (d && d.id && d._deleted !== true && !deletedSet.has(d.id) && !matched) matched = d;
+              });
+              if (matched) {
+                if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(matched);
+                return matched;
+              }
+            }
+          }
+          const allSnap = await getDocs(collection(db, 'clients'));
+          let caseMatched = null;
+          allSnap.forEach((docSnap) => {
+            if (caseMatched) return;
+            const d = docSnap.data();
+            if (d && d.id && d._deleted !== true && !deletedSet.has(d.id) && typeof d.email === 'string' && d.email.trim().toLowerCase() === lower) {
+              caseMatched = d;
+            }
+          });
+          if (caseMatched) {
+            if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(caseMatched);
+            return caseMatched;
+          }
+        } catch (err) {}
+        return null;
+      };
+
+      window.fetchAdminCredsOnce = async function(force) {
+        if (window._adminCredsFetched && !force) return;
+        window._adminCredsFetched = true;
+        try {
+          const snap = await getDoc(doc(db, 'settings', 'admin_creds'));
+          if (snap.exists()) {
+            const creds = snap.data();
+            if (creds && creds.user && creds.pass) {
+              window._firebaseAdminCreds = creds;
+              try { localStorage.setItem('bf_admin_creds', JSON.stringify(creds)); } catch (e) {}
+            }
+          }
+        } catch (e) {}
+      };
+    } catch (err) {
+      console.warn('Cloud DB init notice:', err);
+    }
+  </script>
   <script>
     // ==================== CLOUD DATABASE & INDEXEDDB + LOCAL CACHE ====================
     function openBfIdb() {
@@ -5742,19 +5680,7 @@
     }
     window.addEventListener('hashchange', () => checkUrlRoute());
   </script>
-  
-  
-
-
-
-<script>
-    (function () {
-      if ("serviceWorker" in navigator && !window.__BREAD_STANDALONE_SW_REG__) {
-        window.__BREAD_STANDALONE_SW_REG__ = true;
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(function () {});
-        });
-      }
-    })();
-  </script>
-</body></html>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
