@@ -13,8 +13,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="BreadFinance">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png">
   <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <script>
+    window.__deferredPWAInstallPrompt = null;
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      window.__deferredPWAInstallPrompt = e;
+    });
+  </script>
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -179,6 +187,15 @@
     }
     .nav-dropdown-panel button small { display: block; color: #64748b; font-weight: normal; font-size: 0.72rem; }
     .nav-dropdown-panel button:hover { background: #f0f8ff; color: var(--color-primary); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 960px) {
+      .header-actions .btn { padding: 7px 12px !important; font-size: 0.76rem !important; white-space: nowrap; }
+    }
     .mobile-menu-btn {
       display: none; background: #f0f8ff; border: 1.5px solid #bae6fd;
       border-radius: 8px; padding: 8px 14px; font-size: 1.3rem; cursor: pointer;
@@ -1631,6 +1648,7 @@
               <div class="form-group"><label>Registered Email</label><input type="email" id="login-email" class="form-control" placeholder="Enter your registered email" value=""></div>
               <div class="form-group"><label>Password</label><input type="password" id="login-password" class="form-control" placeholder="Enter your password" value=""></div>
               <button onclick="performClientLogin()" class="btn btn-primary" style="width:100%; padding:13px; font-size:0.95rem;">Sign In to Client Portal ➔</button>
+              <div id="pwa-login-install-slot" style="margin-top:12px;"></div>
               <div style="text-align:center; margin-top:20px; font-size:0.82rem; color:#64748b;">Don't have an account? <a href="#register" onclick="switchPage('register'); return false;" style="color:var(--color-primary); font-weight:bold; text-decoration:none;">Apply for a loan</a></div>
             </div>
           </div>
@@ -1654,8 +1672,9 @@
                 <p id="dash-client-meta" style="color:#e0f2fe; font-size:0.85rem;">Client ID: BF-4821</p>
               </div>
             </div>
-            <div style="display:flex; gap:10px; align-items:center;">
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
               <span id="dash-status-pill" style="background:#fef3c7; color:#b45309; padding:6px 16px; border-radius:var(--radius-pill); font-size:0.8rem; font-weight:800;">Pending Under Review</span>
+              <span id="pwa-dashboard-install-slot" style="display:inline-flex; align-items:center;"></span>
               <button onclick="logoutClient()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:800; padding:8px 16px;">🚪 Logout</button>
             </div>
           </div>
@@ -1847,6 +1866,7 @@
               <input type="file" accept=".json,application/json" style="position:absolute; inset:0; opacity:0; cursor:pointer;" onchange="importClientsBackup(event)">
             </label>
             <button onclick="downloadCodeFile()" class="btn btn-primary" style="font-weight:bold; padding:8px 16px; font-size:0.8rem;">📥 Download HTML</button>
+            <button onclick="openDownloadHub()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 14px; font-size:0.8rem; border-color:#d97706; color:#b45309;">📱 PWA Files (Manifest &amp; Icons)</button>
             <button onclick="logoutAdmin()" class="btn" style="background:#fee2e2; color:#dc2626; font-weight:bold; padding:8px 18px;">Admin Logout</button>
           </div>
         </div>
@@ -2153,6 +2173,21 @@
               <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">Copy to Clipboard</h3>
               <button onclick="copyFullSourceCode()" class="btn" style="width:100%; padding:12px; font-weight:800; background:#16a34a; color:#fff; margin-top:12px;">📋 Copy All Code</button>
             </div>
+            <div style="background:#fffbeb; border:2px solid #fde68a; border-radius:16px; padding:20px; text-align:center;">
+              <div style="font-size:2rem; margin-bottom:8px;">📱</div>
+              <h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:4px;">PWA Manifest &amp; SW</h3>
+              <div style="display:flex; gap:8px; margin-top:12px;">
+                <button onclick="downloadStandaloneManifest()" class="btn btn-outline" style="flex:1; padding:10px 8px; font-size:0.78rem; font-weight:800; border-color:#d97706; color:#b45309;">📥 manifest.webmanifest</button>
+                <button onclick="downloadStandaloneSW()" class="btn btn-outline" style="flex:1; padding:10px 8px; font-size:0.78rem; font-weight:800; border-color:#d97706; color:#b45309;">📥 sw.js</button>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:10px;">
+                <button onclick="downloadPublicAsset('pwa-192x192.png')" class="btn btn-outline" style="padding:5px 9px; font-size:0.7rem;">192px PNG</button>
+                <button onclick="downloadPublicAsset('pwa-512x512.png')" class="btn btn-outline" style="padding:5px 9px; font-size:0.7rem;">512px PNG</button>
+                <button onclick="downloadPublicAsset('pwa-maskable-512x512.png')" class="btn btn-outline" style="padding:5px 9px; font-size:0.7rem;">Maskable PNG</button>
+                <button onclick="downloadPublicAsset('apple-touch-icon.png')" class="btn btn-outline" style="padding:5px 9px; font-size:0.7rem;">Apple PNG</button>
+                <button onclick="downloadPublicAsset('icon.svg')" class="btn btn-outline" style="padding:5px 9px; font-size:0.7rem;">icon.svg</button>
+              </div>
+            </div>
           </div>
           <div>
             <textarea id="source-code-textarea" readonly style="width:100%; height:280px; font-family:monospace; font-size:0.75rem; background:#092540; color:#7dd3fc; border-radius:12px; padding:16px; border:1px solid #1e4a7a; resize:vertical; outline:none;"></textarea>
@@ -2193,6 +2228,7 @@
           <ul class="footer-links">
             <li><button onclick="checkAuthAndNavigate()">Client Portal Login</button></li>
             <li><button onclick="switchPage('register')">New Loan Application</button></li>
+            <li><button onclick="switchPage(adminLogged ? 'admin-dashboard' : 'admin-login')">Staff / Admin Portal</button></li>
           </ul>
         </div>
       </div>
@@ -5170,8 +5206,144 @@
       htmlContent = htmlContent.replace(/<script src="\/_aistudio-iframe\.js.*?"><\/script>/gi, '');
       htmlContent = htmlContent.replace(/<script type="module" src="\/src\/main\.tsx"><\/script>/gi, '');
       htmlContent = htmlContent.replace(/<script type="module" src="\/@vite\/client"><\/script>/gi, '');
+      htmlContent = htmlContent.replace(/<script type="module" src="\/\@id\/virtual:pwa-register"><\/script>/gi, '');
+      htmlContent = htmlContent.replace(/<script id="vite-plugin-pwa:register-dev-sw"[\s\S]*?<\/script>/gi, '');
       htmlContent = htmlContent.replace(/<div id="root"><\/div>/gi, '');
+      htmlContent = htmlContent.replace(/href="\/manifest\.webmanifest"/gi, 'href="./manifest.webmanifest"');
+      htmlContent = htmlContent.replace(/href="\/apple-touch-icon\.png"/gi, 'href="./apple-touch-icon.png"');
+      htmlContent = htmlContent.replace(/href="\/pwa-192x192\.png"/gi, 'href="./pwa-192x192.png"');
+      htmlContent = htmlContent.replace(/href="\/icon\.svg"/gi, 'href="./icon.svg"');
+      const closeHeadTag = '<' + '/head>';
+      const closeBodyTag = '<' + '/body>';
+      const closeScriptTag = '<' + '/script>';
+      if (!/rel="manifest"/i.test(htmlContent)) {
+        htmlContent = htmlContent.replace(new RegExp(closeHeadTag, 'i'), '  <link rel="manifest" href="./manifest.webmanifest">\n' + closeHeadTag);
+      }
+      const standalonePwaBoot = [
+        '<script>',
+        '    (function () {',
+        '      if ("serviceWorker" in navigator) {',
+        '        window.addEventListener("load", function () {',
+        '          navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(function () {});',
+        '        });',
+        '      }',
+        '      function mountStandaloneInstallBtn() {',
+        '        var promptEvt = window.__deferredPWAInstallPrompt;',
+        '        var isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;',
+        '        if (isStandalone) return;',
+        '        var isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent || "");',
+        '        var slots = [',
+        '          { id: "pwa-header-install-slot", css: "padding:8px 14px;border-radius:9999px;background:linear-gradient(135deg,#092540 0%,#0369a1 100%);color:#fff;border:none;font-weight:800;font-size:0.8rem;cursor:pointer;" },',
+        '          { id: "pwa-mobile-install-slot", css: "width:100%;margin-top:4px;padding:10px 16px;border-radius:9999px;background:linear-gradient(135deg,#092540 0%,#0369a1 100%);color:#fff;border:none;font-weight:800;font-size:0.88rem;cursor:pointer;" },',
+        '          { id: "pwa-dashboard-install-slot", css: "padding:8px 16px;border-radius:9999px;background:#ffffff;color:#0369a1;border:none;font-weight:900;font-size:0.82rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.18);" },',
+        '          { id: "pwa-login-install-slot", css: "width:100%;padding:11px 16px;border-radius:9999px;background:#f0f9ff;color:#0369a1;border:1.5px solid #0284c7;font-weight:800;font-size:0.86rem;cursor:pointer;" }',
+        '        ];',
+        '        slots.forEach(function (cfg) {',
+        '          var slot = document.getElementById(cfg.id);',
+        '          if (!slot || slot.querySelector("button")) return;',
+        '          if (!promptEvt && !isIOS && cfg.id !== "pwa-dashboard-install-slot" && cfg.id !== "pwa-login-install-slot") return;',
+        '          var btn = document.createElement("button");',
+        '          btn.type = "button";',
+        '          btn.textContent = "📲 Install Client App";',
+        '          btn.style.cssText = cfg.css;',
+        '          btn.onclick = function () {',
+        '            var p = window.__deferredPWAInstallPrompt;',
+        '            if (p) {',
+        '              p.prompt();',
+        '              p.userChoice.then(function (res) {',
+        '                if (res && res.outcome === "accepted") { btn.remove(); }',
+        '                window.__deferredPWAInstallPrompt = null;',
+        '              });',
+        '            } else if (isIOS) {',
+        '              if (typeof showToast === "function") showToast("Safari: Tap Share -> Add to Home Screen");',
+        '            } else {',
+        '              if (typeof showToast === "function") showToast("Tap Chrome menu (⋮) -> Install app / Add to Home screen");',
+        '            }',
+        '          };',
+        '          slot.appendChild(btn);',
+        '        });',
+        '      }',
+        '      window.addEventListener("beforeinstallprompt", function (e) {',
+        '        e.preventDefault();',
+        '        window.__deferredPWAInstallPrompt = e;',
+        '        mountStandaloneInstallBtn();',
+        '      });',
+        '      window.addEventListener("DOMContentLoaded", mountStandaloneInstallBtn);',
+        '    })();',
+        '  ' + closeScriptTag
+      ].join('\n');
+      htmlContent = htmlContent.replace(new RegExp(closeBodyTag, 'i'), standalonePwaBoot + '\n' + closeBodyTag);
       return '<!DOCTYPE html>\n<html lang="en">\n' + htmlContent.replace(/^<html[^>]*>/i, '').trim();
+    }
+
+    function downloadStandaloneManifest() {
+      const manifest = {
+        id: "./",
+        name: "Bread Finance",
+        short_name: "BreadFinance",
+        description: "Instant digital paperless loans and insurance coverage with Bread Finance Credit Co. Ltd. RBI Registered NBFC.",
+        start_url: "./",
+        scope: "./",
+        display: "standalone",
+        theme_color: "#0284c7",
+        background_color: "#f8fafc",
+        icons: [
+          { src: "./pwa-192x192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: "./pwa-512x512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: "./pwa-maskable-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
+        ]
+      };
+      const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: "application/manifest+json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "manifest.webmanifest";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("manifest.webmanifest downloaded!");
+    }
+
+    function downloadStandaloneSW() {
+      const swCode = [
+        "const CACHE_NAME = 'bread-finance-v1';",
+        "const PRECACHE_URLS = ['./', './index.html', './manifest.webmanifest', './pwa-192x192.png', './pwa-512x512.png', './apple-touch-icon.png'];",
+        "self.addEventListener('install', (event) => {",
+        "  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => self.skipWaiting()));",
+        "});",
+        "self.addEventListener('activate', (event) => {",
+        "  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))).then(() => self.clients.claim()));",
+        "});",
+        "self.addEventListener('fetch', (event) => {",
+        "  if (event.request.method !== 'GET') return;",
+        "  event.respondWith(fetch(event.request).catch(() => caches.match(event.request).then((res) => res || caches.match('./index.html'))));",
+        "});"
+      ].join("\n");
+      const blob = new Blob([swCode], { type: "application/javascript" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "sw.js";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("sw.js downloaded!");
+    }
+
+    function openDownloadHub() {
+      switchPage('download');
+      const box = document.getElementById('source-code-textarea');
+      if (box) box.value = getCleanSourceCode();
+    }
+
+    function downloadPublicAsset(fileName) {
+      fetch('./' + fileName)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = fileName;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          showToast(fileName + ' downloaded!');
+        })
+        .catch(() => showToast('Could not download ' + fileName));
     }
 
     function downloadCodeFile() {
@@ -5218,11 +5390,16 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    function initAppBoot() {
       recalcHomeEmi();
       updateNavAuthButton();
       checkUrlRoute();
-    });
+    }
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initAppBoot);
+    } else {
+      initAppBoot();
+    }
     window.addEventListener('hashchange', () => checkUrlRoute());
   </script>
   <div id="root"></div>
