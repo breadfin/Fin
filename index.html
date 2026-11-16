@@ -2213,13 +2213,16 @@
             <span style="font-size:0.8rem; color:#64748b;">Click <strong>🗑️ Delete</strong> to remove permanently from Admin &amp; Database (no Save needed)</span>
           </div>
 
+          <div id="admin-cloud-sync-alert" style="display:none; background:#fffbeb; border:1.5px solid #f59e0b; color:#92400e; border-radius:12px; padding:14px 16px; margin-bottom:16px; font-size:0.84rem; line-height:1.5;"></div>
+
           <div style="background:#f8fafc; border:1.5px solid #bae6fd; border-radius:12px; padding:16px 18px; margin-bottom:18px;">
             <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
               <div style="flex:1; min-width:280px; position:relative;">
                 <input type="text" id="admin-client-search" class="form-control" placeholder="🔍 Search applicant by Client ID (e.g. BF-4821) or Email ID (name@example.com)..." oninput="filterAdminClients(this.value)" style="padding:11px 16px; font-weight:600; font-size:0.92rem; border-color:#93c5fd;">
               </div>
-              <div style="display:flex; gap:8px; align-items:center;">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                 <button type="button" onclick="clearAdminSearch()" id="admin-search-clear-btn" class="btn btn-outline" style="padding:9px 14px; font-size:0.82rem; display:none; background:#ffffff;">✕ Clear Search</button>
+                <button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="padding:8px 12px; font-size:0.78rem; background:#ffffff; border-color:#38bdf8; color:#0369a1;">🔄 Sync Cloud</button>
                 <span id="admin-search-count-badge" style="font-size:0.82rem; font-weight:800; color:#0369a1; background:#e0f2fe; padding:8px 14px; border-radius:20px; white-space:nowrap; border:1px solid #bae6fd;">Loading applications...</span>
               </div>
             </div>
@@ -2582,6 +2585,10 @@
               }
             }, (err) => {
               window._firebaseReadError = (err && (err.code || err.message)) || 'Firestore connection error';
+              if (window._adminUnsub) {
+                try { window._adminUnsub(); } catch (e) {}
+                window._adminUnsub = null;
+              }
               const adminPane = document.getElementById('page-admin-dashboard');
               if (adminPane && adminPane.classList.contains('active') && typeof loadAdminDashboard === 'function') {
                 loadAdminDashboard();
@@ -2688,10 +2695,15 @@
         }
       };
 
+      window._emailLookupCache = new Map();
       window.fetchClientByEmailFromCloud = async function(rawEmail) {
         const clean = (rawEmail || '').trim();
         const lower = clean.toLowerCase();
         if (!clean) return null;
+        const cached = window._emailLookupCache.get(lower);
+        if (cached && (Date.now() - cached.ts) < 20000) {
+          return cached.client;
+        }
         const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
         try {
           const tries = clean === lower ? [lower] : [lower, clean];
@@ -2706,24 +2718,17 @@
               });
               if (matched) {
                 if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(matched);
+                window._emailLookupCache.set(lower, { ts: Date.now(), client: matched });
                 return matched;
               }
             }
           }
-          const allSnap = await getDocs(collection(db, 'clients'));
-          let caseMatched = null;
-          allSnap.forEach((docSnap) => {
-            if (caseMatched) return;
-            const d = docSnap.data();
-            if (d && d.id && d._deleted !== true && !deletedSet.has(d.id) && typeof d.email === 'string' && d.email.trim().toLowerCase() === lower) {
-              caseMatched = d;
-            }
-          });
-          if (caseMatched) {
-            if (typeof window.upsertLocalClient === 'function') window.upsertLocalClient(caseMatched);
-            return caseMatched;
+          window._emailLookupCache.set(lower, { ts: Date.now(), client: null });
+        } catch (err) {
+          if (err && (err.code === 'resource-exhausted' || String(err.message || '').toLowerCase().includes('quota'))) {
+            window._firebaseReadError = err.message || 'Quota limit exceeded';
           }
-        } catch (err) {}
+        }
         return null;
       };
 
@@ -2892,22 +2897,42 @@
       return getLocalCachedClients();
     }
 
+    function fitClientForFirestore(clientObj) {
+      try {
+        const copy = JSON.parse(JSON.stringify(clientObj));
+        const maxSafeBytes = 880000;
+        if (JSON.stringify(copy).length <= maxSafeBytes) return copy;
+        if (copy.documents && copy.documents.faceVerification && copy.documents.faceVerification.thumbData) {
+          copy.documents.faceVerification = Object.assign({}, copy.documents.faceVerification, {
+            isVideo: false,
+            type: 'image/jpeg',
+            data: copy.documents.faceVerification.thumbData
+          });
+        }
+        return copy;
+      } catch (e) {
+        return clientObj;
+      }
+    }
+
     function syncClientToFirestore(client) {
       if (!client || !client.id) return;
-      const cleanClient = Object.assign({}, client, {
+      const cleanClient = fitClientForFirestore(Object.assign({}, client, {
         id: String(client.id),
         walletBalance: Number(client.walletBalance) || 0,
         loanAmount: Number(client.loanAmount) || 0,
         tenure: Number(client.tenure) || 12
-      });
+      }));
       markPendingSyncId(cleanClient.id, true);
       if (window.db && window.fbSetDoc && window.fbDoc) {
         try {
           window.fbSetDoc(window.fbDoc(window.db, 'clients', cleanClient.id), cleanClient, { merge: true })
             .then(() => {
+              window._firebaseWriteError = null;
               markPendingSyncId(cleanClient.id, false);
             })
             .catch(err => {
+              window._firebaseWriteError = (err && (err.code || err.message)) || 'Firestore write failed';
               if (typeof window.handleFirestoreError === 'function') window.handleFirestoreError(err, 'write', 'clients/' + cleanClient.id);
               console.warn('Cloud Firestore sync queued offline:', err);
             });
@@ -3731,7 +3756,7 @@
       if (!file) return;
       const nameDisp = document.getElementById('file-name-' + docKey);
       if (nameDisp) nameDisp.innerHTML = '<span style="color:#0284c7; font-weight:600;">⏳ Processing photo from phone...</span>';
-      compressImageFile(file, 1200, 1200, 0.8, (dataUrl, fileName, mimeType, sizeKb) => {
+      compressImageFile(file, 900, 900, 0.68, (dataUrl, fileName, mimeType, sizeKb) => {
         if (!dataUrl) {
           if (nameDisp) nameDisp.innerHTML = '<span style="color:#ef4444;">Upload failed. Please try again.</span>';
           showToast('Could not load photo. Please choose another image.');
@@ -5050,6 +5075,14 @@
       return str.substring(0, idx) + '<mark style="background:#fef08a; color:#854d0e; padding:1px 3px; border-radius:3px; font-weight:bold;">' + str.substring(idx, idx + query.length) + '</mark>' + str.substring(idx + query.length);
     }
 
+    function retryAdminCloudSync() {
+      window._firebaseReadError = null;
+      if (typeof window.stopAdminCloudSync === 'function') window.stopAdminCloudSync();
+      if (typeof window.startAdminCloudSync === 'function') window.startAdminCloudSync();
+      showToast('Refreshing Cloud Firestore connection...');
+      setTimeout(() => { if (typeof loadAdminDashboard === 'function') loadAdminDashboard(); }, 400);
+    }
+
     function loadAdminDashboard() {
       const allClients = getClients().slice().sort((a, b) => {
         const ta = formatAppliedDateTime(a).ts || 0;
@@ -5058,6 +5091,20 @@
       });
       const tbody = document.getElementById('admin-table-body');
       tbody.innerHTML = '';
+
+      const syncAlert = document.getElementById('admin-cloud-sync-alert');
+      if (syncAlert) {
+        const errMsg = window._firebaseReadError || window._firebaseWriteError;
+        if (errMsg) {
+          const isQuota = String(errMsg).toLowerCase().includes('quota') || String(errMsg).toLowerCase().includes('resource-exhausted');
+          syncAlert.innerHTML = isQuota
+            ? '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;"><div><strong>⚠️ Cloud Database Daily Free Read Quota Reached:</strong> New client applications submitted on other phones cannot sync until Firebase daily quota resets (midnight PT / 1:30 PM IST) or Firebase Billing is enabled.</div><button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="background:#fff; padding:6px 12px; font-size:0.78rem; border-color:#d97706; color:#92400e;">🔄 Retry Cloud Sync</button></div>'
+            : '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;"><div><strong>⚠️ Cloud Sync Notice:</strong> ' + String(errMsg) + '</div><button type="button" onclick="retryAdminCloudSync()" class="btn btn-outline" style="background:#fff; padding:6px 12px; font-size:0.78rem; border-color:#d97706; color:#92400e;">🔄 Retry Cloud Sync</button></div>';
+          syncAlert.style.display = 'block';
+        } else {
+          syncAlert.style.display = 'none';
+        }
+      }
 
       const q = (adminSearchQuery || '').toLowerCase();
       const filtered = allClients.filter(c => {
@@ -5082,8 +5129,8 @@
       }
 
       if (allClients.length === 0) {
-        if (window._firebaseReadError && String(window._firebaseReadError).toLowerCase().includes('quota')) {
-          tbody.innerHTML = '<tr><td colspan="10" style="padding:28px; text-align:center; background:#fffbeb; color:#92400e; font-size:0.92rem; border-radius:8px;">⚠️ <strong>Cloud Database Daily Free Read Quota Reached.</strong><br><span style="font-size:0.84rem; color:#78350f;">Your existing client applications are safe in Cloud Firestore and will reload automatically once the daily quota resets (midnight PT).</span></td></tr>';
+        if (window._firebaseReadError && (String(window._firebaseReadError).toLowerCase().includes('quota') || String(window._firebaseReadError).toLowerCase().includes('resource-exhausted'))) {
+          tbody.innerHTML = '<tr><td colspan="10" style="padding:28px; text-align:center; background:#fffbeb; color:#92400e; font-size:0.92rem; border-radius:8px;">⚠️ <strong>Cloud Database Daily Free Read Quota Reached.</strong><br><span style="font-size:0.84rem; color:#78350f;">Existing &amp; new client applications are safe in Cloud Firestore and will reload automatically once the daily quota resets (midnight PT / 1:30 PM IST).</span></td></tr>';
         } else if (window._firebaseReadError) {
           tbody.innerHTML = '<tr><td colspan="10" style="padding:28px; text-align:center; background:#fffbeb; color:#92400e; font-size:0.92rem;">⚠️ <strong>Cloud Sync Temporarily Unavailable:</strong> ' + String(window._firebaseReadError) + '</td></tr>';
         } else {
