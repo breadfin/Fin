@@ -2569,11 +2569,17 @@
               window._clientDocIdMap = docIdMap;
 
               const pendingIds = typeof window.getPendingSyncIds === 'function' ? window.getPendingSyncIds() : [];
-              if (pendingIds.length > 0 && typeof window.getLocalCachedClients === 'function') {
+              const preserveLocal = localStorage.getItem('bf_aviva_migrated_v1') !== 'done';
+              if ((pendingIds.length > 0 || preserveLocal) && typeof window.getLocalCachedClients === 'function') {
                 const localList = window.getLocalCachedClients();
                 localList.forEach(lc => {
-                  if (lc && lc.id && pendingIds.includes(lc.id) && !lc._deleted && !deletedSet.has(lc.id) && !liveMap.has(lc.id)) {
-                    liveMap.set(lc.id, lc);
+                  if (lc && lc.id && !lc._deleted && !deletedSet.has(lc.id) && !liveMap.has(lc.id)) {
+                    if (pendingIds.includes(lc.id) || preserveLocal) {
+                      liveMap.set(lc.id, lc);
+                      if (preserveLocal && typeof window.syncClientToFirestore === 'function') {
+                        window.syncClientToFirestore(lc);
+                      }
+                    }
                   }
                 });
               }
@@ -2805,6 +2811,7 @@
         if (manual && typeof showToast === 'function') showToast('Checking old Aviva DB for unmigrated clients...');
         try {
           const deletedSet = new Set(typeof window.getDeletedClientIds === 'function' ? window.getDeletedClientIds() : []);
+          const snap = await getDocs(collection(legacyDb, 'clients'));
           try {
             const secSnap = await getDoc(doc(legacyDb, 'settings', 'admin_security'));
             if (secSnap.exists()) {
@@ -2816,7 +2823,6 @@
             }
           } catch (e) {}
 
-          const snap = await getDocs(collection(legacyDb, 'clients'));
           const existingIds = new Set((Array.isArray(window._firebaseClients) ? window._firebaseClients : []).map(c => c && c.id).filter(Boolean));
           let importedCount = 0;
           const legacyRecords = [];
@@ -2831,16 +2837,21 @@
 
           for (const rec of legacyRecords) {
             if (existingIds.has(rec.id)) continue;
-            const safeRec = typeof window.fitClientForFirestore === 'function'
-              ? window.fitClientForFirestore(Object.assign({}, rec, {
-                  id: String(rec.id),
-                  walletBalance: Number(rec.walletBalance) || 0,
-                  loanAmount: Number(rec.loanAmount) || 0,
-                  tenure: Number(rec.tenure) || 12
-                }))
-              : rec;
-            await setDoc(doc(db, 'clients', String(rec.id)), safeRec, { merge: true });
-            importedCount++;
+            try {
+              const baseRec = Object.assign({}, rec, {
+                id: String(rec.id),
+                walletBalance: Number(rec.walletBalance) || 0,
+                loanAmount: Number(rec.loanAmount) || 0,
+                tenure: Number(rec.tenure) || 12
+              });
+              const safeRec = typeof window.ensurePayloadFitsFirestore === 'function'
+                ? await window.ensurePayloadFitsFirestore(baseRec)
+                : (typeof window.fitClientForFirestore === 'function' ? window.fitClientForFirestore(baseRec) : baseRec);
+              await setDoc(doc(db, 'clients', String(rec.id)), safeRec, { merge: true });
+              importedCount++;
+            } catch (recErr) {
+              console.warn('Skipped legacy record import:', rec.id, recErr);
+            }
           }
 
           localStorage.setItem('bf_aviva_migrated_v1', 'done');
@@ -3101,6 +3112,7 @@
       }
       return copy;
     }
+    window.ensurePayloadFitsFirestore = ensurePayloadFitsFirestore;
 
     function syncClientToFirestore(client) {
       if (!client || !client.id) return Promise.resolve({ ok: false, error: 'Missing client id' });
