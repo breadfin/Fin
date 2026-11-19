@@ -627,6 +627,58 @@
       .bf-maint-body { padding: 20px 18px; }
       .bf-maint-actions { grid-template-columns: 1fr !important; }
     }
+    .bf-wa-chat-bg {
+      background: #efeae2;
+      background-image: radial-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid #d6d3d1;
+    }
+    .bf-wa-bubble {
+      background: #dcf8c6;
+      color: #0f172a;
+      border: 1px solid #bbf7d0;
+      border-radius: 14px 14px 4px 14px;
+      padding: 12px 14px;
+      max-width: 90%;
+      margin-left: auto;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      font-size: 0.9rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .bf-wa-bubble-client {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px 14px 14px 14px;
+      padding: 13px 16px;
+      max-width: 92%;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .bf-msg-tpl-chip {
+      background: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .bf-msg-tpl-chip:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
   </style>
 </head>
 <body>
@@ -718,6 +770,77 @@
         <button type="button" id="confirm-delete-exec-btn" onclick="executePermanentClientDelete()" class="btn" style="background:#dc2626; color:#ffffff; padding:10px 20px; font-size:0.85rem; font-weight:800;">
           🗑️ Yes, Delete Permanently
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin -> Client Message & Direct WhatsApp Composer Modal -->
+  <div id="admin-message-modal" class="modal-overlay" onclick="closeAdminMessageModal()">
+    <div class="modal-content" style="max-width:680px; padding:0; overflow:hidden; border:2px solid #22c55e;" onclick="event.stopPropagation()">
+      <div style="background:linear-gradient(135deg, #075e54 0%, #128c7e 100%); color:#ffffff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px;">
+        <div>
+          <span style="display:inline-block; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:4px;">ADMIN WHATSAPP &amp; PORTAL MESSAGING</span>
+          <h3 id="admin-msg-modal-title" style="font-size:1.25rem; font-weight:900; margin:0;">Message Applicant</h3>
+          <div id="admin-msg-client-meta" style="font-size:0.8rem; color:#d1fae5; margin-top:2px;">Client ID • Phone</div>
+        </div>
+        <button type="button" onclick="closeAdminMessageModal()" style="background:rgba(255,255,255,0.2); color:#ffffff; border:none; border-radius:9999px; width:34px; height:34px; font-size:1.1rem; font-weight:800; cursor:pointer;">✕</button>
+      </div>
+
+      <div style="padding:22px 24px; max-height:78vh; overflow-y:auto;">
+        <input type="hidden" id="admin-msg-client-id">
+
+        <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label style="font-size:0.78rem; font-weight:800; color:var(--color-navy);">Client WhatsApp Number (with country code)</label>
+            <input type="tel" id="admin-msg-phone" class="form-control" placeholder="e.g. 919876543210" oninput="updateAdminWaLink()" style="font-family:monospace; font-weight:800; padding:10px 12px;">
+          </div>
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; justify-content:center;">
+            <span style="font-size:0.72rem; font-weight:800; color:#15803d;">Direct Client Delivery</span>
+            <span style="font-size:0.78rem; color:#166534; font-weight:600;">1. Sends directly to Client's WhatsApp<br>2. Syncs live to Client Portal Inbox</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:0.78rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Quick Message Templates:</label>
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('approved')">🎉 Loan Approved</button>
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('wallet')">💳 Wallet &amp; PIN Ready</button>
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('kyc')">📄 KYC Pending</button>
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('maintenance')">⚠️ Maintenance Notice</button>
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('malayalam')" style="background:#dcfce7; color:#15803d; border-color:#86efac;">💬 Malayalam Update</button>
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('clear')" style="background:#f8fafc; color:#475569; border-color:#cbd5e1;">✍️ Clear</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label style="font-size:0.78rem; font-weight:800; color:var(--color-navy);">Message Text (English / Malayalam supported)</label>
+          <textarea id="admin-msg-text" class="form-control" rows="4" placeholder="Type your message to the client here..." oninput="updateAdminWaLink()" style="font-size:0.9rem; line-height:1.55;"></textarea>
+        </div>
+
+        <div class="bf-wa-chat-bg" style="margin-bottom:16px;">
+          <div style="font-size:0.7rem; font-weight:800; color:#475569; margin-bottom:8px; text-transform:uppercase;">WhatsApp Message Preview</div>
+          <div class="bf-wa-bubble" id="admin-msg-preview-bubble">Type a message above to preview...</div>
+          <div style="text-align:right; font-size:0.68rem; color:#0284c7; font-weight:700; margin-top:4px;">Bread Finance Official Desk ✓✓</div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+          <a id="admin-msg-wa-link" href="https://api.whatsapp.com/send" target="_blank" rel="noopener noreferrer" onclick="return handleAdminSendWhatsApp(event)" class="btn" style="flex:1.4; min-width:210px; background:linear-gradient(135deg, #16a34a 0%, #15803d 100%); color:#ffffff; padding:12px 18px; font-size:0.92rem; font-weight:900; box-shadow:0 6px 16px rgba(22,163,74,0.28);">
+            💬 Send on Client's WhatsApp ➔
+          </a>
+          <button type="button" onclick="handleAdminSavePortalOnly()" class="btn btn-primary" style="flex:1; min-width:160px; padding:12px 14px; font-size:0.84rem; font-weight:800;">
+            📨 Save to Portal Only
+          </button>
+          <button type="button" onclick="copyAdminComposerMessage()" class="btn btn-outline" style="padding:12px 14px; font-size:0.84rem; font-weight:800;" title="Copy message text">
+            📋 Copy
+          </button>
+        </div>
+
+        <div style="border-top:1.5px solid #e2e8f0; padding-top:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <strong style="font-size:0.84rem; color:var(--color-navy);">📜 Sent Message History (<span id="admin-msg-history-count">0</span>)</strong>
+          </div>
+          <div id="admin-msg-history-list" style="display:flex; flex-direction:column; gap:8px; max-height:190px; overflow-y:auto;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -2020,6 +2143,7 @@
 
         <div class="dashboard-menu-bar">
           <button class="dash-menu-btn active" id="btn-dash-home" onclick="switchDashTab('home')">🏠 Client Home</button>
+          <button class="dash-menu-btn" id="btn-dash-messages" onclick="switchDashTab('messages')">💬 Admin Messages <span id="dash-msg-unread-badge" style="display:none; background:#16a34a; color:#fff; font-size:0.7rem; padding:1px 7px; border-radius:9999px; font-weight:900;">0</span></button>
           <button class="dash-menu-btn" id="btn-dash-emi" onclick="switchDashTab('emi')">📊 EMI Details</button>
           <button class="dash-menu-btn" id="btn-dash-wallet" onclick="switchDashTab('wallet')">💳 Client Wallet</button>
           <button class="dash-menu-btn" id="btn-dash-status" onclick="switchDashTab('status')">📑 Loan Status</button>
@@ -2027,6 +2151,8 @@
           <button class="dash-menu-btn" id="btn-dash-cancel" onclick="switchDashTab('cancel')">❌ Loan Cancel Status</button>
           <button class="dash-menu-btn" onclick="logoutClient()" style="margin-left:auto; color:#dc2626; border-color:#fca5a5;">🚪 Logout</button>
         </div>
+
+        <div id="client-admin-msg-alert" style="display:none; background:linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border:2px solid #22c55e; border-radius:16px; padding:16px 20px; margin-bottom:20px; box-shadow:0 8px 22px rgba(22, 163, 74, 0.12);"></div>
 
         <div id="dash-tab-home" class="dash-tab-pane active">
           <div class="bf-resp-2col" style="display:grid; grid-template-columns:1.3fr 1fr; gap:24px; align-items:stretch;">
@@ -2133,6 +2259,20 @@
               <h3 style="font-size:1.05rem; font-weight:900; color:var(--color-navy); margin-bottom:14px; display:flex; align-items:center; gap:8px;"><span>📁</span> Uploaded Identification Documents</h3>
               <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;" id="client-uploaded-docs-grid"></div>
             </div>
+          </div>
+        </div>
+
+        <div id="dash-tab-messages" class="dash-tab-pane">
+          <div class="card" style="max-width:760px; margin:0 auto; padding:0; overflow:hidden; border:2px solid #86efac;">
+            <div style="background:linear-gradient(135deg, #075e54 0%, #128c7e 100%); color:#ffffff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <span style="display:inline-block; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:4px;">VERIFIED SUPPORT INBOX</span>
+                <h2 style="font-size:1.35rem; font-weight:900; margin:0;">Official Messages from Bread Finance Admin</h2>
+                <div style="font-size:0.8rem; color:#d1fae5;">Updates sync live from Administrative Desk • Official WhatsApp: <strong>6033663703</strong></div>
+              </div>
+              <a href="https://wa.me/916033663703?text=Hello%20Bread%20Finance%20Support%2C%20I%20saw%20your%20message%20in%20my%20Client%20Portal." target="_blank" rel="noopener noreferrer" class="btn" style="background:#ffffff; color:#075e54; font-weight:900; padding:9px 16px; font-size:0.82rem;">💬 Reply on WhatsApp</a>
+            </div>
+            <div class="bf-wa-chat-bg" style="border:none; border-radius:0; min-height:280px; max-height:460px; overflow-y:auto;" id="client-messages-thread"></div>
           </div>
         </div>
 
@@ -2385,7 +2525,10 @@
               <h2 style="font-size:1.6rem; font-weight:900; color:var(--color-navy);" id="admin-edit-title">View &amp; Edit Application Details</h2>
               <p style="color:#64748b; font-size:0.85rem;">Modify any submitted detail; changes update live in client's portal.</p>
             </div>
-            <button onclick="closeAdminEdit()" class="btn btn-outline" style="padding:6px 14px; font-size:0.8rem;">✕ Close</button>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" onclick="openAdminMessageModal(document.getElementById('edit-client-id').value)" class="btn" style="background:#dcfce7; color:#15803d; border:1.5px solid #86efac; padding:6px 14px; font-size:0.8rem; font-weight:800;">💬 Message / WhatsApp Client</button>
+              <button onclick="closeAdminEdit()" class="btn btn-outline" style="padding:6px 14px; font-size:0.8rem;">✕ Close</button>
+            </div>
           </div>
           <input type="hidden" id="edit-client-id">
 
@@ -2494,6 +2637,7 @@
 
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
             <button onclick="saveAdminClientChanges()" class="btn btn-primary" style="flex:2; padding:14px 28px; font-size:1rem;">💾 Save All Changes to Client Account ✓</button>
+            <button type="button" onclick="openAdminMessageModal(document.getElementById('edit-client-id').value)" class="btn" style="background:#16a34a; color:#ffffff; padding:14px 20px; font-weight:800; font-size:0.95rem; cursor:pointer;">💬 WhatsApp / Msg</button>
             <button onclick="deleteCurrentEditClient()" class="btn" style="background:#fee2e2; color:#dc2626; border:1.5px solid #ef4444; padding:14px 22px; font-weight:800; font-size:0.95rem; cursor:pointer;" title="Permanently delete this application">🗑️ Delete Permanently</button>
             <button onclick="closeAdminEdit()" class="btn btn-outline" style="flex:1; padding:14px 20px;">Cancel / Close</button>
           </div>
@@ -4434,6 +4578,7 @@
       document.querySelectorAll('.dash-menu-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('dash-tab-' + tabId)?.classList.add('active');
       document.getElementById('btn-dash-' + tabId)?.classList.add('active');
+      if (tabId === 'messages') markClientMessagesAsRead();
     }
 
     function uploadDashboardPhoto(e) {
@@ -4558,6 +4703,10 @@
       } else {
         cancelBox.style.background = '#f1f5f9'; cancelBox.style.border = '2px solid #cbd5e1'; cancelBox.style.color = '#475569';
         cancelBox.innerHTML = '<div style="font-size:1.8rem; margin-bottom:8px;">ℹ️</div><strong style="font-size:1.2rem;">Not Submitted Cancellation</strong><p style="font-size:0.85rem; margin-top:4px;">You have not submitted any loan cancellation request.</p>';
+      }
+
+      if (typeof renderClientMessages === 'function') {
+        renderClientMessages(client);
       }
     }
 
@@ -5585,6 +5734,7 @@
           </td>
           <td style="padding:10px 12px; text-align:right; white-space:nowrap;">
             <div style="display:inline-flex; gap:6px; align-items:center;">
+              <button onclick="openAdminMessageModal('${c.id}')" class="btn" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; padding:6px 10px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;" title="Message client directly on WhatsApp &amp; Client Portal">💬 WhatsApp / Msg</button>
               <button onclick="openAdminEdit('${c.id}')" class="btn btn-primary" style="padding:6px 12px; font-size:0.75rem; font-weight:800; white-space:nowrap;">⚙️ View &amp; Edit</button>
               <button onclick="deleteClientApplication('${c.id}')" class="btn" style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; padding:6px 10px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;" title="Permanently delete from Admin Panel &amp; Database">🗑️ Delete</button>
             </div>
@@ -5692,6 +5842,276 @@
     }
 
     function closeAdminEdit() { document.getElementById('admin-edit-panel').style.display = 'none'; }
+
+    // ==================== ADMIN -> CLIENT WHATSAPP & PORTAL MESSAGING ====================
+    function escapeHtmlSafe(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function normalizeWhatsAppPhone(rawPhone) {
+      let digits = String(rawPhone || '').replace(/\D/g, '');
+      if (digits.length === 10) return '91' + digits;
+      if (digits.length === 11 && digits.startsWith('0')) return '91' + digits.slice(1);
+      return digits;
+    }
+
+    function formatMsgTimestamp(isoStr) {
+      try {
+        const d = new Date(isoStr);
+        if (isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ' • ' +
+               d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function openAdminMessageModal(clientId) {
+      const client = getClients().find(c => c.id === clientId);
+      if (!client) { showToast('Client not found.'); return; }
+      document.getElementById('admin-msg-client-id').value = client.id;
+      document.getElementById('admin-msg-modal-title').innerText = 'Message ' + client.fullName;
+      document.getElementById('admin-msg-client-meta').innerText =
+        'ID: ' + client.id + ' • Mobile: ' + (client.phone || 'Not set') + ' • Status: ' + (client.status || 'Pending');
+      document.getElementById('admin-msg-phone').value = normalizeWhatsAppPhone(client.phone);
+      applyAdminMsgTemplate('approved');
+      renderAdminMsgHistory(client);
+      document.getElementById('admin-message-modal').style.display = 'flex';
+    }
+
+    function closeAdminMessageModal() {
+      const modal = document.getElementById('admin-message-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function applyAdminMsgTemplate(tplKey) {
+      const clientId = document.getElementById('admin-msg-client-id')?.value;
+      const client = getClients().find(c => c.id === clientId) || {
+        id: 'BF-XXXX',
+        fullName: 'Valued Client',
+        loanAmount: 100000,
+        walletBalance: 0,
+        withdrawalPin: '1234',
+        status: 'Pending Loan Approval'
+      };
+      const amtStr = '₹' + Number(client.loanAmount || 0).toLocaleString('en-IN');
+      const walStr = '₹' + Number(client.walletBalance || 0).toLocaleString('en-IN');
+      const pinStr = client.withdrawalPin || '1234';
+      let msg = '';
+      if (tplKey === 'approved') {
+        msg = `Dear ${client.fullName} (${client.id}),\n\nGreetings from Bread Finance Credit Co. Ltd.! Your loan application for ${amtStr} is currently "${client.status || 'Loan Approved'}".\n\nPlease log in to your Client Portal to check your Clearing Wallet (${walStr}) and schedule. For WhatsApp support, message us on 6033663703.`;
+      } else if (tplKey === 'wallet') {
+        msg = `Dear ${client.fullName} (${client.id}),\n\nYour Bread Finance Clearing Wallet balance is ${walStr}. Your Withdrawal PIN is ${pinStr}.\n\nPlease log in to your Client Dashboard -> Client Wallet to initiate your transfer, or reply on WhatsApp 6033663703 for assistance.`;
+      } else if (tplKey === 'kyc') {
+        msg = `Dear ${client.fullName} (${client.id}),\n\nYour Bread Finance application (${amtStr}) requires KYC verification review. Please contact our underwriting team on WhatsApp 6033663703 with your Client ID ${client.id} to complete verification quickly.`;
+      } else if (tplKey === 'maintenance') {
+        msg = `Dear ${client.fullName} (${client.id}),\n\nDue to scheduled portal maintenance, please contact our official WhatsApp support desk at 6033663703 directly for immediate assistance regarding your loan application (${amtStr}).`;
+      } else if (tplKey === 'malayalam') {
+        msg = `പ്രിയ ${client.fullName} (${client.id}),\n\nBread Finance-ൽ നിന്നുള്ള അറിയിപ്പ്: നിങ്ങളുടെ ${amtStr} ലോൺ അപേക്ഷയുടെ നിലവിലെ status "${client.status || 'Pending Loan Approval'}" ആണ്.\nWallet Balance: ${walStr} | Withdrawal PIN: ${pinStr}.\n\nകൂടുതൽ വിവരങ്ങൾക്ക് ഞങ്ങളുടെ WhatsApp നമ്പറായ 6033663703-ൽ ബന്ധപ്പെടുക.`;
+      } else if (tplKey === 'clear') {
+        msg = '';
+      }
+      const ta = document.getElementById('admin-msg-text');
+      if (ta) ta.value = msg;
+      updateAdminWaLink();
+    }
+
+    function copyAdminComposerMessage() {
+      const text = (document.getElementById('admin-msg-text')?.value || '').trim();
+      if (!text) { showToast('No message text to copy.'); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Message copied to clipboard!')).catch(() => showToast('Could not copy automatically.'));
+      }
+    }
+
+    function updateAdminWaLink() {
+      const phone = normalizeWhatsAppPhone(document.getElementById('admin-msg-phone')?.value);
+      const text = (document.getElementById('admin-msg-text')?.value || '').trim();
+      const link = document.getElementById('admin-msg-wa-link');
+      const bubble = document.getElementById('admin-msg-preview-bubble');
+      if (bubble) {
+        bubble.innerText = text || 'Type a message above to preview...';
+      }
+      if (link) {
+        link.href = phone
+          ? ('https://api.whatsapp.com/send?phone=' + encodeURIComponent(phone) + '&text=' + encodeURIComponent(text))
+          : ('https://api.whatsapp.com/send?text=' + encodeURIComponent(text));
+      }
+    }
+
+    function saveMessageRecordToClient(clientId, text, channel) {
+      const clients = getClients();
+      const idx = clients.findIndex(c => c.id === clientId);
+      if (idx === -1) return null;
+      const c = clients[idx];
+      const existing = Array.isArray(c.adminMessages) ? c.adminMessages.slice() : [];
+      existing.unshift({
+        id: 'MSG-' + Date.now(),
+        text: text,
+        channel: channel,
+        sentAt: new Date().toISOString(),
+        read: false
+      });
+      c.adminMessages = existing.slice(0, 30);
+      saveClients(clients, c);
+      renderAdminMsgHistory(c);
+      return c;
+    }
+
+    function handleAdminSendWhatsApp(evt) {
+      const clientId = document.getElementById('admin-msg-client-id')?.value;
+      const phone = normalizeWhatsAppPhone(document.getElementById('admin-msg-phone')?.value);
+      const text = (document.getElementById('admin-msg-text')?.value || '').trim();
+      if (!text) {
+        if (evt) evt.preventDefault();
+        showToast('Please enter a message before sending.');
+        return false;
+      }
+      if (!phone || phone.length < 10) {
+        if (evt) evt.preventDefault();
+        showToast('Please enter a valid client WhatsApp number.');
+        return false;
+      }
+      updateAdminWaLink();
+      saveMessageRecordToClient(clientId, text, 'WhatsApp + Portal');
+      showToast('✓ Opening Client WhatsApp & saved to Client Portal!');
+      return true;
+    }
+
+    function handleAdminSavePortalOnly() {
+      const clientId = document.getElementById('admin-msg-client-id')?.value;
+      const text = (document.getElementById('admin-msg-text')?.value || '').trim();
+      if (!text) {
+        showToast('Please enter a message first.');
+        return;
+      }
+      saveMessageRecordToClient(clientId, text, 'Client Portal');
+      showToast('✓ Message sent live to Client Portal!');
+    }
+
+    function deleteAdminMsgRecord(clientId, msgIndex) {
+      const clients = getClients();
+      const idx = clients.findIndex(c => c.id === clientId);
+      if (idx === -1) return;
+      const c = clients[idx];
+      if (!Array.isArray(c.adminMessages)) return;
+      c.adminMessages.splice(msgIndex, 1);
+      saveClients(clients, c);
+      renderAdminMsgHistory(c);
+      showToast('Message removed.');
+    }
+
+    function renderAdminMsgHistory(client) {
+      const listEl = document.getElementById('admin-msg-history-list');
+      const countEl = document.getElementById('admin-msg-history-count');
+      if (!listEl) return;
+      const msgs = Array.isArray(client?.adminMessages) ? client.adminMessages : [];
+      if (countEl) countEl.innerText = String(msgs.length);
+      if (msgs.length === 0) {
+        listEl.innerHTML = '<div style="font-size:0.82rem; color:#64748b; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:10px; padding:14px; text-align:center;">No messages sent to this client yet.</div>';
+        return;
+      }
+      listEl.innerHTML = msgs.map((m, i) => `
+        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+              <span style="font-size:0.68rem; font-weight:800; color:#15803d; background:#dcfce7; padding:2px 8px; border-radius:9999px;">${escapeHtmlSafe(m.channel || 'Portal')}</span>
+              <span style="font-size:0.72rem; color:#64748b;">${escapeHtmlSafe(formatMsgTimestamp(m.sentAt))}</span>
+            </div>
+            <div style="font-size:0.82rem; color:#0f172a; white-space:pre-wrap; word-break:break-word;">${escapeHtmlSafe(m.text)}</div>
+          </div>
+          <button type="button" onclick="deleteAdminMsgRecord('${escapeHtmlSafe(client.id)}', ${i})" style="background:none; border:none; color:#dc2626; cursor:pointer; font-weight:800; font-size:0.85rem; padding:2px 6px;" title="Delete message">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function markClientMessagesAsRead() {
+      const client = getActiveClient();
+      if (!client || !Array.isArray(client.adminMessages)) return;
+      let changed = false;
+      client.adminMessages.forEach(m => {
+        if (!m.read) { m.read = true; changed = true; }
+      });
+      if (changed) {
+        const clients = getClients();
+        const idx = clients.findIndex(c => c.id === client.id);
+        if (idx !== -1) {
+          clients[idx] = client;
+          saveClients(clients, client);
+        }
+        renderClientMessages(client);
+      }
+    }
+
+    function renderClientMessages(client) {
+      const msgs = Array.isArray(client?.adminMessages) ? client.adminMessages : [];
+      const unreadCount = msgs.filter(m => !m.read).length;
+      const badgeEl = document.getElementById('dash-msg-unread-badge');
+      if (badgeEl) {
+        if (unreadCount > 0) {
+          badgeEl.innerText = String(unreadCount);
+          badgeEl.style.display = 'inline-block';
+        } else {
+          badgeEl.style.display = 'none';
+        }
+      }
+
+      const alertEl = document.getElementById('client-admin-msg-alert');
+      if (alertEl) {
+        if (msgs.length > 0) {
+          const latest = msgs[0];
+          alertEl.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:240px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
+                  <span style="background:#16a34a; color:#fff; font-size:0.7rem; font-weight:900; padding:2px 10px; border-radius:9999px;">💬 MESSAGE FROM ADMIN</span>
+                  <span style="font-size:0.76rem; color:#166534; font-weight:700;">${escapeHtmlSafe(formatMsgTimestamp(latest.sentAt))}</span>
+                </div>
+                <div style="font-size:0.94rem; font-weight:700; color:#092540; line-height:1.5; white-space:pre-wrap;">${escapeHtmlSafe(latest.text)}</div>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" onclick="switchDashTab('messages')" class="btn" style="background:#16a34a; color:#ffffff; padding:9px 16px; font-size:0.82rem; font-weight:800;">Open Messages (${msgs.length})</button>
+              </div>
+            </div>
+          `;
+          alertEl.style.display = 'block';
+        } else {
+          alertEl.style.display = 'none';
+        }
+      }
+
+      const threadEl = document.getElementById('client-messages-thread');
+      if (threadEl) {
+        if (msgs.length === 0) {
+          threadEl.innerHTML = `
+            <div style="text-align:center; padding:42px 20px; color:#475569;">
+              <div style="font-size:2.2rem; margin-bottom:8px;">💬</div>
+              <strong style="display:block; color:var(--color-navy); font-size:1rem; margin-bottom:6px;">No Admin Messages Yet</strong>
+              <p style="font-size:0.86rem; max-width:420px; margin:0 auto 14px;">Important updates sent by Bread Finance Administration will appear here live, as well as on your WhatsApp.</p>
+              <a href="https://wa.me/916033663703?text=Hello%20Bread%20Finance%2C%20my%20Client%20ID%20is%20${encodeURIComponent(client?.id || '')}." target="_blank" rel="noopener noreferrer" class="btn" style="background:#16a34a; color:#fff; padding:10px 18px; font-size:0.84rem; font-weight:800;">💬 Contact WhatsApp 6033663703</a>
+            </div>
+          `;
+        } else {
+          threadEl.innerHTML = msgs.map(m => `
+            <div style="margin-bottom:14px;">
+              <div class="bf-wa-bubble-client">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; border-bottom:1px solid #f1f5f9; padding-bottom:4px;">
+                  <strong style="font-size:0.76rem; color:#075e54;">Bread Finance Admin Desk</strong>
+                  <span style="font-size:0.68rem; color:#16a34a; font-weight:800;">${escapeHtmlSafe(m.channel || 'Portal')} ✓✓</span>
+                </div>
+                <div>${escapeHtmlSafe(m.text)}</div>
+                <div style="text-align:right; font-size:0.7rem; color:#64748b; margin-top:6px;">${escapeHtmlSafe(formatMsgTimestamp(m.sentAt))}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+    }
 
     // ==================== INSTANT PERMANENT DELETE (ADMIN PANEL + DATABASE, NO SAVE NEEDED) ====================
     let pendingDeleteClientId = null;
@@ -5950,7 +6370,7 @@
       if (homeView) homeView.classList.add('active');
       const mobNav = clone.querySelector('#mobile-nav');
       if (mobNav) mobNav.classList.remove('open');
-      ['doc-viewer-modal', 'confirm-delete-modal', 'liveness-modal', 'admin-edit-panel', 'home-maintenance-modal'].forEach(id => {
+      ['doc-viewer-modal', 'confirm-delete-modal', 'liveness-modal', 'admin-edit-panel', 'home-maintenance-modal', 'admin-message-modal'].forEach(id => {
         const el = clone.querySelector('#' + id);
         if (el) el.style.display = 'none';
       });
