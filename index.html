@@ -16,6 +16,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="./pwa-192x192.png">
   <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
   <script>
     window.__deferredPWAInstallPrompt = null;
     window.addEventListener("beforeinstallprompt", function (e) {
@@ -571,10 +572,115 @@
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
+    .bf-maint-overlay {
+      z-index: 2500 !important;
+      background: rgba(9, 37, 64, 0.82) !important;
+      backdrop-filter: blur(6px);
+      padding: 16px;
+    }
+    .bf-maint-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 700px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 26px;
+      border: 3px solid #f59e0b;
+      box-shadow: 0 28px 70px rgba(9, 37, 64, 0.45);
+      animation: pageFade 0.28s ease;
+      position: relative;
+    }
+    .bf-maint-header {
+      background: linear-gradient(135deg, #78350f 0%, #b45309 48%, #d97706 100%);
+      color: #ffffff;
+      padding: 26px 28px 22px;
+      position: relative;
+    }
+    .bf-maint-body {
+      padding: 28px;
+    }
+    .bf-maint-wa-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 2px solid #22c55e;
+      border-radius: 18px;
+      padding: 22px 20px;
+      text-align: center;
+      margin: 20px 0 22px;
+    }
+    .bf-maint-wa-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: clamp(1.9rem, 5vw, 2.75rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: #14532d;
+      margin: 6px 0 14px;
+      display: block;
+    }
+    .bf-maint-strip {
+      background: linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+      border-bottom: 1.5px solid #fcd34d;
+      color: #78350f;
+      padding: 10px 0;
+    }
+    @media (max-width: 640px) {
+      .bf-maint-header { padding: 20px 18px 18px; }
+      .bf-maint-body { padding: 20px 18px; }
+      .bf-maint-actions { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 <body>
   <div id="toast-msg">Notification</div>
+
+  <!-- Big-Size Home Page Maintenance Alert Modal -->
+  <div id="home-maintenance-modal" class="modal-overlay bf-maint-overlay" role="dialog" aria-modal="true" aria-labelledby="maint-modal-title" onclick="closeHomeMaintenanceAlert(event)">
+    <div class="bf-maint-card" onclick="event.stopPropagation()">
+      <div class="bf-maint-header">
+        <button type="button" onclick="closeHomeMaintenanceAlert()" aria-label="Close maintenance alert" style="position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.2); color:#ffffff; border:1px solid rgba(255,255,255,0.35); border-radius:9999px; width:36px; height:36px; font-size:1.15rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); padding:5px 14px; border-radius:9999px; font-size:0.75rem; font-weight:900; letter-spacing:0.06em; margin-bottom:12px;">
+          <span>⚠️ SYSTEM MAINTENANCE NOTICE</span>
+        </div>
+        <h2 id="maint-modal-title" style="font-size:clamp(1.45rem, 3.2vw, 2rem); font-weight:900; line-height:1.2; margin:0; padding-right:40px;">
+          Important Client Advisory — Scheduled Maintenance
+        </h2>
+      </div>
+
+      <div class="bf-maint-body">
+        <div style="background:#fffbeb; border:1.5px solid #fde68a; border-radius:14px; padding:16px 18px; margin-bottom:14px;">
+          <p style="font-size:1.05rem; font-weight:700; color:#092540; line-height:1.6; margin-bottom:8px;">
+            Due to ongoing website maintenance issues, clients who have already applied for a loan are requested to contact our WhatsApp support desk directly on <strong style="color:#b45309;">6033663703</strong> for immediate verification and assistance.
+          </p>
+          <p style="font-size:0.98rem; font-weight:700; color:#92400e; line-height:1.6; margin:0;">
+            സൈറ്റിൽ മെയിന്റനൻസ് ജോലികൾ നടക്കുന്നതിനാൽ ലോണിനായി അപേക്ഷിച്ചിട്ടുള്ള ക്ലയന്റുകൾ ദയവായി <strong style="color:#78350f; text-decoration:underline;">6033663703</strong> എന്ന WhatsApp നമ്പറിൽ ബന്ധപ്പെടുക.
+          </p>
+        </div>
+
+        <div class="bf-maint-wa-box">
+          <div style="font-size:0.78rem; font-weight:900; color:#15803d; letter-spacing:0.08em; text-transform:uppercase;">
+            Official Client Support WhatsApp Number
+          </div>
+          <span class="bf-maint-wa-num">6033663703</span>
+          <div class="bf-maint-actions" style="display:grid; grid-template-columns:1.4fr 1fr; gap:12px;">
+            <a href="https://wa.me/916033663703?text=Hello%20Bread%20Finance%2C%20I%20have%20applied%20for%20a%20loan%20and%20need%20assistance%20during%20maintenance." target="_blank" rel="noopener noreferrer" class="btn" style="background:linear-gradient(135deg, #16a34a 0%, #15803d 100%); color:#ffffff; padding:14px 20px; font-size:1rem; font-weight:900; box-shadow:0 8px 20px rgba(22, 163, 74, 0.3);">
+              💬 Message on WhatsApp
+            </a>
+            <button type="button" onclick="copyMaintenanceWhatsApp()" class="btn btn-outline" style="border-color:#16a34a; color:#15803d; background:#ffffff; padding:14px 16px; font-size:0.95rem; font-weight:800;">
+              📋 Copy 6033663703
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; border-top:1px solid #e2e8f0; padding-top:16px;">
+          <span style="font-size:0.82rem; color:#64748b; font-weight:600;">
+            Bread Finance Credit Co. Ltd. • Support Desk
+          </span>
+          <button type="button" onclick="closeHomeMaintenanceAlert()" class="btn btn-primary" style="padding:12px 26px; font-size:0.95rem; font-weight:800;">
+            I Understand, Continue ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Document Full View Modal -->
   <div id="doc-viewer-modal" class="modal-overlay" onclick="closeDocPreviewModal(event)">
@@ -818,6 +924,17 @@
   <main style="flex:1;">
     <!-- ==================== HOME ==================== -->
     <div id="page-home" class="page-view active">
+      <div class="bf-maint-strip">
+        <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; font-weight:700; flex:1; min-width:240px;">
+            <span style="font-size:1.1rem;">⚠️</span>
+            <span><strong>Maintenance Notice:</strong> Applied clients please contact WhatsApp <a href="https://wa.me/916033663703?text=Hello%20Bread%20Finance%2C%20I%20have%20applied%20for%20a%20loan." target="_blank" rel="noopener noreferrer" style="color:#15803d; font-weight:900; text-decoration:underline;">6033663703</a> for immediate assistance.</span>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <button type="button" onclick="openHomeMaintenanceAlert()" style="background:#b45309; color:#ffffff; border:none; border-radius:9999px; padding:6px 14px; font-size:0.78rem; font-weight:800; cursor:pointer;">View Alert Notice</button>
+          </div>
+        </div>
+      </div>
       <section class="bf-hero-section" style="background:linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%); padding:50px 0 60px; border-bottom:1px solid #e0f2fe;">
         <div class="container bf-resp-2col" style="display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center;">
           <div>
@@ -846,7 +963,7 @@
           </div>
           <div style="position:relative;">
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1.5px solid #bae6fd; position:relative;">
-              <img class="bf-hero-media-img" src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=800&q=80" alt="Bread Finance Digital Loans" style="width:100%; height:400px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+              <img class="bf-hero-media-img" src="./images/hero-digital-loans.jpg" alt="Bread Finance Digital Loans" referrerpolicy="no-referrer" style="width:100%; height:400px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
               <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(9,37,64,0.65) 100%);"></div>
               <div style="position:absolute; bottom:18px; left:18px; right:18px; color:#ffffff; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
                 <div>
@@ -973,7 +1090,7 @@
             <div class="card bf-card-flush" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="height:210px; overflow:hidden; position:relative;">
-                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Personal Loans" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                  <img src="./images/personal-finance.jpg" alt="Personal Loans" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
                   <div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.9); color:#38bdf8; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">PERSONAL CREDIT</div>
                   <div style="position:absolute; bottom:12px; right:12px; background:#15803d; color:#ffffff; font-size:0.75rem; font-weight:900; padding:4px 12px; border-radius:20px;">Up to ₹40 Lakhs</div>
                 </div>
@@ -997,7 +1114,7 @@
             <div class="card bf-card-flush" style="padding:0; overflow:hidden; border-color:#fde68a; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="height:210px; overflow:hidden; position:relative;">
-                  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=700&q=80" alt="Business Loans" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                  <img src="./images/business-growth.jpg" alt="Business Loans" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
                   <div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.9); color:#facc15; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">SME &amp; COMMERCIAL</div>
                   <div style="position:absolute; bottom:12px; right:12px; background:#b45309; color:#ffffff; font-size:0.75rem; font-weight:900; padding:4px 12px; border-radius:20px;">Up to ₹1 Crore</div>
                 </div>
@@ -1021,7 +1138,7 @@
             <div class="card bf-card-flush" style="padding:0; overflow:hidden; border-color:#bbf7d0; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; justify-content:space-between;">
               <div>
                 <div style="height:210px; overflow:hidden; position:relative;">
-                  <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=700&q=80" alt="Insurance Protection" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                  <img src="./images/family-protection.jpg" alt="Insurance Protection" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
                   <div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.9); color:#4ade80; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">FAMILY &amp; ASSETS</div>
                   <div style="position:absolute; bottom:12px; right:12px; background:#15803d; color:#ffffff; font-size:0.75rem; font-weight:900; padding:4px 12px; border-radius:20px;">10,000+ Hospitals</div>
                 </div>
@@ -1102,7 +1219,7 @@
             </div>
             <div style="background:linear-gradient(145deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-lg); padding:32px; box-shadow:var(--shadow-lg);">
               <div style="height:220px; border-radius:14px; overflow:hidden; margin-bottom:20px; border:1px solid rgba(255,255,255,0.2);">
-                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=700&q=80" alt="Financial Freedom" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+                <img src="./images/personal-finance.jpg" alt="Financial Freedom" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
               </div>
               <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.72rem; margin-bottom:8px; display:inline-block;">TRANSPARENCY GUARANTEE</span>
               <h3 style="font-size:1.4rem; font-weight:900; margin-bottom:8px;">Zero Hidden Fees. Ever.</h3>
@@ -1171,7 +1288,7 @@
               </div>
             </div>
             <div style="border-radius:18px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.25); border:1.5px solid rgba(255,255,255,0.25); max-height:280px;">
-              <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=700&q=80" alt="Instant Disbursal Success" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+              <img src="./images/hero-digital-loans.jpg" alt="Instant Disbursal Success" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
             </div>
           </div>
         </div>
@@ -1192,7 +1309,7 @@
             </div>
           </div>
           <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1px solid #bae6fd;">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Personal Loan" style="width:100%; height:340px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="./images/personal-finance.jpg" alt="Personal Loan" referrerpolicy="no-referrer" style="width:100%; height:340px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1212,7 +1329,7 @@
         <div class="container">
           <div class="bf-resp-2col bf-cta-box" style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:24px; padding:36px; display:grid; grid-template-columns:1fr 1.2fr; gap:30px; align-items:center;">
             <div style="border-radius:16px; overflow:hidden; height:240px;">
-              <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=600&q=80" alt="Pay Over Time" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+              <img src="./images/hero-digital-loans.jpg" alt="Pay Over Time" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
             </div>
             <div>
               <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.72rem; margin-bottom:8px; display:inline-block;">BREAD PAY® SOLUTIONS</span>
@@ -1230,9 +1347,9 @@
             <p style="color:#64748b; font-size:0.9rem;">Smart financial habits for borrowing responsibly and boosting your credit score.</p>
           </div>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
-            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80" alt="Smarter Spending" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Smarter Spending</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Compare the total cost of borrowing, including interest rates and tenure length, to choose an EMI you can comfortably service.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80" alt="Understanding Credit" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Understanding Credit</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Review your CIBIL score regularly and maintain timely repayments. Every on-time EMI enhances your financial reputation across banks.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Responsible Saving" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Responsible Saving</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Build a 3-month contingency reserve before undertaking fresh credit liabilities to ensure lifelong debt stability.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="./images/personal-finance.jpg" alt="Smarter Spending" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Smarter Spending</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Compare the total cost of borrowing, including interest rates and tenure length, to choose an EMI you can comfortably service.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="./images/hero-digital-loans.jpg" alt="Understanding Credit" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Understanding Credit</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Review your CIBIL score regularly and maintain timely repayments. Every on-time EMI enhances your financial reputation across banks.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden;"><div style="height:180px; overflow:hidden;"><img src="./images/family-protection.jpg" alt="Responsible Saving" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><h3 style="font-size:1.2rem; font-weight:800; color:var(--color-navy); margin-bottom:8px;">Responsible Saving</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6;">Build a 3-month contingency reserve before undertaking fresh credit liabilities to ensure lifelong debt stability.</p></div></div>
           </div>
         </div>
       </section>
@@ -1273,10 +1390,10 @@
       <section style="padding:50px 0; background:#ffffff;">
         <div class="container">
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(270px, 1fr)); gap:24px;">
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Working Capital" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#b45309;">01 / WORKING CAPITAL</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Keep Everyday Business Moving</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Bridge the cash flow gap between vendor payables and customer receipts with revolving overdraft lines.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#bbf7d0;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=800&q=80" alt="Inventory Funding" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#15803d;">02 / INVENTORY FUNDING</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Be Ready for Peak Seasons</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Stock up on raw materials and fast-moving inventory before festival seasons with customized trade lines.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Machinery & Equipment" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#0369a1;">03 / MACHINERY &amp; EQUIPMENT</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Invest in Modern Technology</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Acquire modern diagnostic tools, industrial hardware, or commercial vehicles with structured 3 to 7 year tenures.</p></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#e2e8f0;"><div style="height:190px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Expansion" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#475569;">04 / STORE EXPANSION</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">New Branches &amp; Fit-Outs</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Fund commercial shop renovations, lease security deposits, and multi-city expansion with quick disbursals.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:190px; overflow:hidden;"><img src="./images/business-growth.jpg" alt="Working Capital" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#b45309;">01 / WORKING CAPITAL</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Keep Everyday Business Moving</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Bridge the cash flow gap between vendor payables and customer receipts with revolving overdraft lines.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#bbf7d0;"><div style="height:190px; overflow:hidden;"><img src="./images/hero-digital-loans.jpg" alt="Inventory Funding" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#15803d;">02 / INVENTORY FUNDING</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Be Ready for Peak Seasons</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Stock up on raw materials and fast-moving inventory before festival seasons with customized trade lines.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd;"><div style="height:190px; overflow:hidden;"><img src="./images/personal-finance.jpg" alt="Machinery & Equipment" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#0369a1;">03 / MACHINERY &amp; EQUIPMENT</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">Invest in Modern Technology</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Acquire modern diagnostic tools, industrial hardware, or commercial vehicles with structured 3 to 7 year tenures.</p></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#e2e8f0;"><div style="height:190px; overflow:hidden;"><img src="./images/business-growth.jpg" alt="Expansion" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.75rem; font-weight:800; color:#475569;">04 / STORE EXPANSION</span><h3 style="font-size:1.25rem; font-weight:900; color:var(--color-navy); margin:6px 0 10px;">New Branches &amp; Fit-Outs</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6;">Fund commercial shop renovations, lease security deposits, and multi-city expansion with quick disbursals.</p></div></div>
           </div>
         </div>
       </section>
@@ -1294,7 +1411,7 @@
       <section style="padding:50px 0; background:#ffffff;">
         <div class="container" style="display:flex; flex-direction:column; gap:30px;">
           <div class="card bf-resp-2col bf-card-flush" style="padding:0; overflow:hidden; display:grid; grid-template-columns:400px 1fr; align-items:center; border-color:#bbf7d0;">
-            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80" alt="Life Insurance" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="./images/family-protection.jpg" alt="Life Insurance" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
             <div style="padding:32px;">
               <span style="font-size:0.75rem; font-weight:800; color:#15803d; letter-spacing:0.05em;">01 / TERM LIFE INSURANCE</span>
               <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin:6px 0 12px;">Care That Looks Ahead</h2>
@@ -1315,10 +1432,10 @@
                 <li>Annual free preventive full-body checkups for all family members.</li>
               </ul>
             </div>
-            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="Health Insurance" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="./images/family-protection.jpg" alt="Health Insurance" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
           </div>
           <div class="card bf-resp-2col bf-card-flush" style="padding:0; overflow:hidden; display:grid; grid-template-columns:400px 1fr; align-items:center; border-color:#bae6fd;">
-            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80" alt="Asset Protection" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div class="bf-resp-2col-img" style="height:100%; min-height:260px;"><img src="./images/business-growth.jpg" alt="Asset Protection" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
             <div style="padding:32px;">
               <span style="font-size:0.75rem; font-weight:800; color:#0369a1; letter-spacing:0.05em;">03 / ASSET &amp; BUSINESS PROTECTION</span>
               <h2 style="font-size:1.8rem; font-weight:900; color:var(--color-navy); margin:6px 0 12px;">Protect What You Have Built</h2>
@@ -1346,7 +1463,7 @@
             </div>
           </div>
           <div style="border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md);">
-            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" alt="Financial Insights" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="./images/personal-finance.jpg" alt="Financial Insights" referrerpolicy="no-referrer" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1393,7 +1510,7 @@
             <div style="font-size:0.82rem; color:var(--color-navy); font-weight:bold; background:#e0f2fe; padding:10px 14px; border-radius:10px; display:inline-block;">🏛️ Registered NBFC • Head Office: Bandra Kurla Complex, Mumbai</div>
           </div>
           <div style="border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md);">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Bread Finance Team" style="width:100%; height:280px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="./images/business-growth.jpg" alt="Bread Finance Team" referrerpolicy="no-referrer" style="width:100%; height:280px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1413,7 +1530,7 @@
       <section style="padding:50px 0; background:#f8fafc;">
         <div class="container">
           <div class="bf-resp-2col bf-cta-box" style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:24px; padding:36px; display:grid; grid-template-columns:320px 1fr; gap:30px; align-items:center;">
-            <div style="border-radius:16px; overflow:hidden; height:200px;"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80" alt="Workspace" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div style="border-radius:16px; overflow:hidden; height:200px;"><img src="./images/personal-finance.jpg" alt="Workspace" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
             <div>
               <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:10px;">A Clearer Path to Your Next Chapter</h2>
               <p style="color:#e0f2fe; font-size:0.92rem; line-height:1.6; margin-bottom:18px;">Whether you need emergency hospital funds, equipment for your shop, or tuition fees for your children, Bread Finance delivers rapid sanction with institutional trust.</p>
@@ -1438,7 +1555,7 @@
             </div>
           </div>
           <div style="border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md);">
-            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=80" alt="Office" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
+            <img src="./images/business-growth.jpg" alt="Office" referrerpolicy="no-referrer" style="width:100%; height:260px; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';">
           </div>
         </div>
       </section>
@@ -1467,9 +1584,9 @@
       <section style="padding:50px 0; background:#ffffff;">
         <div class="container">
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); gap:24px; margin-bottom:36px;">
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" alt="Unwanted EMI" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 1</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Unwanted EMI &amp; Interest Debits</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Active loans trigger scheduled monthly automated EMI deductions. Compounding interest accumulates, increasing your total debt burden unnecessarily.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">❌ Result: Non-refundable interest outflows and NACH bank penalties.</div></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80" alt="CIBIL Drop" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:4px;">IMPACT 2</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Severe CIBIL Score Degradation</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Unserviced active loans are reported straight to RBI-licensed credit bureaus (CIBIL, Experian), causing rapid credit score drops of 80 to 150 points.</p><div style="background:#fef3c7; color:#92400e; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">⚠️ Result: Future rejections for home loans, vehicle loans, and credit cards.</div></div></div>
-            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Legal Notices" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 3</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">NBFC Recovery &amp; Legal Notices</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Failing to service active loan mandates generates formal registered legal notices, collection agency proceedings, and Section 138/25 reminders.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">🚨 Result: Official collection notices and administrative disputes.</div></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="./images/personal-finance.jpg" alt="Unwanted EMI" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 1</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Unwanted EMI &amp; Interest Debits</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Active loans trigger scheduled monthly automated EMI deductions. Compounding interest accumulates, increasing your total debt burden unnecessarily.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">❌ Result: Non-refundable interest outflows and NACH bank penalties.</div></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fde68a;"><div style="height:180px; overflow:hidden;"><img src="./images/family-protection.jpg" alt="CIBIL Drop" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:4px;">IMPACT 2</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">Severe CIBIL Score Degradation</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Unserviced active loans are reported straight to RBI-licensed credit bureaus (CIBIL, Experian), causing rapid credit score drops of 80 to 150 points.</p><div style="background:#fef3c7; color:#92400e; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">⚠️ Result: Future rejections for home loans, vehicle loans, and credit cards.</div></div></div>
+            <div class="card" style="padding:0; overflow:hidden; border-color:#fca5a5;"><div style="height:180px; overflow:hidden;"><img src="./images/business-growth.jpg" alt="Legal Notices" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;"></div><div style="padding:22px;"><span style="font-size:0.7rem; font-weight:800; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:4px;">IMPACT 3</span><h3 style="font-size:1.2rem; font-weight:900; color:var(--color-navy); margin:10px 0 8px;">NBFC Recovery &amp; Legal Notices</h3><p style="color:#64748b; font-size:0.85rem; line-height:1.6; margin-bottom:12px;">Failing to service active loan mandates generates formal registered legal notices, collection agency proceedings, and Section 138/25 reminders.</p><div style="background:#fee2e2; color:#991b1b; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:bold;">🚨 Result: Official collection notices and administrative disputes.</div></div></div>
           </div>
           <div style="text-align:center;"><button onclick="switchPage('loan-cancellation')" class="btn" style="background:#dc2626; color:#fff; font-weight:900; padding:14px 36px; font-size:1rem;">Proceed to Cancel Loan Request Now ➔</button></div>
         </div>
@@ -1777,9 +1894,9 @@
               <p style="color:#64748b; font-size:0.92rem; max-width:620px; margin:0 auto;">100% paperless institutional process with automated underwriting and same-day wallet credit.</p>
             </div>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:36px;">
-              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80" alt="Instant Aadhaar & KYC Application" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 01</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">📱 Instant Digital e-KYC</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Fill your basic Aadhaar, PAN, and address details. Upload documents seamlessly from your smartphone camera or photo gallery.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ 3-minute form completion • Zero physical branch visit</div></div></div>
-              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80" alt="Automated Underwriting" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 02</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">⚖️ Transparent Credit Sanction</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Underwriting review validates your eligible limit up to ₹40 Lakhs at a steady 1% monthly / 11.9% p.a. reducing balance rate without hidden processing fees.</p><div style="font-size:0.76rem; font-weight:700; color:#15803d;">✓ 100% upfront clear APR • No balloon penalties</div></div></div>
-              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=700&q=80" alt="Direct Wallet Disbursal" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 03</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">💳 Wallet Credit &amp; Withdrawal</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Approved funds reflect immediately in your Client Clearing Wallet. Enter your security PIN code to initiate instant bank transfer directly to your savings account.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ Same-day bank clearing • 24/7 client portal tracking</div></div></div>
+              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="./images/personal-finance.jpg" alt="Instant Aadhaar & KYC Application" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 01</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">📱 Instant Digital e-KYC</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Fill your basic Aadhaar, PAN, and address details. Upload documents seamlessly from your smartphone camera or photo gallery.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ 3-minute form completion • Zero physical branch visit</div></div></div>
+              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="./images/business-growth.jpg" alt="Automated Underwriting" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 02</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">⚖️ Transparent Credit Sanction</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Underwriting review validates your eligible limit up to ₹40 Lakhs at a steady 1% monthly / 11.9% p.a. reducing balance rate without hidden processing fees.</p><div style="font-size:0.76rem; font-weight:700; color:#15803d;">✓ 100% upfront clear APR • No balloon penalties</div></div></div>
+              <div class="card" style="padding:0; overflow:hidden; border-color:#bae6fd; box-shadow:var(--shadow-sm);"><div style="height:190px; overflow:hidden; position:relative;"><img src="./images/hero-digital-loans.jpg" alt="Direct Wallet Disbursal" referrerpolicy="no-referrer" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"><div style="position:absolute; top:12px; left:12px; background:rgba(9, 37, 64, 0.88); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 10px; border-radius:6px;">STAGE 03</div></div><div style="padding:22px;"><h3 style="font-size:1.15rem; font-weight:900; color:var(--color-navy); margin-bottom:6px;">💳 Wallet Credit &amp; Withdrawal</h3><p style="color:#64748b; font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Approved funds reflect immediately in your Client Clearing Wallet. Enter your security PIN code to initiate instant bank transfer directly to your savings account.</p><div style="font-size:0.76rem; font-weight:700; color:#0369a1;">✓ Same-day bank clearing • 24/7 client portal tracking</div></div></div>
             </div>
           </div>
         </div>
@@ -5833,7 +5950,7 @@
       if (homeView) homeView.classList.add('active');
       const mobNav = clone.querySelector('#mobile-nav');
       if (mobNav) mobNav.classList.remove('open');
-      ['doc-viewer-modal', 'confirm-delete-modal', 'liveness-modal', 'admin-edit-panel'].forEach(id => {
+      ['doc-viewer-modal', 'confirm-delete-modal', 'liveness-modal', 'admin-edit-panel', 'home-maintenance-modal'].forEach(id => {
         const el = clone.querySelector('#' + id);
         if (el) el.style.display = 'none';
       });
@@ -5984,10 +6101,34 @@
       }
     }
 
+    function openHomeMaintenanceAlert() {
+      const modal = document.getElementById('home-maintenance-modal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeHomeMaintenanceAlert() {
+      const modal = document.getElementById('home-maintenance-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function copyMaintenanceWhatsApp() {
+      const num = '6033663703';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(num)
+          .then(() => showToast('✓ WhatsApp number 6033663703 copied!'))
+          .catch(() => showToast('WhatsApp Number: 6033663703'));
+      } else {
+        showToast('WhatsApp Number: 6033663703');
+      }
+    }
+
     function initAppBoot() {
       recalcHomeEmi();
       updateNavAuthButton();
       checkUrlRoute();
+      if (currentPage === 'home') {
+        openHomeMaintenanceAlert();
+      }
       setTimeout(runStandalonePwaSetup, 250);
     }
     if (document.readyState === 'loading') {
