@@ -1,4 +1,4 @@
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   
@@ -570,40 +570,66 @@
       transition: transform 0.2s ease;
     }
     .doc-preview-thumb:hover { transform: scale(1.04); }
-    .bf-wa-chat-bg {
-      background: #efeae2;
-      background-image: radial-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px);
-      background-size: 16px 16px;
+    .bf-chat-surface {
+      background: linear-gradient(180deg, #f3f8fb 0%, #eaf3f7 100%);
       border-radius: 16px;
       padding: 18px;
-      border: 1px solid #d6d3d1;
+      border: 1px solid #cfe2eb;
     }
-    .bf-wa-bubble {
-      background: #dcf8c6;
-      color: #0f172a;
-      border: 1px solid #bbf7d0;
-      border-radius: 14px 14px 4px 14px;
-      padding: 12px 14px;
-      max-width: 90%;
-      margin-left: auto;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    .bf-chat-bubble-admin {
+      background: linear-gradient(135deg, #062a4e 0%, #0b3c6d 100%);
+      color: #ffffff;
+      border: 1px solid #0f4c81;
+      border-radius: 16px 16px 16px 4px;
+      padding: 13px 16px;
+      max-width: 86%;
+      box-shadow: 0 6px 16px rgba(6, 42, 78, 0.14);
       font-size: 0.9rem;
       line-height: 1.55;
-      white-space: pre-wrap;
       word-break: break-word;
     }
-    .bf-wa-bubble-client {
+    .bf-chat-bubble-client {
       background: #ffffff;
-      color: #0f172a;
-      border: 1px solid #e2e8f0;
-      border-radius: 4px 14px 14px 14px;
+      color: #062a4e;
+      border: 1.5px solid #9ad9db;
+      border-radius: 16px 16px 4px 16px;
       padding: 13px 16px;
-      max-width: 92%;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
-      font-size: 0.92rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
+      max-width: 86%;
+      margin-left: auto;
+      box-shadow: 0 4px 12px rgba(15, 127, 139, 0.1);
+      font-size: 0.9rem;
+      line-height: 1.55;
       word-break: break-word;
+    }
+    .bf-chat-attach-btn {
+      background: #ffffff;
+      color: #062a4e;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .bf-chat-attach-btn:hover {
+      border-color: #0f7f8b;
+      background: #e6f4f6;
+      color: #0f7f8b;
+    }
+    .bf-chat-attach-btn.recording {
+      background: #fee2e2;
+      border-color: #dc2626;
+      color: #dc2626;
+      animation: bfPulseRec 1.1s infinite;
+    }
+    @keyframes bfPulseRec {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.35); }
+      50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
     }
     .bf-msg-tpl-chip {
       background: #f0f9ff;
@@ -618,9 +644,39 @@
       transition: all 0.15s ease;
     }
     .bf-msg-tpl-chip:hover {
-      background: #0284c7;
+      background: #0f7f8b;
       color: #ffffff;
-      border-color: #0284c7;
+      border-color: #0f7f8b;
+    }
+    .bf-admin-chat-grid {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+      min-height: 620px;
+    }
+    .bf-chat-list-item {
+      padding: 12px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .bf-chat-list-item:hover { background: #f0f9ff; }
+    .bf-chat-list-item.active {
+      background: #e6f4f6;
+      border-left: 4px solid #0f7f8b;
+    }
+    @media (max-width: 860px) {
+      .bf-admin-chat-grid {
+        grid-template-columns: minmax(0, 1fr);
+        min-height: auto;
+      }
+      .bf-admin-chat-grid.mobile-thread-open .bf-admin-chat-sidebar { display: none; }
+      .bf-admin-chat-grid:not(.mobile-thread-open) .bf-admin-chat-main { display: none; }
+      .bf-chat-mobile-back { display: inline-flex !important; }
     }
   </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@2.0.4"></script><style>.aistudio-hover-highlight { box-shadow: inset 0 0 0 0.5px white, inset 0 0 0 1.5px rgba(128,128,128,0.6) !important; }.aistudio-active-highlight { outline: 2px solid #87a9ff !important; outline-offset: -2px !important; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.3), inset 0 0 0 0.5px rgba(0,0,0,0.3) !important; }.aistudio-generating-blur { filter: blur(5px) grayscale(100%) brightness(28%) !important; transition: filter 0.3s ease; }#aistudio-focus-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: #87a9ff; border-radius: 12px; z-index: 10000; padding: 8px; color: #32302c; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }#aistudio-hover-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: rgba(128,128,128,0.6); border-radius: 12px; z-index: 10000; padding: 8px; color: white; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }.aistudio-img-icon { display: none; vertical-align: middle; pointer-events: auto; cursor: pointer; }.aistudio-img-icon.visible { display: inline-flex; }#aistudio-focus-mode-tag .aistudio-img-icon { position: relative; width: 26px; height: 26px; background: #32302c; border-radius: 6px; margin: -4px -4px -4px 0; }#aistudio-focus-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-hover-mode-tag .aistudio-img-icon { position: relative; width: 18px; height: 18px; margin-left: 4px; }#aistudio-hover-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 0; left: 0; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-focus-mode-tag .aistudio-img-icon:hover, #aistudio-hover-mode-tag .aistudio-img-icon:hover { background: #424242 !important; }#aistudio-focus-mode-tag .aistudio-img-icon:active, #aistudio-hover-mode-tag .aistudio-img-icon:active { background: #393f51 !important; }</style><style type="text/css" data-vite-dev-id="/app/applet/src/index.css">/*! tailwindcss v4.3.5 | MIT License | https://tailwindcss.com */
@@ -864,6 +920,9 @@
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
   }
+  .filter {
+    filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+  }
   .backdrop-filter {
     -webkit-backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
     backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
@@ -928,6 +987,59 @@
   inherits: false;
   initial-value: solid;
 }
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-backdrop-blur {
   syntax: "*";
   inherits: false;
@@ -983,6 +1095,19 @@
       --tw-numeric-spacing: initial;
       --tw-numeric-fraction: initial;
       --tw-outline-style: solid;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
       --tw-backdrop-blur: initial;
       --tw-backdrop-brightness: initial;
       --tw-backdrop-contrast: initial;
@@ -1040,76 +1165,74 @@
     </div>
   </div>
 
-  <!-- Admin -> Client Message & Direct WhatsApp Composer Modal -->
+  <!-- Admin -> Client Direct Bread Finance Messaging Modal -->
   <div id="admin-message-modal" class="modal-overlay" onclick="closeAdminMessageModal()" style="display: none;">
-    <div class="modal-content" style="max-width:680px; padding:0; overflow:hidden; border:2px solid #22c55e;" onclick="event.stopPropagation()">
-      <div style="background:linear-gradient(135deg, #075e54 0%, #128c7e 100%); color:#ffffff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px;">
+    <div class="modal-content" style="max-width:720px; padding:0; overflow:hidden; border:2px solid #0f7f8b;" onclick="event.stopPropagation()">
+      <div style="background:linear-gradient(135deg, #062a4e 0%, #0f7f8b 100%); color:#ffffff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
         <div>
-          <span style="display:inline-block; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:4px;">ADMIN WHATSAPP &amp; PORTAL MESSAGING</span>
+          <span style="display:inline-block; background:rgba(140,224,223,0.18); border:1px solid rgba(140,224,223,0.4); color:#8ce0df; padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:4px;">BREAD FINANCE CLIENT SUPPORT DESK</span>
           <h3 id="admin-msg-modal-title" style="font-size:1.25rem; font-weight:900; margin:0;">Message Applicant</h3>
-          <div id="admin-msg-client-meta" style="font-size:0.8rem; color:#d1fae5; margin-top:2px;">Client ID • Phone</div>
+          <div id="admin-msg-client-meta" style="font-size:0.8rem; color:#d6eef2; margin-top:2px;">Client ID • Phone</div>
         </div>
-        <button type="button" onclick="closeAdminMessageModal()" style="background:rgba(255,255,255,0.2); color:#ffffff; border:none; border-radius:9999px; width:34px; height:34px; font-size:1.1rem; font-weight:800; cursor:pointer;">✕</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button type="button" onclick="openDedicatedChatForModalClient()" style="background:#ffffff; color:#062a4e; border:none; border-radius:9999px; padding:7px 14px; font-size:0.76rem; font-weight:800; cursor:pointer;">⛶ Full Chat App</button>
+          <button type="button" onclick="closeAdminMessageModal()" style="background:rgba(255,255,255,0.18); color:#ffffff; border:none; border-radius:9999px; width:34px; height:34px; font-size:1.1rem; font-weight:800; cursor:pointer;">✕</button>
+        </div>
       </div>
 
-      <div style="padding:22px 24px; max-height:78vh; overflow-y:auto;">
+      <div style="padding:22px 24px; max-height:80vh; overflow-y:auto;">
         <input type="hidden" id="admin-msg-client-id">
 
-        <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-          <div class="form-group" style="margin-bottom:0;">
-            <label style="font-size:0.78rem; font-weight:800; color:var(--color-navy);">Client WhatsApp Number (with country code)</label>
-            <input type="tel" id="admin-msg-phone" class="form-control" placeholder="e.g. 919876543210" oninput="updateAdminWaLink()" style="font-family:monospace; font-weight:800; padding:10px 12px;">
-          </div>
-          <div id="admin-wa-api-status-box" style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; justify-content:center;">
-            <span id="admin-wa-api-status-title" style="font-size:0.72rem; font-weight:800; color:#15803d;">Direct Client WhatsApp Dispatch</span>
-            <span id="admin-wa-api-status-desc" style="font-size:0.75rem; color:#166534; font-weight:600;">Sends via server WhatsApp Business API without syncing Admin WhatsApp.</span>
-          </div>
-        </div>
-
         <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:0.78rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Quick Message Templates:</label>
+          <label style="display:block; font-size:0.78rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Quick Underwriting &amp; PIN Templates:</label>
           <div style="display:flex; flex-wrap:wrap; gap:6px;">
             <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('approved')">🎉 Loan Approved</button>
             <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('wallet')">💳 Wallet &amp; PIN Ready</button>
             <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('kyc')">📄 KYC Pending</button>
-            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('malayalam')" style="background:#dcfce7; color:#15803d; border-color:#86efac;">💬 Malayalam Update</button>
+            <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('malayalam')" style="background:#e6f4f6; color:#0f7f8b; border-color:#8ce0df;">💬 Malayalam Update</button>
             <button type="button" class="bf-msg-tpl-chip" onclick="applyAdminMsgTemplate('clear')" style="background:#f8fafc; color:#475569; border-color:#cbd5e1;">✍️ Clear</button>
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom:14px;">
-          <label style="font-size:0.78rem; font-weight:800; color:var(--color-navy);">Message Text (English / Malayalam supported)</label>
-          <textarea id="admin-msg-text" class="form-control" rows="4" placeholder="Type your message to the client here..." oninput="updateAdminWaLink()" style="font-size:0.9rem; line-height:1.55;"></textarea>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label style="font-size:0.78rem; font-weight:800; color:var(--color-navy);">Message Text (English / Malayalam)</label>
+          <textarea id="admin-msg-text" class="form-control" rows="3" placeholder="Type your message to the client here..." oninput="updateAdminMsgPreview()" style="font-size:0.9rem; line-height:1.55;"></textarea>
         </div>
 
-        <div class="bf-wa-chat-bg" style="margin-bottom:14px;">
-          <div style="font-size:0.7rem; font-weight:800; color:#475569; margin-bottom:8px; text-transform:uppercase;">Live Client Message Preview</div>
-          <div class="bf-wa-bubble" id="admin-msg-preview-bubble">Type a message above to preview...</div>
-          <div style="text-align:right; font-size:0.68rem; color:#0284c7; font-weight:700; margin-top:4px;">Bread Finance Official Desk ✓✓</div>
+        <div style="background:#f8fbfd; border:1px solid #cfe2eb; border-radius:12px; padding:12px; margin-bottom:14px;">
+          <div style="font-size:0.74rem; font-weight:800; color:#062a4e; margin-bottom:8px;">Attach Media or Document (Photo, Video, Audio, File):</div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <label class="bf-chat-attach-btn">📷 Photo<input type="file" accept="image/*" style="display:none;" onchange="handleChatFileAttach('modal', 'image', event)"></label>
+            <label class="bf-chat-attach-btn">🎥 Video<input type="file" accept="video/*" style="display:none;" onchange="handleChatFileAttach('modal', 'video', event)"></label>
+            <label class="bf-chat-attach-btn">🎵 Audio<input type="file" accept="audio/*" style="display:none;" onchange="handleChatFileAttach('modal', 'audio', event)"></label>
+            <button type="button" id="modal-voice-rec-btn" class="bf-chat-attach-btn" onclick="toggleVoiceRecord('modal')">🎙️ Record Voice</button>
+            <label class="bf-chat-attach-btn">📎 File / PDF<input type="file" accept="*/*" style="display:none;" onchange="handleChatFileAttach('modal', 'file', event)"></label>
+          </div>
+          <div id="modal-attach-preview" style="display:none; margin-top:10px;"></div>
+        </div>
+
+        <div class="bf-chat-surface" style="margin-bottom:14px; padding:14px;">
+          <div style="font-size:0.68rem; font-weight:800; color:#0f7f8b; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Live Bread Finance Message Preview</div>
+          <div class="bf-chat-bubble-admin" id="admin-msg-preview-bubble" style="max-width:100%;">Type a message above to preview...</div>
         </div>
 
         <div id="admin-msg-api-feedback" style="display:none; border-radius:10px; padding:10px 14px; font-size:0.8rem; font-weight:600; margin-bottom:14px; line-height:1.45;"></div>
 
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
-          <button type="button" id="admin-btn-direct-cloud-wa" onclick="handleAdminDirectCloudWhatsApp()" class="btn" style="flex:1.5; min-width:230px; background:linear-gradient(135deg, #059669 0%, #047857 100%); color:#ffffff; padding:12px 18px; font-size:0.9rem; font-weight:900; box-shadow:0 6px 16px rgba(5,150,105,0.28);">
-            ⚡ Send to Client WhatsApp (No Admin Sync)
+          <button type="button" id="admin-modal-send-btn" onclick="handleAdminModalSendMessage()" class="btn btn-primary" style="flex:1.5; min-width:210px; padding:12px 18px; font-size:0.9rem; font-weight:800;">
+            📨 Send to Client Portal Chat ➔
           </button>
-          <button type="button" onclick="handleAdminSavePortalOnly()" class="btn btn-primary" style="flex:1.1; min-width:170px; padding:12px 14px; font-size:0.86rem; font-weight:800;">
-            📨 Send In-App Only
-          </button>
-          <a id="admin-msg-wa-link" href="https://api.whatsapp.com/send" target="_blank" rel="noopener noreferrer" onclick="return handleAdminSendWhatsApp(event)" class="btn btn-outline" style="padding:12px 14px; font-size:0.82rem; font-weight:800; border-color:#86efac; color:#15803d;">
-            💬 Admin App
-          </a>
           <button type="button" onclick="copyAdminComposerMessage()" class="btn btn-outline" style="padding:12px 14px; font-size:0.82rem; font-weight:800;" title="Copy message text">
-            📋 Copy
+            📋 Copy Text
           </button>
         </div>
 
         <div style="border-top:1.5px solid #e2e8f0; padding-top:14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <strong style="font-size:0.84rem; color:var(--color-navy);">📜 Sent Message History (<span id="admin-msg-history-count">0</span>)</strong>
+            <strong style="font-size:0.84rem; color:var(--color-navy);">📜 Conversation Thread (<span id="admin-msg-history-count">0</span>)</strong>
+            <span style="font-size:0.72rem; color:#0f7f8b; font-weight:700;">Synced live with Client Portal</span>
           </div>
-          <div id="admin-msg-history-list" style="display:flex; flex-direction:column; gap:8px; max-height:190px; overflow-y:auto;"></div>
+          <div id="admin-msg-history-list" style="display:flex; flex-direction:column; gap:10px; max-height:240px; overflow-y:auto;"></div>
         </div>
       </div>
     </div>
@@ -2375,7 +2498,7 @@
 
         <div class="dashboard-menu-bar">
           <button class="dash-menu-btn active" id="btn-dash-home" onclick="switchDashTab('home')">🏠 Client Home</button>
-          <button class="dash-menu-btn" id="btn-dash-messages" onclick="switchDashTab('messages')">💬 Admin Messages <span id="dash-msg-unread-badge" style="display:none; background:#16a34a; color:#fff; font-size:0.7rem; padding:1px 7px; border-radius:9999px; font-weight:900;">0</span></button>
+          <button class="dash-menu-btn" id="btn-dash-messages" onclick="switchDashTab('messages')">💬 Admin Messages <span id="dash-msg-unread-badge" style="display:none; background:#0f7f8b; color:#fff; font-size:0.7rem; padding:1px 7px; border-radius:9999px; font-weight:900;">0</span></button>
           <button class="dash-menu-btn" id="btn-dash-emi" onclick="switchDashTab('emi')">📊 EMI Details</button>
           <button class="dash-menu-btn" id="btn-dash-wallet" onclick="switchDashTab('wallet')">💳 Client Wallet</button>
           <button class="dash-menu-btn" id="btn-dash-status" onclick="switchDashTab('status')">📑 Loan Status</button>
@@ -2384,30 +2507,99 @@
           <button class="dash-menu-btn" onclick="logoutClient()" style="margin-left:auto; color:#dc2626; border-color:#fca5a5;">🚪 Logout</button>
         </div>
 
-        <div id="client-admin-msg-alert" style="display:none; background:linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border:2px solid #22c55e; border-radius:16px; padding:16px 20px; margin-bottom:20px; box-shadow:0 8px 22px rgba(22, 163, 74, 0.12);"></div>
+        <div id="client-admin-msg-alert" style="display:none; background:linear-gradient(135deg, #f0f9ff 0%, #e6f4f6 100%); border:2px solid #0f7f8b; border-radius:16px; padding:16px 20px; margin-bottom:20px; box-shadow:0 8px 22px rgba(15, 127, 139, 0.14);"></div>
 
         <div id="dash-tab-home" class="dash-tab-pane active">
-          <div class="bf-resp-2col" style="display:grid; grid-template-columns:1.3fr 1fr; gap:24px; align-items:stretch;">
+          <div class="bf-resp-2col" style="display:grid; grid-template-columns:1.3fr 1fr; gap:24px; align-items:stretch; margin-bottom:22px;">
             <div class="card" style="padding:28px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #e2e8f0; padding-bottom:10px; gap:10px; flex-wrap:wrap;">
                 <h2 style="font-size:1.3rem; font-weight:900; color:var(--color-navy);">Client Profile Overview</h2>
                 <label class="btn btn-outline" style="padding:6px 14px; font-size:0.75rem; cursor:pointer;">📷 Upload / Change Photo<input type="file" accept="image/*" onchange="uploadDashboardPhoto(event)" style="display:none;"></label>
               </div>
-              <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+              <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
                 <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold; display:block;">Client Full Name</span><strong id="home-disp-name" style="font-size:1rem; color:var(--color-navy);">-</strong></div>
                 <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold; display:block;">Client ID</span><strong id="home-disp-id" style="font-size:1rem; color:var(--color-primary-dark); font-family:monospace;">-</strong></div>
                 <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold; display:block;">Date of Birth</span><strong id="home-disp-dob" style="font-size:1rem; color:var(--color-navy);">-</strong></div>
-                <div style="background:#f0f9ff; padding:14px; border-radius:12px; border:1px solid #bae6fd;"><span style="font-size:0.75rem; color:#0369a1; font-weight:bold; display:block;">Loan Required Amount</span><strong id="home-disp-amount" style="font-size:1.3rem; color:var(--color-primary-dark); font-weight:900;">-</strong></div>
+                <div style="background:#e6f4f6; padding:14px; border-radius:12px; border:1px solid #9ad9db;"><span style="font-size:0.75rem; color:#0f7f8b; font-weight:bold; display:block;">Loan Required Amount</span><strong id="home-disp-amount" style="font-size:1.3rem; color:#062a4e; font-weight:900;">-</strong></div>
               </div>
               <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold; display:block;">Residential Address &amp; Place</span><p id="home-disp-address" style="font-size:0.9rem; color:#334155; margin-top:4px; font-weight:500;">-</p></div>
             </div>
-            <div style="background:linear-gradient(145deg, #0f2744 0%, #0369a1 100%); color:#fff; border-radius:var(--radius-lg); overflow:hidden; display:flex; flex-direction:column; justify-content:space-between;">
-              <div style="height:190px; overflow:hidden;"><img src="./images/wallet-bank-transfer.jpg" alt="Bread Finance Direct Wallet Disbursal" style="width:100%; height:100%; object-fit:cover; object-position:center 20%;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0284c7 0%, #092540 100%)'; this.style.display='none';"></div>
+            <div style="background:linear-gradient(145deg, #062a4e 0%, #0f7f8b 100%); color:#fff; border-radius:var(--radius-lg); overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--shadow-md);">
+              <div style="height:180px; overflow:hidden;"><img src="./images/wallet-bank-transfer.jpg" alt="Bread Finance Direct Wallet Disbursal" style="width:100%; height:100%; object-fit:cover; object-position:center 20%;" onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #0f7f8b 0%, #062a4e 100%)'; this.style.display='none';"></div>
               <div style="padding:24px;">
-                <span class="badge-pill-light" style="background:rgba(255,255,255,0.2); color:#fff; font-size:0.7rem; margin-bottom:6px;">INSTITUTIONAL DISBURSAL</span>
+                <span class="badge-pill-light" style="background:rgba(140,224,223,0.22); color:#8ce0df; font-size:0.7rem; margin-bottom:6px; border:none;">INSTITUTIONAL DISBURSAL</span>
                 <h3 style="font-size:1.3rem; font-weight:900; margin-bottom:6px;">Direct Wallet Disbursal</h3>
-                <p style="color:#e0f2fe; font-size:0.85rem; line-height:1.6;">Your loan limit will be credited to your clearing wallet once final clearance is completed by the underwriting team.</p>
-                <button onclick="switchDashTab('wallet')" class="btn" style="background:#ffffff; color:var(--color-primary-dark); font-weight:800; font-size:0.85rem; width:100%; margin-top:14px;">Open Wallet ➔</button>
+                <p style="color:#d6eef2; font-size:0.85rem; line-height:1.6;">Once approved by the Credit Committee, your loan amount is credited to your Clearing Wallet and released using your Admin-issued Withdrawal PIN.</p>
+                <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+                  <button onclick="switchDashTab('wallet')" class="btn" style="background:#ffffff; color:#062a4e; font-weight:800; font-size:0.84rem; flex:1;">Open Wallet ➔</button>
+                  <button onclick="switchDashTab('messages')" class="btn" style="background:rgba(255,255,255,0.16); color:#ffffff; border:1px solid rgba(255,255,255,0.35); font-weight:800; font-size:0.84rem; flex:1;">💬 Chat Admin</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI Summary Row -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:16px; margin-bottom:22px;">
+            <div class="stat-card-gradient" style="border-color:#cfe2eb;">
+              <span style="font-size:0.74rem; color:#64748b; font-weight:800; text-transform:uppercase;">Sanction Request</span>
+              <div id="home-kpi-amount" style="font-size:1.55rem; font-weight:900; color:#062a4e; margin:4px 0;">₹0</div>
+              <div id="home-kpi-tenure" style="font-size:0.78rem; color:#0f7f8b; font-weight:700;">Fixed 1% Monthly Reducing</div>
+            </div>
+            <div class="stat-card-gradient" style="border-color:#cfe2eb;">
+              <span style="font-size:0.74rem; color:#64748b; font-weight:800; text-transform:uppercase;">Estimated Monthly EMI</span>
+              <div id="home-kpi-emi" style="font-size:1.55rem; font-weight:900; color:#0f7f8b; margin:4px 0;">₹0 / mo</div>
+              <div style="font-size:0.78rem; color:#64748b; font-weight:600;">Zero Hidden Processing Fee</div>
+            </div>
+            <div class="stat-card-gradient" style="border-color:#cfe2eb;">
+              <span style="font-size:0.74rem; color:#64748b; font-weight:800; text-transform:uppercase;">Clearing Wallet Balance</span>
+              <div id="home-kpi-wallet" style="font-size:1.55rem; font-weight:900; color:#15803d; margin:4px 0;">₹0</div>
+              <div style="font-size:0.78rem; color:#64748b; font-weight:600;">Direct NEFT / IMPS Transfer</div>
+            </div>
+            <div class="stat-card-gradient" style="border-color:#cfe2eb;">
+              <span style="font-size:0.74rem; color:#64748b; font-weight:800; text-transform:uppercase;">Withdrawal PIN Status</span>
+              <div id="home-kpi-pin" style="font-size:1.05rem; font-weight:900; color:#b45309; margin:8px 0 4px;">Pending Admin PIN</div>
+              <div id="home-kpi-pin-sub" style="font-size:0.76rem; color:#64748b; font-weight:600;">Assigned by Admin after verification</div>
+            </div>
+          </div>
+
+          <!-- Application & Disbursal Progress Timeline -->
+          <div class="card" style="padding:24px; margin-bottom:22px; border-color:#cfe2eb;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+              <div>
+                <h3 style="font-size:1.12rem; font-weight:900; color:#062a4e; margin:0;">Live Application &amp; Disbursal Milestones</h3>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:2px;">Track your exact loan processing stage in real time.</p>
+              </div>
+              <button onclick="switchDashTab('status')" class="btn btn-outline" style="padding:6px 14px; font-size:0.78rem;">View Full Status ➔</button>
+            </div>
+            <div id="home-milestone-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px;"></div>
+          </div>
+
+          <!-- Disbursement Bank & Quick Services -->
+          <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
+            <div class="card" style="padding:24px; border-color:#cfe2eb;">
+              <h3 style="font-size:1.1rem; font-weight:900; color:#062a4e; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">🏦 Registered Disbursement Bank &amp; Nominee</h3>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.86rem;">
+                <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;"><span style="font-size:0.72rem; color:#64748b; font-weight:700; display:block;">Bank Name</span><strong id="home-bank-name" style="color:#062a4e;">-</strong></div>
+                <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;"><span style="font-size:0.72rem; color:#64748b; font-weight:700; display:block;">Account Number</span><strong id="home-bank-acc" style="color:#062a4e; font-family:monospace;">-</strong></div>
+                <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;"><span style="font-size:0.72rem; color:#64748b; font-weight:700; display:block;">IFSC Code</span><strong id="home-bank-ifsc" style="color:#0f7f8b; font-family:monospace;">-</strong></div>
+                <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;"><span style="font-size:0.72rem; color:#64748b; font-weight:700; display:block;">Registered Nominee</span><strong id="home-nominee-name" style="color:#062a4e;">-</strong></div>
+              </div>
+              <div style="margin-top:12px; background:#f0f9ff; border:1px solid #bae6fd; border-radius:10px; padding:11px 14px; font-size:0.8rem; color:#0369a1; font-weight:600;">
+                🛡️ RBI Registered NBFC Fair Practices Guarantee: All loan payouts settle directly into your verified bank account above.
+              </div>
+            </div>
+
+            <div class="card" style="padding:24px; border-color:#cfe2eb;">
+              <h3 style="font-size:1.1rem; font-weight:900; color:#062a4e; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">⚡ Portal Services &amp; Support Desk</h3>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+                <button type="button" onclick="switchDashTab('messages')" class="btn btn-primary" style="padding:12px 14px; font-size:0.84rem; justify-content:flex-start;">💬 Message Admin Desk</button>
+                <button type="button" onclick="switchDashTab('emi')" class="btn btn-outline" style="padding:12px 14px; font-size:0.84rem; justify-content:flex-start;">📊 EMI Schedule</button>
+                <button type="button" onclick="switchDashTab('wallet')" class="btn btn-outline" style="padding:12px 14px; font-size:0.84rem; justify-content:flex-start;">💳 Client Wallet</button>
+                <button type="button" onclick="switchDashTab('personal')" class="btn btn-outline" style="padding:12px 14px; font-size:0.84rem; justify-content:flex-start;">📁 KYC Documents</button>
+              </div>
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px; font-size:0.82rem; color:#334155; line-height:1.55;">
+                <strong style="color:#062a4e; display:block; margin-bottom:4px;">Need help with Withdrawal PIN or KYC?</strong>
+                Send a message, photo, video, audio recording, or PDF directly inside <strong>Admin Messages</strong> — your dedicated Bread Finance officer will respond live.
               </div>
             </div>
           </div>
@@ -2438,48 +2630,99 @@
         </div>
 
         <div id="dash-tab-wallet" class="dash-tab-pane">
-          <div class="card" style="max-width:650px; margin:0 auto; padding:32px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;"><h2 style="font-size:1.4rem; font-weight:900; color:var(--color-navy);">Client Wallet</h2><span class="badge-pill-light">DISBURSAL CLEARING</span></div>
-            <div class="bf-wallet-banner" style="background:linear-gradient(135deg, #092540 0%, #0369a1 100%); color:#fff; border-radius:16px; padding:24px; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-              <div><span style="font-size:0.75rem; color:#bae6fd; font-weight:bold; display:block;">Account Holder</span><strong id="wallet-holder-name" style="font-size:1.3rem;">-</strong><div id="wallet-holder-id" style="font-size:0.75rem; color:#bae6fd; font-family:monospace; margin-top:2px;">-</div></div>
-              <div style="text-align:right;"><span style="font-size:0.75rem; color:#bae6fd; font-weight:bold; display:block;">Wallet Balance</span><div id="wallet-balance-disp" style="font-size:2.4rem; font-weight:900; color:#4ade80;">₹0</div></div>
-            </div>
-            <div id="wallet-pending-box" style="display:none; background:#fffbeb; border:2px solid #fde68a; border-radius:14px; padding:20px; margin-bottom:20px; text-align:center;">
-              <div style="color:#b45309; font-weight:900; font-size:1.1rem; margin-bottom:6px;">⏳ Withdrawal Pending</div>
-              <p style="font-size:0.85rem; color:#92400e; margin-bottom:12px;">Interbank clearing verification in progress...</p>
-              <div id="wallet-countdown-box" style="font-size:3rem; font-weight:900; color:#b45309; font-family:monospace; letter-spacing:0.1em; margin-bottom:8px;">05:00</div>
-            </div>
-            <div id="wallet-failed-box" style="display:none; background:#fef2f2; border:2px solid #ef4444; border-radius:14px; padding:22px; margin-bottom:20px;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><span style="font-size:1.5rem;">⚠️</span><strong style="color:#dc2626; font-size:1.2rem;">Withdrawal Failed</strong></div>
-              <div style="color:#dc2626; font-weight:900; font-size:1rem; line-height:1.4; margin-bottom:12px;">Incorrect bank account details wallet blocked please contact customer service.</div>
-              <div style="background:#fee2e2; border:1px solid #f87171; border-radius:10px; padding:12px; margin-bottom:12px; font-size:0.85rem; color:#991b1b;">
-                <div style="font-weight:900; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; border-bottom:1px solid #fca5a5; padding-bottom:4px;">Client Bank Account Details:</div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight:bold;">Bank Name:</span><strong id="red-bank-name">-</strong></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight:bold;">Account Number:</span><strong id="red-bank-acc">-</strong></div>
-                <div style="display:flex; justify-content:space-between;"><span style="font-weight:bold;">IFSC Code:</span><strong id="red-bank-ifsc">-</strong></div>
+          <div style="max-width:880px; margin:0 auto;">
+            <div class="card" style="padding:32px; margin-bottom:22px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;"><h2 style="font-size:1.4rem; font-weight:900; color:var(--color-navy);">Client Wallet</h2><span class="badge-pill-light">DISBURSAL CLEARING</span></div>
+              <div class="bf-wallet-banner" style="background:linear-gradient(135deg, #062a4e 0%, #0f7f8b 100%); color:#fff; border-radius:16px; padding:24px; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <div><span style="font-size:0.75rem; color:#d6eef2; font-weight:bold; display:block;">Account Holder</span><strong id="wallet-holder-name" style="font-size:1.3rem;">-</strong><div id="wallet-holder-id" style="font-size:0.75rem; color:#8ce0df; font-family:monospace; margin-top:2px;">-</div></div>
+                <div style="text-align:right;"><span style="font-size:0.75rem; color:#d6eef2; font-weight:bold; display:block;">Wallet Balance</span><div id="wallet-balance-disp" style="font-size:2.4rem; font-weight:900; color:#8ce0df;">₹0</div></div>
               </div>
-              <div style="font-size:0.8rem; color:#991b1b;">Please contact customer service or visit your nearest branch for manual KYC unblocking.</div>
-            </div>
-            <div id="wallet-action-container">
-              <div id="pin-prompt-box" style="display:none; background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:12px; padding:18px; margin-bottom:16px;">
-                <label style="display:block; font-size:0.85rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Enter Withdrawal PIN Code:</label>
-                <div style="display:flex; gap:10px;"><input type="password" id="wallet-pin-input" maxlength="6" class="form-control" placeholder="••••" style="font-size:1.2rem; letter-spacing:0.2em; text-align:center;"><button type="button" onclick="confirmWithdrawalPin()" class="btn btn-primary" style="padding:10px 22px;">Confirm ➔</button></div>
-                <small style="color:#64748b; font-size:0.75rem; display:block; margin-top:6px;">(Default PIN configured by Admin is 1234)</small>
+              <div id="wallet-pin-status-banner" style="border-radius:12px; padding:13px 16px; margin-bottom:16px; font-size:0.84rem; font-weight:700;"></div>
+              <div id="wallet-pending-box" style="display:none; background:#fffbeb; border:2px solid #fde68a; border-radius:14px; padding:20px; margin-bottom:20px; text-align:center;">
+                <div style="color:#b45309; font-weight:900; font-size:1.1rem; margin-bottom:6px;">⏳ Withdrawal Pending</div>
+                <p style="font-size:0.85rem; color:#92400e; margin-bottom:12px;">Interbank clearing verification in progress...</p>
+                <div id="wallet-countdown-box" style="font-size:3rem; font-weight:900; color:#b45309; font-family:monospace; letter-spacing:0.1em; margin-bottom:8px;">05:00</div>
               </div>
-              <button type="button" id="btn-withdraw-main" onclick="openWithdrawPinPrompt()" class="btn btn-primary" style="width:100%; padding:15px; font-size:1.05rem; font-weight:900;">💸 Withdraw Money</button>
+              <div id="wallet-failed-box" style="display:none; background:#fef2f2; border:2px solid #ef4444; border-radius:14px; padding:22px; margin-bottom:20px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><span style="font-size:1.5rem;">⚠️</span><strong style="color:#dc2626; font-size:1.2rem;">Withdrawal Failed</strong></div>
+                <div style="color:#dc2626; font-weight:900; font-size:1rem; line-height:1.4; margin-bottom:12px;">Incorrect bank account details wallet blocked please contact customer service.</div>
+                <div style="background:#fee2e2; border:1px solid #f87171; border-radius:10px; padding:12px; margin-bottom:12px; font-size:0.85rem; color:#991b1b;">
+                  <div style="font-weight:900; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; border-bottom:1px solid #fca5a5; padding-bottom:4px;">Client Bank Account Details:</div>
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight:bold;">Bank Name:</span><strong id="red-bank-name">-</strong></div>
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight:bold;">Account Number:</span><strong id="red-bank-acc">-</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span style="font-weight:bold;">IFSC Code:</span><strong id="red-bank-ifsc">-</strong></div>
+                </div>
+                <div style="font-size:0.8rem; color:#991b1b;">Please contact customer service or message Admin Support for manual KYC unblocking.</div>
+              </div>
+              <div id="wallet-action-container">
+                <div id="pin-prompt-box" style="display:none; background:#f0f9ff; border:1.5px solid #9ad9db; border-radius:12px; padding:18px; margin-bottom:16px;">
+                  <label style="display:block; font-size:0.85rem; font-weight:800; color:var(--color-navy); margin-bottom:6px;">Enter Admin-Issued Withdrawal PIN:</label>
+                  <div style="display:flex; gap:10px;"><input type="password" id="wallet-pin-input" maxlength="6" class="form-control" placeholder="Enter PIN" style="font-size:1.2rem; letter-spacing:0.2em; text-align:center;"><button type="button" onclick="confirmWithdrawalPin()" class="btn btn-primary" style="padding:10px 22px;">Confirm ➔</button></div>
+                  <small style="color:#0f7f8b; font-size:0.76rem; font-weight:700; display:block; margin-top:6px;">Only the personal Withdrawal PIN assigned by Bread Finance Admin will authorize transfer.</small>
+                </div>
+                <button type="button" id="btn-withdraw-main" onclick="openWithdrawPinPrompt()" class="btn btn-primary" style="width:100%; padding:15px; font-size:1.05rem; font-weight:900;">💸 Withdraw Money</button>
+              </div>
+            </div>
+
+            <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+              <div class="card" style="padding:24px;">
+                <h3 style="font-size:1.05rem; font-weight:900; color:#062a4e; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">🏦 Linked Beneficiary Bank Account</h3>
+                <div style="display:grid; gap:10px; font-size:0.86rem;">
+                  <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="color:#64748b; font-weight:700;">Bank Name</span><strong id="wallet-info-bank" style="color:#062a4e;">-</strong></div>
+                  <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="color:#64748b; font-weight:700;">Account Number</span><strong id="wallet-info-acc" style="color:#062a4e; font-family:monospace;">-</strong></div>
+                  <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="color:#64748b; font-weight:700;">IFSC Code</span><strong id="wallet-info-ifsc" style="color:#0f7f8b; font-family:monospace;">-</strong></div>
+                </div>
+              </div>
+              <div class="card" style="padding:24px;">
+                <h3 style="font-size:1.05rem; font-weight:900; color:#062a4e; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">🔐 Clearing Rules &amp; Admin PIN Support</h3>
+                <ul style="padding-left:18px; color:#334155; font-size:0.84rem; line-height:1.7; margin:0 0 14px;">
+                  <li>Withdrawal PIN is issued individually by the Bread Finance Admin Desk.</li>
+                  <li>Clearing timer (05:00) starts only after valid Admin-assigned PIN verification.</li>
+                  <li>Need your Withdrawal PIN or bank update? Message Admin directly inside the portal.</li>
+                </ul>
+                <button type="button" onclick="switchDashTab('messages')" class="btn btn-outline" style="width:100%; padding:10px 16px; font-size:0.84rem;">💬 Ask Admin for PIN / Support</button>
+              </div>
             </div>
           </div>
         </div>
 
         <div id="dash-tab-status" class="dash-tab-pane">
-          <div class="card" style="max-width:700px; margin:0 auto; padding:32px;">
-            <h2 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin-bottom:16px;">Loan Application Status</h2>
-            <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
-              <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Applicant Name</span><strong id="status-disp-name" style="display:block; font-size:1.05rem; color:var(--color-navy);">-</strong></div>
-              <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Applicant ID</span><strong id="status-disp-id" style="display:block; font-size:1.05rem; color:var(--color-primary-dark); font-family:monospace;">-</strong></div>
+          <div style="max-width:920px; margin:0 auto;">
+            <div class="card" style="padding:32px; margin-bottom:22px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:18px; border-bottom:1px solid #e2e8f0; padding-bottom:12px;">
+                <h2 style="font-size:1.4rem; font-weight:900; color:var(--color-navy); margin:0;">Loan Application Status</h2>
+                <span class="badge-pill-light">LIVE UNDERWRITING TRACKER</span>
+              </div>
+              <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Applicant Name</span><strong id="status-disp-name" style="display:block; font-size:1.05rem; color:var(--color-navy);">-</strong></div>
+                <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:0.75rem; color:#64748b; font-weight:bold;">Applicant ID</span><strong id="status-disp-id" style="display:block; font-size:1.05rem; color:var(--color-primary-dark); font-family:monospace;">-</strong></div>
+              </div>
+              <div id="status-alert-box" style="padding:20px; border-radius:14px; text-align:center; font-weight:800; font-size:1.05rem; margin-bottom:22px;"></div>
+
+              <h3 style="font-size:1rem; font-weight:900; color:#062a4e; margin-bottom:12px;">Underwriting &amp; Disbursal Stages</h3>
+              <div id="status-stages-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin-bottom:18px;"></div>
+              <div style="border-top:1px solid #e2e8f0; padding-top:14px; font-size:0.82rem; color:#64748b;">Status updates in real time whenever your file is reviewed or updated inside the Bread Finance administrative underwriting console.</div>
             </div>
-            <div id="status-alert-box" style="padding:20px; border-radius:14px; text-align:center; font-weight:800; font-size:1.05rem; margin-bottom:20px;"></div>
-            <div style="border-top:1px solid #e2e8f0; padding-top:16px; font-size:0.82rem; color:#64748b;">Status updates in real-time when changed inside the administrative underwriting console.</div>
+
+            <div class="bf-resp-2col" style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:20px;">
+              <div class="card" style="padding:24px;">
+                <h3 style="font-size:1.05rem; font-weight:900; color:#062a4e; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">📄 Application &amp; KYC File Summary</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.84rem;">
+                  <div style="background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="font-size:0.72rem; color:#64748b; display:block;">Applied Amount</span><strong id="status-disp-amount" style="color:#062a4e;">-</strong></div>
+                  <div style="background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="font-size:0.72rem; color:#64748b; display:block;">Selected Tenure</span><strong id="status-disp-tenure" style="color:#062a4e;">-</strong></div>
+                  <div style="background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="font-size:0.72rem; color:#64748b; display:block;">Submitted On</span><strong id="status-disp-applied" style="color:#062a4e;">-</strong></div>
+                  <div style="background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="font-size:0.72rem; color:#64748b; display:block;">Selfie &amp; KYC Check</span><strong id="status-disp-kyc" style="color:#15803d;">-</strong></div>
+                </div>
+              </div>
+              <div class="card" style="padding:24px;">
+                <h3 style="font-size:1.05rem; font-weight:900; color:#062a4e; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">💬 Underwriting Assistance</h3>
+                <p style="font-size:0.84rem; color:#334155; line-height:1.6; margin-bottom:14px;">If the credit team requests any additional ID proof, video confirmation, or bank verification, you can submit photos, videos, audio, or PDF documents directly inside Admin Messages.</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button type="button" onclick="switchDashTab('messages')" class="btn btn-primary" style="flex:1; padding:10px 14px; font-size:0.84rem;">💬 Open Admin Chat</button>
+                  <button type="button" onclick="switchDashTab('personal')" class="btn btn-outline" style="flex:1; padding:10px 14px; font-size:0.84rem;">📁 View Docs</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2495,19 +2738,34 @@
         </div>
 
         <div id="dash-tab-messages" class="dash-tab-pane">
-          <div class="card" style="max-width:760px; margin:0 auto; padding:0; overflow:hidden; border:2px solid #86efac;">
-            <div style="background:linear-gradient(135deg, #075e54 0%, #128c7e 100%); color:#ffffff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div class="card bf-card-flush" style="max-width:840px; margin:0 auto; padding:0; overflow:hidden; border:1.5px solid #9ad9db; box-shadow:var(--shadow-lg);">
+            <div style="background:linear-gradient(135deg, #062a4e 0%, #0f7f8b 100%); color:#ffffff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
               <div>
-                <span style="display:inline-block; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:4px;">LIVE DIRECT ADMIN CHAT</span>
-                <h2 style="font-size:1.35rem; font-weight:900; margin:0;">Official Messages &amp; Admin Support</h2>
-                <div style="font-size:0.8rem; color:#d1fae5;">Chat directly with Bread Finance Admin inside the app (WhatsApp optional: <strong>6033663703</strong>)</div>
+                <span style="display:inline-block; background:rgba(140,224,223,0.2); border:1px solid rgba(140,224,223,0.45); color:#8ce0df; padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:5px;">BREAD FINANCE DIRECT CHAT</span>
+                <h2 style="font-size:1.35rem; font-weight:900; margin:0;">Official Messages &amp; Support Desk</h2>
+                <div style="font-size:0.82rem; color:#d6eef2; margin-top:2px;">Send text messages, photos, videos, voice notes, or PDF documents directly to Bread Finance Admin.</div>
               </div>
-              <a href="https://wa.me/916033663703?text=Hello%20Bread%20Finance%20Support%2C%20I%20saw%20your%20message%20in%20my%20Client%20Portal." target="_blank" rel="noopener noreferrer" class="btn" style="background:#ffffff; color:#075e54; font-weight:900; padding:9px 16px; font-size:0.82rem;">💬 Chat on WhatsApp</a>
+              <div style="background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.28); padding:8px 14px; border-radius:12px; font-size:0.76rem; font-weight:800; color:#ffffff;">
+                🛡️ Encrypted Portal Desk
+              </div>
             </div>
-            <div class="bf-wa-chat-bg" style="border:none; border-radius:0; min-height:260px; max-height:420px; overflow-y:auto;" id="client-messages-thread"></div>
-            <div style="background:#f8fafc; border-top:1.5px solid #cbd5e1; padding:14px 18px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-              <input type="text" id="client-reply-input" class="form-control" placeholder="Type a reply to Bread Finance Admin (works without WhatsApp)..." onkeydown="if(event.key==='Enter'){sendClientReplyMessage();}" style="flex:1; min-width:220px; padding:11px 14px; font-size:0.9rem;">
-              <button type="button" onclick="sendClientReplyMessage()" class="btn btn-primary" style="padding:11px 20px; font-size:0.88rem; font-weight:800;">📨 Send Reply ➔</button>
+
+            <div class="bf-chat-surface" style="border:none; border-radius:0; min-height:300px; max-height:460px; overflow-y:auto;" id="client-messages-thread"></div>
+
+            <div style="background:#ffffff; border-top:1.5px solid #cfe2eb; padding:14px 18px;">
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; align-items:center;">
+                <span style="font-size:0.74rem; font-weight:800; color:#64748b;">Send Media / File:</span>
+                <label class="bf-chat-attach-btn">📷 Photo<input type="file" accept="image/*" style="display:none;" onchange="handleChatFileAttach('client', 'image', event)"></label>
+                <label class="bf-chat-attach-btn">🎥 Video<input type="file" accept="video/*" style="display:none;" onchange="handleChatFileAttach('client', 'video', event)"></label>
+                <label class="bf-chat-attach-btn">🎵 Audio<input type="file" accept="audio/*" style="display:none;" onchange="handleChatFileAttach('client', 'audio', event)"></label>
+                <button type="button" id="client-voice-rec-btn" class="bf-chat-attach-btn" onclick="toggleVoiceRecord('client')">🎙️ Record Voice</button>
+                <label class="bf-chat-attach-btn">📎 File / Doc<input type="file" accept="*/*" style="display:none;" onchange="handleChatFileAttach('client', 'file', event)"></label>
+              </div>
+              <div id="client-attach-preview" style="display:none; margin-bottom:10px;"></div>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <input type="text" id="client-reply-input" class="form-control" placeholder="Write a message to Bread Finance Admin..." onkeydown="if(event.key==='Enter'){sendClientReplyMessage();}" style="flex:1; min-width:220px; padding:12px 14px; font-size:0.92rem;">
+                <button type="button" id="client-send-chat-btn" onclick="sendClientReplyMessage()" class="btn btn-primary" style="padding:12px 22px; font-size:0.9rem; font-weight:800;">📨 Send ➔</button>
+              </div>
             </div>
           </div>
         </div>
@@ -2524,12 +2782,15 @@
 
     <!-- ==================== ADMIN LOGIN ==================== -->
     <div id="page-admin-login" class="page-view">
-      <div style="max-width:420px; margin:80px auto; padding:0 20px;">
+      <div style="max-width:440px; margin:70px auto; padding:0 20px;">
         <div class="card" style="border-color:#cbd5e1; padding:32px;">
           <div style="text-align:center; margin-bottom:20px;">
             <span class="badge-pill-light" style="background:#092540; color:#fff;">STAFF PORTAL</span>
             <h2 style="font-size:1.6rem; font-weight:900; color:var(--color-navy); margin-top:8px;">Admin Console Login</h2>
-            <p style="color:#64748b; font-size:0.8rem; margin-top:4px;">Executive Underwriting Access Only</p>
+            <p style="color:#64748b; font-size:0.8rem; margin-top:4px;">Executive Underwriting &amp; Client Chat Access</p>
+          </div>
+          <div id="admin-login-chat-banner" style="display:none; background:#e6f4f6; border:1.5px solid #0f7f8b; color:#062a4e; border-radius:10px; padding:10px 14px; font-size:0.82rem; font-weight:700; margin-bottom:14px;">
+            💬 Sign in below to open the dedicated <strong>Bread Finance Client Chat App</strong>.
           </div>
           <div id="admin-login-error" style="display:none; background:#fee2e2; color:#dc2626; padding:10px 14px; border-radius:8px; font-size:0.8rem; font-weight:700; margin-bottom:14px; border:1px solid #fca5a5;"></div>
           <form onsubmit="event.preventDefault(); performAdminLogin();" style="display:block;">
@@ -2541,7 +2802,8 @@
                 <button type="button" class="bf-login-eye-btn" onclick="togglePasswordField('admin-pass', this)">👁 Show</button>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; cursor:pointer;">Sign In to Admin Portal ➔</button>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; font-weight:800; cursor:pointer; margin-bottom:10px;">Sign In to Admin Portal ➔</button>
+            <button type="button" onclick="window._pendingAdminRoute='admin-chat'; performAdminLogin();" class="btn btn-outline" style="width:100%; padding:11px; font-size:0.88rem; font-weight:800; border-color:#0f7f8b; color:#0f7f8b;">💬 Sign In Directly to Client Chat App</button>
           </form>
         </div>
       </div>
@@ -2574,6 +2836,10 @@
             <p style="font-size:0.85rem; color:#64748b; margin-top:2px;">View, edit, delete, and approve all client loan applications, uploaded documents, and wallet balances.</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button onclick="switchPage('admin-chat')" class="btn" style="background:linear-gradient(135deg, #062a4e 0%, #0f7f8b 100%); color:#ffffff; font-weight:800; padding:9px 18px; font-size:0.82rem; box-shadow:0 4px 14px rgba(15,127,139,0.28);">
+              💬 Client Chat App <span id="admin-dashboard-chat-unread" style="display:none; background:#ef4444; color:#fff; border-radius:9999px; padding:1px 7px; font-size:0.7rem; margin-left:4px;">0</span>
+            </button>
+            <button onclick="copyAdminChatLink()" class="btn btn-outline" style="background:#fff; font-weight:bold; padding:8px 14px; font-size:0.8rem; border-color:#0f7f8b; color:#0f7f8b;">🔗 Copy Chat Link (#admin-chat)</button>
             <button onclick="toggleAdminSecurityPanel()" id="btn-admin-security" class="btn btn-outline" style="background:#fff; font-weight:800; padding:8px 16px; font-size:0.8rem; border-color:#0f172a; color:#0f172a; position:relative;">
               🛡️ Devices &amp; Trusted Security
               <span id="admin-security-badge" style="display:none; background:#dc2626; color:#fff; font-size:0.7rem; font-weight:900; padding:2px 7px; border-radius:999px; margin-left:4px;">0</span>
@@ -2762,7 +3028,7 @@
               <p style="color:#64748b; font-size:0.85rem;">Modify any submitted detail; changes update live in client's portal.</p>
             </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" onclick="openAdminMessageModal(document.getElementById('edit-client-id').value)" class="btn" style="background:#dcfce7; color:#15803d; border:1.5px solid #86efac; padding:6px 14px; font-size:0.8rem; font-weight:800;">💬 Message / WhatsApp Client</button>
+              <button type="button" onclick="openAdminMessageModal(document.getElementById('edit-client-id').value)" class="btn" style="background:#e6f4f6; color:#0f7f8b; border:1.5px solid #0f7f8b; padding:6px 14px; font-size:0.8rem; font-weight:800;">💬 Message Client</button>
               <button onclick="closeAdminEdit()" class="btn btn-outline" style="padding:6px 14px; font-size:0.8rem;">✕ Close</button>
             </div>
           </div>
@@ -2785,8 +3051,8 @@
                 <input type="number" id="edit-wallet-amount" class="form-control" placeholder="0" style="font-weight:900; color:#15803d; font-size:1.1rem;">
               </div>
               <div class="form-group">
-                <label style="color:#0f172a; font-weight:800;">Withdrawal PIN Code *</label>
-                <input type="text" id="edit-withdraw-pin" maxlength="6" class="form-control" placeholder="1234" style="font-family:monospace; font-weight:bold; font-size:1.1rem; text-align:center;">
+                <label style="color:#0f172a; font-weight:800;">Withdrawal PIN (Admin Set Only)</label>
+                <input type="text" id="edit-withdraw-pin" maxlength="6" class="form-control" placeholder="Set PIN (4-6 digits)" style="font-family:monospace; font-weight:bold; font-size:1.1rem; text-align:center;">
               </div>
             </div>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:10px;">
@@ -2873,9 +3139,95 @@
 
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
             <button onclick="saveAdminClientChanges()" class="btn btn-primary" style="flex:2; padding:14px 28px; font-size:1rem;">💾 Save All Changes to Client Account ✓</button>
-            <button type="button" onclick="openAdminMessageModal(document.getElementById('edit-client-id').value)" class="btn" style="background:#16a34a; color:#ffffff; padding:14px 20px; font-weight:800; font-size:0.95rem; cursor:pointer;">💬 WhatsApp / Msg</button>
+            <button type="button" onclick="openAdminMessageModal(document.getElementById('edit-client-id').value)" class="btn" style="background:#0f7f8b; color:#ffffff; padding:14px 20px; font-weight:800; font-size:0.95rem; cursor:pointer;">💬 Chat Client</button>
             <button onclick="deleteCurrentEditClient()" class="btn" style="background:#fee2e2; color:#dc2626; border:1.5px solid #ef4444; padding:14px 22px; font-weight:800; font-size:0.95rem; cursor:pointer;" title="Permanently delete this application">🗑️ Delete Permanently</button>
             <button onclick="closeAdminEdit()" class="btn btn-outline" style="flex:1; padding:14px 20px;">Cancel / Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== DEDICATED ADMIN CLIENT CHAT APP ==================== -->
+    <div id="page-admin-chat" class="page-view">
+      <div class="container" style="padding:24px 14px 60px; max-width:1240px;">
+        <div style="background:linear-gradient(135deg, #062a4e 0%, #0f7f8b 100%); color:#ffffff; border-radius:20px; padding:18px 24px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:var(--shadow-lg);">
+          <div>
+            <span style="display:inline-block; background:rgba(140,224,223,0.2); border:1px solid rgba(140,224,223,0.45); color:#8ce0df; padding:3px 10px; border-radius:9999px; font-size:0.7rem; font-weight:800; letter-spacing:0.06em; margin-bottom:4px;">STANDALONE CLIENT CHAT WORKSPACE</span>
+            <h1 style="font-size:1.5rem; font-weight:900; margin:0;">💬 Bread Finance Client Chat App</h1>
+            <p style="font-size:0.82rem; color:#d6eef2; margin-top:2px;">Direct real-time client inbox — send text, photos, videos, audio messages, and documents.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button type="button" onclick="copyAdminChatLink()" class="btn" style="background:rgba(255,255,255,0.16); color:#ffffff; border:1px solid rgba(255,255,255,0.35); padding:8px 14px; font-size:0.8rem; font-weight:800;">🔗 Copy Chat Link</button>
+            <button type="button" onclick="switchPage('admin-dashboard')" class="btn" style="background:#ffffff; color:#062a4e; padding:8px 16px; font-size:0.82rem; font-weight:800;">← Admin Console</button>
+            <button type="button" onclick="logoutAdmin()" class="btn" style="background:#fee2e2; color:#dc2626; padding:8px 14px; font-size:0.8rem; font-weight:800;">Logout</button>
+          </div>
+        </div>
+
+        <div id="admin-chat-desk-grid" class="bf-admin-chat-grid">
+          <!-- Left Client Inbox Sidebar -->
+          <div class="card bf-card-flush bf-admin-chat-sidebar" style="padding:0; overflow:hidden; display:flex; flex-direction:column; border-color:#cfe2eb;">
+            <div style="padding:14px; border-bottom:1px solid #e2e8f0; background:#f8fbfd;">
+              <input type="text" id="admin-chat-search" class="form-control" placeholder="🔍 Search client name, ID, phone..." oninput="renderAdminChatClientList()" style="padding:10px 12px; font-size:0.86rem; margin-bottom:10px;">
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button type="button" id="chat-filter-all" onclick="setAdminChatFilter('all')" class="btn btn-primary" style="padding:4px 11px; font-size:0.74rem;">All Clients</button>
+                <button type="button" id="chat-filter-unread" onclick="setAdminChatFilter('unread')" class="btn btn-outline" style="padding:4px 11px; font-size:0.74rem;">Unread Replies</button>
+                <button type="button" id="chat-filter-active" onclick="setAdminChatFilter('active')" class="btn btn-outline" style="padding:4px 11px; font-size:0.74rem;">With Messages</button>
+              </div>
+            </div>
+            <div id="admin-chat-client-list" style="flex:1; overflow-y:auto; max-height:560px;"></div>
+          </div>
+
+          <!-- Right Active Conversation Area -->
+          <div class="card bf-card-flush bf-admin-chat-main" style="padding:0; overflow:hidden; display:flex; flex-direction:column; border-color:#cfe2eb;">
+            <div id="admin-chat-empty-state" style="padding:60px 24px; text-align:center; color:#64748b; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+              <div style="font-size:2.8rem; margin-bottom:10px;">💬</div>
+              <h3 style="font-size:1.25rem; font-weight:900; color:#062a4e; margin-bottom:6px;">Select a Client to Chat</h3>
+              <p style="font-size:0.88rem; max-width:380px;">Pick any loan applicant from the inbox list to view history, set their Withdrawal PIN, or send photos, videos, audio, and documents.</p>
+            </div>
+
+            <div id="admin-chat-active-pane" style="display:none; flex-direction:column; flex:1; height:100%;">
+              <div style="background:#ffffff; border-bottom:1.5px solid #cfe2eb; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <button type="button" onclick="closeMobileChatThread()" class="btn btn-outline bf-chat-mobile-back" style="display:none; padding:6px 10px; font-size:0.78rem;">← Inbox</button>
+                  <div id="desk-chat-avatar" style="width:44px; height:44px; border-radius:12px; background:#062a4e; color:#8ce0df; font-weight:900; font-size:1.1rem; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">C</div>
+                  <div>
+                    <strong id="desk-chat-name" style="font-size:1.05rem; color:#062a4e; display:block;">Client Name</strong>
+                    <div id="desk-chat-meta" style="font-size:0.76rem; color:#64748b; font-weight:600;">ID • Mobile • Loan</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <div style="display:inline-flex; align-items:center; gap:5px; background:#f0f9ff; border:1px solid #bae6fd; border-radius:10px; padding:4px 8px;">
+                    <span style="font-size:0.72rem; font-weight:800; color:#062a4e;">PIN:</span>
+                    <input type="text" id="desk-chat-pin-input" maxlength="6" placeholder="Set PIN" style="width:72px; border:1px solid #cbd5e1; border-radius:6px; padding:3px 6px; font-size:0.78rem; font-family:monospace; font-weight:800; text-align:center;">
+                    <button type="button" onclick="saveDeskChatQuickPin()" class="btn btn-primary" style="padding:4px 9px; font-size:0.72rem;">Set</button>
+                  </div>
+                  <button type="button" onclick="openSelectedChatDossier()" class="btn btn-outline" style="padding:6px 12px; font-size:0.76rem;">⚙️ Dossier</button>
+                </div>
+              </div>
+
+              <div class="bf-chat-surface" id="desk-chat-thread" style="border:none; border-radius:0; flex:1; min-height:330px; max-height:440px; overflow-y:auto;"></div>
+
+              <div style="background:#ffffff; border-top:1.5px solid #cfe2eb; padding:12px 16px;">
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                  <button type="button" class="bf-msg-tpl-chip" onclick="applyDeskChatTemplate('approved')">🎉 Loan Approved</button>
+                  <button type="button" class="bf-msg-tpl-chip" onclick="applyDeskChatTemplate('wallet')">💳 Wallet &amp; PIN Ready</button>
+                  <button type="button" class="bf-msg-tpl-chip" onclick="applyDeskChatTemplate('kyc')">📄 KYC Pending</button>
+                  <button type="button" class="bf-msg-tpl-chip" onclick="applyDeskChatTemplate('malayalam')" style="background:#e6f4f6; color:#0f7f8b; border-color:#8ce0df;">💬 Malayalam</button>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:8px; align-items:center;">
+                  <label class="bf-chat-attach-btn">📷 Photo<input type="file" accept="image/*" style="display:none;" onchange="handleChatFileAttach('desk', 'image', event)"></label>
+                  <label class="bf-chat-attach-btn">🎥 Video<input type="file" accept="video/*" style="display:none;" onchange="handleChatFileAttach('desk', 'video', event)"></label>
+                  <label class="bf-chat-attach-btn">🎵 Audio<input type="file" accept="audio/*" style="display:none;" onchange="handleChatFileAttach('desk', 'audio', event)"></label>
+                  <button type="button" id="desk-voice-rec-btn" class="bf-chat-attach-btn" onclick="toggleVoiceRecord('desk')">🎙️ Record Voice</button>
+                  <label class="bf-chat-attach-btn">📎 File / Doc<input type="file" accept="*/*" style="display:none;" onchange="handleChatFileAttach('desk', 'file', event)"></label>
+                </div>
+                <div id="desk-attach-preview" style="display:none; margin-bottom:8px;"></div>
+                <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;">
+                  <textarea id="desk-chat-input" class="form-control" rows="2" placeholder="Write a message to client..." onkeydown="if(event.key==='Enter' &amp;&amp; !event.shiftKey){event.preventDefault(); sendAdminDeskMessage();}" style="flex:1; min-width:220px; padding:10px 12px; font-size:0.9rem; resize:none;"></textarea>
+                  <button type="button" id="desk-chat-send-btn" onclick="sendAdminDeskMessage()" class="btn btn-primary" style="padding:12px 22px; font-size:0.9rem; font-weight:800;">📨 Send ➔</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -3210,6 +3562,7 @@
 
       window.startClientCloudSync = function(clientId) {
         if (!clientId) return;
+        if (typeof window.startClientChatSync === 'function') window.startClientChatSync(clientId);
         if (window._clientUnsub && window._clientUnsubId === clientId) return;
         if (window._clientUnsub) {
           try { window._clientUnsub(); } catch (e) {}
@@ -3241,6 +3594,7 @@
           window._clientUnsub = null;
           window._clientUnsubId = null;
         }
+        if (typeof window.stopClientChatSync === 'function') window.stopClientChatSync();
       };
 
       window._emailLookupCache = new Map();
@@ -3853,6 +4207,10 @@
         if (window.location.hash !== '#admin') {
           try { history.replaceState(null, '', '#admin'); } catch (e) {}
         }
+      } else if (pageId === 'admin-chat') {
+        if (window.location.hash !== '#admin-chat') {
+          try { history.replaceState(null, '', '#admin-chat'); } catch (e) {}
+        }
       } else if (pageId === 'home') {
         if (window.location.hash) {
           try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {}
@@ -3869,10 +4227,20 @@
         loadUserDashboard();
       } else if (pageId === 'admin-login') {
         if (typeof window.fetchAdminCredsOnce === 'function') window.fetchAdminCredsOnce();
+        const chatBanner = document.getElementById('admin-login-chat-banner');
+        if (chatBanner) chatBanner.style.display = (window._pendingAdminRoute === 'admin-chat') ? 'block' : 'none';
       } else if (pageId === 'admin-dashboard') {
         if (typeof window.startAdminCloudSync === 'function') window.startAdminCloudSync();
         loadAdminDashboard();
         updateAdminSecurityUI();
+      } else if (pageId === 'admin-chat') {
+        if (!adminLogged) {
+          window._pendingAdminRoute = 'admin-chat';
+          switchPage('admin-login');
+          return;
+        }
+        if (typeof window.startAdminCloudSync === 'function') window.startAdminCloudSync();
+        if (typeof renderAdminChatDesk === 'function') renderAdminChatDesk();
       } else if (pageId === 'login') {
         const err = document.getElementById('login-error');
         if (err) err.style.display = 'none';
@@ -4292,7 +4660,7 @@
         employmentStatus: emp, monthlyIncome: income, nomineeName: nominee, nomineePhone,
         loanAmount, tenure, bankName, bankAcc, bankIfsc, password: pass,
         appliedAt: appliedIso,
-        status: 'Pending Loan Approval', walletBalance: 0, withdrawalPin: '1234',
+        status: 'Pending Loan Approval', walletBalance: 0, withdrawalPin: '', withdrawalPinSetByAdmin: false,
         cancellationStatus: 'None', profilePhoto: (regDocs.faceVerification && regDocs.faceVerification.data) || '',
         faceVerificationStatus: regDocs.faceVerification ? 'Selfie Uploaded' : 'Pending',
         faceVerifiedAt: regDocs.faceVerification ? regDocs.faceVerification.verifiedAt : '',
@@ -4448,6 +4816,14 @@
       box.innerHTML = client.profilePhoto ? '<img src="' + client.profilePhoto + '" style="width:100%; height:100%; object-fit:cover;">' : client.fullName.charAt(0).toUpperCase();
     }
 
+    function isAdminPinConfigured(client) {
+      if (!client) return false;
+      const pin = String(client.withdrawalPin || '').trim();
+      if (pin.length < 4) return false;
+      if (client.withdrawalPinSetByAdmin === true) return true;
+      return pin !== '1234';
+    }
+
     let countdownInterval = null;
     function loadUserDashboard() {
       const client = getActiveClient();
@@ -4474,6 +4850,57 @@
       document.getElementById('emi-disp-total').innerText = '₹' + (emi * N).toLocaleString('en-IN');
       document.getElementById('emi-schedule-title').innerText = 'Complete Repayment Schedule (' + N + ' Months)';
 
+      const pinReady = isAdminPinConfigured(client);
+      const isApproved = client.status === 'Loan Approved';
+      const hasWalletFunds = Number(client.walletBalance || 0) > 0;
+      const kpiAmt = document.getElementById('home-kpi-amount');
+      const kpiTen = document.getElementById('home-kpi-tenure');
+      const kpiEmi = document.getElementById('home-kpi-emi');
+      const kpiWal = document.getElementById('home-kpi-wallet');
+      const kpiPin = document.getElementById('home-kpi-pin');
+      const kpiPinSub = document.getElementById('home-kpi-pin-sub');
+      if (kpiAmt) kpiAmt.innerText = '₹' + P.toLocaleString('en-IN');
+      if (kpiTen) kpiTen.innerText = N + ' Months • 11.9% p.a.';
+      if (kpiEmi) kpiEmi.innerText = '₹' + emi.toLocaleString('en-IN') + ' / mo';
+      if (kpiWal) kpiWal.innerText = '₹' + Number(client.walletBalance || 0).toLocaleString('en-IN');
+      if (kpiPin) {
+        kpiPin.innerText = pinReady ? '✓ Admin PIN Issued' : '⏳ Pending Admin PIN';
+        kpiPin.style.color = pinReady ? '#15803d' : '#b45309';
+      }
+      if (kpiPinSub) {
+        kpiPinSub.innerText = pinReady ? 'Ready for Clearing Wallet transfer' : 'Waiting for Admin to assign your PIN';
+      }
+      const hbName = document.getElementById('home-bank-name');
+      const hbAcc = document.getElementById('home-bank-acc');
+      const hbIfsc = document.getElementById('home-bank-ifsc');
+      const hNom = document.getElementById('home-nominee-name');
+      if (hbName) hbName.innerText = client.bankName || '-';
+      if (hbAcc) hbAcc.innerText = client.bankAcc || '-';
+      if (hbIfsc) hbIfsc.innerText = client.bankIfsc || '-';
+      if (hNom) hNom.innerText = client.nomineeName || '-';
+
+      const hasSelfie = !!(client.documents && client.documents.faceVerification && client.documents.faceVerification.data);
+      const milestones = [
+        { step: 'Step 1', title: 'Application & e-KYC', done: true, note: hasSelfie ? 'Selfie & ID docs uploaded' : 'Application submitted' },
+        { step: 'Step 2', title: 'Underwriting Review', done: isApproved, note: isApproved ? 'Approved by Credit Desk' : (client.status || 'Under Review') },
+        { step: 'Step 3', title: 'Wallet & Admin PIN', done: pinReady && hasWalletFunds, note: pinReady ? 'Admin PIN issued' : 'Waiting for Admin PIN' },
+        { step: 'Step 4', title: 'Bank Disbursal', done: !!(client.withdrawalState && (client.withdrawalState.isProcessing || client.withdrawalState.isFailed)), note: 'Direct NEFT / IMPS payout' }
+      ];
+      const milestoneHtml = milestones.map(ms => `
+        <div style="background:${ms.done ? '#e6f4f6' : '#f8fafc'}; border:1.5px solid ${ms.done ? '#0f7f8b' : '#e2e8f0'}; border-radius:12px; padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:0.7rem; font-weight:800; color:${ms.done ? '#0f7f8b' : '#64748b'}; text-transform:uppercase;">${ms.step}</span>
+            <span style="font-size:0.72rem; font-weight:900; padding:2px 8px; border-radius:999px; background:${ms.done ? '#0f7f8b' : '#e2e8f0'}; color:${ms.done ? '#ffffff' : '#475569'};">${ms.done ? '✓ Ready' : 'In Queue'}</span>
+          </div>
+          <strong style="font-size:0.92rem; color:#062a4e; display:block; margin-bottom:2px;">${ms.title}</strong>
+          <div style="font-size:0.78rem; color:#475569;">${ms.note}</div>
+        </div>
+      `).join('');
+      const homeMsEl = document.getElementById('home-milestone-grid');
+      if (homeMsEl) homeMsEl.innerHTML = milestoneHtml;
+      const statusMsEl = document.getElementById('status-stages-grid');
+      if (statusMsEl) statusMsEl.innerHTML = milestoneHtml;
+
       let balance = P;
       const tbody = document.getElementById('emi-table-body');
       tbody.innerHTML = '';
@@ -4496,10 +4923,24 @@
       document.getElementById('red-bank-name').innerText = client.bankName;
       document.getElementById('red-bank-acc').innerText = client.bankAcc;
       document.getElementById('red-bank-ifsc').innerText = client.bankIfsc;
+      const wBank = document.getElementById('wallet-info-bank');
+      const wAcc = document.getElementById('wallet-info-acc');
+      const wIfsc = document.getElementById('wallet-info-ifsc');
+      if (wBank) wBank.innerText = client.bankName || '-';
+      if (wAcc) wAcc.innerText = client.bankAcc || '-';
+      if (wIfsc) wIfsc.innerText = client.bankIfsc || '-';
       renderWalletState(client);
 
       document.getElementById('status-disp-name').innerText = client.fullName;
       document.getElementById('status-disp-id').innerText = client.id;
+      const stAmt = document.getElementById('status-disp-amount');
+      const stTen = document.getElementById('status-disp-tenure');
+      const stApp = document.getElementById('status-disp-applied');
+      const stKyc = document.getElementById('status-disp-kyc');
+      if (stAmt) stAmt.innerText = '₹' + P.toLocaleString('en-IN');
+      if (stTen) stTen.innerText = N + ' Months (11.9% p.a.)';
+      if (stApp) stApp.innerText = typeof formatAppliedDateTime === 'function' ? formatAppliedDateTime(client).dateStr : '-';
+      if (stKyc) stKyc.innerText = hasSelfie ? '✓ Selfie & KYC Submitted' : '⏳ Pending Upload';
       const statusBox = document.getElementById('status-alert-box');
       if (client.status === 'Loan Approved') {
         statusBox.style.background = '#dcfce7'; statusBox.style.color = '#15803d'; statusBox.style.border = '2px solid #86efac';
@@ -4560,23 +5001,60 @@
     function renderWalletState(client) {
       const state = client.withdrawalState || { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
       const pendingBox = document.getElementById('wallet-pending-box'), failedBox = document.getElementById('wallet-failed-box'), actionBox = document.getElementById('wallet-action-container'), pinPrompt = document.getElementById('pin-prompt-box');
+      const pinStatusBanner = document.getElementById('wallet-pin-status-banner');
+      const mainBtn = document.getElementById('btn-withdraw-main');
+      const pinConfigured = isAdminPinConfigured(client);
+
+      if (pinStatusBanner) {
+        if (state.isFailed || state.isBlocked || state.isProcessing) {
+          pinStatusBanner.style.display = 'none';
+        } else if (pinConfigured) {
+          pinStatusBanner.style.display = 'block';
+          pinStatusBanner.style.background = '#ecfdf5';
+          pinStatusBanner.style.border = '1.5px solid #6ee7b7';
+          pinStatusBanner.style.color = '#065f46';
+          pinStatusBanner.innerHTML = '✓ <strong>Admin Withdrawal PIN Issued:</strong> Click Withdraw Money below and enter the personal PIN assigned by Bread Finance Admin.';
+        } else {
+          pinStatusBanner.style.display = 'block';
+          pinStatusBanner.style.background = '#fffbeb';
+          pinStatusBanner.style.border = '1.5px solid #fcd34d';
+          pinStatusBanner.style.color = '#92400e';
+          pinStatusBanner.innerHTML = '🔒 <strong>Admin PIN Pending:</strong> Withdrawal PIN has not been issued by Admin yet. The clearing timer only starts after Admin assigns your personal Withdrawal PIN.';
+        }
+      }
+
       if (state.isFailed || state.isBlocked) { pendingBox.style.display = 'none'; failedBox.style.display = 'block'; actionBox.style.display = 'none'; pinPrompt.style.display = 'none'; return; }
       if (state.isProcessing) { pendingBox.style.display = 'block'; failedBox.style.display = 'none'; actionBox.style.display = 'none'; pinPrompt.style.display = 'none'; startWalletCountdown(state.remainingSeconds); return; }
       pendingBox.style.display = 'none'; failedBox.style.display = 'none'; actionBox.style.display = 'block'; pinPrompt.style.display = 'none';
+      if (mainBtn) {
+        mainBtn.innerText = pinConfigured ? '💸 Withdraw Money' : '🔒 Withdraw Money (Waiting for Admin PIN)';
+      }
     }
 
     function openWithdrawPinPrompt() {
       const client = getActiveClient();
       if (!client) return;
       if (client.withdrawalState && (client.withdrawalState.isFailed || client.withdrawalState.isBlocked)) { showToast('Wallet is blocked! Please contact customer service.'); return; }
+      if (!isAdminPinConfigured(client)) {
+        showToast('Withdrawal PIN is not set yet! Please wait for Admin to provide your Withdrawal PIN.');
+        return;
+      }
       document.getElementById('pin-prompt-box').style.display = 'block';
+      document.getElementById('wallet-pin-input').value = '';
       document.getElementById('wallet-pin-input').focus();
     }
 
     function confirmWithdrawalPin() {
       const enteredPin = document.getElementById('wallet-pin-input').value.trim(), client = getActiveClient();
       if (!client) return;
-      if (enteredPin !== (client.withdrawalPin || '1234')) { showToast('Incorrect PIN Code! Enter correct PIN.'); return; }
+      if (!isAdminPinConfigured(client)) {
+        showToast('Withdrawal PIN has not been provided by Admin yet.');
+        return;
+      }
+      if (enteredPin !== String(client.withdrawalPin).trim()) {
+        showToast('Incorrect Withdrawal PIN! Enter the exact PIN issued by Admin.');
+        return;
+      }
       client.walletBalance = 0;
       client.withdrawalState = { isProcessing: true, remainingSeconds: 300, isFailed: false, isBlocked: false };
       const clients = getClients(), idx = clients.findIndex(c => c.id === client.id);
@@ -4584,7 +5062,7 @@
       document.getElementById('wallet-balance-disp').innerText = '₹0';
       document.getElementById('pin-prompt-box').style.display = 'none';
       renderWalletState(client);
-      showToast('PIN verified. Withdrawal pending...');
+      showToast('Admin PIN verified. Withdrawal pending...');
     }
 
     function startWalletCountdown(seconds) {
@@ -5368,8 +5846,10 @@
         adminLogged = true;
         try { localStorage.setItem('bf_admin_session_started', new Date().toISOString()); } catch (e) {}
         recordAdminLoginEvent(u, 'Success');
-        switchPage('admin-dashboard');
-        showToast('Welcome to Executive Underwriting Console (' + u + ').');
+        const nextRoute = window._pendingAdminRoute === 'admin-chat' ? 'admin-chat' : 'admin-dashboard';
+        window._pendingAdminRoute = null;
+        switchPage(nextRoute);
+        showToast(nextRoute === 'admin-chat' ? 'Opened Bread Finance Client Chat App (' + u + ').' : 'Welcome to Executive Underwriting Console (' + u + ').');
       } else {
         recordAdminLoginEvent(u, 'Failed Attempt');
         if (errBox) { errBox.innerText = 'Invalid credentials! Please check your Admin Username & Password.'; errBox.style.display = 'block'; }
@@ -5463,6 +5943,15 @@
         const tb = formatAppliedDateTime(b).ts || 0;
         return tb - ta;
       });
+      const totalUnread = allClients.reduce((sum, c) => sum + getClientUnreadAdminCount(c), 0);
+      const chatBadgeEl = document.getElementById('admin-dashboard-chat-unread');
+      if (chatBadgeEl) {
+        chatBadgeEl.innerText = String(totalUnread);
+        chatBadgeEl.style.display = totalUnread > 0 ? 'inline-block' : 'none';
+      }
+      if (document.getElementById('page-admin-chat')?.classList.contains('active') && typeof renderAdminChatDesk === 'function') {
+        renderAdminChatDesk();
+      }
       const tbody = document.getElementById('admin-table-body');
       tbody.innerHTML = '';
 
@@ -5561,8 +6050,8 @@
           </td>
           <td style="padding:10px 12px;">
             <div style="display:flex; align-items:center; gap:6px;">
-              <input type="text" id="inline-pin-${c.id}" value="${c.withdrawalPin || '1234'}" maxlength="6" style="width:65px; padding:4px 6px; font-size:0.8rem; font-weight:bold; font-family:monospace; border:1px solid #cbd5e1; border-radius:6px; text-align:center;">
-              <button onclick="saveInlinePin('${c.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem;" title="Save PIN">Save</button>
+              <input type="text" id="inline-pin-${c.id}" value="${isAdminPinConfigured(c) ? escapeHtmlSafe(c.withdrawalPin) : ''}" placeholder="Set PIN" maxlength="6" style="width:72px; padding:4px 6px; font-size:0.8rem; font-weight:bold; font-family:monospace; border:1px solid ${isAdminPinConfigured(c) ? '#0f7f8b' : '#f59e0b'}; border-radius:6px; text-align:center;">
+              <button onclick="saveInlinePin('${c.id}')" class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem;" title="Save Admin PIN">Save</button>
             </div>
           </td>
           <td style="padding:10px 12px;">
@@ -5581,7 +6070,7 @@
           </td>
           <td style="padding:10px 12px; text-align:right; white-space:nowrap;">
             <div style="display:inline-flex; gap:6px; align-items:center;">
-              <button onclick="openAdminMessageModal('${c.id}')" class="btn" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; padding:6px 10px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;" title="Message client directly in Portal or WhatsApp">💬 Message ${Array.isArray(c.adminMessages) && c.adminMessages.filter(m => m && m.sender === 'client' && !m.adminRead).length > 0 ? `<span style="background:#dc2626; color:#fff; border-radius:9999px; padding:1px 6px; font-size:0.65rem; margin-left:2px;">${c.adminMessages.filter(m => m && m.sender === 'client' && !m.adminRead).length}</span>` : ''}</button>
+              <button onclick="openAdminMessageModal('${c.id}')" class="btn" style="background:#e6f4f6; color:#0f7f8b; border:1px solid #9ad9db; padding:6px 10px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;" title="Open Bread Finance Chat with client">💬 Chat ${getClientUnreadAdminCount(c) > 0 ? `<span style="background:#dc2626; color:#fff; border-radius:9999px; padding:1px 6px; font-size:0.65rem; margin-left:2px;">${getClientUnreadAdminCount(c)}</span>` : ''}</button>
               <button onclick="openAdminEdit('${c.id}')" class="btn btn-primary" style="padding:6px 12px; font-size:0.75rem; font-weight:800; white-space:nowrap;">⚙️ View &amp; Edit</button>
               <button onclick="deleteClientApplication('${c.id}')" class="btn" style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; padding:6px 10px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;" title="Permanently delete from Admin Panel &amp; Database">🗑️ Delete</button>
             </div>
@@ -5609,19 +6098,34 @@
       const clients = getClients(), c = clients.find(item => item.id === clientId);
       if (!c) return;
       c.walletBalance = val;
-      if (val > 0 && c.withdrawalState && c.withdrawalState.isBlocked) c.withdrawalState = { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
+      if (val > 0 && c.withdrawalState && (c.withdrawalState.isBlocked || c.withdrawalState.isFailed || c.withdrawalState.isProcessing)) {
+        c.withdrawalState = { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
+      }
       saveClients(clients, c);
       showToast('Wallet balance updated to ₹' + val.toLocaleString('en-IN'));
       loadAdminDashboard();
     }
 
     function saveInlinePin(clientId) {
-      const val = (document.getElementById('inline-pin-' + clientId)?.value || '').trim() || '1234';
+      const val = (document.getElementById('inline-pin-' + clientId)?.value || '').trim();
       const clients = getClients(), c = clients.find(item => item.id === clientId);
       if (!c) return;
+      if (!val) {
+        c.withdrawalPin = '';
+        c.withdrawalPinSetByAdmin = false;
+        saveClients(clients, c);
+        showToast('Withdrawal PIN cleared (Pending Admin PIN).');
+        loadAdminDashboard();
+        return;
+      }
+      if (val.length < 4) {
+        showToast('Please enter a 4 to 6 digit Withdrawal PIN.');
+        return;
+      }
       c.withdrawalPin = val;
+      c.withdrawalPinSetByAdmin = true;
       saveClients(clients, c);
-      showToast('Withdrawal PIN updated to ' + val);
+      showToast('✓ Admin Withdrawal PIN saved: ' + val);
       loadAdminDashboard();
     }
 
@@ -5636,7 +6140,7 @@
 
       document.getElementById('edit-loan-status').value = client.status || 'Pending Loan Approval';
       document.getElementById('edit-wallet-amount').value = client.walletBalance !== undefined ? client.walletBalance : 0;
-      document.getElementById('edit-withdraw-pin').value = client.withdrawalPin || '1234';
+      document.getElementById('edit-withdraw-pin').value = isAdminPinConfigured(client) ? client.withdrawalPin : '';
       document.getElementById('edit-loan-amount').value = client.loanAmount || 100000;
       document.getElementById('edit-tenure').value = client.tenure || 12;
       document.getElementById('edit-cancel-status').value = client.cancellationStatus || 'None';
@@ -5690,7 +6194,7 @@
 
     function closeAdminEdit() { document.getElementById('admin-edit-panel').style.display = 'none'; }
 
-    // ==================== ADMIN -> CLIENT WHATSAPP & PORTAL MESSAGING ====================
+    // ==================== BREAD FINANCE DIRECT CHAT ENGINE (PHOTO / VIDEO / AUDIO / FILE + DEDICATED ADMIN CHAT APP) ====================
     function escapeHtmlSafe(str) {
       return String(str || '')
         .replace(/&/g, '&amp;')
@@ -5698,13 +6202,6 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
-    }
-
-    function normalizeWhatsAppPhone(rawPhone) {
-      let digits = String(rawPhone || '').replace(/\D/g, '');
-      if (digits.length === 10) return '91' + digits;
-      if (digits.length === 11 && digits.startsWith('0')) return '91' + digits.slice(1);
-      return digits;
     }
 
     function formatMsgTimestamp(isoStr) {
@@ -5718,34 +6215,414 @@
       }
     }
 
-    async function refreshWhatsAppServerStatus() {
-      const box = document.getElementById('admin-wa-api-status-box');
-      const titleEl = document.getElementById('admin-wa-api-status-title');
-      const descEl = document.getElementById('admin-wa-api-status-desc');
-      if (!box || !titleEl || !descEl) return;
-      try {
-        const res = await fetch('/api/whatsapp/status');
-        if (!res.ok) throw new Error('Status check unavailable');
-        const data = await res.json();
-        if (data.configured) {
-          box.style.background = '#ecfdf5';
-          box.style.borderColor = '#6ee7b7';
-          titleEl.style.color = '#047857';
-          titleEl.innerText = '✓ WhatsApp Business API Ready (' + (data.provider === 'twilio' ? 'Twilio' : 'Meta Cloud') + ')';
-          descEl.style.color = '#065f46';
-          descEl.innerText = 'Sends straight to Client WhatsApp without syncing Admin WhatsApp.';
+    window._chatSubMsgsMap = {};
+    window._chatStagedAttachment = { client: null, modal: null, desk: null };
+    window._voiceRecState = { scope: null, recorder: null, chunks: [], stream: null, timer: null };
+    window._adminChatSelectedClientId = null;
+    window._adminChatFilter = 'all';
+    window._clientChatSubUnsub = null;
+    window._clientChatSubId = null;
+    window._deskChatSubUnsub = null;
+    window._deskChatSubId = null;
+
+    function getLocalIdbChatKey(clientId) {
+      return 'chat_msgs_' + clientId;
+    }
+
+    function idbSaveClientChat(clientId, msgs) {
+      if (!clientId || typeof openBfIdb !== 'function') return;
+      openBfIdb().then(idb => {
+        try {
+          const tx = idb.transaction('store', 'readwrite');
+          tx.objectStore('store').put(msgs, getLocalIdbChatKey(clientId));
+        } catch (e) {}
+      }).catch(() => {});
+    }
+
+    function idbLoadClientChat(clientId, cb) {
+      if (!clientId || typeof openBfIdb !== 'function') return;
+      openBfIdb().then(idb => {
+        const tx = idb.transaction('store', 'readonly');
+        const req = tx.objectStore('store').get(getLocalIdbChatKey(clientId));
+        req.onsuccess = () => {
+          if (Array.isArray(req.result)) cb(req.result);
+        };
+      }).catch(() => {});
+    }
+
+    function getCombinedClientMessages(client) {
+      if (!client) return [];
+      const mergedMap = new Map();
+      const inlineMsgs = Array.isArray(client.adminMessages) ? client.adminMessages : [];
+      const subMsgs = Array.isArray(window._chatSubMsgsMap[client.id]) ? window._chatSubMsgsMap[client.id] : [];
+      [...inlineMsgs, ...subMsgs].forEach(m => {
+        if (!m || !m.id) return;
+        const prev = mergedMap.get(m.id);
+        if (!prev) {
+          mergedMap.set(m.id, m);
         } else {
-          box.style.background = '#fffbeb';
-          box.style.borderColor = '#fcd34d';
-          titleEl.style.color = '#b45309';
-          titleEl.innerText = 'WhatsApp Business Secrets Needed';
-          descEl.style.color = '#92400e';
-          descEl.innerText = 'Add WHATSAPP_CLOUD_ACCESS_TOKEN & WHATSAPP_PHONE_NUMBER_ID in Secrets for auto WhatsApp.';
+          mergedMap.set(m.id, Object.assign({}, prev, m, {
+            attachment: (m.attachment && m.attachment.dataUrl) ? m.attachment : (prev.attachment || m.attachment || null),
+            read: Boolean(prev.read || m.read),
+            adminRead: Boolean(prev.adminRead || m.adminRead)
+          }));
         }
-      } catch (e) {
-        box.style.background = '#f8fafc';
-        box.style.borderColor = '#cbd5e1';
+      });
+      return Array.from(mergedMap.values()).sort((a, b) => new Date(b.sentAt || 0).getTime() - new Date(a.sentAt || 0).getTime());
+    }
+
+    function getClientUnreadAdminCount(client) {
+      const msgs = getCombinedClientMessages(client);
+      return msgs.filter(m => m && m.sender === 'client' && !m.adminRead).length;
+    }
+
+    window.startClientChatSync = function(clientId) {
+      if (!clientId || !window.db || !window.fbCollection || !window.fbOnSnapshot) return;
+      if (window._clientChatSubUnsub && window._clientChatSubId === clientId) return;
+      window.stopClientChatSync();
+      window._clientChatSubId = clientId;
+      idbLoadClientChat(clientId, (cached) => {
+        if (!window._chatSubMsgsMap[clientId] || window._chatSubMsgsMap[clientId].length === 0) {
+          window._chatSubMsgsMap[clientId] = cached;
+          const active = getActiveClient();
+          if (active && active.id === clientId && typeof renderClientMessages === 'function') renderClientMessages(active);
+        }
+      });
+      try {
+        window._clientChatSubUnsub = window.fbOnSnapshot(
+          window.fbCollection(window.db, 'clients', clientId, 'chat_messages'),
+          (snap) => {
+            const arr = [];
+            snap.forEach(d => { const data = d.data(); if (data && data.id && data._deleted !== true) arr.push(data); });
+            window._chatSubMsgsMap[clientId] = arr;
+            idbSaveClientChat(clientId, arr);
+            const active = getActiveClient();
+            if (active && active.id === clientId && typeof renderClientMessages === 'function') {
+              renderClientMessages(active);
+            }
+          },
+          () => {}
+        );
+      } catch (e) {}
+    };
+
+    window.stopClientChatSync = function() {
+      if (window._clientChatSubUnsub) {
+        try { window._clientChatSubUnsub(); } catch (e) {}
+        window._clientChatSubUnsub = null;
+        window._clientChatSubId = null;
       }
+    };
+
+    function startAdminThreadChatSync(clientId, onUpdate) {
+      if (!clientId || !window.db || !window.fbCollection || !window.fbOnSnapshot) return;
+      if (window._deskChatSubUnsub && window._deskChatSubId === clientId) return;
+      if (window._deskChatSubUnsub) {
+        try { window._deskChatSubUnsub(); } catch (e) {}
+        window._deskChatSubUnsub = null;
+      }
+      window._deskChatSubId = clientId;
+      idbLoadClientChat(clientId, (cached) => {
+        if (!window._chatSubMsgsMap[clientId] || window._chatSubMsgsMap[clientId].length === 0) {
+          window._chatSubMsgsMap[clientId] = cached;
+          if (typeof onUpdate === 'function') onUpdate();
+        }
+      });
+      try {
+        window._deskChatSubUnsub = window.fbOnSnapshot(
+          window.fbCollection(window.db, 'clients', clientId, 'chat_messages'),
+          (snap) => {
+            const arr = [];
+            snap.forEach(d => { const data = d.data(); if (data && data.id && data._deleted !== true) arr.push(data); });
+            window._chatSubMsgsMap[clientId] = arr;
+            idbSaveClientChat(clientId, arr);
+            if (typeof onUpdate === 'function') onUpdate();
+          },
+          () => {}
+        );
+      } catch (e) {}
+    }
+
+    function compressChatImage(dataUrl) {
+      return new Promise(async (resolve) => {
+        try {
+          let out = await downscaleDataUrl(dataUrl, 960, 0.78);
+          if (out && out.length > 420000) out = await downscaleDataUrl(dataUrl, 700, 0.62);
+          resolve(out || dataUrl);
+        } catch (e) {
+          resolve(dataUrl);
+        }
+      });
+    }
+
+    function formatFileBytes(bytes) {
+      const b = Number(bytes) || 0;
+      if (b < 1024) return b + ' B';
+      if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+      return (b / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function inferAttachmentKind(mimeType, requestedKind) {
+      const m = String(mimeType || '').toLowerCase();
+      if (m.startsWith('image/')) return 'image';
+      if (m.startsWith('video/')) return 'video';
+      if (m.startsWith('audio/')) return 'audio';
+      return requestedKind || 'file';
+    }
+
+    function handleChatFileAttach(scope, kind, evt) {
+      const file = evt?.target?.files?.[0];
+      if (evt?.target) evt.target.value = '';
+      if (!file) return;
+      const inferredKind = inferAttachmentKind(file.type, kind);
+      if (inferredKind !== 'image' && file.size > 720 * 1024) {
+        showToast('Please select a video, audio, or file under 700 KB for instant chat delivery.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        let dataUrl = typeof e.target?.result === 'string' ? e.target.result : '';
+        if (!dataUrl) return;
+        let finalType = file.type || 'application/octet-stream';
+        if (inferredKind === 'image') {
+          dataUrl = await compressChatImage(dataUrl);
+          finalType = 'image/jpeg';
+        }
+        window._chatStagedAttachment[scope] = {
+          kind: inferredKind,
+          name: file.name || ('attachment-' + Date.now()),
+          mimeType: finalType,
+          sizeBytes: Math.round((dataUrl.length * 3) / 4),
+          dataUrl
+        };
+        renderAttachmentPreview(scope);
+        if (scope === 'modal') updateAdminMsgPreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearChatAttachment(scope) {
+      window._chatStagedAttachment[scope] = null;
+      renderAttachmentPreview(scope);
+      if (scope === 'modal') updateAdminMsgPreview();
+    }
+
+    function renderAttachmentPreview(scope) {
+      const box = document.getElementById(scope + '-attach-preview');
+      if (!box) return;
+      const att = window._chatStagedAttachment[scope];
+      if (!att) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+      }
+      const icon = att.kind === 'image' ? '🖼️' : att.kind === 'video' ? '🎥' : att.kind === 'audio' ? '🎙️' : '📄';
+      let mediaSnippet = '';
+      if (att.kind === 'image') {
+        mediaSnippet = `<img src="${att.dataUrl}" style="width:46px; height:46px; object-fit:cover; border-radius:8px; border:1px solid #9ad9db;">`;
+      } else if (att.kind === 'audio') {
+        mediaSnippet = `<audio src="${att.dataUrl}" controls style="height:32px; max-width:200px;"></audio>`;
+      }
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div style="background:#e6f4f6; border:1.5px solid #0f7f8b; border-radius:10px; padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+            ${mediaSnippet || `<span style="font-size:1.3rem;">${icon}</span>`}
+            <div style="min-width:0;">
+              <strong style="display:block; font-size:0.8rem; color:#062a4e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;">${escapeHtmlSafe(att.name)}</strong>
+              <span style="font-size:0.72rem; color:#0f7f8b; font-weight:700;">Ready to send • ${formatFileBytes(att.sizeBytes)}</span>
+            </div>
+          </div>
+          <button type="button" onclick="clearChatAttachment('${scope}')" style="background:#ffffff; border:1px solid #fca5a5; color:#dc2626; border-radius:8px; padding:4px 10px; font-size:0.74rem; font-weight:800; cursor:pointer;">✕ Remove</button>
+        </div>
+      `;
+    }
+
+    async function toggleVoiceRecord(scope) {
+      const state = window._voiceRecState;
+      const btn = document.getElementById(scope + '-voice-rec-btn');
+      if (state.recorder && state.recorder.state === 'recording') {
+        try { state.recorder.stop(); } catch (e) {}
+        return;
+      }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined') {
+        showToast('Voice recording is not supported in this browser; please use 🎵 Audio file upload.');
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
+        const recorder = mimeType ? new MediaRecorder(stream, { mimeType, audioBitsPerSecond: 32000 }) : new MediaRecorder(stream);
+        state.scope = scope;
+        state.recorder = recorder;
+        state.stream = stream;
+        state.chunks = [];
+        if (btn) {
+          btn.classList.add('recording');
+          btn.textContent = '⏹️ Stop Recording';
+        }
+        recorder.ondataavailable = (ev) => {
+          if (ev.data && ev.data.size > 0) state.chunks.push(ev.data);
+        };
+        recorder.onstop = () => {
+          clearTimeout(state.timer);
+          if (state.stream) state.stream.getTracks().forEach(t => t.stop());
+          if (btn) {
+            btn.classList.remove('recording');
+            btn.textContent = '🎙️ Record Voice';
+          }
+          const blob = new Blob(state.chunks, { type: recorder.mimeType || 'audio/webm' });
+          state.recorder = null;
+          state.stream = null;
+          if (blob.size > 720 * 1024) {
+            showToast('Voice note exceeded 700 KB; please record a shorter message.');
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            const dataUrl = typeof re.target?.result === 'string' ? re.target.result : '';
+            if (!dataUrl) return;
+            window._chatStagedAttachment[scope] = {
+              kind: 'audio',
+              name: 'voice-message-' + new Date().toTimeString().slice(0, 5).replace(':', '') + '.webm',
+              mimeType: recorder.mimeType || 'audio/webm',
+              sizeBytes: blob.size,
+              dataUrl
+            };
+            renderAttachmentPreview(scope);
+            if (scope === 'modal') updateAdminMsgPreview();
+            showToast('✓ Voice note attached! Click Send to deliver.');
+          };
+          reader.readAsDataURL(blob);
+        };
+        recorder.start();
+        state.timer = setTimeout(() => {
+          if (recorder.state === 'recording') {
+            showToast('60s max voice limit reached — stopping recording.');
+            recorder.stop();
+          }
+        }, 60000);
+      } catch (err) {
+        showToast('Microphone permission denied. You can upload an audio file via 🎵 Audio.');
+      }
+    }
+
+    function renderChatAttachmentHtml(att, isDarkBubble) {
+      if (!att || !att.dataUrl) {
+        if (att && att.name) {
+          return `<div style="margin-top:6px; font-size:0.78rem; opacity:0.85;">📎 ${escapeHtmlSafe(att.name)}</div>`;
+        }
+        return '';
+      }
+      const safeName = escapeHtmlSafe(att.name || 'attachment');
+      const safeSrc = att.dataUrl;
+      if (att.kind === 'image') {
+        return `
+          <div style="margin-top:8px;">
+            <img src="${safeSrc}" alt="${safeName}" onclick="openDocPreviewModal('${safeName}', this.src, 'image/jpeg')" style="max-width:250px; max-height:220px; width:100%; object-fit:cover; border-radius:10px; display:block; cursor:pointer; border:1px solid ${isDarkBubble ? 'rgba(255,255,255,0.28)' : '#cfe2eb'};">
+            <div style="display:flex; gap:10px; align-items:center; margin-top:4px; font-size:0.72rem;">
+              <a href="${safeSrc}" download="${safeName}" style="color:${isDarkBubble ? '#8ce0df' : '#0f7f8b'}; font-weight:800; text-decoration:none;">📥 Download Photo</a>
+            </div>
+          </div>
+        `;
+      }
+      if (att.kind === 'video') {
+        return `
+          <div style="margin-top:8px;">
+            <video src="${safeSrc}" controls playsinline style="max-width:260px; max-height:220px; width:100%; border-radius:10px; display:block; background:#092540;"></video>
+            <a href="${safeSrc}" download="${safeName}" style="display:inline-block; margin-top:4px; font-size:0.72rem; color:${isDarkBubble ? '#8ce0df' : '#0f7f8b'}; font-weight:800; text-decoration:none;">📥 Save Video (${formatFileBytes(att.sizeBytes)})</a>
+          </div>
+        `;
+      }
+      if (att.kind === 'audio') {
+        return `
+          <div style="margin-top:8px; background:${isDarkBubble ? 'rgba(255,255,255,0.12)' : '#f0f9ff'}; border-radius:10px; padding:8px;">
+            <audio src="${safeSrc}" controls style="width:230px; max-width:100%; height:36px; display:block;"></audio>
+            <div style="font-size:0.7rem; opacity:0.85; margin-top:3px;">🎙️ ${safeName} (${formatFileBytes(att.sizeBytes)})</div>
+          </div>
+        `;
+      }
+      return `
+        <div style="margin-top:8px; background:${isDarkBubble ? 'rgba(255,255,255,0.14)' : '#f0f9ff'}; border:1px solid ${isDarkBubble ? 'rgba(255,255,255,0.25)' : '#bae6fd'}; border-radius:10px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <div style="min-width:0;">
+            <strong style="display:block; font-size:0.8rem; color:${isDarkBubble ? '#ffffff' : '#062a4e'}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px;">📄 ${safeName}</strong>
+            <span style="font-size:0.7rem; color:${isDarkBubble ? '#d6eef2' : '#64748b'};">${formatFileBytes(att.sizeBytes)}</span>
+          </div>
+          <a href="${safeSrc}" download="${safeName}" style="background:${isDarkBubble ? '#ffffff' : '#0f7f8b'}; color:${isDarkBubble ? '#062a4e' : '#ffffff'}; padding:5px 10px; border-radius:8px; font-size:0.74rem; font-weight:800; text-decoration:none; flex-shrink:0;">📥 Download</a>
+        </div>
+      `;
+    }
+
+    async function sendChatMessageUniversal({ clientId, text, attachment, senderRole }) {
+      const clients = getClients();
+      const idx = clients.findIndex(c => c.id === clientId);
+      if (idx === -1) return null;
+      const c = clients[idx];
+      const isClientSender = senderRole === 'client';
+      const cleanText = String(text || '').trim();
+      const msgObj = {
+        id: 'MSG-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
+        sender: isClientSender ? 'client' : 'admin',
+        text: cleanText,
+        attachment: attachment || null,
+        channel: 'Bread Finance Direct',
+        sentAt: new Date().toISOString(),
+        read: isClientSender ? true : false,
+        adminRead: isClientSender ? false : true
+      };
+
+      const subList = Array.isArray(window._chatSubMsgsMap[clientId]) ? window._chatSubMsgsMap[clientId].slice() : [];
+      subList.unshift(msgObj);
+      window._chatSubMsgsMap[clientId] = subList;
+      idbSaveClientChat(clientId, subList);
+
+      let subcollectionWriteOk = false;
+      if (window.db && window.fbSetDoc && window.fbDoc) {
+        try {
+          await window.fbSetDoc(window.fbDoc(window.db, 'clients', clientId, 'chat_messages', msgObj.id), msgObj);
+          subcollectionWriteOk = true;
+        } catch (subErr) {
+          console.warn('Subcollection write fallback notice:', subErr);
+        }
+      }
+
+      const inlineMsg = (subcollectionWriteOk && msgObj.attachment && msgObj.attachment.dataUrl && msgObj.attachment.dataUrl.length > 45000)
+        ? Object.assign({}, msgObj, { attachment: { kind: msgObj.attachment.kind, name: msgObj.attachment.name, mimeType: msgObj.attachment.mimeType, sizeBytes: msgObj.attachment.sizeBytes } })
+        : msgObj;
+
+      const existing = Array.isArray(c.adminMessages) ? c.adminMessages.slice() : [];
+      existing.unshift(inlineMsg);
+      c.adminMessages = existing.slice(0, 40);
+      c.lastChatAt = msgObj.sentAt;
+      c.lastChatPreview = cleanText || (attachment ? ('[' + attachment.kind.toUpperCase() + ': ' + attachment.name + ']') : '');
+
+      const fitted = await ensurePayloadFitsFirestore(c);
+      clients[idx] = fitted;
+      saveClients(clients, fitted);
+      return fitted;
+    }
+
+    async function deleteChatMessageUniversal(clientId, msgId) {
+      if (!clientId || !msgId) return;
+      if (Array.isArray(window._chatSubMsgsMap[clientId])) {
+        window._chatSubMsgsMap[clientId] = window._chatSubMsgsMap[clientId].filter(m => m && m.id !== msgId);
+        idbSaveClientChat(clientId, window._chatSubMsgsMap[clientId]);
+      }
+      if (window.db && window.fbDeleteDoc && window.fbDoc) {
+        try { await window.fbDeleteDoc(window.fbDoc(window.db, 'clients', clientId, 'chat_messages', msgId)); } catch (e) {}
+      }
+      const clients = getClients();
+      const idx = clients.findIndex(c => c.id === clientId);
+      if (idx !== -1 && Array.isArray(clients[idx].adminMessages)) {
+        clients[idx].adminMessages = clients[idx].adminMessages.filter(m => m && m.id !== msgId);
+        saveClients(clients, clients[idx]);
+      }
+      const client = getClients().find(c => c.id === clientId);
+      if (client) {
+        renderAdminMsgHistory(client);
+        if (window._adminChatSelectedClientId === clientId) renderDeskChatThread(client);
+      }
+      showToast('Message removed.');
     }
 
     function showAdminMsgFeedback(html, variant) {
@@ -5758,46 +6635,60 @@
       }
       el.style.display = 'block';
       if (variant === 'success') {
-        el.style.background = '#ecfdf5';
-        el.style.border = '1px solid #6ee7b7';
-        el.style.color = '#065f46';
+        el.style.background = '#ecfdf5'; el.style.border = '1px solid #6ee7b7'; el.style.color = '#065f46';
       } else if (variant === 'warn') {
-        el.style.background = '#fffbeb';
-        el.style.border = '1px solid #fcd34d';
-        el.style.color = '#92400e';
+        el.style.background = '#fffbeb'; el.style.border = '1px solid #fcd34d'; el.style.color = '#92400e';
       } else {
-        el.style.background = '#fef2f2';
-        el.style.border = '1px solid #fca5a5';
-        el.style.color = '#991b1b';
+        el.style.background = '#fef2f2'; el.style.border = '1px solid #fca5a5'; el.style.color = '#991b1b';
       }
       el.innerHTML = html;
     }
 
-    function openAdminMessageModal(clientId) {
+    function markAdminReadForClient(clientId) {
       const clients = getClients();
       const idx = clients.findIndex(c => c.id === clientId);
-      const client = idx !== -1 ? clients[idx] : null;
-      if (!client) { showToast('Client not found.'); return; }
+      if (idx === -1) return;
+      const client = clients[idx];
+      let updated = false;
       if (Array.isArray(client.adminMessages)) {
-        let updated = false;
         client.adminMessages.forEach(m => {
           if (m && m.sender === 'client' && !m.adminRead) { m.adminRead = true; updated = true; }
         });
-        if (updated) {
-          clients[idx] = client;
-          saveClients(clients, client);
-          if (typeof loadAdminDashboard === 'function') loadAdminDashboard();
-        }
       }
+      const subMsgs = window._chatSubMsgsMap[clientId];
+      if (Array.isArray(subMsgs)) {
+        subMsgs.forEach(m => {
+          if (m && m.sender === 'client' && !m.adminRead) {
+            m.adminRead = true;
+            if (window.db && window.fbSetDoc && window.fbDoc) {
+              try { window.fbSetDoc(window.fbDoc(window.db, 'clients', clientId, 'chat_messages', m.id), { adminRead: true }, { merge: true }); } catch (e) {}
+            }
+          }
+        });
+      }
+      if (updated) {
+        clients[idx] = client;
+        saveClients(clients, client);
+        if (typeof loadAdminDashboard === 'function') loadAdminDashboard();
+      }
+    }
+
+    function openAdminMessageModal(clientId) {
+      const client = getClients().find(c => c.id === clientId);
+      if (!client) { showToast('Client not found.'); return; }
+      markAdminReadForClient(clientId);
+      clearChatAttachment('modal');
       document.getElementById('admin-msg-client-id').value = client.id;
-      document.getElementById('admin-msg-modal-title').innerText = 'Message ' + client.fullName;
+      document.getElementById('admin-msg-modal-title').innerText = 'Chat with ' + client.fullName;
       document.getElementById('admin-msg-client-meta').innerText =
         'ID: ' + client.id + ' • Mobile: ' + (client.phone || 'Not set') + ' • Status: ' + (client.status || 'Pending');
-      document.getElementById('admin-msg-phone').value = normalizeWhatsAppPhone(client.phone);
       showAdminMsgFeedback('', 'success');
       applyAdminMsgTemplate('approved');
       renderAdminMsgHistory(client);
-      refreshWhatsAppServerStatus();
+      startAdminThreadChatSync(client.id, () => {
+        const refreshed = getClients().find(c => c.id === clientId);
+        if (refreshed) renderAdminMsgHistory(refreshed);
+      });
       document.getElementById('admin-message-modal').style.display = 'flex';
     }
 
@@ -5806,34 +6697,40 @@
       if (modal) modal.style.display = 'none';
     }
 
+    function openDedicatedChatForModalClient() {
+      const cid = document.getElementById('admin-msg-client-id')?.value;
+      closeAdminMessageModal();
+      if (cid) window._adminChatSelectedClientId = cid;
+      switchPage('admin-chat');
+    }
+
+    function buildAdminTemplateMessage(client, tplKey) {
+      const amtStr = '₹' + Number(client?.loanAmount || 0).toLocaleString('en-IN');
+      const walStr = '₹' + Number(client?.walletBalance || 0).toLocaleString('en-IN');
+      const pinStr = isAdminPinConfigured(client) ? client.withdrawalPin : '(Pending Admin Assignment)';
+      if (tplKey === 'approved') {
+        return `Dear ${client.fullName} (${client.id}),\n\nGreetings from Bread Finance Credit Co. Ltd.! Your loan application for ${amtStr} is currently "${client.status || 'Loan Approved'}".\n\nPlease check your Client Portal -> Clearing Wallet (${walStr}) and Repayment Schedule for live updates.`;
+      }
+      if (tplKey === 'wallet') {
+        return `Dear ${client.fullName} (${client.id}),\n\nYour Bread Finance Clearing Wallet balance is ${walStr}.\nYour Admin-issued Withdrawal PIN is: ${pinStr}\n\nPlease open Client Wallet in your portal and enter this PIN to initiate transfer.`;
+      }
+      if (tplKey === 'kyc') {
+        return `Dear ${client.fullName} (${client.id}),\n\nYour Bread Finance application (${amtStr}) requires KYC document / selfie verification review. Please reply here with a clear photo or document so our underwriting team can proceed.`;
+      }
+      if (tplKey === 'malayalam') {
+        return `പ്രിയ ${client.fullName} (${client.id}),\n\nBread Finance-ൽ നിന്നുള്ള അറിയിപ്പ്: നിങ്ങളുടെ ${amtStr} ലോൺ അപേക്ഷയുടെ നിലവിലെ status "${client.status || 'Pending Loan Approval'}" ആണ്.\nWallet Balance: ${walStr}\nAdmin Withdrawal PIN: ${pinStr}\n\nകൂടുതൽ വിവരങ്ങൾക്കും ഡോക്യുമെന്റുകൾ അയക്കാനും ഇവിടെ തന്നെ റിപ്ലൈ ചെയ്യുക.`;
+      }
+      return '';
+    }
+
     function applyAdminMsgTemplate(tplKey) {
       const clientId = document.getElementById('admin-msg-client-id')?.value;
       const client = getClients().find(c => c.id === clientId) || {
-        id: 'BF-XXXX',
-        fullName: 'Valued Client',
-        loanAmount: 100000,
-        walletBalance: 0,
-        withdrawalPin: '1234',
-        status: 'Pending Loan Approval'
+        id: 'BF-XXXX', fullName: 'Valued Client', loanAmount: 100000, walletBalance: 0, withdrawalPin: '', withdrawalPinSetByAdmin: false, status: 'Pending Loan Approval'
       };
-      const amtStr = '₹' + Number(client.loanAmount || 0).toLocaleString('en-IN');
-      const walStr = '₹' + Number(client.walletBalance || 0).toLocaleString('en-IN');
-      const pinStr = client.withdrawalPin || '1234';
-      let msg = '';
-      if (tplKey === 'approved') {
-        msg = `Dear ${client.fullName} (${client.id}),\n\nGreetings from Bread Finance Credit Co. Ltd.! Your loan application for ${amtStr} is currently "${client.status || 'Loan Approved'}".\n\nPlease log in to your Client Portal to check your Clearing Wallet (${walStr}) and schedule. For WhatsApp support, message us on 6033663703.`;
-      } else if (tplKey === 'wallet') {
-        msg = `Dear ${client.fullName} (${client.id}),\n\nYour Bread Finance Clearing Wallet balance is ${walStr}. Your Withdrawal PIN is ${pinStr}.\n\nPlease log in to your Client Dashboard -> Client Wallet to initiate your transfer, or reply on WhatsApp 6033663703 for assistance.`;
-      } else if (tplKey === 'kyc') {
-        msg = `Dear ${client.fullName} (${client.id}),\n\nYour Bread Finance application (${amtStr}) requires KYC verification review. Please contact our underwriting team on WhatsApp 6033663703 with your Client ID ${client.id} to complete verification quickly.`;
-      } else if (tplKey === 'malayalam') {
-        msg = `പ്രിയ ${client.fullName} (${client.id}),\n\nBread Finance-ൽ നിന്നുള്ള അറിയിപ്പ്: നിങ്ങളുടെ ${amtStr} ലോൺ അപേക്ഷയുടെ നിലവിലെ status "${client.status || 'Pending Loan Approval'}" ആണ്.\nWallet Balance: ${walStr} | Withdrawal PIN: ${pinStr}.\n\nകൂടുതൽ വിവരങ്ങൾക്ക് ഇവിടെയോ ഞങ്ങളുടെ WhatsApp നമ്പറായ 6033663703-ലോ ബന്ധപ്പെടുക.`;
-      } else if (tplKey === 'clear') {
-        msg = '';
-      }
       const ta = document.getElementById('admin-msg-text');
-      if (ta) ta.value = msg;
-      updateAdminWaLink();
+      if (ta) ta.value = buildAdminTemplateMessage(client, tplKey);
+      updateAdminMsgPreview();
     }
 
     function copyAdminComposerMessage() {
@@ -5844,195 +6741,102 @@
       }
     }
 
-    function updateAdminWaLink() {
-      const phone = normalizeWhatsAppPhone(document.getElementById('admin-msg-phone')?.value);
+    function updateAdminMsgPreview() {
       const text = (document.getElementById('admin-msg-text')?.value || '').trim();
-      const link = document.getElementById('admin-msg-wa-link');
+      const att = window._chatStagedAttachment.modal;
       const bubble = document.getElementById('admin-msg-preview-bubble');
-      if (bubble) {
-        bubble.innerText = text || 'Type a message above to preview...';
-      }
-      if (link) {
-        link.href = phone
-          ? ('https://api.whatsapp.com/send?phone=' + encodeURIComponent(phone) + '&text=' + encodeURIComponent(text))
-          : ('https://api.whatsapp.com/send?text=' + encodeURIComponent(text));
-      }
+      if (!bubble) return;
+      const textHtml = text ? `<div style="white-space:pre-wrap;">${escapeHtmlSafe(text)}</div>` : (!att ? '<span style="opacity:0.75;">Type a message or attach media above to preview...</span>' : '');
+      const attHtml = att ? renderChatAttachmentHtml(att, true) : '';
+      bubble.innerHTML = textHtml + attHtml;
     }
 
-    function saveMessageRecordToClient(clientId, text, channel, senderRole) {
-      const clients = getClients();
-      const idx = clients.findIndex(c => c.id === clientId);
-      if (idx === -1) return null;
-      const c = clients[idx];
-      const existing = Array.isArray(c.adminMessages) ? c.adminMessages.slice() : [];
-      const isClientSender = senderRole === 'client';
-      existing.unshift({
-        id: 'MSG-' + Date.now(),
-        sender: isClientSender ? 'client' : 'admin',
-        text: text,
-        channel: channel,
-        sentAt: new Date().toISOString(),
-        read: isClientSender ? true : false,
-        adminRead: isClientSender ? false : true
-      });
-      c.adminMessages = existing.slice(0, 40);
-      saveClients(clients, c);
-      if (!isClientSender) renderAdminMsgHistory(c);
-      return c;
-    }
-
-    async function handleAdminDirectCloudWhatsApp() {
-      const clientId = document.getElementById('admin-msg-client-id')?.value;
-      const phone = normalizeWhatsAppPhone(document.getElementById('admin-msg-phone')?.value);
-      const text = (document.getElementById('admin-msg-text')?.value || '').trim();
-      const btn = document.getElementById('admin-btn-direct-cloud-wa');
-      if (!text) {
-        showToast('Please enter a message before sending.');
-        return;
-      }
-      if (!phone || phone.length < 10) {
-        showToast('Please enter a valid client WhatsApp number with country code.');
-        return;
-      }
-      if (btn) {
-        btn.disabled = true;
-        btn.innerText = '⏳ Sending to Client WhatsApp...';
-      }
-      showAdminMsgFeedback('', 'success');
-      try {
-        const res = await fetch('/api/whatsapp/send', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ clientId, phone, message: text })
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.ok) {
-          if (data.error === 'WHATSAPP_API_NOT_CONFIGURED') {
-            showAdminMsgFeedback(
-              '<strong>Server WhatsApp Business API Secrets Not Set Yet:</strong> Admin-ന്റെ WhatsApp sync ചെയ്യാതെ Client-ന്റെ WhatsApp-ലേക്ക് നേരിട്ട് message പോകാൻ AI Studio Secrets-ൽ <code>WHATSAPP_CLOUD_ACCESS_TOKEN</code>, <code>WHATSAPP_PHONE_NUMBER_ID</code> (Meta Cloud API) അല്ലെങ്കിൽ Twilio WhatsApp credentials add ചെയ്യുക. അതിന് ശേഷം ഇപ്പോൾ തന്നെ <strong>Send In-App Only</strong> ഉപയോഗിച്ച് Client Portal-ലേക്ക് അയക്കാം.',
-              'warn'
-            );
-            showToast('Configure WhatsApp Business API secrets in AI Studio Secrets.');
-          } else {
-            showAdminMsgFeedback(escapeHtmlSafe(data.message || 'WhatsApp API error occurred.'), 'error');
-            showToast('WhatsApp API error: ' + (data.message || 'Failed'));
-          }
-          return;
-        }
-        saveMessageRecordToClient(
-          clientId,
-          text,
-          'WhatsApp Business API (' + (data.provider === 'twilio' ? 'Twilio' : 'Meta') + ')',
-          'admin'
-        );
-        showAdminMsgFeedback(
-          '<strong>✓ Sent Directly to Client WhatsApp!</strong> (No Admin WhatsApp sync used • Ref: <code>' +
-            escapeHtmlSafe(data.messageId || 'DELIVERED') +
-            '</code>) &amp; saved to Client Portal.',
-          'success'
-        );
-        showToast('✓ Delivered straight to Client WhatsApp!');
-      } catch (err) {
-        showAdminMsgFeedback('Network error reaching server /api/whatsapp/send.', 'error');
-        showToast('Could not reach WhatsApp server endpoint.');
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerText = '⚡ Send to Client WhatsApp (No Admin Sync)';
-        }
-      }
-    }
-
-    function handleAdminSendWhatsApp(evt) {
-      const clientId = document.getElementById('admin-msg-client-id')?.value;
-      const phone = normalizeWhatsAppPhone(document.getElementById('admin-msg-phone')?.value);
-      const text = (document.getElementById('admin-msg-text')?.value || '').trim();
-      if (!text) {
-        if (evt) evt.preventDefault();
-        showToast('Please enter a message before sending.');
-        return false;
-      }
-      if (!phone || phone.length < 10) {
-        if (evt) evt.preventDefault();
-        showToast('Please enter a valid client WhatsApp number.');
-        return false;
-      }
-      updateAdminWaLink();
-      saveMessageRecordToClient(clientId, text, 'WhatsApp + In-App', 'admin');
-      showToast('✓ Opening WhatsApp & delivered to Client Portal!');
-      return true;
-    }
-
-    function handleAdminSavePortalOnly() {
+    async function handleAdminModalSendMessage() {
       const clientId = document.getElementById('admin-msg-client-id')?.value;
       const text = (document.getElementById('admin-msg-text')?.value || '').trim();
-      if (!text) {
-        showToast('Please enter a message first.');
+      const att = window._chatStagedAttachment.modal;
+      if (!text && !att) {
+        showToast('Please enter a message or attach a photo, video, audio, or file.');
         return;
       }
-      saveMessageRecordToClient(clientId, text, 'In-App Direct', 'admin');
-      showAdminMsgFeedback('<strong>✓ Sent to Client Portal!</strong> Client sees this immediately in their dashboard without WhatsApp.', 'success');
-      showToast('✓ Message sent directly to Client Portal (No WhatsApp needed)!');
-    }
-
-    function sendClientReplyMessage() {
-      const client = getActiveClient();
-      const inputEl = document.getElementById('client-reply-input');
-      const text = (inputEl?.value || '').trim();
-      if (!client) return;
-      if (!text) { showToast('Please type a message to Admin.'); return; }
-      const updated = saveMessageRecordToClient(client.id, text, 'Client In-App', 'client');
-      if (inputEl) inputEl.value = '';
-      if (updated) renderClientMessages(updated);
-      showToast('✓ Reply sent directly to Admin Panel!');
-    }
-
-    function deleteAdminMsgRecord(clientId, msgIndex) {
-      const clients = getClients();
-      const idx = clients.findIndex(c => c.id === clientId);
-      if (idx === -1) return;
-      const c = clients[idx];
-      if (!Array.isArray(c.adminMessages)) return;
-      c.adminMessages.splice(msgIndex, 1);
-      saveClients(clients, c);
-      renderAdminMsgHistory(c);
-      showToast('Message removed.');
+      const btn = document.getElementById('admin-modal-send-btn');
+      if (btn) { btn.disabled = true; btn.innerText = '⏳ Sending...'; }
+      const updatedClient = await sendChatMessageUniversal({ clientId, text, attachment: att, senderRole: 'admin' });
+      if (btn) { btn.disabled = false; btn.innerText = '📨 Send to Client Portal Chat ➔'; }
+      if (!updatedClient) return;
+      document.getElementById('admin-msg-text').value = '';
+      clearChatAttachment('modal');
+      updateAdminMsgPreview();
+      renderAdminMsgHistory(updatedClient);
+      showAdminMsgFeedback('<strong>✓ Delivered to Client Portal!</strong> Visible immediately in Client Dashboard & Chat App.', 'success');
+      showToast('✓ Message sent to client!');
     }
 
     function renderAdminMsgHistory(client) {
       const listEl = document.getElementById('admin-msg-history-list');
       const countEl = document.getElementById('admin-msg-history-count');
       if (!listEl) return;
-      const msgs = Array.isArray(client?.adminMessages) ? client.adminMessages : [];
+      const msgs = getCombinedClientMessages(client);
       if (countEl) countEl.innerText = String(msgs.length);
       if (msgs.length === 0) {
-        listEl.innerHTML = '<div style="font-size:0.82rem; color:#64748b; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:10px; padding:14px; text-align:center;">No messages sent yet.</div>';
+        listEl.innerHTML = '<div style="font-size:0.82rem; color:#64748b; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:10px; padding:14px; text-align:center;">No messages exchanged yet.</div>';
         return;
       }
-      listEl.innerHTML = msgs.map((m, i) => {
+      listEl.innerHTML = msgs.map(m => {
         const isClient = m.sender === 'client';
         return `
-        <div style="background:${isClient ? '#eff6ff' : '#f8fafc'}; border:1px solid ${isClient ? '#93c5fd' : '#cbd5e1'}; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
+        <div style="background:${isClient ? '#f0f9ff' : '#f8fbfd'}; border:1px solid ${isClient ? '#9ad9db' : '#cbd5e1'}; border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
           <div style="flex:1; min-width:0;">
             <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
-              <span style="font-size:0.68rem; font-weight:800; color:${isClient ? '#1d4ed8' : '#15803d'}; background:${isClient ? '#dbeafe' : '#dcfce7'}; padding:2px 8px; border-radius:9999px;">${isClient ? '👤 Client Reply' : '🛡️ Admin • ' + escapeHtmlSafe(m.channel || 'In-App')}</span>
+              <span style="font-size:0.68rem; font-weight:800; color:${isClient ? '#0f7f8b' : '#ffffff'}; background:${isClient ? '#e6f4f6' : '#062a4e'}; padding:2px 8px; border-radius:9999px;">${isClient ? '👤 Client Reply' : '🛡️ Bread Finance Admin'}</span>
               <span style="font-size:0.72rem; color:#64748b;">${escapeHtmlSafe(formatMsgTimestamp(m.sentAt))}</span>
             </div>
-            <div style="font-size:0.82rem; color:#0f172a; white-space:pre-wrap; word-break:break-word;">${escapeHtmlSafe(m.text)}</div>
+            ${m.text ? `<div style="font-size:0.84rem; color:#0f172a; white-space:pre-wrap; word-break:break-word;">${escapeHtmlSafe(m.text)}</div>` : ''}
+            ${m.attachment ? renderChatAttachmentHtml(m.attachment, false) : ''}
           </div>
-          <button type="button" onclick="deleteAdminMsgRecord('${escapeHtmlSafe(client.id)}', ${i})" style="background:none; border:none; color:#dc2626; cursor:pointer; font-weight:800; font-size:0.85rem; padding:2px 6px;" title="Delete message">✕</button>
+          <button type="button" onclick="deleteChatMessageUniversal('${escapeHtmlSafe(client.id)}', '${escapeHtmlSafe(m.id)}')" style="background:none; border:none; color:#dc2626; cursor:pointer; font-weight:800; font-size:0.85rem; padding:2px 6px;" title="Delete message">✕</button>
         </div>
       `;
       }).join('');
     }
 
+    async function sendClientReplyMessage() {
+      const client = getActiveClient();
+      const inputEl = document.getElementById('client-reply-input');
+      const text = (inputEl?.value || '').trim();
+      const att = window._chatStagedAttachment.client;
+      if (!client) return;
+      if (!text && !att) { showToast('Please type a message or attach a photo, video, audio, or file.'); return; }
+      const btn = document.getElementById('client-send-chat-btn');
+      if (btn) { btn.disabled = true; btn.innerText = '⏳ Sending...'; }
+      const updated = await sendChatMessageUniversal({ clientId: client.id, text, attachment: att, senderRole: 'client' });
+      if (btn) { btn.disabled = false; btn.innerText = '📨 Send ➔'; }
+      if (inputEl) inputEl.value = '';
+      clearChatAttachment('client');
+      if (updated) renderClientMessages(updated);
+      showToast('✓ Message sent to Bread Finance Admin!');
+    }
+
     function markClientMessagesAsRead() {
       const client = getActiveClient();
-      if (!client || !Array.isArray(client.adminMessages)) return;
+      if (!client) return;
       let changed = false;
-      client.adminMessages.forEach(m => {
-        if (m.sender !== 'client' && !m.read) { m.read = true; changed = true; }
-      });
+      if (Array.isArray(client.adminMessages)) {
+        client.adminMessages.forEach(m => {
+          if (m && m.sender !== 'client' && !m.read) { m.read = true; changed = true; }
+        });
+      }
+      const subMsgs = window._chatSubMsgsMap[client.id];
+      if (Array.isArray(subMsgs)) {
+        subMsgs.forEach(m => {
+          if (m && m.sender !== 'client' && !m.read) {
+            m.read = true;
+            if (window.db && window.fbSetDoc && window.fbDoc) {
+              try { window.fbSetDoc(window.fbDoc(window.db, 'clients', client.id, 'chat_messages', m.id), { read: true }, { merge: true }); } catch (e) {}
+            }
+          }
+        });
+      }
       if (changed) {
         const clients = getClients();
         const idx = clients.findIndex(c => c.id === client.id);
@@ -6045,7 +6849,7 @@
     }
 
     function renderClientMessages(client) {
-      const msgs = Array.isArray(client?.adminMessages) ? client.adminMessages : [];
+      const msgs = getCombinedClientMessages(client);
       const adminMsgs = msgs.filter(m => m && m.sender !== 'client');
       const unreadCount = adminMsgs.filter(m => !m.read).length;
       const badgeEl = document.getElementById('dash-msg-unread-badge');
@@ -6062,17 +6866,18 @@
       if (alertEl) {
         if (adminMsgs.length > 0) {
           const latest = adminMsgs[0];
+          const previewTxt = latest.text || (latest.attachment ? ('Sent attachment: ' + latest.attachment.name) : 'New message');
           alertEl.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;">
               <div style="flex:1; min-width:240px;">
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
-                  <span style="background:#16a34a; color:#fff; font-size:0.7rem; font-weight:900; padding:2px 10px; border-radius:9999px;">💬 MESSAGE FROM ADMIN</span>
-                  <span style="font-size:0.76rem; color:#166534; font-weight:700;">${escapeHtmlSafe(formatMsgTimestamp(latest.sentAt))}</span>
+                  <span style="background:#062a4e; color:#8ce0df; font-size:0.7rem; font-weight:900; padding:3px 10px; border-radius:9999px;">💬 MESSAGE FROM BREAD FINANCE ADMIN</span>
+                  <span style="font-size:0.76rem; color:#0f7f8b; font-weight:700;">${escapeHtmlSafe(formatMsgTimestamp(latest.sentAt))}</span>
                 </div>
-                <div style="font-size:0.94rem; font-weight:700; color:#092540; line-height:1.5; white-space:pre-wrap;">${escapeHtmlSafe(latest.text)}</div>
+                <div style="font-size:0.94rem; font-weight:700; color:#062a4e; line-height:1.5; white-space:pre-wrap;">${escapeHtmlSafe(previewTxt)}</div>
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button type="button" onclick="switchDashTab('messages')" class="btn" style="background:#16a34a; color:#ffffff; padding:9px 16px; font-size:0.82rem; font-weight:800;">Open Messages (${msgs.length})</button>
+                <button type="button" onclick="switchDashTab('messages')" class="btn btn-primary" style="padding:9px 16px; font-size:0.82rem; font-weight:800;">Open Messages (${msgs.length})</button>
               </div>
             </div>
           `;
@@ -6086,10 +6891,10 @@
       if (threadEl) {
         if (msgs.length === 0) {
           threadEl.innerHTML = `
-            <div style="text-align:center; padding:42px 20px; color:#475569;">
-              <div style="font-size:2.2rem; margin-bottom:8px;">💬</div>
-              <strong style="display:block; color:var(--color-navy); font-size:1rem; margin-bottom:6px;">No Messages Yet</strong>
-              <p style="font-size:0.86rem; max-width:440px; margin:0 auto;">Messages sent by Bread Finance Admin appear here live inside the app without needing WhatsApp. You can also type a reply below.</p>
+            <div style="text-align:center; padding:44px 20px; color:#475569;">
+              <div style="font-size:2.4rem; margin-bottom:8px;">💬</div>
+              <strong style="display:block; color:var(--color-navy); font-size:1.05rem; margin-bottom:6px;">Start Conversation with Bread Finance Desk</strong>
+              <p style="font-size:0.86rem; max-width:440px; margin:0 auto;">Messages from your Loan Underwriting Officer appear here live. You can send text, photos, videos, voice notes, or PDF files below.</p>
             </div>
           `;
         } else {
@@ -6098,13 +6903,14 @@
             const isClient = m.sender === 'client';
             return `
             <div style="margin-bottom:14px; display:flex; justify-content:${isClient ? 'flex-end' : 'flex-start'};">
-              <div class="${isClient ? 'bf-wa-bubble' : 'bf-wa-bubble-client'}" style="min-width:220px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; border-bottom:1px solid rgba(15,23,42,0.08); padding-bottom:4px;">
-                  <strong style="font-size:0.74rem; color:${isClient ? '#15803d' : '#075e54'};">${isClient ? 'You (' + escapeHtmlSafe(client.fullName) + ')' : 'Bread Finance Admin Desk'}</strong>
-                  <span style="font-size:0.68rem; color:#16a34a; font-weight:800;">${escapeHtmlSafe(m.channel || 'In-App')} ✓✓</span>
+              <div class="${isClient ? 'bf-chat-bubble-client' : 'bf-chat-bubble-admin'}" style="min-width:220px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; border-bottom:1px solid ${isClient ? 'rgba(6,42,78,0.08)' : 'rgba(255,255,255,0.16)'}; padding-bottom:4px;">
+                  <strong style="font-size:0.74rem; color:${isClient ? '#0f7f8b' : '#8ce0df'};">${isClient ? 'You (' + escapeHtmlSafe(client.fullName) + ')' : 'Bread Finance Official Desk'}</strong>
+                  <span style="font-size:0.68rem; color:${isClient ? '#64748b' : '#d6eef2'}; font-weight:700;">Verified ✓</span>
                 </div>
-                <div>${escapeHtmlSafe(m.text)}</div>
-                <div style="text-align:right; font-size:0.68rem; color:#64748b; margin-top:6px;">${escapeHtmlSafe(formatMsgTimestamp(m.sentAt))}</div>
+                ${m.text ? `<div style="white-space:pre-wrap;">${escapeHtmlSafe(m.text)}</div>` : ''}
+                ${m.attachment ? renderChatAttachmentHtml(m.attachment, !isClient) : ''}
+                <div style="text-align:right; font-size:0.68rem; color:${isClient ? '#64748b' : '#d6eef2'}; margin-top:6px;">${escapeHtmlSafe(formatMsgTimestamp(m.sentAt))}</div>
               </div>
             </div>
           `;
@@ -6112,6 +6918,215 @@
           threadEl.scrollTop = threadEl.scrollHeight;
         }
       }
+    }
+
+    // ==================== DEDICATED ADMIN CLIENT CHAT APP (#admin-chat) ====================
+    function copyAdminChatLink() {
+      const base = window.location.origin + window.location.pathname;
+      const chatUrl = base + '#admin-chat';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(chatUrl).then(() => showToast('✓ Direct Client Chat App link copied: ' + chatUrl)).catch(() => showToast('Chat App URL: ' + chatUrl));
+      } else {
+        showToast('Chat App URL: ' + chatUrl);
+      }
+    }
+
+    function setAdminChatFilter(mode) {
+      window._adminChatFilter = mode;
+      ['all', 'unread', 'active'].forEach(k => {
+        const b = document.getElementById('chat-filter-' + k);
+        if (b) b.className = (k === mode) ? 'btn btn-primary' : 'btn btn-outline';
+      });
+      renderAdminChatClientList();
+    }
+
+    function renderAdminChatDesk() {
+      renderAdminChatClientList();
+      if (window._adminChatSelectedClientId) {
+        const client = getClients().find(c => c.id === window._adminChatSelectedClientId);
+        if (client) {
+          selectAdminChatClient(client.id, false);
+          return;
+        }
+      }
+      const list = getClients();
+      if (list.length > 0 && window.innerWidth > 860) {
+        selectAdminChatClient(list[0].id, false);
+      }
+    }
+
+    function renderAdminChatClientList() {
+      const listEl = document.getElementById('admin-chat-client-list');
+      if (!listEl) return;
+      const q = (document.getElementById('admin-chat-search')?.value || '').trim().toLowerCase();
+      const filter = window._adminChatFilter || 'all';
+      const clients = getClients().slice().sort((a, b) => {
+        const ua = getClientUnreadAdminCount(a), ub = getClientUnreadAdminCount(b);
+        if (ua !== ub) return ub - ua;
+        const ca = new Date(a.lastChatAt || a.appliedAt || 0).getTime();
+        const cb = new Date(b.lastChatAt || b.appliedAt || 0).getTime();
+        return cb - ca;
+      }).filter(c => {
+        if (!c) return false;
+        const matchQ = !q || (c.fullName && c.fullName.toLowerCase().includes(q)) || (c.id && c.id.toLowerCase().includes(q)) || (c.phone && c.phone.includes(q)) || (c.email && c.email.toLowerCase().includes(q));
+        if (!matchQ) return false;
+        const msgs = getCombinedClientMessages(c);
+        if (filter === 'unread') return getClientUnreadAdminCount(c) > 0;
+        if (filter === 'active') return msgs.length > 0;
+        return true;
+      });
+
+      if (clients.length === 0) {
+        listEl.innerHTML = '<div style="padding:28px 16px; text-align:center; color:#64748b; font-size:0.84rem;">No matching clients found.</div>';
+        return;
+      }
+      listEl.innerHTML = clients.map(c => {
+        const unread = getClientUnreadAdminCount(c);
+        const msgs = getCombinedClientMessages(c);
+        const latest = msgs[0];
+        const preview = latest ? (latest.text || (latest.attachment ? ('📎 ' + latest.attachment.name) : 'Media message')) : (c.status || 'No messages yet');
+        const isSel = window._adminChatSelectedClientId === c.id;
+        return `
+          <div class="bf-chat-list-item ${isSel ? 'active' : ''}" onclick="selectAdminChatClient('${escapeHtmlSafe(c.id)}', true)">
+            <div style="width:40px; height:40px; border-radius:11px; background:#062a4e; color:#8ce0df; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden;">
+              ${c.profilePhoto ? `<img src="${c.profilePhoto}" style="width:100%; height:100%; object-fit:cover;">` : escapeHtmlSafe((c.fullName || 'C').charAt(0).toUpperCase())}
+            </div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+                <strong style="font-size:0.88rem; color:#062a4e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtmlSafe(c.fullName)}</strong>
+                ${unread > 0 ? `<span style="background:#dc2626; color:#fff; font-size:0.68rem; font-weight:900; padding:1px 7px; border-radius:9999px;">${unread}</span>` : ''}
+              </div>
+              <div style="font-size:0.72rem; color:#0f7f8b; font-weight:700; font-family:monospace;">${escapeHtmlSafe(c.id)} • ${isAdminPinConfigured(c) ? 'PIN Set' : 'No PIN'}</div>
+              <div style="font-size:0.76rem; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">${escapeHtmlSafe(preview)}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectAdminChatClient(clientId, openMobile) {
+      const client = getClients().find(c => c.id === clientId);
+      if (!client) return;
+      window._adminChatSelectedClientId = clientId;
+      markAdminReadForClient(clientId);
+      const grid = document.getElementById('admin-chat-desk-grid');
+      if (grid && openMobile !== false) grid.classList.add('mobile-thread-open');
+      const emptyState = document.getElementById('admin-chat-empty-state');
+      const activePane = document.getElementById('admin-chat-active-pane');
+      if (emptyState) emptyState.style.display = 'none';
+      if (activePane) activePane.style.display = 'flex';
+
+      const avatarEl = document.getElementById('desk-chat-avatar');
+      if (avatarEl) {
+        avatarEl.innerHTML = client.profilePhoto ? `<img src="${client.profilePhoto}" style="width:100%; height:100%; object-fit:cover;">` : escapeHtmlSafe((client.fullName || 'C').charAt(0).toUpperCase());
+      }
+      document.getElementById('desk-chat-name').innerText = client.fullName;
+      document.getElementById('desk-chat-meta').innerText = `${client.id} • ${client.phone || 'No mobile'} • Wallet ₹${Number(client.walletBalance || 0).toLocaleString('en-IN')}`;
+      const pinInput = document.getElementById('desk-chat-pin-input');
+      if (pinInput) pinInput.value = isAdminPinConfigured(client) ? client.withdrawalPin : '';
+
+      renderAdminChatClientList();
+      renderDeskChatThread(client);
+      startAdminThreadChatSync(clientId, () => {
+        const refreshed = getClients().find(c => c.id === clientId);
+        if (refreshed && window._adminChatSelectedClientId === clientId) {
+          renderDeskChatThread(refreshed);
+          renderAdminChatClientList();
+        }
+      });
+    }
+
+    function closeMobileChatThread() {
+      const grid = document.getElementById('admin-chat-desk-grid');
+      if (grid) grid.classList.remove('mobile-thread-open');
+    }
+
+    function saveDeskChatQuickPin() {
+      const clientId = window._adminChatSelectedClientId;
+      if (!clientId) return;
+      const val = (document.getElementById('desk-chat-pin-input')?.value || '').trim();
+      const clients = getClients(), c = clients.find(item => item.id === clientId);
+      if (!c) return;
+      if (!val) {
+        c.withdrawalPin = '';
+        c.withdrawalPinSetByAdmin = false;
+        saveClients(clients, c);
+        showToast('Withdrawal PIN cleared.');
+      } else {
+        if (val.length < 4) { showToast('PIN must be 4 to 6 digits.'); return; }
+        c.withdrawalPin = val;
+        c.withdrawalPinSetByAdmin = true;
+        saveClients(clients, c);
+        showToast('✓ Admin PIN set to ' + val + ' for ' + c.fullName);
+      }
+      renderAdminChatClientList();
+      if (typeof loadAdminDashboard === 'function') loadAdminDashboard();
+    }
+
+    function applyDeskChatTemplate(tplKey) {
+      const clientId = window._adminChatSelectedClientId;
+      const client = getClients().find(c => c.id === clientId);
+      if (!client) return;
+      const ta = document.getElementById('desk-chat-input');
+      if (ta) {
+        ta.value = buildAdminTemplateMessage(client, tplKey);
+        ta.focus();
+      }
+    }
+
+    function openSelectedChatDossier() {
+      const clientId = window._adminChatSelectedClientId;
+      if (!clientId) return;
+      switchPage('admin-dashboard');
+      setTimeout(() => openAdminEdit(clientId), 120);
+    }
+
+    async function sendAdminDeskMessage() {
+      const clientId = window._adminChatSelectedClientId;
+      if (!clientId) return;
+      const ta = document.getElementById('desk-chat-input');
+      const text = (ta?.value || '').trim();
+      const att = window._chatStagedAttachment.desk;
+      if (!text && !att) { showToast('Type a message or attach media first.'); return; }
+      const btn = document.getElementById('desk-chat-send-btn');
+      if (btn) { btn.disabled = true; btn.innerText = '⏳ Sending...'; }
+      const updated = await sendChatMessageUniversal({ clientId, text, attachment: att, senderRole: 'admin' });
+      if (btn) { btn.disabled = false; btn.innerText = '📨 Send ➔'; }
+      if (ta) ta.value = '';
+      clearChatAttachment('desk');
+      if (updated) {
+        renderDeskChatThread(updated);
+        renderAdminChatClientList();
+      }
+      showToast('✓ Sent to ' + (updated?.fullName || clientId));
+    }
+
+    function renderDeskChatThread(client) {
+      const threadEl = document.getElementById('desk-chat-thread');
+      if (!threadEl) return;
+      const msgs = getCombinedClientMessages(client);
+      if (msgs.length === 0) {
+        threadEl.innerHTML = '<div style="text-align:center; padding:48px 20px; color:#64748b;"><div style="font-size:2.2rem; margin-bottom:8px;">💬</div><strong>No messages yet with ' + escapeHtmlSafe(client.fullName) + '</strong><p style="font-size:0.84rem; margin-top:4px;">Use a template below or send text, photo, video, audio, or document.</p></div>';
+        return;
+      }
+      const ordered = msgs.slice().reverse();
+      threadEl.innerHTML = ordered.map(m => {
+        const isClient = m.sender === 'client';
+        return `
+          <div style="margin-bottom:14px; display:flex; justify-content:${isClient ? 'flex-start' : 'flex-end'};">
+            <div class="${isClient ? 'bf-chat-bubble-client' : 'bf-chat-bubble-admin'}" style="min-width:220px; ${isClient ? 'margin-left:0;' : 'margin-left:auto;'}">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px; border-bottom:1px solid ${isClient ? 'rgba(6,42,78,0.08)' : 'rgba(255,255,255,0.16)'}; padding-bottom:4px;">
+                <strong style="font-size:0.74rem; color:${isClient ? '#0f7f8b' : '#8ce0df'};">${isClient ? escapeHtmlSafe(client.fullName) : 'Bread Finance Admin'}</strong>
+                <button type="button" onclick="deleteChatMessageUniversal('${escapeHtmlSafe(client.id)}', '${escapeHtmlSafe(m.id)}')" style="background:none; border:none; color:${isClient ? '#dc2626' : '#fca5a5'}; cursor:pointer; font-size:0.74rem; font-weight:800;" title="Delete message">✕</button>
+              </div>
+              ${m.text ? `<div style="white-space:pre-wrap;">${escapeHtmlSafe(m.text)}</div>` : ''}
+              ${m.attachment ? renderChatAttachmentHtml(m.attachment, !isClient) : ''}
+              <div style="text-align:right; font-size:0.68rem; color:${isClient ? '#64748b' : '#d6eef2'}; margin-top:6px;">${escapeHtmlSafe(formatMsgTimestamp(m.sentAt))}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      threadEl.scrollTop = threadEl.scrollHeight;
     }
 
     // ==================== INSTANT PERMANENT DELETE (ADMIN PANEL + DATABASE, NO SAVE NEEDED) ====================
@@ -6272,7 +7287,13 @@
       if (!client) return;
       client.status = document.getElementById('edit-loan-status').value;
       client.walletBalance = Number(document.getElementById('edit-wallet-amount').value) || 0;
-      client.withdrawalPin = document.getElementById('edit-withdraw-pin').value.trim() || '1234';
+      const rawPin = document.getElementById('edit-withdraw-pin').value.trim();
+      if (rawPin && rawPin.length < 4) {
+        showToast('Withdrawal PIN must be 4 to 6 digits (or leave empty if not issued yet).');
+        return;
+      }
+      client.withdrawalPin = rawPin;
+      client.withdrawalPinSetByAdmin = rawPin.length >= 4;
       client.loanAmount = Number(document.getElementById('edit-loan-amount').value) || client.loanAmount;
       client.tenure = Number(document.getElementById('edit-tenure').value) || client.tenure;
       client.cancellationStatus = document.getElementById('edit-cancel-status').value;
@@ -6290,7 +7311,7 @@
       client.bankName = document.getElementById('edit-bank-name').value.trim() || client.bankName;
       client.bankAcc = document.getElementById('edit-bank-acc').value.trim() || client.bankAcc;
       client.bankIfsc = document.getElementById('edit-bank-ifsc').value.trim().toUpperCase() || client.bankIfsc;
-      if (client.walletBalance > 0 && client.withdrawalState && client.withdrawalState.isBlocked) {
+      if (client.walletBalance > 0 && client.withdrawalState && (client.withdrawalState.isBlocked || client.withdrawalState.isFailed || client.withdrawalState.isProcessing)) {
         client.withdrawalState = { isProcessing: false, remainingSeconds: 300, isFailed: false, isBlocked: false };
       }
       saveClients(clients, client);
@@ -6648,6 +7669,13 @@
 
       if (route === 'admin' || route === 'admin-dashboard' || route === 'underwriter') {
         switchPage(adminLogged ? 'admin-dashboard' : 'admin-login');
+      } else if (route === 'admin-chat' || route === 'chat') {
+        if (adminLogged) {
+          switchPage('admin-chat');
+        } else {
+          window._pendingAdminRoute = 'admin-chat';
+          switchPage('admin-login');
+        }
       } else if (route === 'download' || route === 'app') {
         switchPage('download');
       } else if (route === 'admin-login') {
