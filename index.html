@@ -2243,21 +2243,35 @@
               </div>
             </div>
 
-            <div class="card bf-card-flush" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
-              <div style="height:132px; overflow:hidden; position:relative; background:#062a4e;">
-                <img src="./images/wallet-bank-transfer.jpg" alt="Instant Bank Disbursal Settlement" style="width:100%; height:100%; object-fit:cover;">
-                <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,42,78,0.12) 0%, rgba(6,42,78,0.82) 100%); display:flex; align-items:flex-end; padding:12px 16px;">
-                  <strong style="color:#ffffff; font-size:0.9rem;">💳 RBI-Compliant Disbursal Settlement</strong>
+            <div class="bf-resp-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+              <div class="card" style="padding:24px;">
+                <h3 style="font-size:1.05rem; font-weight:900; color:#062a4e; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">🏦 Linked Beneficiary Bank Account</h3>
+                <div style="display:grid; gap:10px; font-size:0.86rem;">
+                  <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="color:#64748b; font-weight:700;">Bank Name</span><strong id="wallet-info-bank" style="color:#062a4e;">-</strong></div>
+                  <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="color:#64748b; font-weight:700;">Account Number</span><strong id="wallet-info-acc" style="color:#062a4e; font-family:monospace;">-</strong></div>
+                  <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:10px 12px; border-radius:8px;"><span style="color:#64748b; font-weight:700;">IFSC Code</span><strong id="wallet-info-ifsc" style="color:#0f7f8b; font-family:monospace;">-</strong></div>
+                </div>
+                <div style="margin-top:12px; background:#f0f9ff; border:1px solid #bae6fd; border-radius:10px; padding:10px 12px; font-size:0.78rem; color:#0369a1; font-weight:600;">
+                  🛡️ Verified NEFT / IMPS Clearing Channel — funds transfer directly upon security verification.
                 </div>
               </div>
-              <div style="padding:18px 20px; flex:1;">
-                <ul style="padding-left:18px; color:#334155; font-size:0.83rem; line-height:1.7; margin:0;">
-                  <li><strong>Zero Transfer Charges:</strong> 100% of your sanctioned limit moves with zero platform deduction.</li>
-                  <li><strong>Automated Clearing Window:</strong> Interbank NEFT / IMPS verification initiates in 05:00 minutes after PIN authorization.</li>
-                  <li><strong>256-Bit Security Shield:</strong> Encrypted disbursement ledger protected under NBFC Fair Practices Code.</li>
-                </ul>
+              <div class="card bf-card-flush" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+                <div style="height:132px; overflow:hidden; position:relative; background:#062a4e;">
+                  <img src="./images/wallet-bank-transfer.jpg" alt="Instant Bank Disbursal Settlement" style="width:100%; height:100%; object-fit:cover;">
+                  <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,42,78,0.12) 0%, rgba(6,42,78,0.82) 100%); display:flex; align-items:flex-end; padding:12px 16px;">
+                    <strong style="color:#ffffff; font-size:0.9rem;">💳 RBI-Compliant Disbursal Settlement</strong>
+                  </div>
+                </div>
+                <div style="padding:18px 20px; flex:1;">
+                  <ul style="padding-left:18px; color:#334155; font-size:0.83rem; line-height:1.7; margin:0;">
+                    <li><strong>Zero Transfer Charges:</strong> 100% of your sanctioned limit moves with zero platform deduction.</li>
+                    <li><strong>Automated Clearing Window:</strong> Interbank NEFT / IMPS verification initiates in 05:00 minutes after PIN authorization.</li>
+                    <li><strong>256-Bit Security Shield:</strong> Encrypted disbursement ledger protected under NBFC Fair Practices Code.</li>
+                  </ul>
+                </div>
               </div>
             </div>
+          </div>
         </div>
 
         <div id="dash-tab-status" class="dash-tab-pane">
