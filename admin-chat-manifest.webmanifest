@@ -1,0 +1,16 @@
+{
+  "id": "./admin-chat.html",
+  "name": "Bread Finance Chat Desk",
+  "short_name": "BF Chat",
+  "description": "Dedicated Admin Client Chat App for Bread Finance Underwriting & Support Desk.",
+  "start_url": "./admin-chat.html",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#062a4e",
+  "background_color": "#eef6f9",
+  "icons": [
+    { "src": "./pwa-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./pwa-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./pwa-maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

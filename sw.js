@@ -1,8 +1,10 @@
-const CACHE_NAME = 'bread-finance-v7';
+const CACHE_NAME = 'bread-finance-v8';
 const PRECACHE_URLS = [
   './',
   './index.html',
+  './admin-chat.html',
   './manifest.webmanifest',
+  './admin-chat-manifest.webmanifest',
   './pwa-192x192.png',
   './pwa-512x512.png',
   './apple-touch-icon.png',
@@ -40,9 +42,14 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  const reqUrl = event.request.url || '';
   event.respondWith(
     fetch(event.request).catch(() =>
-      caches.match(event.request).then((res) => res || caches.match('./index.html'))
+      caches.match(event.request).then((res) => {
+        if (res) return res;
+        if (reqUrl.includes('admin-chat.html')) return caches.match('./admin-chat.html');
+        return caches.match('./index.html');
+      })
     )
   );
 });
